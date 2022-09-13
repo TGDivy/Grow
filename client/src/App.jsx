@@ -1,40 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import "firebaseui/dist/firebaseui.css";
+import { Button } from "@mui/material";
 import "./App.css";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "./firebase-config";
 
-function App() {
-  const [users, setUsers] = useState(null);
-  const usersCollectionRef = collection(db, "users");
-
-  useEffect(() => {
-    const getUser = async () => {
-      const data = await getDocs(usersCollectionRef);
-      setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
-    getUser();
-  }, []);
-
-  if (!users) {
-    return <div>Loading...</div>;
-  }
-  console.log(users);
-  const displayUsers = users.map((user) => {
-    const { name, age } = user;
-    return (
-      <div key={user.id}>
-        <h1>{name}</h1>
-        <h2>{age}</h2>
-      </div>
-    );
-  });
+const App = () => {
+  const signInWithGoogle = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div className="App">
-      <h1>Hello</h1>
-      {displayUsers}
+      <Button onClick={signInWithGoogle}>Sign in with Google</Button>
     </div>
   );
-}
+};
 
 export default App;
