@@ -1,26 +1,24 @@
 import React from "react";
 import { Container, Typography } from "@mui/material";
-import PropTypes from "prop-types";
 
-import ManageUser from "./ManageUser";
 import StudyTimer from "./StudyTimer";
+import useCurrentUser from "./contexts/UserContext";
 
-const Home = ({ user }) => {
+const Home = () => {
+  const { user } = useCurrentUser();
+  console.log(user);
+
   return (
     <>
       <Container>
         <Typography variant="h4">Home</Typography>
         <Typography variant="h5">{user.displayName}</Typography>
         <Typography variant="h5">{user.email}</Typography>
-        <ManageUser user={user} />
+        <Typography variant="h5">Total Sessions: {user.total_sess}</Typography>
       </Container>
       <StudyTimer />
     </>
   );
-};
-
-Home.propTypes = {
-  user: PropTypes.object.isRequired,
 };
 
 export default Home;

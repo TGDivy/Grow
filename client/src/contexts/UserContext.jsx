@@ -1,27 +1,32 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import addUser from "../firestore/addUser";
 
 export const CurrentUserContext = React.createContext();
 
 export const CurrentUserProvider = ({ children }) => {
-  const [user, setUser] = React.useState(null);
+  const [user, setUser] = useState(null);
+  const [once, setOnce] = useState(false);
   const auth = getAuth();
 
   onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // https://firebase.google.com/docs/reference/js/firebase.User
-      const uid = user.uid;
-      console.log("user is signed in", uid);
-      setUser(user);
-    } else {
-      // User is signed out
-      // ...
+    console.log("auth state changed", user);
+    if (user && !once) {
+      addUser(user)
+        .then((userData) => {
+          setUser(userData);
+          console.log("user data", userData);
+          setOnce(true);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   });
 
   return (
-    <CurrentUserContext.Provider value={{ user }}>
+    <CurrentUserContext.Provider value={{ user, setUser }}>
       {children}
     </CurrentUserContext.Provider>
   );
@@ -31,4 +36,6 @@ CurrentUserProvider.propTypes = {
   children: PropTypes.node,
 };
 
-export const useCurrentUser = () => React.useContext(CurrentUserContext);
+const useCurrentUser = () => useContext(CurrentUserContext);
+
+export default useCurrentUser;

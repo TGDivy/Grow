@@ -1,23 +1,18 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 import { Container, Grid, Button } from "@mui/material";
 import { useEffect } from "react";
 
-import { addDoc, doc, collection } from "firebase/firestore";
-import { db } from "./firebase-config";
-
-const pushStudyTime = async (studyTime) => {
-  const docRef = await addDoc(collection(db, "FocusSession"), {
-    created: new Date(),
-    studyTime,
-  });
-  console.log("Document written with ID: ", docRef.id);
-};
+import pushStudyTime from "./firestore/pushStudyTime";
+import useCurrentUser from "./contexts/UserContext";
 
 const StudyTimer = () => {
   const [studyTime, setStudyTime] = React.useState(0);
   const [isActive, setIsActive] = React.useState(false);
+  const [tags, setTags] = React.useState([]);
+  const [notes, setNotes] = React.useState("");
+
+  const { user } = useCurrentUser();
 
   useEffect(() => {
     let interval = null;
@@ -37,7 +32,7 @@ const StudyTimer = () => {
 
   const handleStop = () => {
     setIsActive(false);
-    pushStudyTime(studyTime);
+    pushStudyTime(studyTime, user, tags, notes);
     setStudyTime(0);
   };
 
