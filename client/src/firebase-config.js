@@ -1,10 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import {
-  getFirestore,
-  enableIndexedDbPersistence,
-  disableNetwork,
-} from "firebase/firestore";
+import { getFirestore, enableIndexedDbPersistence } from "firebase/firestore";
 import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
@@ -34,6 +30,3 @@ enableIndexedDbPersistence(db).catch((err) => {
     );
   }
 });
-
-disableNetwork(db);
-// console.log("Network disabled!");
