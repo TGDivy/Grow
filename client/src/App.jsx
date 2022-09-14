@@ -1,12 +1,24 @@
 import React from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import LoginPage from "./LoginPage";
 import Home from "./Home";
 
+const themeLight = createTheme({
+  palette: {
+    background: {
+      default: "#e4f0e2",
+    },
+  },
+});
+
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
+    background: {
+      default: "#8fba72",
+    },
   },
 });
 
@@ -28,6 +40,8 @@ const App = () => {
 
   return (
     <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+
       {user ? <Home user={user} /> : <LoginPage />}
     </ThemeProvider>
   );
