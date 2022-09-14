@@ -5,7 +5,6 @@ import { useEffect } from "react";
 
 import pushStudyTime from "./firestore/pushStudyTime";
 import useCurrentUser from "./contexts/UserContext";
-import getUser from "./firestore/getUser";
 
 const StudyTimer = () => {
   const [studyTime, setStudyTime] = React.useState(0);
@@ -13,7 +12,7 @@ const StudyTimer = () => {
   const [tags, setTags] = React.useState([]);
   const [notes, setNotes] = React.useState("");
 
-  const { user, setUser } = useCurrentUser();
+  const { user } = useCurrentUser();
 
   useEffect(() => {
     let interval = null;
@@ -34,9 +33,6 @@ const StudyTimer = () => {
   const handleStop = () => {
     setIsActive(false);
     pushStudyTime(studyTime, user, tags, notes);
-    // .then(() => {
-    //   getUser(user.uid).then((user) => setUser(user));
-    // });
     setStudyTime(0);
   };
 

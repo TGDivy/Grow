@@ -4,7 +4,6 @@ import { Container, Typography } from "@mui/material";
 import StudyTimer from "./StudyTimer";
 import useCurrentUser from "./contexts/UserContext";
 import { db } from "./firebase-config";
-import { Button } from "@mui/material";
 import { onSnapshot, doc } from "firebase/firestore";
 
 const Home = () => {

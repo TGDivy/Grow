@@ -1,10 +1,7 @@
 import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { disableNetwork } from "firebase/firestore";
-import { db } from "../firebase-config";
 import addUser from "../firestore/addUser";
-import { doc, onSnapshot } from "firebase/firestore";
 
 export const CurrentUserContext = React.createContext();
 
@@ -20,7 +17,6 @@ export const CurrentUserProvider = ({ children }) => {
         .then((userData) => {
           setUser(userData);
           setOnce(true);
-          // disableNetwork(db);
         })
         .catch((error) => {
           console.log(error);
