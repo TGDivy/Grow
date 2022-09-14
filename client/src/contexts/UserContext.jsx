@@ -20,22 +20,13 @@ export const CurrentUserProvider = ({ children }) => {
         .then((userData) => {
           setUser(userData);
           setOnce(true);
-          disableNetwork(db);
+          // disableNetwork(db);
         })
         .catch((error) => {
           console.log(error);
         });
     }
   });
-
-  const unsub = onSnapshot(
-    doc(db, "users", "iGTnnT6G1FPo8x1F1eQRH8CJsKG3"),
-    (doc) => {
-      console.log("Current data: ", doc.data());
-    }
-  );
-
-  unsub();
 
   return (
     <CurrentUserContext.Provider value={{ user, setUser }}>

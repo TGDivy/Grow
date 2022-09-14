@@ -32,8 +32,6 @@ enableIndexedDbPersistence(db).catch((err) => {
     console.log(
       "The current browser does not support all of the features required to enable persistence"
     );
-  } else {
-    console.log("offline persistance enabled.");
   }
 });
 

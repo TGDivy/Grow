@@ -5,6 +5,7 @@ import useCurrentUser from "./contexts/UserContext";
 
 const App = () => {
   const { user } = useCurrentUser();
+
   return <>{user ? <Home user={user} /> : <LoginPage />}</>;
 };
 
