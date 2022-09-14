@@ -1,6 +1,10 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore, enableIndexedDbPersistence } from "firebase/firestore";
+import {
+  getFirestore,
+  enableIndexedDbPersistence,
+  disableNetwork,
+} from "firebase/firestore";
 import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
@@ -28,5 +32,10 @@ enableIndexedDbPersistence(db).catch((err) => {
     console.log(
       "The current browser does not support all of the features required to enable persistence"
     );
+  } else {
+    console.log("offline persistance enabled.");
   }
 });
+
+disableNetwork(db);
+// console.log("Network disabled!");

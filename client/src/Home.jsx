@@ -3,6 +3,9 @@ import { Container, Typography } from "@mui/material";
 
 import StudyTimer from "./StudyTimer";
 import useCurrentUser from "./contexts/UserContext";
+import { enableNetwork } from "firebase/firestore";
+import { db } from "./firebase-config";
+import { Button } from "@mui/material";
 
 const Home = () => {
   const { user } = useCurrentUser();
@@ -15,6 +18,13 @@ const Home = () => {
         <Typography variant="h5">Total Sessions: {user.total_sess}</Typography>
       </Container>
       <StudyTimer />
+      <Button
+        variant="contained"
+        color="neutral"
+        onClick={() => enableNetwork(db)}
+      >
+        Enable Network
+      </Button>
     </>
   );
 };
