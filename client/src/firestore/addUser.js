@@ -6,11 +6,10 @@ const addUser = async (user) => {
 
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
-    console.log("User already exists");
+    console.log("Add user: User already exists");
     return docSnap.data();
   } else {
-    // doc.data() will be undefined in this case
-    console.log("No such document!");
+    console.log("Add user: User does not exist");
     const userDoc = {
       uid: user.uid,
       email: user.email,

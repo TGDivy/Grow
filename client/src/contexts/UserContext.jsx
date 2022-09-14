@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import addUser from "../firestore/addUser";
@@ -11,12 +11,11 @@ export const CurrentUserProvider = ({ children }) => {
   const auth = getAuth();
 
   onAuthStateChanged(auth, (user) => {
-    console.log("auth state changed", user);
     if (user && !once) {
+      console.log("auth state changed", user);
       addUser(user)
         .then((userData) => {
           setUser(userData);
-          console.log("user data", userData);
           setOnce(true);
         })
         .catch((error) => {

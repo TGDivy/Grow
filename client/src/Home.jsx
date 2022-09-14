@@ -6,8 +6,6 @@ import useCurrentUser from "./contexts/UserContext";
 
 const Home = () => {
   const { user } = useCurrentUser();
-  console.log(user);
-
   return (
     <>
       <Container>
