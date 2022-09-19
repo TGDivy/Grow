@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box } from "@mui/material";
+import { Box, Typography, Grid } from "@mui/material";
 import {
   List,
   ListItem,
@@ -7,10 +7,11 @@ import {
   ListItemText,
   ListItemButton,
 } from "@mui/material";
-import { Button, SwipeableDrawer } from "@mui/material";
+import { Button, Drawer } from "@mui/material";
 import {
   LightModeOutlined,
   FormatListBulletedOutlined,
+  Menu,
 } from "@mui/icons-material";
 
 import propTypes from "prop-types";
@@ -67,8 +68,20 @@ const SelectToDoList = ({ setList }) => {
 
   return (
     <div>
-      <Button onClick={toggleDrawer(true)}>{"< Lists"}</Button>
-      <SwipeableDrawer
+      <Grid container spacing={0} direction="row">
+        <Grid item xs={10}></Grid>
+        <Grid item xs={2}>
+          <Button
+            onClick={toggleDrawer(true)}
+            variant="Text"
+            sx={{ width: "100%" }}
+            color="neutral"
+          >
+            <Menu />
+          </Button>
+        </Grid>
+      </Grid>
+      <Drawer
         anchor={"top"}
         open={open}
         onClose={toggleDrawer(false)}
@@ -76,7 +89,7 @@ const SelectToDoList = ({ setList }) => {
         disableDiscovery={iOS}
       >
         {Lists()}
-      </SwipeableDrawer>
+      </Drawer>
     </div>
   );
 };
