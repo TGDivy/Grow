@@ -60,9 +60,9 @@ const Task = ({ Title, Description, Priority, subtasks, tags }) => {
           <Chip
             key={tag}
             label={tag}
-            icon={<Tag />}
             variant="outlined"
-            sx={{ m: 0.3 }}
+            sx={{ m: 0.5 }}
+            size="small"
           />
         ))}
       />

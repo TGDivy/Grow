@@ -14,17 +14,17 @@ const task = {
     ["Subtask 2", false],
     ["Subtask 3", true],
   ],
-  tags: ["Tag 1", "Tag 2", "Tag 3"],
+  tags: ["Engineering", "Research"],
 };
 
-const tasks_ = [task, task, task];
+const tasks_ = [task, task, task, task, task, task, task, task, task];
 
 const ToDo = ({ ToDoList }) => {
   const tasks = tasks_.filter((task) => task.TaskList === ToDoList);
   return (
     <Grid container spacing={2}>
       {tasks.map((task, index) => (
-        <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+        <Grid item xs={12} sm={6} md={4} lg={4} key={index}>
           <Task {...task} />
         </Grid>
       ))}
