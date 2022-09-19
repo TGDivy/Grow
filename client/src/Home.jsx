@@ -31,7 +31,7 @@ const Home = () => {
         <Typography variant="h5">{user.email}</Typography>
         <Typography variant="h5">Total Sessions: {user.total_sess}</Typography>
       </Container>
-      <StudyTimer />
+      {/* <StudyTimer /> */}
     </>
   );
 };

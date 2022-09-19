@@ -1,8 +1,18 @@
 import { createTheme } from "@mui/material/styles";
 
 const darkTheme = createTheme({
+  components: {
+    MuiBottomNavigationAction: {
+      styleOverrides: {
+        root: {
+          // color: "red",
+          "&.Mui-selected": { color: "green" },
+        },
+      },
+    },
+  },
   palette: {
-    mode: "dark",
+    mode: "light",
     background: {
       default: "#8fba72",
     },
