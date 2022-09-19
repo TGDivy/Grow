@@ -4,6 +4,7 @@ import Home from "./Home";
 import useCurrentUser from "./contexts/UserContext";
 import BottomNavigationBar from "./BottomNavigationBar";
 import { ToDoList } from "./ToDoList/ToDoList";
+import { Container } from "@mui/material";
 
 const App = () => {
   const { user } = useCurrentUser();
@@ -26,8 +27,10 @@ const App = () => {
         <LoginPage />
       ) : (
         <>
+          <div style={{ marginBottom: 80 }}>
+            <Container>{renderSection()}</Container>
+          </div>
           <BottomNavigationBar section={section} setSection={setSection} />
-          {renderSection()}
         </>
       )}
     </>

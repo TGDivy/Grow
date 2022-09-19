@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Typography, Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import {
   List,
   ListItem,
@@ -36,8 +36,8 @@ const SelectToDoList = ({ setList }) => {
 
   const Lists = () => {
     const ListItems = [
-      { text: "Tasks 1", icon: <LightModeOutlined /> },
-      { text: "Tasks 2", icon: <FormatListBulletedOutlined /> },
+      { text: "My Day", icon: <LightModeOutlined /> },
+      { text: "Tasks", icon: <FormatListBulletedOutlined /> },
     ];
     return (
       <Box
