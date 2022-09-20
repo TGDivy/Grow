@@ -66,7 +66,6 @@ const Task = ({ Title, Description, Priority, subtasks, tags }) => {
         ))}
       />
       <CardContent>
-        <Typography paragraph>Subtasks:</Typography>
         <FormGroup>
           {subTasks.map((subtask) => (
             <FormControlLabel
