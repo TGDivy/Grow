@@ -66,9 +66,19 @@ const Task = ({ Title, Description, Priority, subtasks, tags }) => {
         ))}
       />
       <CardContent>
-        <Typography variant="body1" color="text.secondary">
-          {Description}
-        </Typography>
+        <Typography paragraph>Subtasks:</Typography>
+        <FormGroup>
+          {subTasks.map((subtask) => (
+            <FormControlLabel
+              key={subtask[0]}
+              label={subtask[0]}
+              value={subtask[0]}
+              control={
+                <Checkbox onChange={handleSubtaskChange} checked={subtask[1]} />
+              }
+            ></FormControlLabel>
+          ))}
+        </FormGroup>
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
@@ -88,22 +98,9 @@ const Task = ({ Title, Description, Priority, subtasks, tags }) => {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>Subtasks:</Typography>
-          <FormGroup>
-            {subTasks.map((subtask) => (
-              <FormControlLabel
-                key={subtask[0]}
-                label={subtask[0]}
-                value={subtask[0]}
-                control={
-                  <Checkbox
-                    onChange={handleSubtaskChange}
-                    checked={subtask[1]}
-                  />
-                }
-              ></FormControlLabel>
-            ))}
-          </FormGroup>
+          <Typography variant="body1" color="text.secondary">
+            {Description}
+          </Typography>
         </CardContent>
       </Collapse>
     </Card>

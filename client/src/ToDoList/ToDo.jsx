@@ -9,7 +9,7 @@ const task = {
   TaskList: "Tasks",
   Title: "Task 1",
   Description:
-    "This is a description of the task asdsadasdadasdasdddddddddddddddddddddddddd",
+    "This is a description of the task asdsadasdadasdasdddddddddd dddddddddddddddd",
   "Due Date": "2021-10-10",
   Priority: "High",
   subtasks: [
