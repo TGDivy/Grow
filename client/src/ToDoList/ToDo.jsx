@@ -1,7 +1,8 @@
 import React from "react";
 import propTypes from "prop-types";
-import { IconButton, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import Task from "./Task";
+import CreateTask from "./CreateTask";
 
 const task = {
   TaskList: "Tasks",
@@ -15,6 +16,7 @@ const task = {
     ["Subtask 3", true],
   ],
   tags: ["Engineering", "Research"],
+  completed: false,
 };
 
 const tasks_ = [task, task, task, task, task, task, task, task, task];
@@ -23,6 +25,9 @@ const ToDo = ({ ToDoList }) => {
   const tasks = tasks_.filter((task) => task.TaskList === ToDoList);
   return (
     <Grid container spacing={2}>
+      <Grid item xs={12} sm={6} md={4} lg={4} key="create task">
+        <CreateTask {...task} />
+      </Grid>
       {tasks.map((task, index) => (
         <Grid item xs={12} sm={6} md={4} lg={4} key={index}>
           <Task {...task} />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import propTypes from "prop-types";
 import { IconButton } from "@mui/material";
 import {
@@ -13,7 +13,6 @@ import {
   FormGroup,
   FormControlLabel,
 } from "@mui/material";
-import { List, ListItem, ListItemText } from "@mui/material";
 import { MoreVert, Favorite, Share, Expand, Tag } from "@mui/icons-material";
 import styled from "@emotion/styled";
 
