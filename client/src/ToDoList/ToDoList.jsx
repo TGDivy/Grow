@@ -6,10 +6,11 @@ import ToDo from "./ToDo";
 export const ToDoList = () => {
   const [list, setList] = useState("My Day");
 
+  // Title aligned right
   return (
     <Container>
-      <SelectToDoList setList={setList} />
-      <Typography variant="h4">{list}</Typography>
+      <SelectToDoList setList={setList} listName={list} />
+
       <ToDo ToDoList={list} />
     </Container>
   );

@@ -7,7 +7,7 @@ import {
   ListItemText,
   ListItemButton,
 } from "@mui/material";
-import { Button, Drawer } from "@mui/material";
+import { Button, Drawer, Typography } from "@mui/material";
 import {
   LightModeOutlined,
   FormatListBulletedOutlined,
@@ -16,7 +16,7 @@ import {
 
 import propTypes from "prop-types";
 
-const SelectToDoList = ({ setList }) => {
+const SelectToDoList = ({ setList, listName }) => {
   const [open, setOpenState] = useState(false);
 
   const iOS =
@@ -68,17 +68,29 @@ const SelectToDoList = ({ setList }) => {
 
   return (
     <div>
-      <Grid container spacing={0} direction="row">
-        <Grid item xs={10}></Grid>
-        <Grid item xs={2}>
-          <Button
-            onClick={toggleDrawer(true)}
-            variant="Text"
-            sx={{ width: "100%" }}
-            color="neutral"
+      <Grid
+        container
+        spacing={2}
+        direction="row"
+        justifyContent="space-between"
+      >
+        <Grid item xs={8}>
+          <Box pb={2} pt={2}>
+            <Typography variant="h3">{listName}</Typography>
+          </Box>
+        </Grid>
+        <Grid item xs={2} align="center">
+          <Box
+            width="100%"
+            height={"100%"}
+            alignContent="center"
+            justifyContent="center"
+            display="flex"
           >
-            <Menu />
-          </Button>
+            <Button onClick={toggleDrawer(true)} variant="text" color="neutral">
+              <Menu />
+            </Button>
+          </Box>
         </Grid>
       </Grid>
       <Drawer
@@ -96,6 +108,7 @@ const SelectToDoList = ({ setList }) => {
 
 SelectToDoList.propTypes = {
   setList: propTypes.func.isRequired,
+  listName: propTypes.string.isRequired,
 };
 
 export default SelectToDoList;

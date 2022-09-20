@@ -12,23 +12,30 @@ import {
   FormGroup,
   FormControlLabel,
 } from "@mui/material";
-import { MoreVert, Favorite, Share, Expand, Tag } from "@mui/icons-material";
+import {
+  MoreVert,
+  Favorite,
+  Share,
+  Expand,
+  Tag,
+  Add,
+} from "@mui/icons-material";
 import styled from "@emotion/styled";
 
 export const CreateTask = () => {
   return (
-    <Card>
+    <Card height="100%">
       <CardHeader
-        title={<Skeleton animation="wave" />}
+        title={<Typography variant="h5">Create Task</Typography>}
         action={
           <IconButton aria-label="settings">
-            <MoreVert />
+            <Add />
           </IconButton>
         }
-        subheader={[<Skeleton animation="wave" key={1} />]}
+        subheader={[<Skeleton animation={false} key={1} />]}
       />
       <CardContent>
-        <Skeleton animation="wave">
+        <Skeleton animation={false} disable>
           <Typography variant="body2" color="text.secondary">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
           </Typography>

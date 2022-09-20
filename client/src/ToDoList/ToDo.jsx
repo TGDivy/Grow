@@ -3,11 +3,13 @@ import propTypes from "prop-types";
 import { Grid } from "@mui/material";
 import Task from "./Task";
 import CreateTask from "./CreateTask";
+import { Masonry } from "@mui/lab";
 
 const task = {
   TaskList: "Tasks",
   Title: "Task 1",
-  Description: "This is a description of the task",
+  Description:
+    "This is a description of the task asdsadasdadasdasdddddddddddddddddddddddddd",
   "Due Date": "2021-10-10",
   Priority: "High",
   subtasks: [
@@ -24,16 +26,26 @@ const tasks_ = [task, task, task, task, task, task, task, task, task];
 const ToDo = ({ ToDoList }) => {
   const tasks = tasks_.filter((task) => task.TaskList === ToDoList);
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12} sm={6} md={4} lg={4} key="create task">
-        <CreateTask {...task} />
-      </Grid>
+    // <Grid container spacing={2}>
+    //   <Grid item xs={12} sm={6} md={4} lg={4} key="create task">
+    //     <CreateTask {...task} />
+    //   </Grid>
+    //   {tasks.map((task, index) => (
+    //     <Grid item xs={12} sm={6} md={4} lg={4} key={index}>
+    //       <Task {...task} />
+    //     </Grid>
+    //   ))}
+    // </Grid>
+    <Masonry
+      columns={{ xs: 1, sm: 2, md: 3, lg: 4 }}
+      spacing={2}
+      sx={{ width: "100%" }}
+    >
+      <CreateTask {...task} />
       {tasks.map((task, index) => (
-        <Grid item xs={12} sm={6} md={4} lg={4} key={index}>
-          <Task {...task} />
-        </Grid>
+        <Task {...task} key={index} />
       ))}
-    </Grid>
+    </Masonry>
   );
 };
 
