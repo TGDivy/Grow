@@ -257,20 +257,6 @@ const Task = ({
         }
         subheader={<Tags tags={tags_} editing={editing} setTags={setTags} />}
       />
-      <CardContent>
-        <FormGroup>
-          {subTasks.map((subtask) => (
-            <FormControlLabel
-              key={subtask[0]}
-              label={subtask[0]}
-              value={subtask[0]}
-              control={
-                <Checkbox onChange={handleSubtaskChange} checked={subtask[1]} />
-              }
-            ></FormControlLabel>
-          ))}
-        </FormGroup>
-      </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
           <Favorite />
@@ -286,6 +272,21 @@ const Task = ({
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
+          <FormGroup>
+            {subTasks.map((subtask) => (
+              <FormControlLabel
+                key={subtask[0]}
+                label={subtask[0]}
+                value={subtask[0]}
+                control={
+                  <Checkbox
+                    onChange={handleSubtaskChange}
+                    checked={subtask[1]}
+                  />
+                }
+              ></FormControlLabel>
+            ))}
+          </FormGroup>
           <Description
             description={description_}
             editing={editing}
