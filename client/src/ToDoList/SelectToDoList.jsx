@@ -19,10 +19,6 @@ import propTypes from "prop-types";
 const SelectToDoList = ({ setList, listName }) => {
   const [open, setOpenState] = useState(false);
 
-  const iOS =
-    typeof navigator !== "undefined" &&
-    /iPad|iPhone|iPod/.test(navigator.userAgent);
-
   const toggleDrawer = (open) => (event) => {
     if (
       event.type === "keydown" &&
@@ -93,13 +89,7 @@ const SelectToDoList = ({ setList, listName }) => {
           </Box>
         </Grid>
       </Grid>
-      <Drawer
-        anchor={"top"}
-        open={open}
-        onClose={toggleDrawer(false)}
-        onOpen={toggleDrawer(true)}
-        disableDiscovery={iOS}
-      >
+      <Drawer anchor={"top"} open={open} onClose={toggleDrawer(false)}>
         {Lists()}
       </Drawer>
     </div>

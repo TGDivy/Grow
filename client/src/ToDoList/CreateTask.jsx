@@ -36,7 +36,7 @@ const TaskSkeletonButton = ({ onClick }) => {
         }
       />
       <CardContent>
-        <Skeleton animation={false} disable>
+        <Skeleton animation={false}>
           <Typography variant="body2" color="text.secondary">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
           </Typography>
@@ -116,25 +116,16 @@ export const CreateTask = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const onSubmit = () => {
     console.log("submit");
   };
 
-  return (
-    <>
-      <TaskSkeletonButton onClick={handleClickOpen} />
-      <Dialog
-        open={open}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={() => setOpen(false)}
-        aria-describedby="alert-dialog-slide-description"
-      >
-        <DialogContent>
+  if (!open) {
+    return <TaskSkeletonButton onClick={handleClickOpen} />;
+  } else {
+    return (
+      <Card height="100%">
+        <CardContent>
           <TextField
             autoFocus
             margin="dense"
@@ -196,14 +187,10 @@ export const CreateTask = () => {
               ))}
             </Select>
           </FormControl>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpen(false)}>Disagree</Button>
-          <Button onClick={() => setOpen(false)}>Agree</Button>
-        </DialogActions>
-      </Dialog>
-    </>
-  );
+        </CardContent>
+      </Card>
+    );
+  }
 };
 
 CreateTask.propTypes = {};
