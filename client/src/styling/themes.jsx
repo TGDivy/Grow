@@ -24,6 +24,14 @@ const darkTheme = createTheme({
         },
       },
     },
+    MuiCardContent: {
+      styleOverrides: {
+        root: {
+          paddingTop: 0,
+          marginTop: 0,
+        },
+      },
+    },
   },
   palette: {
     mode: "light",

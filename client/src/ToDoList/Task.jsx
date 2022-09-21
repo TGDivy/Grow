@@ -242,7 +242,13 @@ const SubTaskList = ({ subTasks, editing, setSubTasks }) => {
 
   return (
     <>
-      <List dense>
+      <List
+        dense
+        sx={{
+          paddingTop: 0,
+          marginTop: 0,
+        }}
+      >
         {subTasks.map((subTask, index) => (
           <ListItem
             key={index}
@@ -274,7 +280,17 @@ const SubTaskList = ({ subTasks, editing, setSubTasks }) => {
                 }}
               />
             ) : (
-              <ListItemText>{subTask[0]}</ListItemText>
+              <ListItemText>
+                <Typography
+                  variant="body1"
+                  sx={{
+                    textDecoration: subTask[1] ? "line-through" : "none",
+                    color: subTask[1] ? "gray" : "black",
+                  }}
+                >
+                  {subTask[0]}
+                </Typography>
+              </ListItemText>
             )}
           </ListItem>
         ))}
@@ -368,7 +384,13 @@ const Task = ({
         }
         subheader={<Tags tags={tags_} editing={editing} setTags={setTags} />}
       />
-      <CardActions disableSpacing>
+      <CardActions
+        disableSpacing
+        sx={{
+          paddingBottom: 0,
+          marginBottom: 0,
+        }}
+      >
         <IconButton aria-label="add to favorites">
           <Favorite />
         </IconButton>
