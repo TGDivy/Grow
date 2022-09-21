@@ -13,8 +13,21 @@ import {
   FormGroup,
   FormControlLabel,
   Box,
+  ListItemText,
+  ListItemIcon,
+  ListItem,
+  List,
+  TextField,
 } from "@mui/material";
-import { Favorite, Expand, Tag, Edit, Save, Add } from "@mui/icons-material";
+import {
+  Favorite,
+  Expand,
+  Tag,
+  Edit,
+  Save,
+  Add,
+  Delete,
+} from "@mui/icons-material";
 import styled from "@emotion/styled";
 
 import Button from "@mui/material/Button";
@@ -24,7 +37,6 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
-import { TextField } from "@mui/material";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -198,6 +210,105 @@ const Tags = ({ tags, editing, setTags }) => {
   );
 };
 
+const SubTaskList = ({ subTasks, editing, setSubTasks }) => {
+  SubTaskList.propTypes = {
+    subTasks: propTypes.array.isRequired,
+    editing: propTypes.bool.isRequired,
+    setSubTasks: propTypes.func.isRequired,
+  };
+
+  const [subTask, setSubTask] = useState(["", false]);
+
+  const handleAddSubTask = () => {
+    setSubTasks([...subTasks, subTask]);
+    setSubTask(["", false]);
+  };
+
+  const handleDeleteSubTask = (subTaskToDelete) => {
+    setSubTasks(subTasks.filter((subTask) => subTask !== subTaskToDelete));
+  };
+
+  // <FormGroup>
+  //   {subTasks.map((subtask) => (
+  //     <FormControlLabel
+  //       key={subtask[0]}
+  //       label={subtask[0]}
+  //       value={subtask[0]}
+  //       control={
+  //         <Checkbox onChange={handleSubtaskChange} checked={subtask[1]} />
+  //       }
+  //     ></FormControlLabel>
+  //   ))}
+  // </FormGroup>;
+
+  if (editing) {
+    return (
+      <>
+        <List dense>
+          {subTasks.map((subTask) => (
+            <ListItem
+              key={subTask}
+              secondaryAction={
+                <IconButton
+                  edge="end"
+                  aria-label="delete"
+                  onClick={() => handleDeleteSubTask(subTask)}
+                >
+                  <Delete />
+                </IconButton>
+              }
+            >
+              <ListItemIcon>
+                <Checkbox edge="start" checked={subTask[1]} />
+              </ListItemIcon>
+              <ListItemText primary={subTask} />
+            </ListItem>
+          ))}
+          <ListItem key="Add Subtask">
+            <Checkbox edge="start" checked={false} disableRipple />
+            <TextField
+              id="outlined-basic"
+              label="Sub Task"
+              variant="standard"
+              value={subTask[0]}
+              onChange={(event) => {
+                setSubTask([event.target.value, false]);
+              }}
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleAddSubTask}
+              style={{ marginLeft: "10px" }}
+            >
+              Add
+            </Button>
+          </ListItem>
+        </List>
+      </>
+    );
+  }
+  return (
+    <>
+      <List>
+        {subTasks.map((subTask) => (
+          <ListItem key={subTask}>
+            <ListItemIcon>
+              <Checkbox
+                edge="start"
+                checked={false}
+                tabIndex={-1}
+                disableRipple
+              />
+            </ListItemIcon>
+            <ListItemText primary={subTask} />
+          </ListItem>
+        ))}
+      </List>
+    </>
+  );
+};
+
 const Task = ({
   title,
   description,
@@ -286,21 +397,12 @@ const Task = ({
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <FormGroup>
-            {subTasks.map((subtask) => (
-              <FormControlLabel
-                key={subtask[0]}
-                label={subtask[0]}
-                value={subtask[0]}
-                control={
-                  <Checkbox
-                    onChange={handleSubtaskChange}
-                    checked={subtask[1]}
-                  />
-                }
-              ></FormControlLabel>
-            ))}
-          </FormGroup>
+          <SubTaskList
+            subTasks={subTasks}
+            editing={editing}
+            setSubTasks={setSubtasks}
+          />
+
           <Description
             description={description_}
             editing={editing}
