@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import propTypes from "prop-types";
-import { IconButton } from "@mui/material";
+import { IconButton, useTheme } from "@mui/material";
 import {
   Card,
   CardHeader,
@@ -18,6 +18,8 @@ import {
   ListItem,
   List,
   TextField,
+  Menu,
+  ClickAwayListener,
 } from "@mui/material";
 import {
   Favorite,
@@ -129,58 +131,73 @@ const Tags = ({ tags, editing, setTags }) => {
     setTags: propTypes.func.isRequired,
   };
 
-  const [open, setOpen] = useState(false);
-  const [tag, setTag] = useState("");
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const handleClickOpen = () => {
+  const tagsList = [
+    "Engineering",
+    "Research",
+    "Planning",
+    "Study",
+    "Applications",
+    "Chore",
+  ];
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = (event) => {
     setOpen(true);
+    setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
     setOpen(false);
+    setAnchorEl(null);
   };
 
-  const handleAddTag = () => {
+  const handleAddTag = (tag) => {
     setTags([...tags, tag]);
-    setTag("");
-    setOpen(false);
   };
 
   const handleDeleteTag = (tagToDelete) => {
     setTags(tags.filter((tag) => tag !== tagToDelete));
   };
+  const ITEM_HEIGHT = 48;
 
   if (editing) {
     return (
       <>
-        <Dialog
+        <Menu
           open={open}
-          TransitionComponent={Slide}
-          keepMounted
+          anchorEl={anchorEl}
           onClose={handleClose}
-          aria-labelledby="alert-dialog-slide-title"
-          aria-describedby="alert-dialog-slide-description"
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
+          PaperProps={{
+            style: {
+              maxHeight: ITEM_HEIGHT * 4.5,
+              width: "15ch",
+            },
+          }}
         >
-          <DialogTitle id="alert-dialog-slide-title">{"Add Tag"}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-slide-description">
-              <TextField
-                id="outlined-basic"
-                label="Tag"
-                variant="outlined"
-                value={tag}
-                onChange={(event) => {
-                  setTag(event.target.value);
+          {tagsList
+            .filter((tag) => !tags.includes(tag))
+            .map((tag) => (
+              <MenuItem
+                key={tag}
+                onClick={() => {
+                  handleAddTag(tag);
                 }}
-              />
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleAddTag}>Add</Button>
-          </DialogActions>
-        </Dialog>
-
+              >
+                {tag}
+              </MenuItem>
+            ))}
+        </Menu>
         <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: 1 }}>
           <Chip
             style={{
@@ -261,7 +278,6 @@ const SubTaskList = ({ subTasks, editing, setSubTasks }) => {
           {subTasks.map((subTask, index) => (
             <Collapse key={index}>
               <ListItem
-                key={index}
                 secondaryAction={
                   editing && (
                     <IconButton
