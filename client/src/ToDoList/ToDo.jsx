@@ -9,7 +9,7 @@ const task = {
   taskList: "Tasks",
   title: "Task 1",
   description: "This is a description of the task.",
-  "Due Date": "2021-10-10",
+  due_date: "2021-10-10",
   priority: "High",
   subtasks: [
     ["Subtask 1", false],
@@ -21,35 +21,36 @@ const task = {
 };
 
 const ToDo = ({ ToDoList }) => {
-  const [tasks, setTasks] = useState([task, task, task, task, task, task]);
+  const [tasks, setTasks] = useState({ taskKey1: task, taskKey2: task });
+
+  // Filter tasks by completed status
+  // const [completedTasks, setCompletedTasks] = useState([]);
+  // const [incompleteTasks, setIncompleteTasks] = useState([]);
+  // useEffect(() => {
+  //   const filteredTasks = tasks.filter((task) => !task.completed);
+  //   setCompletedTasks(filteredTasks);
+
+  //   const filteredIncompleteTasks = tasks.filter((task) => task.completed);
+  //   setIncompleteTasks(filteredIncompleteTasks);
+  // }, [tasks]);
+  useEffect(() => {
+    console.log(tasks);
+  }, [tasks]);
+
+  const displayTasks = Object.entries(tasks).map(([taskKey, task_]) => (
+    <Grid item xs={12} sm={6} md={4} lg={3} key={taskKey}>
+      <Task {...task_} taskKey={taskKey} setTasks={setTasks} />
+    </Grid>
+  ));
 
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} sm={6} md={4} lg={3}>
         <CreateTask />
       </Grid>
-      {tasks.length > 0 ? (
-        tasks.map((task, index) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-            <Task {...task} task={task} index={index} setTasks={setTasks} />
-          </Grid>
-        ))
-      ) : (
-        <h1>There are no tasks in this list.</h1>
-      )}
+      {displayTasks}
     </Grid>
   );
-  //   <Masonry
-  //     columns={{ xs: 1, sm: 2, md: 3, lg: 4 }}
-  //     spacing={2}
-  //     sx={{ width: "100%" }}
-  //   >
-  //     <CreateTask {...task} />
-  //     {tasks.map((task, index) => (
-  //       <Task {...task} key={index} index={index} setTasks={setTasks} />
-  //     ))}
-  //   </Masonry>
-  // );
 };
 
 ToDo.propTypes = {

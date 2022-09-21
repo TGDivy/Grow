@@ -27,7 +27,11 @@ import {
   Save,
   Add,
   Delete,
+  Done,
+  KeyboardArrowDown,
 } from "@mui/icons-material";
+import { TransitionGroup } from "react-transition-group";
+
 import styled from "@emotion/styled";
 
 import Button from "@mui/material/Button";
@@ -42,6 +46,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { useEffect } from "react";
 
 const today = () => {
   const today = new Date();
@@ -189,6 +194,7 @@ const Tags = ({ tags, editing, setTags }) => {
             onClick={handleClickOpen}
             size="small"
           />
+
           {tags.map((tag) => (
             <Chip
               key={tag}
@@ -247,53 +253,59 @@ const SubTaskList = ({ subTasks, editing, setSubTasks }) => {
         sx={{
           paddingTop: 0,
           marginTop: 0,
+          paddingBottom: 0,
+          marginBottom: 0,
         }}
       >
-        {subTasks.map((subTask, index) => (
-          <ListItem
-            key={index}
-            secondaryAction={
-              editing && (
-                <IconButton
-                  edge="end"
-                  aria-label="delete"
-                  onClick={() => handleDeleteSubTask(subTask)}
-                >
-                  <Delete />
-                </IconButton>
-              )
-            }
-          >
-            <Checkbox
-              edge="start"
-              checked={subTask[1]}
-              onClick={() => handleToggleSubTask(index)}
-            />
-            {editing ? (
-              <TextField
-                id="small"
-                size="small"
-                variant="standard"
-                value={subTasks[index][0]}
-                onChange={(event) => {
-                  handleSubTaskChange(event, index);
-                }}
-              />
-            ) : (
-              <ListItemText>
-                <Typography
-                  variant="body1"
-                  sx={{
-                    textDecoration: subTask[1] ? "line-through" : "none",
-                    color: subTask[1] ? "gray" : "black",
-                  }}
-                >
-                  {subTask[0]}
-                </Typography>
-              </ListItemText>
-            )}
-          </ListItem>
-        ))}
+        <TransitionGroup>
+          {subTasks.map((subTask, index) => (
+            <Collapse key={index}>
+              <ListItem
+                key={index}
+                secondaryAction={
+                  editing && (
+                    <IconButton
+                      edge="end"
+                      aria-label="delete"
+                      onClick={() => handleDeleteSubTask(subTask)}
+                    >
+                      <Delete />
+                    </IconButton>
+                  )
+                }
+              >
+                <Checkbox
+                  edge="start"
+                  checked={subTask[1]}
+                  onClick={() => handleToggleSubTask(index)}
+                />
+                {editing ? (
+                  <TextField
+                    id="small"
+                    size="small"
+                    variant="standard"
+                    value={subTasks[index][0]}
+                    onChange={(event) => {
+                      handleSubTaskChange(event, index);
+                    }}
+                  />
+                ) : (
+                  <ListItemText>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        textDecoration: subTask[1] ? "line-through" : "none",
+                        color: subTask[1] ? "gray" : "black",
+                      }}
+                    >
+                      {subTask[0]}
+                    </Typography>
+                  </ListItemText>
+                )}
+              </ListItem>
+            </Collapse>
+          ))}
+        </TransitionGroup>
         {editing && (
           <ListItem
             key="Add Subtask"
@@ -331,13 +343,14 @@ const Task = ({
   subtasks,
   tags,
   setTasks,
-  index,
+  completed,
+  taskKey,
 }) => {
   const [expanded, setExpanded] = useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  const [subTasks, setSubtasks] = useState(subtasks);
+  const [subtasks_, setSubtasks] = useState(subtasks);
 
   const [editing, setEditing] = useState(false);
   const [title_, setTitle] = useState(title);
@@ -345,6 +358,7 @@ const Task = ({
   const [dueDate, setDueDate] = useState(today());
   const [priority_, setPriority] = useState("");
   const [tags_, setTags] = useState(tags);
+  const [completed_, setCompleted] = useState(completed);
 
   const handleEdit = () => {
     setEditing(true);
@@ -353,22 +367,41 @@ const Task = ({
 
   const handleSave = () => {
     setEditing(false);
-    setTasks((tasks) => {
-      const newTasks = [...tasks];
-      newTasks[index] = {
-        ...newTasks[index],
+    setTasks((prevState) => ({
+      ...prevState,
+      [taskKey]: {
         title: title_,
         description: description_,
         priority: priority_,
-        subtasks: subTasks,
+        subtasks: subtasks_,
         tags: tags_,
-      };
-      return newTasks;
-    });
+        completed: completed_,
+      },
+    }));
   };
 
+  const handleTaskComplete = () => {
+    setCompleted(!completed_);
+    if (!completed_) {
+      setSubtasks(subtasks_.map((subTask) => [subTask[0], true]));
+    }
+    handleSave();
+  };
+
+  useEffect(() => {
+    if (!editing) {
+      handleSave();
+    }
+  }, [subtasks_]);
+
   return (
-    <Card>
+    <Card
+      sx={{
+        ":hover": {
+          boxShadow: 20, // theme.shadows[20]
+        },
+      }}
+    >
       <CardHeader
         title={<Title title={title_} editing={editing} setTitle={setTitle} />}
         action={
@@ -391,9 +424,10 @@ const Task = ({
           marginBottom: 0,
         }}
       >
-        <IconButton aria-label="add to favorites">
-          <Favorite />
+        <IconButton aria-label="complete task">
+          <Checkbox checked={completed_} onChange={handleTaskComplete} />
         </IconButton>
+
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}
@@ -404,13 +438,21 @@ const Task = ({
         </ExpandMore>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
+        <CardContent
+          sx={{
+            marginTop: 0,
+            marginBottom: 0,
+            paddingTop: 0,
+            "&:last-child": {
+              paddingBottom: 1,
+            },
+          }}
+        >
           <SubTaskList
-            subTasks={subTasks}
-            editing={editing}
+            subTasks={subtasks_}
             setSubTasks={setSubtasks}
+            editing={editing}
           />
-
           <Description
             description={description_}
             editing={editing}
@@ -429,7 +471,8 @@ Task.propTypes = {
   subtasks: propTypes.arrayOf(propTypes.array).isRequired,
   tags: propTypes.arrayOf(propTypes.string).isRequired,
   setTasks: propTypes.func.isRequired,
-  index: propTypes.number.isRequired,
+  completed: propTypes.bool.isRequired,
+  taskKey: propTypes.string.isRequired,
 };
 
 export default Task;
