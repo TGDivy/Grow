@@ -228,27 +228,26 @@ const SubTaskList = ({ subTasks, editing, setSubTasks }) => {
     setSubTasks(subTasks.filter((subTask) => subTask !== subTaskToDelete));
   };
 
-  // <FormGroup>
-  //   {subTasks.map((subtask) => (
-  //     <FormControlLabel
-  //       key={subtask[0]}
-  //       label={subtask[0]}
-  //       value={subtask[0]}
-  //       control={
-  //         <Checkbox onChange={handleSubtaskChange} checked={subtask[1]} />
-  //       }
-  //     ></FormControlLabel>
-  //   ))}
-  // </FormGroup>;
+  const handleToggleSubTask = (index) => {
+    const array = [...subTasks];
+    array[index][1] = !array[index][1];
+    setSubTasks(array);
+  };
 
-  if (editing) {
-    return (
-      <>
-        <List dense>
-          {subTasks.map((subTask) => (
-            <ListItem
-              key={subTask}
-              secondaryAction={
+  const handleSubTaskChange = (event, index) => {
+    const array = [...subTasks];
+    array[index][0] = event.target.value;
+    setSubTasks(array);
+  };
+
+  return (
+    <>
+      <List dense>
+        {subTasks.map((subTask, index) => (
+          <ListItem
+            key={index}
+            secondaryAction={
+              editing && (
                 <IconButton
                   edge="end"
                   aria-label="delete"
@@ -256,54 +255,54 @@ const SubTaskList = ({ subTasks, editing, setSubTasks }) => {
                 >
                   <Delete />
                 </IconButton>
-              }
-            >
-              <ListItemIcon>
-                <Checkbox edge="start" checked={subTask[1]} />
-              </ListItemIcon>
-              <ListItemText primary={subTask} />
-            </ListItem>
-          ))}
-          <ListItem key="Add Subtask">
-            <Checkbox edge="start" checked={false} disableRipple />
+              )
+            }
+          >
+            <Checkbox
+              edge="start"
+              checked={subTask[1]}
+              onClick={() => handleToggleSubTask(index)}
+            />
+            {editing ? (
+              <TextField
+                id="small"
+                size="small"
+                variant="standard"
+                value={subTasks[index][0]}
+                onChange={(event) => {
+                  handleSubTaskChange(event, index);
+                }}
+              />
+            ) : (
+              <ListItemText>{subTask[0]}</ListItemText>
+            )}
+          </ListItem>
+        ))}
+        {editing && (
+          <ListItem
+            key="Add Subtask"
+            secondaryAction={
+              <IconButton
+                edge="end"
+                aria-label="delete"
+                onClick={handleAddSubTask}
+              >
+                <Add />
+              </IconButton>
+            }
+          >
+            <Checkbox edge="start" checked={false} />
             <TextField
-              id="outlined-basic"
-              label="Sub Task"
+              id="small"
+              size="small"
               variant="standard"
               value={subTask[0]}
               onChange={(event) => {
                 setSubTask([event.target.value, false]);
               }}
             />
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleAddSubTask}
-              style={{ marginLeft: "10px" }}
-            >
-              Add
-            </Button>
           </ListItem>
-        </List>
-      </>
-    );
-  }
-  return (
-    <>
-      <List>
-        {subTasks.map((subTask) => (
-          <ListItem key={subTask}>
-            <ListItemIcon>
-              <Checkbox
-                edge="start"
-                checked={false}
-                tabIndex={-1}
-                disableRipple
-              />
-            </ListItemIcon>
-            <ListItemText primary={subTask} />
-          </ListItem>
-        ))}
+        )}
       </List>
     </>
   );
@@ -331,18 +330,6 @@ const Task = ({
   const [priority_, setPriority] = useState("");
   const [tags_, setTags] = useState(tags);
 
-  const handleSubtaskChange = (event) => {
-    setSubtasks(
-      subTasks.map((subtask) => {
-        if (subtask[0] === event.target.value) {
-          return [subtask[0], !subtask[1]];
-        } else {
-          return subtask;
-        }
-      })
-    );
-  };
-
   const handleEdit = () => {
     setEditing(true);
     setExpanded(true);
@@ -350,7 +337,6 @@ const Task = ({
 
   const handleSave = () => {
     setEditing(false);
-    setExpanded(false);
     setTasks((tasks) => {
       const newTasks = [...tasks];
       newTasks[index] = {
