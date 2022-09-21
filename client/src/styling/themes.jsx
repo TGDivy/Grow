@@ -17,6 +17,13 @@ const darkTheme = createTheme({
         },
       },
     },
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          marginRight: 5,
+        },
+      },
+    },
   },
   palette: {
     mode: "light",

@@ -12,6 +12,7 @@ import {
   Checkbox,
   FormGroup,
   FormControlLabel,
+  Box,
 } from "@mui/material";
 import { Favorite, Expand, Tag, Edit, Save, Add } from "@mui/icons-material";
 import styled from "@emotion/styled";
@@ -67,6 +68,7 @@ const Title = ({ title, editing, setTitle }) => {
         id="outlined-basic"
         label="Title"
         variant="outlined"
+        size="small"
         defaultValue={title}
         onChange={(event) => {
           setTitle(event.target.value);
@@ -87,9 +89,9 @@ const Description = ({ description, editing, setDescription }) => {
   if (editing) {
     return (
       <TextField
-        id="outlined-basic"
+        id="standard-multiline-static"
         label="Description"
-        variant="outlined"
+        variant="standard"
         defaultValue={description}
         multiline
         rows={4}
@@ -161,8 +163,20 @@ const Tags = ({ tags, editing, setTags }) => {
             <Button onClick={handleAddTag}>Add</Button>
           </DialogActions>
         </Dialog>
-        <div>
-          <Chip icon={<Add />} onClick={handleClickOpen} size="small" />
+
+        <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: 1 }}>
+          <Chip
+            style={{
+              width: "30px",
+              height: "25px",
+              paddingLeft: "8px",
+              marginBottom: "5px",
+            }}
+            icon={<Add />}
+            color="primary"
+            onClick={handleClickOpen}
+            size="small"
+          />
           {tags.map((tag) => (
             <Chip
               key={tag}
@@ -171,16 +185,16 @@ const Tags = ({ tags, editing, setTags }) => {
               onDelete={() => handleDeleteTag(tag)}
             />
           ))}
-        </div>
+        </Box>
       </>
     );
   }
   return (
-    <div>
+    <>
       {tags.map((tag) => (
         <Chip key={tag} label={tag} size="small" />
       ))}
-    </div>
+    </>
   );
 };
 
