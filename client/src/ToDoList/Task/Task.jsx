@@ -28,6 +28,7 @@ const Task = ({
   setTasks,
   completed,
   taskKey,
+  createNewTask,
 }) => {
   const [expanded, setExpanded] = useState(false);
   const [subtasks_, setSubtasks] = useState(subtasks);
@@ -45,19 +46,33 @@ const Task = ({
   };
 
   const handleSave = () => {
-    setEditing(false);
-    setTasks((prevState) => ({
-      ...prevState,
-      [taskKey]: {
-        title: title_,
-        description: description_,
-        priority: priority_,
-        subtasks: subtasks_,
-        tags: tags_,
-        completed: completed_,
-      },
-    }));
-    console.log(priority);
+    if (createNewTask) {
+      setTasks((tasks) => {
+        const newTask = {
+          title: title_,
+          description: description_,
+          priority: priority_,
+          subtasks: subtasks_,
+          tags: tags_,
+          completed: completed_,
+        };
+        return { ...tasks, [taskKey]: newTask };
+      });
+    } else {
+      setEditing(false);
+      setTasks((prevState) => ({
+        ...prevState,
+        [taskKey]: {
+          title: title_,
+          description: description_,
+          priority: priority_,
+          subtasks: subtasks_,
+          tags: tags_,
+          completed: completed_,
+        },
+      }));
+      console.log(priority);
+    }
   };
 
   const handleTaskComplete = () => {
@@ -167,6 +182,7 @@ Task.propTypes = {
   setTasks: propTypes.func.isRequired,
   completed: propTypes.bool.isRequired,
   taskKey: propTypes.string.isRequired,
+  createNewTask: propTypes.bool.isRequired,
 };
 
 export default Task;
