@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, FC } from "react";
 import propTypes from "prop-types";
 import { Grid } from "@mui/material";
 import Task from "./Task/Task";
@@ -21,7 +21,7 @@ const createTask: task = {
   completed: false,
 };
 
-const ToDo = ({ ToDoList }) => {
+const ToDo: FC<string> = (ToDoList) => {
   const [tasks, setTasks] = useState<tasks>({});
 
   useEffect(() => {
@@ -54,10 +54,6 @@ const ToDo = ({ ToDoList }) => {
       {displayTasks}
     </Grid>
   );
-};
-
-ToDo.propTypes = {
-  ToDoList: propTypes.string.isRequired,
 };
 
 export default ToDo;

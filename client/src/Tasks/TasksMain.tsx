@@ -9,7 +9,7 @@ export const ToDoList = () => {
   return (
     <Container>
       <SelectToDoList setList={setList} listName={list} />
-      <ToDo ToDoList={list} />
+      <ToDo list />
     </Container>
   );
 };
