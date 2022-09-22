@@ -33,11 +33,7 @@ const createTask = {
 };
 
 const ToDo = ({ ToDoList }) => {
-  const [tasks, setTasks] = useState({
-    taskKey1: task,
-    taskKey2: task,
-    taskKey3: task,
-  });
+  const [tasks, setTasks] = useState({});
 
   useEffect(() => {
     console.log(tasks);

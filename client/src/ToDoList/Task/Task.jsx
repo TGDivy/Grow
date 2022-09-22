@@ -33,7 +33,7 @@ const Task = ({
   const [expanded, setExpanded] = useState(false);
   const [subtasks_, setSubtasks] = useState(subtasks);
 
-  const [editing, setEditing] = useState(false);
+  const [editing, setEditing] = useState(createNewTask);
   const [title_, setTitle] = useState(title);
   const [description_, setDescription] = useState(description);
   const [priority_, setPriority] = useState(priority);
@@ -48,7 +48,6 @@ const Task = ({
   const handleSave = () => {
     console.log("Saving...");
     if (createNewTask) {
-      setEditing(false);
       setTasks((tasks) => {
         const newTask = {
           title: title_,
@@ -64,7 +63,7 @@ const Task = ({
       setCompleted(false);
       setTitle("Create Task");
       setDescription("");
-      setPriority("medium");
+      setPriority("Medium");
       setSubtasks([]);
       setTags([]);
     } else {
@@ -104,7 +103,9 @@ const Task = ({
     <ClickAwayListener
       onClickAway={() => {
         setExpanded(false);
-        setEditing(false);
+        if (!createNewTask) {
+          setEditing(false);
+        }
       }}
     >
       <Card
@@ -129,7 +130,11 @@ const Task = ({
           }
           action={
             (editing && (
-              <IconButton aria-label="save" onClick={handleSave}>
+              <IconButton
+                aria-label="save"
+                onClick={handleSave}
+                color={createNewTask ? "primary" : "neutral"}
+              >
                 <Save />
               </IconButton>
             )) || (
