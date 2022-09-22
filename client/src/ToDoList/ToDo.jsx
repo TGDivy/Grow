@@ -21,7 +21,11 @@ const task = {
 };
 
 const ToDo = ({ ToDoList }) => {
-  const [tasks, setTasks] = useState({ taskKey1: task, taskKey2: task });
+  const [tasks, setTasks] = useState({
+    taskKey1: task,
+    taskKey2: task,
+    taskKey3: task,
+  });
 
   // Filter tasks by completed status
   // const [completedTasks, setCompletedTasks] = useState([]);

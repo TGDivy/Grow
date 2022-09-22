@@ -1,16 +1,18 @@
 import React from "react";
 import propTypes from "prop-types";
-import { MenuItem, Typography, Menu, IconButton } from "@mui/material";
+import { MenuItem, Box, Menu, IconButton } from "@mui/material";
 import {
-  KeyboardDoubleArrowDown,
   KeyboardArrowDown,
   KeyboardArrowUp,
-  KeyboardDoubleArrowUp,
   HorizontalRule,
 } from "@mui/icons-material";
 
 const priorities = {
-  High: <KeyboardArrowUp sx={{ color: "red" }} />,
+  High: (
+    <KeyboardArrowUp
+      sx={{ color: "red", alignSelf: "center", textAlign: "center" }}
+    />
+  ),
   Medium: <HorizontalRule sx={{ color: "orange" }} />,
   Low: <KeyboardArrowDown sx={{ color: "green" }} />,
 };
@@ -93,7 +95,13 @@ const Priority = ({ priority, editing, setPriority }) => {
       </>
     );
   }
-  return priorities[priority];
+  return (
+    <Box
+      sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+    >
+      {priorities[priority]}
+    </Box>
+  );
 };
 
 export default Priority;
