@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import propTypes from "prop-types";
 import { Grid } from "@mui/material";
 import Task from "./Task/Task";
-import CreateTask from "./CreateTask";
-import { Masonry } from "@mui/lab";
+// import { Masonry } from "@mui/lab";
 import { v4 as uuid_v4 } from "uuid";
 
 const task = {
