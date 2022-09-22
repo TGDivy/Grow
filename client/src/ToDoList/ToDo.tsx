@@ -4,35 +4,25 @@ import { Grid } from "@mui/material";
 import Task from "./Task/Task";
 // import { Masonry } from "@mui/lab";
 import { v4 as uuid_v4 } from "uuid";
+import { task } from "./Types";
 
-const task = {
-  taskList: "Tasks",
-  title: "Task 1",
-  description: "This is a description of the task.",
-  due_date: "2021-10-10",
-  priority: "High",
-  subtasks: [
-    ["Subtask 1", false],
-    ["Subtask 2", false],
-    ["Subtask 3", true],
-  ],
-  tags: ["Engineering", "Research"],
-  completed: false,
-};
+interface tasks {
+  [key: string]: task;
+}
 
-const createTask = {
-  taskList: "Tasks",
+const createTask: task = {
+  taskListName: "Tasks",
   title: "Create Task",
   description: "",
-  due_date: "",
+  dueDate: "",
   priority: "Medium",
-  subtasks: [],
+  subTasks: [],
   tags: [],
   completed: false,
 };
 
 const ToDo = ({ ToDoList }) => {
-  const [tasks, setTasks] = useState({});
+  const [tasks, setTasks] = useState<tasks>({});
 
   useEffect(() => {
     console.log(tasks);
@@ -49,7 +39,7 @@ const ToDo = ({ ToDoList }) => {
     </Grid>
   ));
 
-  createTask.taskList = ToDoList;
+  createTask.taskListName = ToDoList;
 
   return (
     <Grid container spacing={2}>

@@ -10,7 +10,7 @@ import {
   IconButton,
 } from "@mui/material";
 import propTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, FC } from "react";
 
 import Description from "./Description";
 import Priority from "./Priority";
@@ -18,27 +18,24 @@ import StartTimer from "./StartTimer";
 import SubTaskList from "./SubTaskList";
 import Tags from "./Tags";
 import Title from "./Title";
+import { task } from "../Types";
 
-const Task = ({
-  title,
-  description,
-  priority,
-  subtasks,
-  tags,
-  setTasks,
-  completed,
-  taskKey,
-  createNewTask,
-}) => {
+interface taskFC extends task {
+  setTasks: (tasks: any) => void;
+  taskKey: string;
+  createNewTask: boolean;
+}
+
+const Task: FC<taskFC> = (props) => {
   const [expanded, setExpanded] = useState(false);
-  const [subtasks_, setSubtasks] = useState(subtasks);
+  const [subtasks_, setSubtasks] = useState(props.subTasks);
 
-  const [editing, setEditing] = useState(createNewTask);
-  const [title_, setTitle] = useState(title);
-  const [description_, setDescription] = useState(description);
-  const [priority_, setPriority] = useState(priority);
-  const [tags_, setTags] = useState(tags);
-  const [completed_, setCompleted] = useState(completed);
+  const [editing, setEditing] = useState(props.createNewTask);
+  const [title_, setTitle] = useState(props.title);
+  const [description_, setDescription] = useState(props.description);
+  const [priority_, setPriority] = useState(props.priority);
+  const [tags_, setTags] = useState(props.tags);
+  const [completed_, setCompleted] = useState(props.completed);
 
   const handleEdit = () => {
     setEditing(true);
@@ -47,8 +44,8 @@ const Task = ({
 
   const handleSave = () => {
     console.log("Saving...");
-    if (createNewTask) {
-      setTasks((tasks) => {
+    if (props.createNewTask) {
+      props.setTasks((tasks) => {
         const newTask = {
           title: title_,
           description: description_,
@@ -57,7 +54,7 @@ const Task = ({
           tags: tags_,
           completed: completed_,
         };
-        return { [taskKey]: newTask, ...tasks };
+        return { [props.taskKey]: newTask, ...tasks };
       });
       setExpanded(false);
       setCompleted(false);
@@ -68,9 +65,9 @@ const Task = ({
       setTags([]);
     } else {
       setEditing(false);
-      setTasks((prevState) => ({
+      props.setTasks((prevState) => ({
         ...prevState,
-        [taskKey]: {
+        [props.taskKey]: {
           title: title_,
           description: description_,
           priority: priority_,
@@ -79,12 +76,12 @@ const Task = ({
           completed: completed_,
         },
       }));
-      console.log(priority);
+      console.log(props.priority);
     }
   };
 
   const handleTaskComplete = () => {
-    if (!createNewTask) {
+    if (!props.createNewTask) {
       setCompleted(!completed_);
       if (!completed_) {
         setSubtasks(subtasks_.map((subTask) => [subTask[0], true]));
@@ -94,7 +91,7 @@ const Task = ({
   };
 
   useEffect(() => {
-    if (!editing && !createNewTask) {
+    if (!editing && !props.createNewTask) {
       handleSave();
     }
   }, [subtasks_]);
@@ -103,7 +100,7 @@ const Task = ({
     <ClickAwayListener
       onClickAway={() => {
         setExpanded(false);
-        if (!createNewTask) {
+        if (!props.createNewTask) {
           setEditing(false);
         }
       }}
@@ -130,11 +127,7 @@ const Task = ({
           }
           action={
             (editing && (
-              <IconButton
-                aria-label="save"
-                onClick={handleSave}
-                color={createNewTask ? "primary" : "neutral"}
-              >
+              <IconButton aria-label="save" onClick={handleSave}>
                 <Save />
               </IconButton>
             )) || (
@@ -157,7 +150,7 @@ const Task = ({
               />
             </Grid>
             <Grid item xs={6}>
-              {!createNewTask && <StartTimer />}
+              {!props.createNewTask && <StartTimer />}
             </Grid>
           </Grid>
         </CardActions>
@@ -188,18 +181,6 @@ const Task = ({
       </Card>
     </ClickAwayListener>
   );
-};
-
-Task.propTypes = {
-  title: propTypes.string.isRequired,
-  description: propTypes.string.isRequired,
-  priority: propTypes.string.isRequired,
-  subtasks: propTypes.arrayOf(propTypes.array).isRequired,
-  tags: propTypes.arrayOf(propTypes.string).isRequired,
-  setTasks: propTypes.func.isRequired,
-  completed: propTypes.bool.isRequired,
-  taskKey: propTypes.string.isRequired,
-  createNewTask: propTypes.bool.isRequired,
 };
 
 export default Task;
