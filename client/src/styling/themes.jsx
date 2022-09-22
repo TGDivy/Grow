@@ -21,6 +21,7 @@ const darkTheme = createTheme({
       styleOverrides: {
         root: {
           marginRight: 5,
+          marginBottom: 5,
         },
       },
     },
