@@ -157,7 +157,7 @@ const Task = ({
               />
             </Grid>
             <Grid item xs={6}>
-              <StartTimer />
+              {!createNewTask && <StartTimer />}
             </Grid>
           </Grid>
         </CardActions>
