@@ -3,7 +3,7 @@ import LoginPage from "./LoginPage";
 import Home from "./Home";
 import useCurrentUser from "./contexts/UserContext";
 import BottomNavigationBar from "./BottomNavigationBar";
-import { ToDoList } from "./ToDoList/ToDoList";
+import { ToDoList } from "./Tasks/TasksMain";
 import { Container } from "@mui/material";
 
 const App = () => {
