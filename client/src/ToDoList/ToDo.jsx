@@ -4,6 +4,7 @@ import { Grid } from "@mui/material";
 import Task from "./Task/Task";
 import CreateTask from "./CreateTask";
 import { Masonry } from "@mui/lab";
+import { v4 as uuid_v4 } from "uuid";
 
 const task = {
   taskList: "Tasks",
@@ -20,6 +21,17 @@ const task = {
   completed: false,
 };
 
+const createTask = {
+  taskList: "Tasks",
+  title: "Create Task",
+  description: "",
+  due_date: "",
+  priority: "Medium",
+  subtasks: [],
+  tags: [],
+  completed: false,
+};
+
 const ToDo = ({ ToDoList }) => {
   const [tasks, setTasks] = useState({
     taskKey1: task,
@@ -27,30 +39,32 @@ const ToDo = ({ ToDoList }) => {
     taskKey3: task,
   });
 
-  // Filter tasks by completed status
-  // const [completedTasks, setCompletedTasks] = useState([]);
-  // const [incompleteTasks, setIncompleteTasks] = useState([]);
-  // useEffect(() => {
-  //   const filteredTasks = tasks.filter((task) => !task.completed);
-  //   setCompletedTasks(filteredTasks);
-
-  //   const filteredIncompleteTasks = tasks.filter((task) => task.completed);
-  //   setIncompleteTasks(filteredIncompleteTasks);
-  // }, [tasks]);
   useEffect(() => {
     console.log(tasks);
   }, [tasks]);
 
   const displayTasks = Object.entries(tasks).map(([taskKey, task_]) => (
     <Grid item xs={12} sm={6} md={4} lg={3} key={taskKey}>
-      <Task {...task_} taskKey={taskKey} setTasks={setTasks} />
+      <Task
+        {...task_}
+        taskKey={taskKey}
+        setTasks={setTasks}
+        createNewTask={false}
+      />
     </Grid>
   ));
+
+  createTask.taskList = ToDoList;
 
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} sm={6} md={4} lg={3}>
-        <CreateTask />
+        <Task
+          {...createTask}
+          taskKey={uuid_v4()}
+          setTasks={setTasks}
+          createNewTask
+        />
       </Grid>
       {displayTasks}
     </Grid>

@@ -46,7 +46,9 @@ const Task = ({
   };
 
   const handleSave = () => {
+    console.log("Saving...");
     if (createNewTask) {
+      setEditing(false);
       setTasks((tasks) => {
         const newTask = {
           title: title_,
@@ -56,8 +58,15 @@ const Task = ({
           tags: tags_,
           completed: completed_,
         };
-        return { ...tasks, [taskKey]: newTask };
+        return { [taskKey]: newTask, ...tasks };
       });
+      setExpanded(false);
+      setCompleted(false);
+      setTitle("Create Task");
+      setDescription("");
+      setPriority("medium");
+      setSubtasks([]);
+      setTags([]);
     } else {
       setEditing(false);
       setTasks((prevState) => ({
@@ -76,15 +85,17 @@ const Task = ({
   };
 
   const handleTaskComplete = () => {
-    setCompleted(!completed_);
-    if (!completed_) {
-      setSubtasks(subtasks_.map((subTask) => [subTask[0], true]));
+    if (!createNewTask) {
+      setCompleted(!completed_);
+      if (!completed_) {
+        setSubtasks(subtasks_.map((subTask) => [subTask[0], true]));
+      }
+      handleSave();
     }
-    handleSave();
   };
 
   useEffect(() => {
-    if (!editing) {
+    if (!editing && !createNewTask) {
       handleSave();
     }
   }, [subtasks_]);
@@ -93,6 +104,7 @@ const Task = ({
     <ClickAwayListener
       onClickAway={() => {
         setExpanded(false);
+        setEditing(false);
       }}
     >
       <Card
