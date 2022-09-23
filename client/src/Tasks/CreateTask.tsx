@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 import Task from "./Task/Task";
-import { taskType, priorityType } from "./Types";
+import { taskType, priorityType, tasksListType } from "./Types";
 import { v4 as uuid_v4 } from "uuid";
 
 interface createTaskFc {
-  setTasks: (tasks: any) => void;
+  setTasks: (tasks: tasksListType) => void;
   taskListName: string;
 }
 

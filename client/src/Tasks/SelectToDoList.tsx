@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, FC, useState } from "react";
 import { Box, Grid } from "@mui/material";
 import {
   List,
@@ -13,13 +13,17 @@ import {
   FormatListBulletedOutlined,
   Menu,
 } from "@mui/icons-material";
+import { MouseEventHandler } from "react";
 
-import propTypes from "prop-types";
+interface SelectToDoListProps {
+  setList: (listName: string) => void;
+  listName: string;
+}
 
-const SelectToDoList = ({ setList, listName }) => {
+const SelectToDoList: FC<SelectToDoListProps> = ({ setList, listName }) => {
   const [open, setOpenState] = useState(false);
 
-  const toggleDrawer = (open) => (event) => {
+  const toggleDrawer = (open: boolean) => (event: any) => {
     if (
       event.type === "keydown" &&
       (event.key === "Tab" || event.key === "Shift")
@@ -75,7 +79,7 @@ const SelectToDoList = ({ setList, listName }) => {
             <Typography variant="h3">{listName}</Typography>
           </Box>
         </Grid>
-        <Grid item xs={2} align="center">
+        <Grid item xs={2}>
           <Box
             width="100%"
             height={"100%"}
@@ -83,7 +87,11 @@ const SelectToDoList = ({ setList, listName }) => {
             justifyContent="center"
             display="flex"
           >
-            <Button onClick={toggleDrawer(true)} variant="text" color="neutral">
+            <Button
+              onClick={toggleDrawer(true)}
+              variant="text"
+              color="secondary"
+            >
               <Menu />
             </Button>
           </Box>
@@ -94,11 +102,6 @@ const SelectToDoList = ({ setList, listName }) => {
       </Drawer>
     </div>
   );
-};
-
-SelectToDoList.propTypes = {
-  setList: propTypes.func.isRequired,
-  listName: propTypes.string.isRequired,
 };
 
 export default SelectToDoList;

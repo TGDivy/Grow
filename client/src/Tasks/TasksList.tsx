@@ -1,10 +1,8 @@
 import React, { useState, useEffect, FC } from "react";
-import propTypes from "prop-types";
 import { Grid } from "@mui/material";
 import Task from "./Task/Task";
 // import { Masonry } from "@mui/lab";
-import { v4 as uuid_v4 } from "uuid";
-import { taskType, tasksListType } from "./Types";
+import { tasksListType } from "./Types";
 import CreateTask from "./CreateTask";
 
 interface tasksListFC {
