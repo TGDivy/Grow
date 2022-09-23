@@ -9,7 +9,6 @@ import {
   Grid,
   IconButton,
 } from "@mui/material";
-import propTypes from "prop-types";
 import React, { useEffect, useState, FC } from "react";
 
 import Description from "./Description";
@@ -46,13 +45,15 @@ const Task: FC<taskFC> = (props) => {
     console.log("Saving...");
     if (props.createNewTask) {
       props.setTasks((tasks: tasksListType) => {
-        const newTask = {
+        const newTask: taskType = {
+          taskListName: props.taskListName,
           title: title_,
           description: description_,
           priority: priority_,
-          subtasks: subtasks_,
+          subTasks: subtasks_,
           tags: tags_,
           completed: completed_,
+          dueDate: new Date(),
         };
         return { [props.taskKey]: newTask, ...tasks };
       });

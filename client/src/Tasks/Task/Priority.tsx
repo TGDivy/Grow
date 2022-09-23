@@ -7,7 +7,6 @@ import {
 } from "@mui/icons-material";
 
 import { priorityType } from "../Types";
-import { JsxElement } from "typescript";
 
 type priorityElement = {
   [key in priorityType]: JSX.Element;
