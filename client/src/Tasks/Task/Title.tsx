@@ -1,16 +1,21 @@
-import React from "react";
-import propTypes from "prop-types";
+import React, { FC } from "react";
 import { Typography, Checkbox, TextField } from "@mui/material";
 
-const Title = ({ title, editing, setTitle, completed, handleTaskComplete }) => {
-  Title.propTypes = {
-    title: propTypes.string.isRequired,
-    editing: propTypes.bool.isRequired,
-    setTitle: propTypes.func.isRequired,
-    completed: propTypes.bool.isRequired,
-    handleTaskComplete: propTypes.func.isRequired,
-  };
+interface titleFc {
+  title: string;
+  setTitle: (title: string) => void;
+  completed: boolean;
+  handleTaskComplete: () => void;
+  editing: boolean;
+}
 
+const Title: FC<titleFc> = ({
+  title,
+  editing,
+  setTitle,
+  completed,
+  handleTaskComplete,
+}) => {
   if (editing) {
     return (
       <TextField

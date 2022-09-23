@@ -3,7 +3,7 @@ import { Container, Typography } from "@mui/material";
 import SelectToDoList from "./SelectToDoList";
 import TasksList from "./TasksList";
 
-export const ToDoList = () => {
+const TasksMain = () => {
   const [taskListName, setList] = useState("My Day");
 
   return (
@@ -13,3 +13,5 @@ export const ToDoList = () => {
     </Container>
   );
 };
+
+export default TasksMain;

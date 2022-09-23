@@ -24,3 +24,7 @@ export interface task {
   subTasks: Array<[string, boolean]>;
   tags: Array<tags>;
 }
+
+export interface tasksList {
+  [key: string]: task;
+}

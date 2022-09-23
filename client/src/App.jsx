@@ -3,7 +3,7 @@ import LoginPage from "./LoginPage";
 import Home from "./Home";
 import useCurrentUser from "./contexts/UserContext";
 import BottomNavigationBar from "./BottomNavigationBar";
-import { ToDoList } from "./Tasks/TasksMain";
+import TasksMain from "./Tasks/TasksMain";
 import { Container } from "@mui/material";
 
 const App = () => {
@@ -15,7 +15,7 @@ const App = () => {
       case "home":
         return <Home />;
       case "todo":
-        return <ToDoList />;
+        return <TasksMain />;
       default:
         return <div>404</div>;
     }

@@ -1,31 +1,23 @@
-import React, { useState } from "react";
+import React, { FC, useState, MouseEvent } from "react";
 import { Box, Chip, Menu, MenuItem } from "@mui/material";
 import { Add } from "@mui/icons-material";
-import propTypes from "prop-types";
+import { ReactHTMLElement } from "react";
+import { tags } from "./../Types";
 
-const Tags = ({ tags, editing, setTags }) => {
-  Tags.propTypes = {
-    tags: propTypes.array.isRequired,
-    editing: propTypes.bool.isRequired,
-    setTags: propTypes.func.isRequired,
-  };
+interface tagsFc {
+  tags: Array<tags>;
+  setTags: (tags: Array<tags>) => void;
+  editing: boolean;
+}
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const tagsList = [
-    "Engineering",
-    "Research",
-    "Planning",
-    "Study",
-    "Applications",
-    "Chore",
-  ];
+const Tags: FC<tagsFc> = ({ tags, editing, setTags }) => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const [open, setOpen] = useState(false);
 
-  const handleClickOpen = (event) => {
+  const handleClickOpen = (event: MouseEvent) => {
     setOpen(true);
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event.currentTarget as HTMLElement);
   };
 
   const handleClose = () => {
@@ -33,11 +25,11 @@ const Tags = ({ tags, editing, setTags }) => {
     setAnchorEl(null);
   };
 
-  const handleAddTag = (tag) => {
+  const handleAddTag = (tag: tags) => {
     setTags([...tags, tag]);
   };
 
-  const handleDeleteTag = (tagToDelete) => {
+  const handleDeleteTag = (tagToDelete: tags) => {
     setTags(tags.filter((tag) => tag !== tagToDelete));
   };
   const ITEM_HEIGHT = 48;
@@ -64,7 +56,7 @@ const Tags = ({ tags, editing, setTags }) => {
             },
           }}
         >
-          {tagsList
+          {Object.values(tags)
             .filter((tag) => !tags.includes(tag))
             .map((tag) => (
               <MenuItem
