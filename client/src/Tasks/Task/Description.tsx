@@ -1,8 +1,18 @@
-import React from "react";
+import React, { FC } from "react";
 import propTypes from "prop-types";
 import { Box, Typography, TextField } from "@mui/material";
 
-const Description = ({ description, editing, setDescription }) => {
+interface descriptionProps {
+  description: string;
+  editing: boolean;
+  setDescription: (description: string) => void;
+}
+
+const Description: FC<descriptionProps> = ({
+  description,
+  editing,
+  setDescription,
+}) => {
   Description.propTypes = {
     description: propTypes.string.isRequired,
     editing: propTypes.bool.isRequired,

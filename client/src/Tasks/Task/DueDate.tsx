@@ -1,18 +1,17 @@
-import React from "react";
-import propTypes from "prop-types";
+import React, { FC } from "react";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import DatePicker from "@mui/lab/DatePicker";
-import { TextField, Typography } from "@mui/material";
+import { TextField, TextFieldProps, Typography } from "@mui/material";
 
-const DueDate = ({ dueDate, editing, setDueDate }) => {
-  DueDate.propTypes = {
-    dueDate: propTypes.string.isRequired,
-    editing: propTypes.bool.isRequired,
-    setDueDate: propTypes.func.isRequired,
-  };
+interface dueDateProps {
+  dueDate: Date;
+  editing: boolean;
+  setDueDate: (date: Date) => void;
+}
 
-  const handleDueDateChange = (date) => {
+const DueDate: FC<dueDateProps> = ({ dueDate, editing, setDueDate }) => {
+  const handleDueDateChange = (date: Date) => {
     setDueDate(date);
   };
 
@@ -23,14 +22,17 @@ const DueDate = ({ dueDate, editing, setDueDate }) => {
           label="Due Date"
           value={dueDate}
           onChange={handleDueDateChange}
-          renderInput={(params) => <TextField {...params} />}
+          renderInput={(params: JSX.IntrinsicAttributes & TextFieldProps) => (
+            <TextField {...params} />
+          )}
         />
       </LocalizationProvider>
     );
   }
   return (
     <Typography variant="body2" sx={{ color: "gray" }}>
-      {dueDate}
+      {" "}
+      Due Date{" "}
     </Typography>
   );
 };
