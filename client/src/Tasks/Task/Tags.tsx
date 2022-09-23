@@ -55,18 +55,26 @@ const Tags: FC<tagsFc> = ({ tags, editing, setTags }) => {
             },
           }}
         >
-          {Object.values(tags)
-            .filter((tag) => !tags.includes(tag))
-            .map((tag) => (
-              <MenuItem
-                key={tag}
-                onClick={() => {
-                  handleAddTag(tag);
-                }}
-              >
-                {tag}
-              </MenuItem>
-            ))}
+          {Object.values(tagsType)
+            .filter(
+              (tag) =>
+                !tags.includes(tag as tagsType) && typeof tag === "string"
+            )
+            .map(
+              (tag) => (
+                console.log(tag),
+                (
+                  <MenuItem
+                    key={tag}
+                    onClick={() => {
+                      handleAddTag(tag as tagsType);
+                    }}
+                  >
+                    {tag}
+                  </MenuItem>
+                )
+              )
+            )}
         </Menu>
         <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: 1 }}>
           <Chip
