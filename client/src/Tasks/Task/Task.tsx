@@ -18,9 +18,9 @@ import StartTimer from "./StartTimer";
 import SubTaskList from "./SubTaskList";
 import Tags from "./Tags";
 import Title from "./Title";
-import { task, tasksList, priority } from "../Types";
+import { taskType, tasksListType, priorityType } from "../Types";
 
-interface taskFC extends task {
+interface taskFC extends taskType {
   setTasks: (tasks: any) => void;
   taskKey: string;
   createNewTask: boolean;
@@ -45,7 +45,7 @@ const Task: FC<taskFC> = (props) => {
   const handleSave = () => {
     console.log("Saving...");
     if (props.createNewTask) {
-      props.setTasks((tasks: tasksList) => {
+      props.setTasks((tasks: tasksListType) => {
         const newTask = {
           title: title_,
           description: description_,
@@ -60,12 +60,12 @@ const Task: FC<taskFC> = (props) => {
       setCompleted(false);
       setTitle("Create Task");
       setDescription("");
-      setPriority(priority.Medium);
+      setPriority(priorityType.Medium);
       setSubtasks([]);
       setTags([]);
     } else {
       setEditing(false);
-      props.setTasks((prevState: tasksList) => ({
+      props.setTasks((prevState: tasksListType) => ({
         ...prevState,
         [props.taskKey]: {
           title: title_,

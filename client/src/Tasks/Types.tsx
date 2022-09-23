@@ -1,4 +1,4 @@
-export enum tags {
+export enum tagsType {
   "Engineering",
   "Research",
   "Planning",
@@ -8,23 +8,25 @@ export enum tags {
   "Other",
 }
 
-export enum priority {
+export enum priorityType {
   "High",
   "Medium",
   "Low",
 }
 
-export interface task {
+export type subtaskType = [string, boolean];
+
+export interface taskType {
   taskListName: string;
   title: string;
   description: string;
   dueDate: Date;
-  priority: priority;
+  priority: priorityType;
   completed: boolean;
-  subTasks: Array<[string, boolean]>;
-  tags: Array<tags>;
+  subTasks: Array<subtaskType>;
+  tags: Array<tagsType>;
 }
 
-export interface tasksList {
-  [key: string]: task;
+export interface tasksListType {
+  [key: string]: taskType;
 }

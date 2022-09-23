@@ -1,5 +1,4 @@
-import React from "react";
-import propTypes from "prop-types";
+import React, { FC, useState } from "react";
 import { MenuItem, Box, Menu, IconButton } from "@mui/material";
 import {
   KeyboardArrowDown,
@@ -7,37 +6,44 @@ import {
   HorizontalRule,
 } from "@mui/icons-material";
 
-const priorities = {
-  High: (
-    <KeyboardArrowUp
-      sx={{ color: "red", alignSelf: "center", textAlign: "center" }}
-    />
+import { priorityType } from "../Types";
+import { JsxElement } from "typescript";
+
+type priorityElement = {
+  [key in priorityType]: JSX.Element;
+};
+
+const priorities: priorityElement = {
+  [priorityType.Low]: (
+    <KeyboardArrowDown sx={{ color: "green" }} fontSize="small" />
   ),
-  Medium: <HorizontalRule sx={{ color: "orange" }} />,
-  Low: <KeyboardArrowDown sx={{ color: "green" }} />,
+  [priorityType.Medium]: <HorizontalRule sx={{ color: "orange" }} />,
+  [priorityType.High]: (
+    <KeyboardArrowUp sx={{ color: "red" }} fontSize="small" />
+  ),
 };
 
 const ITEM_HEIGHT = 48;
 
-const Priority = ({ priority, editing, setPriority }) => {
-  Priority.propTypes = {
-    priority: propTypes.string.isRequired,
-    editing: propTypes.bool.isRequired,
-    setPriority: propTypes.func.isRequired,
-  };
+interface priorityProps {
+  priority: priorityType;
+  setPriority: (priority: priorityType) => void;
+  editing: boolean;
+}
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+const Priority: FC<priorityProps> = ({ priority, editing, setPriority }) => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleClick = (event: { currentTarget: HTMLElement }) => {
+    setAnchorEl(event.currentTarget as HTMLElement);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const handlePriorityChange = (newPriority) => {
+  const handlePriorityChange = (newPriority: priorityType) => {
     setPriority(newPriority);
     handleClose();
   };
@@ -74,19 +80,19 @@ const Priority = ({ priority, editing, setPriority }) => {
             },
           }}
         >
-          {Object.keys(priorities).map(
+          {Object.values(priorityType).map(
             (priority_) => (
               console.log(priority_, "---"),
               (
                 <MenuItem
                   key={priority_}
                   onClick={() => {
-                    handlePriorityChange(priority_);
+                    handlePriorityChange(priority_ as priorityType);
                   }}
                   selected={priority === priority_}
                   value={priority_}
                 >
-                  {priorities[priority_]}
+                  {priorities[priority_ as priorityType]}
                 </MenuItem>
               )
             )

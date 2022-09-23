@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import Task from "./Task/Task";
-import { task, priority } from "./Types";
+import { taskType, priorityType } from "./Types";
 import { v4 as uuid_v4 } from "uuid";
 
 interface createTaskFc {
@@ -9,12 +9,12 @@ interface createTaskFc {
 }
 
 const CreateTask: FC<createTaskFc> = ({ setTasks, taskListName }) => {
-  const createTask: task = {
+  const createTask: taskType = {
     taskListName,
     title: "Create Task",
     description: "",
     dueDate: new Date(),
-    priority: priority.Medium,
+    priority: priorityType.Medium,
     subTasks: [],
     tags: [],
     completed: false,

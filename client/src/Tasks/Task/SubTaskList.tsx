@@ -1,39 +1,47 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { TransitionGroup } from "react-transition-group";
 import { Typography } from "@mui/material";
 import { List, ListItem, ListItemText, TextField } from "@mui/material";
 import { Checkbox, IconButton } from "@mui/material";
 import { Delete, Add } from "@mui/icons-material";
 import { Collapse } from "@mui/material";
-import propTypes from "prop-types";
 
-const SubTaskList = ({ subTasks, editing, setSubTasks }) => {
-  SubTaskList.propTypes = {
-    subTasks: propTypes.array.isRequired,
-    editing: propTypes.bool.isRequired,
-    setSubTasks: propTypes.func.isRequired,
-  };
+import { subtaskType } from "./../Types";
 
-  const [subTask, setSubTask] = useState(["", false]);
+interface SubTaskListProps {
+  subTasks: Array<subtaskType>;
+  setSubTasks: (subTasks: Array<subtaskType>) => void;
+  editing: boolean;
+}
+
+const SubTaskList: FC<SubTaskListProps> = ({
+  subTasks,
+  editing,
+  setSubTasks,
+}) => {
+  const [subTask, setSubTask] = useState<subtaskType>(["", false]);
 
   const handleAddSubTask = () => {
     setSubTasks([...subTasks, subTask]);
     setSubTask(["", false]);
   };
 
-  const handleDeleteSubTask = (subTaskToDelete) => {
+  const handleDeleteSubTask = (subTaskToDelete: subtaskType) => {
     setSubTasks(subTasks.filter((subTask) => subTask !== subTaskToDelete));
   };
 
-  const handleToggleSubTask = (index) => {
+  const handleToggleSubTask = (index: number) => {
     const array = [...subTasks];
     array[index][1] = !array[index][1];
     setSubTasks(array);
   };
 
-  const handleSubTaskChange = (event, index) => {
+  const handleSubTaskChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index: number
+  ) => {
     const array = [...subTasks];
-    array[index][0] = event.target.value;
+    array[index][0] = event.target.value as string;
     setSubTasks(array);
   };
 

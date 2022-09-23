@@ -4,7 +4,7 @@ import { Grid } from "@mui/material";
 import Task from "./Task/Task";
 // import { Masonry } from "@mui/lab";
 import { v4 as uuid_v4 } from "uuid";
-import { task, tasksList } from "./Types";
+import { taskType, tasksListType } from "./Types";
 import CreateTask from "./CreateTask";
 
 interface tasksListFC {
@@ -12,7 +12,7 @@ interface tasksListFC {
 }
 
 const TasksList: FC<tasksListFC> = ({ taskListName }) => {
-  const [tasks, setTasks] = useState<tasksList>({});
+  const [tasks, setTasks] = useState<tasksListType>({});
 
   useEffect(() => {
     console.log(tasks);

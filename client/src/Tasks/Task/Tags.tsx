@@ -2,11 +2,11 @@ import React, { FC, useState, MouseEvent } from "react";
 import { Box, Chip, Menu, MenuItem } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import { ReactHTMLElement } from "react";
-import { tags } from "./../Types";
+import { tagsType } from "./../Types";
 
 interface tagsFc {
-  tags: Array<tags>;
-  setTags: (tags: Array<tags>) => void;
+  tags: Array<tagsType>;
+  setTags: (tags: Array<tagsType>) => void;
   editing: boolean;
 }
 
@@ -25,11 +25,11 @@ const Tags: FC<tagsFc> = ({ tags, editing, setTags }) => {
     setAnchorEl(null);
   };
 
-  const handleAddTag = (tag: tags) => {
+  const handleAddTag = (tag: tagsType) => {
     setTags([...tags, tag]);
   };
 
-  const handleDeleteTag = (tagToDelete: tags) => {
+  const handleDeleteTag = (tagToDelete: tagsType) => {
     setTags(tags.filter((tag) => tag !== tagToDelete));
   };
   const ITEM_HEIGHT = 48;
