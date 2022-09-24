@@ -19,23 +19,16 @@ import Tags from "./Tags";
 import Title from "./Title";
 import { taskType, tasksListType, priorityType } from "../../Stores/Types";
 
-import { useTaskListState, useTaskState } from "../../Stores/TaskStore";
+import useTaskStore from "../../Stores/TaskStore";
 
 interface taskFC extends taskType {
-  taskKey: string;
+  id: string;
   createNewTask: boolean;
 }
 
 const Task: FC<taskFC> = (props) => {
-  const subTasks = useTaskState((state) => state.subTasks);
-  const tags = useTaskState((state) => state.tags);
-  const priority = useTaskState((state) => state.priority);
-  const title = useTaskState((state) => state.title);
-  const description = useTaskState((state) => state.description);
-  const completed = useTaskState((state) => state.completed);
-
-  const addTask = useTaskListState((state) => state.addTask);
-  const editTask = useTaskListState((state) => state.editTask);
+  const addTask = useTaskStore((state) => state.addTask);
+  const editTask = useTaskStore((state) => state.editTask);
 
   const [expanded, setExpanded] = useState(false);
   const [subtasks_, setSubtasks] = useState(props.subTasks);
@@ -55,16 +48,19 @@ const Task: FC<taskFC> = (props) => {
   const handleSave = () => {
     console.log("Saving...");
     if (props.createNewTask) {
-      addTask({
-        taskListName: props.taskListName,
-        title: title_,
-        description: description_,
-        priority: priority_,
-        subTasks: subtasks_,
-        tags: tags_,
-        completed: completed_,
-        dueDate: new Date(),
-      });
+      addTask(
+        {
+          taskListName: props.taskListName,
+          title: title_,
+          description: description_,
+          priority: priority_,
+          subTasks: subtasks_,
+          tags: tags_,
+          completed: completed_,
+          dueDate: new Date(),
+        },
+        props.id
+      );
       setExpanded(false);
       setCompleted(false);
       setTitle("Create Task");
@@ -74,16 +70,19 @@ const Task: FC<taskFC> = (props) => {
       setTags([]);
     } else {
       setEditing(false);
-      editTask({
-        taskListName: props.taskListName,
-        title: title_,
-        description: description_,
-        priority: priority_,
-        subTasks: subtasks_,
-        tags: tags_,
-        completed: completed_,
-        dueDate: new Date(),
-      });
+      editTask(
+        {
+          taskListName: props.taskListName,
+          title: title_,
+          description: description_,
+          priority: priority_,
+          subTasks: subtasks_,
+          tags: tags_,
+          completed: completed_,
+          dueDate: new Date(),
+        },
+        props.id
+      );
       console.log(props.priority);
     }
   };

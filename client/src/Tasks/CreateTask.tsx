@@ -19,7 +19,7 @@ const CreateTask: FC<createTaskFc> = ({ taskListName }) => {
     completed: false,
   };
 
-  return <Task {...createTask} taskKey={uuid_v4()} createNewTask />;
+  return <Task {...createTask} id={uuid_v4()} createNewTask />;
 };
 
 export default CreateTask;
