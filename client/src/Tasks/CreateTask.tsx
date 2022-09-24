@@ -1,14 +1,13 @@
 import React, { FC } from "react";
 import Task from "./Task/Task";
-import { taskType, priorityType, tasksListType } from "../Stores/Types";
+import { taskType, priorityType } from "../Stores/Types";
 import { v4 as uuid_v4 } from "uuid";
 
 interface createTaskFc {
-  setTasks: (tasks: tasksListType) => void;
   taskListName: string;
 }
 
-const CreateTask: FC<createTaskFc> = ({ setTasks, taskListName }) => {
+const CreateTask: FC<createTaskFc> = ({ taskListName }) => {
   const createTask: taskType = {
     taskListName,
     title: "Create Task",
@@ -20,14 +19,7 @@ const CreateTask: FC<createTaskFc> = ({ setTasks, taskListName }) => {
     completed: false,
   };
 
-  return (
-    <Task
-      {...createTask}
-      taskKey={uuid_v4()}
-      setTasks={setTasks}
-      createNewTask
-    />
-  );
+  return <Task {...createTask} taskKey={uuid_v4()} createNewTask />;
 };
 
 export default CreateTask;

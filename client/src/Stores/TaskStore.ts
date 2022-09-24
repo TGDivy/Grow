@@ -50,6 +50,7 @@ const useTaskState = create<taskStoreType>()(
 interface taskListStoreType {
     addTask: (task: taskType) => void;
     deleteTask: (task: taskType) => void;
+    editTask: (task: taskType) => void;
     tasks: tasksListType;
 }
 
@@ -65,6 +66,11 @@ const useTaskListState = create<taskListStoreType>()(
                     // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     const {[task.title]: value, ...newState} = state.tasks;
                     return {tasks: newState}
+                }),
+                editTask : (task: taskType) => set((state) => {
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    const {[task.title]: value, ...newState} = state.tasks;
+                    return {tasks: {...newState, [task.title]: task}}
                 }
                 ),
             }),
