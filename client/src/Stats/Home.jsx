@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import { Container, Typography } from "@mui/material";
 
-import StudyTimer from "./StudyTimer";
-import useCurrentUser from "./contexts/UserContext";
-import { db } from "./firebase-config";
+import useCurrentUser from "../contexts/UserContext";
+import { db } from "../firebase-config";
 import { onSnapshot, doc } from "firebase/firestore";
 
 const Home = () => {
@@ -31,7 +30,6 @@ const Home = () => {
         <Typography variant="h5">{user.email}</Typography>
         <Typography variant="h5">Total Sessions: {user.total_sess}</Typography>
       </Container>
-      {/* <StudyTimer /> */}
     </>
   );
 };

@@ -3,8 +3,8 @@ import React from "react";
 import { Container, Grid, Button } from "@mui/material";
 import { useEffect } from "react";
 
-import pushStudyTime from "./firestore/pushStudyTime";
-import useCurrentUser from "./contexts/UserContext";
+import pushStudyTime from "../firestore/pushStudyTime";
+import useCurrentUser from "../contexts/UserContext";
 
 const StudyTimer = () => {
   const [studyTime, setStudyTime] = React.useState(0);
