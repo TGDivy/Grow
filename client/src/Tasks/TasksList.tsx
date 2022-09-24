@@ -2,7 +2,7 @@ import React, { useState, useEffect, FC } from "react";
 import { Grid } from "@mui/material";
 import Task from "./Task/Task";
 // import { Masonry } from "@mui/lab";
-import { tasksListType } from "./Types";
+import { tasksListType } from "../Stores/Types";
 import CreateTask from "./CreateTask";
 
 interface tasksListFC {

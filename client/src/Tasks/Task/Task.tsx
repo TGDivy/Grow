@@ -17,7 +17,7 @@ import StartTimer from "./StartTimer";
 import SubTaskList from "./SubTaskList";
 import Tags from "./Tags";
 import Title from "./Title";
-import { taskType, tasksListType, priorityType } from "../Types";
+import { taskType, tasksListType, priorityType } from "../../Stores/Types";
 
 interface taskFC extends taskType {
   setTasks: (tasks: any) => void;

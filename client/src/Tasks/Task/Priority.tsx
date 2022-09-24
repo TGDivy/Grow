@@ -6,7 +6,7 @@ import {
   HorizontalRule,
 } from "@mui/icons-material";
 
-import { priorityType } from "../Types";
+import { priorityType } from "../../Stores/Types";
 
 type priorityElement = {
   [key in priorityType]: JSX.Element;
