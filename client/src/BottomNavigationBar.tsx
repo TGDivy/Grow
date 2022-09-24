@@ -1,5 +1,7 @@
 import React, { FC } from "react";
 
+import { Link } from "react-router-dom";
+
 import { Home, Task, Nature } from "@mui/icons-material";
 import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 
@@ -19,9 +21,27 @@ const BottomNavigationBar: FC<Props> = ({ section, setSection }) => {
       elevation={3}
     >
       <BottomNavigation value={section} onChange={handleChange}>
-        <BottomNavigationAction label="Home" value="home" icon={<Home />} />
-        <BottomNavigationAction label="Tasks" value="Tasks" icon={<Task />} />
-        <BottomNavigationAction label="Seed" value="Seed" icon={<Nature />} />
+        <BottomNavigationAction
+          component={Link}
+          to="/"
+          label="Home"
+          value="home"
+          icon={<Home />}
+        />
+        <BottomNavigationAction
+          label="Tasks"
+          component={Link}
+          to="/Tasks"
+          value="Tasks"
+          icon={<Task />}
+        />
+        <BottomNavigationAction
+          component={Link}
+          to="/Seed"
+          label="Seed"
+          value="Seed"
+          icon={<Nature />}
+        />
       </BottomNavigation>
     </Paper>
   );

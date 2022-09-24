@@ -13,13 +13,14 @@ const App = () => {
   const [section, setSection] = React.useState("home");
 
   const renderSection = () => {
+    if (!user) return <Route path="/" element={<LoginPage />} />;
     switch (section) {
       case "home":
         return <Route path="/" element={<Home />} />;
       case "Tasks":
-        return <Route path="/" element={<TasksMain />} />;
+        return <Route path="/Tasks" element={<TasksMain />} />;
       case "Seed":
-        return <Route path="/" element={<SeedMain />} />;
+        return <Route path="/Seed" element={<SeedMain />} />;
       default:
         return <div>404</div>;
     }
@@ -27,18 +28,14 @@ const App = () => {
 
   return (
     <Router>
-      {!user ? (
-        <LoginPage />
-      ) : (
-        <>
-          <div style={{ marginBottom: 80 }}>
-            <Routes>
-              <Container>{renderSection()}</Container>
-            </Routes>
-          </div>
-          <BottomNavigationBar section={section} setSection={setSection} />
-        </>
-      )}
+      <>
+        <div style={{ marginBottom: 80 }}>
+          <Container>
+            <Routes>{renderSection()}</Routes>
+          </Container>
+        </div>
+        <BottomNavigationBar section={section} setSection={setSection} />
+      </>
     </Router>
   );
 };
