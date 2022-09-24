@@ -115,7 +115,7 @@ const Task: FC<taskFC> = (props) => {
       <Card
         sx={{
           ":hover": {
-            boxShadow: 20, // theme.shadows[20]
+            boxShadow: 20,
           },
         }}
         onClick={() => {
@@ -172,7 +172,6 @@ const Task: FC<taskFC> = (props) => {
               },
             }}
           >
-            {/* <Divider /> */}
             <SubTaskList
               subTasks={subtasks_}
               setSubTasks={setSubtasks}
