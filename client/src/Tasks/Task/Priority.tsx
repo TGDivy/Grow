@@ -1,12 +1,10 @@
 import React, { FC, useState } from "react";
-import { MenuItem, Box, Menu, IconButton, Avatar } from "@mui/material";
+import { MenuItem, Menu, IconButton, Avatar } from "@mui/material";
 import {
   KeyboardArrowDown,
   KeyboardArrowUp,
   HorizontalRule,
-  Pageview,
 } from "@mui/icons-material";
-import { green, pink } from "@mui/material/colors";
 
 import { priorityType } from "../../Stores/Types";
 
