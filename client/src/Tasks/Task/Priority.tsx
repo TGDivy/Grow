@@ -1,10 +1,12 @@
 import React, { FC, useState } from "react";
-import { MenuItem, Box, Menu, IconButton } from "@mui/material";
+import { MenuItem, Box, Menu, IconButton, Avatar } from "@mui/material";
 import {
   KeyboardArrowDown,
   KeyboardArrowUp,
   HorizontalRule,
+  Pageview,
 } from "@mui/icons-material";
+import { green, pink } from "@mui/material/colors";
 
 import { priorityType } from "../../Stores/Types";
 
@@ -22,7 +24,7 @@ const priorities: priorityElement = {
   ),
 };
 
-const ITEM_HEIGHT = 48;
+const ITEM_HEIGHT = 36;
 
 interface priorityProps {
   priority: priorityType;
@@ -56,7 +58,17 @@ const Priority: FC<priorityProps> = ({ priority, editing, setPriority }) => {
           aria-haspopup="true"
           onClick={handleClick}
         >
-          {priorities[priority]}
+          <Avatar
+            variant="rounded"
+            sx={{
+              width: 52,
+              height: 26,
+              backgroundColor: "transparent",
+              border: 1,
+            }}
+          >
+            {priorities[priority]}
+          </Avatar>
         </IconButton>
         <Menu
           anchorEl={anchorEl}
@@ -77,28 +89,37 @@ const Priority: FC<priorityProps> = ({ priority, editing, setPriority }) => {
             },
           }}
         >
-          {Object.values(priorityType).map((priority_) => (
-            <MenuItem
-              key={priority_}
-              onClick={() => {
-                handlePriorityChange(priority_ as priorityType);
-              }}
-              selected={priority === priority_}
-              value={priority_}
-            >
-              {priorities[priority_ as priorityType]}
-            </MenuItem>
-          ))}
+          {Object.values(priorityType)
+            .filter((value) => typeof value !== "string")
+            .map((priority_) => (
+              <MenuItem
+                key={priority_}
+                onClick={() => {
+                  handlePriorityChange(priority_ as priorityType);
+                }}
+                selected={priority === priority_}
+                value={priority_}
+              >
+                {priorities[priority_ as priorityType]}
+              </MenuItem>
+            ))}
         </Menu>
       </>
     );
   }
   return (
-    <Box
-      sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+    <Avatar
+      variant="rounded"
+      sx={{ width: 52, height: 26, backgroundColor: "transparent", border: 1 }}
     >
       {priorities[priority]}
-    </Box>
+    </Avatar>
+    // <Avatar variant="square">
+    //   {/* <KeyboardArrowDown /> */}
+    //   <Pageview />
+    //   {/*  */}
+    // </Avatar>
+    // {/* {priorities[priority]} */}
   );
 };
 

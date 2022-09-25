@@ -24,13 +24,14 @@ import useTaskStore from "../../Stores/TaskStore";
 interface taskFC extends taskType {
   id: string;
   createNewTask: boolean;
+  alwaysExpanded?: boolean;
 }
 
 const Task: FC<taskFC> = (props) => {
   const addTask = useTaskStore((state) => state.addTask);
   const editTask = useTaskStore((state) => state.editTask);
 
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(props.alwaysExpanded);
   const [subtasks_, setSubtasks] = useState(props.subTasks);
 
   const [editing, setEditing] = useState(props.createNewTask);
@@ -61,7 +62,7 @@ const Task: FC<taskFC> = (props) => {
         },
         props.id
       );
-      setExpanded(false);
+      if (!props.alwaysExpanded) setExpanded(false);
       setCompleted(false);
       setTitle("Create Task");
       setDescription("");
@@ -113,7 +114,7 @@ const Task: FC<taskFC> = (props) => {
   return (
     <ClickAwayListener
       onClickAway={() => {
-        setExpanded(false);
+        if (!props.alwaysExpanded) setExpanded(false);
         if (!props.createNewTask) {
           setEditing(false);
         }

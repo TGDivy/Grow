@@ -54,7 +54,9 @@ const TimerTask = () => {
   return (
     <React.Fragment>
       <Grid item xs={3}>
-        {task ? <Task {...task} id={taskKey} createNewTask={false} /> : null}
+        {task ? (
+          <Task {...task} id={taskKey} createNewTask={false} alwaysExpanded />
+        ) : null}
         <Box sx={{ display: "flex", justifyContent: "right" }}>
           {taskKey && !active && (
             <Button onClick={deleteTask}>Remove Task</Button>
