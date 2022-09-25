@@ -15,12 +15,11 @@ import {
 import React, { useState, FC } from "react";
 
 import Description from "./Description";
-import Priority from "./Priority";
 import StartTimer from "./StartTimer";
 import SubTaskList from "./SubTaskList";
 import Tags from "./Tags";
 import Title from "./Title";
-import { taskType, priorityType } from "../../Stores/Types";
+import { taskType } from "../../Stores/Types";
 
 import useTaskStore from "../../Stores/TaskStore";
 
@@ -142,7 +141,6 @@ const Task: FC<taskFC> = (props) => {
                 setTitle={setTitle}
                 priority={priority_}
                 setPriority={setPriority}
-                // handleTaskComplete={handleTaskComplete}
               />
             </>
           }
