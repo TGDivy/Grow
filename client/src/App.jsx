@@ -14,16 +14,13 @@ const App = () => {
 
   const renderSection = () => {
     if (!user) return <Route path="/" element={<LoginPage />} />;
-    switch (section) {
-      case "home":
-        return <Route path="/" element={<Home />} />;
-      case "Tasks":
-        return <Route path="/Tasks" element={<TasksMain />} />;
-      case "Seed":
-        return <Route path="/Seed" element={<SeedMain />} />;
-      default:
-        return <div>404</div>;
-    }
+    return (
+      <>
+        <Route path="/" element={<Home />} />
+        <Route path="/Tasks" element={<TasksMain />} />
+        <Route path="/Seed" element={<SeedMain />} />
+      </>
+    );
   };
 
   return (

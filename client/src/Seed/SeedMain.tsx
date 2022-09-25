@@ -10,12 +10,12 @@ const SeedMain = () => {
   return (
     <Container maxWidth="sm">
       <Stack
-      // container
-      // direction="column"
-      // justifyContent="center"
-      // spacing={2}
-      // style={{ minHeight: "calc(100vh - 50px)" }}
-      // border={1}
+        // container
+        // direction="column"
+        // justifyContent="center"
+        spacing={1}
+        // style={{ minHeight: "calc(100vh - 50px)" }}
+        // border={1}
       >
         <Timer />
         <TimerTask />

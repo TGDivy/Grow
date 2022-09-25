@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 
 import useTimerStore from "../Stores/TimerStore";
-import { IconButton, Container, Grid, Box, Typography } from "@mui/material";
+import {
+  IconButton,
+  Container,
+  Grid,
+  Box,
+  Typography,
+  Button,
+} from "@mui/material";
 
 import { Stop, PlayArrow } from "@mui/icons-material";
 
@@ -45,7 +52,7 @@ const Timer = () => {
     <>
       <Box
         sx={{
-          minHeight: "10vh",
+          minHeight: "5vh",
         }}
       />
       <Box
@@ -55,13 +62,13 @@ const Timer = () => {
       </Box>
       <Box sx={{ display: "flex", justifyContent: "center", minHeight: "7vh" }}>
         {active ? (
-          <IconButton onClick={stopTimer}>
-            <Stop />
-          </IconButton>
+          <Button onClick={stopTimer} size="large">
+            <Stop fontSize="large" />
+          </Button>
         ) : (
-          <IconButton onClick={startTimer}>
-            <PlayArrow />
-          </IconButton>
+          <Button onClick={startTimer} size="large">
+            <PlayArrow fontSize="large" />
+          </Button>
         )}
       </Box>
     </>

@@ -86,11 +86,7 @@ const SelectToDoList: FC<SelectToDoListProps> = ({ setList, listName }) => {
             justifyContent="center"
             display="flex"
           >
-            <Button
-              onClick={toggleDrawer(true)}
-              variant="text"
-              color="secondary"
-            >
+            <Button onClick={toggleDrawer(true)} variant="text" color="primary">
               <Menu />
             </Button>
           </Box>

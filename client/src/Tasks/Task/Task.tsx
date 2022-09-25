@@ -1,5 +1,6 @@
-import { Edit, Save } from "@mui/icons-material";
+import { Delete, Edit, Save } from "@mui/icons-material";
 import {
+  Button,
   Card,
   CardActions,
   CardContent,
@@ -25,11 +26,13 @@ interface taskFC extends taskType {
   id: string;
   createNewTask: boolean;
   alwaysExpanded?: boolean;
+  startTimerButton?: boolean;
 }
 
 const Task: FC<taskFC> = (props) => {
   const addTask = useTaskStore((state) => state.addTask);
   const editTask = useTaskStore((state) => state.editTask);
+  const deleteTask = useTaskStore((state) => state.deleteTask);
 
   const [expanded, setExpanded] = useState(props.alwaysExpanded);
   const [subtasks_, setSubtasks] = useState(props.subTasks);
@@ -165,7 +168,22 @@ const Task: FC<taskFC> = (props) => {
               />
             </Grid>
             <Grid item xs={6}>
-              {!props.createNewTask && <StartTimer />}
+              {props.startTimerButton && !editing && (
+                <StartTimer id={props.id} />
+              )}
+              {!props.createNewTask && editing && (
+                <Button
+                  aria-label="delete"
+                  onClick={() => {
+                    deleteTask(props.id);
+                  }}
+                  fullWidth
+                  variant="contained"
+                  size="small"
+                >
+                  <Delete />
+                </Button>
+              )}
             </Grid>
           </Grid>
         </CardActions>

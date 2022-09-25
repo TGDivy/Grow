@@ -20,7 +20,7 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
 
   const displayTasks = Object.entries(tasks).map(([id, task]) => (
     <Grid item xs={12} sm={6} md={4} lg={3} key={id}>
-      <Task {...task} id={id} createNewTask={false} />
+      <Task {...task} id={id} createNewTask={false} startTimerButton />
     </Grid>
   ));
 

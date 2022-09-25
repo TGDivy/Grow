@@ -29,12 +29,7 @@ const DueDate: FC<dueDateProps> = ({ dueDate, editing, setDueDate }) => {
       </LocalizationProvider>
     );
   }
-  return (
-    <Typography variant="body2" sx={{ color: "gray" }}>
-      {" "}
-      Due Date{" "}
-    </Typography>
-  );
+  return <Typography variant="body2"> Due Date </Typography>;
 };
 
 export default DueDate;

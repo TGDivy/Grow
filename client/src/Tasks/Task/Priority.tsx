@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { MenuItem, Menu, IconButton, Avatar } from "@mui/material";
+import { MenuItem, Menu, IconButton, Avatar, Button } from "@mui/material";
 import {
   KeyboardArrowDown,
   KeyboardArrowUp,
@@ -14,11 +14,13 @@ type priorityElement = {
 
 const priorities: priorityElement = {
   [priorityType.Low]: (
-    <KeyboardArrowDown sx={{ color: "green" }} fontSize="small" />
+    <KeyboardArrowDown sx={{ color: "green" }} fontSize="large" />
   ),
-  [priorityType.Medium]: <HorizontalRule sx={{ color: "orange" }} />,
+  [priorityType.Medium]: (
+    <HorizontalRule sx={{ color: "orange" }} fontSize="large" />
+  ),
   [priorityType.High]: (
-    <KeyboardArrowUp sx={{ color: "red" }} fontSize="small" />
+    <KeyboardArrowUp sx={{ color: "red" }} fontSize="large" />
   ),
 };
 
@@ -50,24 +52,18 @@ const Priority: FC<priorityProps> = ({ priority, editing, setPriority }) => {
   if (editing) {
     return (
       <>
-        <IconButton
+        <Button
           aria-label="more"
           aria-controls="long-menu"
           aria-haspopup="true"
+          variant="contained"
+          size="small"
+          sx={{ padding: "0px", margin: 0 }}
+          fullWidth
           onClick={handleClick}
         >
-          <Avatar
-            variant="rounded"
-            sx={{
-              width: 52,
-              height: 26,
-              backgroundColor: "transparent",
-              border: 1,
-            }}
-          >
-            {priorities[priority]}
-          </Avatar>
-        </IconButton>
+          {priorities[priority]}
+        </Button>
         <Menu
           anchorEl={anchorEl}
           anchorOrigin={{
@@ -83,7 +79,7 @@ const Priority: FC<priorityProps> = ({ priority, editing, setPriority }) => {
           PaperProps={{
             style: {
               maxHeight: ITEM_HEIGHT * 4.5,
-              width: "6ch",
+              width: "8ch",
             },
           }}
         >
@@ -105,7 +101,7 @@ const Priority: FC<priorityProps> = ({ priority, editing, setPriority }) => {
       </>
     );
   }
-  return <IconButton color="primary">{priorities[priority]}</IconButton>;
+  return priorities[priority];
 };
 
 export default Priority;
