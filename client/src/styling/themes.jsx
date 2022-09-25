@@ -1,5 +1,6 @@
 import { createTheme } from "@mui/material/styles";
 
+// Primary and secondary colors are compliments of each other
 const SDark = "#21496d";
 const SLight = "#81a3cc";
 const S = "#52749c";

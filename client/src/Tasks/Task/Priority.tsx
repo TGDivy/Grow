@@ -98,7 +98,16 @@ const Priority: FC<priorityProps> = ({ priority, editing, setPriority }) => {
       </>
     );
   }
-  return priorities[priority];
+  return (
+    <Button
+      variant="text"
+      size="small"
+      sx={{ padding: "0px", margin: 0 }}
+      onClick={handleClick}
+    >
+      {priorities[priority]}
+    </Button>
+  );
 };
 
 export default Priority;
