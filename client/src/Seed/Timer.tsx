@@ -38,34 +38,26 @@ const Timer = () => {
   }, [studyTime, active]);
 
   return (
-    <Container>
-      <Grid
-        container
-        spacing={0}
-        justifyContent="center"
-        direction="column"
-        alignItems="center"
-      >
-        <Grid item xs={12}>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <Typography variant="h1">{formatTime(studyTime)}</Typography>
-          </Box>
-        </Grid>
-        <Grid item xs={12}>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            {active ? (
-              <IconButton onClick={stopTimer}>
-                <Stop />
-              </IconButton>
-            ) : (
-              <IconButton onClick={startTimer}>
-                <PlayArrow />
-              </IconButton>
-            )}
-          </Box>
-        </Grid>
+    <>
+      <Grid item xs={12}>
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <Typography variant="h1">{formatTime(studyTime)}</Typography>
+        </Box>
       </Grid>
-    </Container>
+      <Grid item xs={12}>
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          {active ? (
+            <IconButton onClick={stopTimer}>
+              <Stop />
+            </IconButton>
+          ) : (
+            <IconButton onClick={startTimer}>
+              <PlayArrow />
+            </IconButton>
+          )}
+        </Box>
+      </Grid>
+    </>
   );
 };
 
