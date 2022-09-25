@@ -114,12 +114,6 @@ const Priority: FC<priorityProps> = ({ priority, editing, setPriority }) => {
     >
       {priorities[priority]}
     </Avatar>
-    // <Avatar variant="square">
-    //   {/* <KeyboardArrowDown /> */}
-    //   <Pageview />
-    //   {/*  */}
-    // </Avatar>
-    // {/* {priorities[priority]} */}
   );
 };
 
