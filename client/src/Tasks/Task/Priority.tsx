@@ -13,14 +13,12 @@ type priorityElement = {
 };
 
 const priorities: priorityElement = {
-  [priorityType.Low]: (
-    <KeyboardArrowDown sx={{ color: "green" }} fontSize="large" />
-  ),
+  [priorityType.Low]: <KeyboardArrowDown fontSize="large" color="success" />,
   [priorityType.Medium]: (
-    <HorizontalRule sx={{ color: "orange" }} fontSize="large" />
+    <HorizontalRule sx={{ color: "orange" }} fontSize="large" color="info" />
   ),
   [priorityType.High]: (
-    <KeyboardArrowUp sx={{ color: "red" }} fontSize="large" />
+    <KeyboardArrowUp sx={{ color: "red" }} fontSize="large" color="error" />
   ),
 };
 
@@ -56,10 +54,9 @@ const Priority: FC<priorityProps> = ({ priority, editing, setPriority }) => {
           aria-label="more"
           aria-controls="long-menu"
           aria-haspopup="true"
-          variant="contained"
+          variant="text"
           size="small"
           sx={{ padding: "0px", margin: 0 }}
-          fullWidth
           onClick={handleClick}
         >
           {priorities[priority]}

@@ -1,20 +1,11 @@
 import React, { useState, useEffect } from "react";
 
 import useTimerStore from "../Stores/TimerStore";
-import {
-  IconButton,
-  Container,
-  Grid,
-  Box,
-  Typography,
-  Button,
-} from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 
 import { Stop, PlayArrow } from "@mui/icons-material";
 
 const timeElapsed = (startTime: Date) => {
-  console.log(startTime);
-  console.log(typeof startTime);
   return Math.ceil((new Date().getTime() - startTime.getTime()) / 1000);
 };
 

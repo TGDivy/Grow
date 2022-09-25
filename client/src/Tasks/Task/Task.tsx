@@ -92,7 +92,6 @@ const Task: FC<taskFC> = (props) => {
 
   const handleTaskComplete = () => {
     if (!props.createNewTask) {
-      console.log("completing", completed_);
       editTask(
         {
           taskListName: props.taskListName,
@@ -106,7 +105,6 @@ const Task: FC<taskFC> = (props) => {
         },
         props.id
       );
-      console.log("Task Completed", completed_);
       if (!completed_) {
         setSubtasks(subtasks_.map((subTask) => [subTask[0], true]));
       }
