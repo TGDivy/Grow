@@ -1,10 +1,12 @@
 import { Delete, Edit, Save } from "@mui/icons-material";
 import {
+  Box,
   Button,
   Card,
   CardActions,
   CardContent,
   CardHeader,
+  Checkbox,
   ClickAwayListener,
   Collapse,
   Grid,
@@ -69,7 +71,7 @@ const Task: FC<taskFC> = (props) => {
       setCompleted(false);
       setTitle("Create Task");
       setDescription("");
-      setPriority(priorityType.Medium);
+      setPriority(false);
       setSubtasks([]);
       setTags([]);
     } else {
@@ -133,13 +135,16 @@ const Task: FC<taskFC> = (props) => {
       >
         <CardHeader
           title={
-            <Title
-              title={title_}
-              editing={editing}
-              setTitle={setTitle}
-              completed={completed_}
-              handleTaskComplete={handleTaskComplete}
-            />
+            <>
+              <Title
+                title={title_}
+                editing={editing}
+                setTitle={setTitle}
+                priority={priority_}
+                setPriority={setPriority}
+                // handleTaskComplete={handleTaskComplete}
+              />
+            </>
           }
           action={
             (editing && (
@@ -148,7 +153,7 @@ const Task: FC<taskFC> = (props) => {
               </IconButton>
             )) || (
               <IconButton aria-label="edit" onClick={handleEdit}>
-                <Edit />
+                <Edit color="primary" />
               </IconButton>
             )
           }
@@ -158,12 +163,24 @@ const Task: FC<taskFC> = (props) => {
         </CardContent>
         <CardActions>
           <Grid container justifyContent="space-between" alignItems="center">
-            <Grid item xs={1}>
-              <Priority
-                priority={priority_}
-                editing={editing}
-                setPriority={setPriority}
-              />
+            <Grid item xs={2}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                  width: "100%",
+                }}
+              >
+                {!editing && (
+                  <Checkbox
+                    checked={completed_}
+                    onChange={handleTaskComplete}
+                    size="medium"
+                    sx={{ paddingBottom: "0px", paddingTop: "0px" }}
+                  />
+                )}
+              </Box>
             </Grid>
             <Grid item xs={6}>
               {props.startTimerButton && !editing && (

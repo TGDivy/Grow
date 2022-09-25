@@ -59,7 +59,9 @@ const TimerTask = () => {
 
           <Box sx={{ display: "flex", justifyContent: "right" }}>
             {taskKey && !active && (
-              <Button onClick={deleteTask}>Remove Task</Button>
+              <Button onClick={deleteTask} variant="contained">
+                Remove Task
+              </Button>
             )}
           </Box>
         </>

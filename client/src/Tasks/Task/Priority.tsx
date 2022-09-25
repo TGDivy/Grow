@@ -1,10 +1,6 @@
 import React, { FC, useState } from "react";
 import { MenuItem, Menu, IconButton, Avatar, Button } from "@mui/material";
-import {
-  KeyboardArrowDown,
-  KeyboardArrowUp,
-  HorizontalRule,
-} from "@mui/icons-material";
+import { PriorityHigh } from "@mui/icons-material";
 
 import { priorityType } from "../../Stores/Types";
 
@@ -13,13 +9,8 @@ type priorityElement = {
 };
 
 const priorities: priorityElement = {
-  [priorityType.Low]: <KeyboardArrowDown fontSize="large" color="success" />,
-  [priorityType.Medium]: (
-    <HorizontalRule sx={{ color: "orange" }} fontSize="large" color="info" />
-  ),
-  [priorityType.High]: (
-    <KeyboardArrowUp sx={{ color: "red" }} fontSize="large" color="error" />
-  ),
+  [priorityType.Medium]: <PriorityHigh fontSize="medium" />,
+  [priorityType.High]: <PriorityHigh color="error" fontSize="medium" />,
 };
 
 const ITEM_HEIGHT = 36;
@@ -98,16 +89,7 @@ const Priority: FC<priorityProps> = ({ priority, editing, setPriority }) => {
       </>
     );
   }
-  return (
-    <Button
-      variant="text"
-      size="small"
-      sx={{ padding: "0px", margin: 0 }}
-      onClick={handleClick}
-    >
-      {priorities[priority]}
-    </Button>
-  );
+  return priorities[priority];
 };
 
 export default Priority;

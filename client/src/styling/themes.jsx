@@ -11,12 +11,22 @@ const PDark = "#7c6446";
 const PLight = "#dec1a1";
 const PText = "#000000";
 
+const Error = "#B00020";
+
 const Theme = createTheme({
   components: {
     MuiCardHeader: {
       styleOverrides: {
         root: {
           paddingBottom: 0,
+        },
+      },
+    },
+    MuiIcon: {
+      styleOverrides: {
+        root: {
+          color: P,
+          backgroundColor: S,
         },
       },
     },
@@ -47,7 +57,7 @@ const Theme = createTheme({
       styleOverrides: {
         root: {
           "&.Mui-selected": {
-            // color: primaryColorCompliment,
+            color: PLight,
             backgroundColor: SDark,
             borderRadius: 4,
           },
@@ -69,6 +79,9 @@ const Theme = createTheme({
       main: S,
       contrastText: "#fff",
       text: SText,
+    },
+    error: {
+      main: Error,
     },
   },
 });
