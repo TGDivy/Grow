@@ -1,3 +1,4 @@
+
 export enum tagsType {
   "Engineering",
   "Research",
@@ -29,4 +30,12 @@ export interface taskType {
 
 export interface tasksListType {
   [key: string]: taskType;
+}
+
+export interface timerType {
+  active: boolean;
+  startTime: Date;
+  endTime: Date;
+  taskKey: string;
+  tags: Array<tagsType>;
 }
