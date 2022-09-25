@@ -4,7 +4,6 @@ import Task from "./Task/Task";
 import CreateTask from "./CreateTask";
 
 import useTaskStore from "../Stores/TaskStore";
-import { tasksListType, taskType } from "../Stores/Types";
 import _ from "lodash";
 
 interface tasksListFC {
