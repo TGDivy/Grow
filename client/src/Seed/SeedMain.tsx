@@ -2,7 +2,7 @@ import React from "react";
 import StudyTimer from "./StudyTimer";
 
 import { Grid, Container } from "@mui/material";
-import ActiveTimer from "./ActiveTimer";
+import ActiveTimer from "./Timer";
 import StartTimer from "./StartTimer";
 
 import useTimerStore from "../Stores/TimerStore";

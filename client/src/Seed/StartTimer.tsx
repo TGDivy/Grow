@@ -9,7 +9,13 @@ const StartTimer = () => {
 
   return (
     <Container>
-      <Grid container spacing={2}>
+      <Grid
+        container
+        spacing={0}
+        justifyContent="center"
+        direction="column"
+        alignItems="center"
+      >
         <Grid item xs={12}>
           <Button
             variant="contained"
