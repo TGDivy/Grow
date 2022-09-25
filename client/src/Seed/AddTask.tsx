@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import useTimerStore from "../Stores/TimerStore";
 import useTaskStore from "../Stores/TaskStore";
-import { Button, Container, Grid } from "@mui/material";
+import { Button, Box, Grid } from "@mui/material";
 import Task from "../Tasks/Task/Task";
 import { taskType } from "../Stores/Types";
 import {
@@ -24,13 +24,17 @@ const TimerTask = () => {
   useEffect(() => {
     if (taskKey) {
       setTask(tasks[taskKey]);
+    } else {
+      setTask(undefined);
     }
   }, [taskKey, tasks]);
 
   // Get tasks by title
   const tasksToAdd = (
     <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-      <InputLabel id="demo-simple-select-standard-label">Age</InputLabel>
+      <InputLabel id="demo-simple-select-standard-label">
+        Select Task
+      </InputLabel>
       <Select
         labelId="demo-simple-select-standard-label"
         id="demo-simple-select-standard"
@@ -47,18 +51,19 @@ const TimerTask = () => {
   );
 
   return (
-    <>
-      <Grid item xs={12}>
+    <React.Fragment>
+      <Grid item xs={3}>
         {task ? <Task {...task} id={taskKey} createNewTask={false} /> : null}
+        <Box sx={{ display: "flex", justifyContent: "right" }}>
+          {taskKey && <Button onClick={deleteTask}>Remove Task</Button>}
+        </Box>
       </Grid>
-      <Grid item xs={12}>
-        {taskKey ? (
-          <Button onClick={deleteTask}>Delete Task</Button>
-        ) : (
-          tasksToAdd
-        )}
+      <Grid item xs={3}>
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          {!taskKey && tasksToAdd}
+        </Box>
       </Grid>
-    </>
+    </React.Fragment>
   );
 };
 

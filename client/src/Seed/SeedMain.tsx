@@ -10,9 +10,9 @@ const SeedMain = () => {
       <Grid
         container
         spacing={0}
-        justifyContent="center"
+        // justifyContent="center"
         direction="column"
-        alignItems="center"
+        // alignItems="center"
       >
         <Timer />
         <TimerTask />
