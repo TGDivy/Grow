@@ -1,15 +1,16 @@
 import React from "react";
-import StudyTimer from "./StudyTimer";
 
-import { Grid, Container } from "@mui/material";
-import ActiveTimer from "./Timer";
-import StartTimer from "./StartTimer";
-
-import useTimerStore from "../Stores/TimerStore";
+import { Container } from "@mui/material";
+import Timer from "./Timer";
+import TimerTask from "./AddTask";
 
 const SeedMain = () => {
-  const active = useTimerStore((state) => state.active);
-  return <Container>{active ? <ActiveTimer /> : <StartTimer />}</Container>;
+  return (
+    <Container>
+      <Timer />
+      <TimerTask />
+    </Container>
+  );
 };
 
 export default SeedMain;

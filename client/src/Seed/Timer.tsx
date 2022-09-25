@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import useTimerStore from "../Stores/TimerStore";
 import { IconButton, Container, Grid, Box, Typography } from "@mui/material";
 
-import { Stop } from "@mui/icons-material";
+import { Stop, PlayArrow } from "@mui/icons-material";
 
 const timeElapsed = (startTime: Date) => {
   console.log(startTime);
@@ -18,18 +18,24 @@ const formatTime = (time: number) => {
   return `${minutes}:${seconds}`;
 };
 
-const ActiveTimer = () => {
+const Timer = () => {
   const startTime = useTimerStore((state) => state.startTime);
   const [studyTime, setStudyTime] = useState<number>(timeElapsed(startTime));
+  const active = useTimerStore((state) => state.active);
+  const startTimer = useTimerStore((state) => state.startTimer);
   const stopTimer = useTimerStore((state) => state.stopTimer);
 
   useEffect(() => {
+    if (!active) {
+      setStudyTime(0);
+      return;
+    }
     const interval = setInterval(() => {
       setStudyTime(Math.ceil(timeElapsed(startTime)));
-    }, 1000);
+    }, 200);
 
     return () => clearInterval(interval);
-  }, [studyTime]);
+  }, [studyTime, active]);
 
   return (
     <Container>
@@ -47,9 +53,15 @@ const ActiveTimer = () => {
         </Grid>
         <Grid item xs={12}>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <IconButton onClick={stopTimer}>
-              <Stop />
-            </IconButton>
+            {active ? (
+              <IconButton onClick={stopTimer}>
+                <Stop />
+              </IconButton>
+            ) : (
+              <IconButton onClick={startTimer}>
+                <PlayArrow />
+              </IconButton>
+            )}
           </Box>
         </Grid>
       </Grid>
@@ -57,4 +69,4 @@ const ActiveTimer = () => {
   );
 };
 
-export default ActiveTimer;
+export default Timer;
