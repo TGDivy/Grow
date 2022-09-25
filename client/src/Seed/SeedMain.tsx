@@ -7,13 +7,7 @@ import TimerTask from "./AddTask";
 const SeedMain = () => {
   return (
     <Container>
-      <Grid
-        container
-        spacing={0}
-        // justifyContent="center"
-        direction="column"
-        // alignItems="center"
-      >
+      <Grid container spacing={3} direction="column">
         <Timer />
         <TimerTask />
       </Grid>

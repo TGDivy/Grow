@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 
 const TimerTask = () => {
+  const active = useTimerStore((state) => state.active);
   const taskKey = useTimerStore((state) => state.taskKey);
   const addTask = useTimerStore((state) => state.addTask);
   const deleteTask = useTimerStore((state) => state.deleteTask);
@@ -55,7 +56,9 @@ const TimerTask = () => {
       <Grid item xs={3}>
         {task ? <Task {...task} id={taskKey} createNewTask={false} /> : null}
         <Box sx={{ display: "flex", justifyContent: "right" }}>
-          {taskKey && <Button onClick={deleteTask}>Remove Task</Button>}
+          {taskKey && !active && (
+            <Button onClick={deleteTask}>Remove Task</Button>
+          )}
         </Box>
       </Grid>
       <Grid item xs={3}>
