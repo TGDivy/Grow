@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useState } from "react";
+import React, { FC, useState } from "react";
 import { Box, Grid } from "@mui/material";
 import {
   List,
@@ -13,7 +13,6 @@ import {
   FormatListBulletedOutlined,
   Menu,
 } from "@mui/icons-material";
-import { MouseEventHandler } from "react";
 
 interface SelectToDoListProps {
   setList: (listName: string) => void;

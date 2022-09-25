@@ -9,7 +9,7 @@ import {
   Grid,
   IconButton,
 } from "@mui/material";
-import React, { useEffect, useState, FC } from "react";
+import React, { useState, FC } from "react";
 
 import Description from "./Description";
 import Priority from "./Priority";
@@ -17,7 +17,7 @@ import StartTimer from "./StartTimer";
 import SubTaskList from "./SubTaskList";
 import Tags from "./Tags";
 import Title from "./Title";
-import { taskType, tasksListType, priorityType } from "../../Stores/Types";
+import { taskType, priorityType } from "../../Stores/Types";
 
 import useTaskStore from "../../Stores/TaskStore";
 
