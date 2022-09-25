@@ -105,14 +105,7 @@ const Priority: FC<priorityProps> = ({ priority, editing, setPriority }) => {
       </>
     );
   }
-  return (
-    <Avatar
-      variant="rounded"
-      sx={{ width: 52, height: 26, backgroundColor: "transparent", border: 1 }}
-    >
-      {priorities[priority]}
-    </Avatar>
-  );
+  return <IconButton color="primary">{priorities[priority]}</IconButton>;
 };
 
 export default Priority;

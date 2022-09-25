@@ -51,24 +51,42 @@ const TimerTask = () => {
     </FormControl>
   );
 
-  return (
-    <React.Fragment>
-      <Grid item xs={3}>
-        {task ? (
+  const TaskOrAdd = () => {
+    if (task) {
+      return (
+        <>
           <Task {...task} id={taskKey} createNewTask={false} alwaysExpanded />
-        ) : null}
-        <Box sx={{ display: "flex", justifyContent: "right" }}>
-          {taskKey && !active && (
-            <Button onClick={deleteTask}>Remove Task</Button>
-          )}
+
+          <Box sx={{ display: "flex", justifyContent: "right" }}>
+            {taskKey && !active && (
+              <Button onClick={deleteTask}>Remove Task</Button>
+            )}
+          </Box>
+        </>
+      );
+    } else {
+      return (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "end",
+            height: "inherit",
+            minHeight: "60vh",
+          }}
+        >
+          {tasksToAdd}
         </Box>
+      );
+    }
+  };
+
+  return (
+    <>
+      <Grid item xs={8}>
+        <Box sx={{ minHeight: "60vh" }}>{TaskOrAdd()}</Box>
       </Grid>
-      <Grid item xs={3}>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          {!taskKey && tasksToAdd}
-        </Box>
-      </Grid>
-    </React.Fragment>
+    </>
   );
 };
 

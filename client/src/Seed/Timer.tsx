@@ -15,6 +15,10 @@ const timeElapsed = (startTime: Date) => {
 const formatTime = (time: number) => {
   const minutes = Math.floor(time / 60);
   const seconds = time - minutes * 60;
+  if (seconds < 10) {
+    return `${minutes}:0${seconds}`;
+  }
+
   return `${minutes}:${seconds}`;
 };
 
@@ -39,24 +43,27 @@ const Timer = () => {
 
   return (
     <>
-      <Grid item xs={12}>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Typography variant="h1">{formatTime(studyTime)}</Typography>
-        </Box>
-      </Grid>
-      <Grid item xs={12}>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          {active ? (
-            <IconButton onClick={stopTimer}>
-              <Stop />
-            </IconButton>
-          ) : (
-            <IconButton onClick={startTimer}>
-              <PlayArrow />
-            </IconButton>
-          )}
-        </Box>
-      </Grid>
+      <Box
+        sx={{
+          minHeight: "10vh",
+        }}
+      />
+      <Box
+        sx={{ display: "flex", justifyContent: "center", minHeight: "10vh" }}
+      >
+        <Typography variant="h1">{formatTime(studyTime)}</Typography>
+      </Box>
+      <Box sx={{ display: "flex", justifyContent: "center", minHeight: "7vh" }}>
+        {active ? (
+          <IconButton onClick={stopTimer}>
+            <Stop />
+          </IconButton>
+        ) : (
+          <IconButton onClick={startTimer}>
+            <PlayArrow />
+          </IconButton>
+        )}
+      </Box>
     </>
   );
 };

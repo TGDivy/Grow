@@ -4,13 +4,13 @@ import App from "./App";
 import { CurrentUserProvider } from "./contexts/UserContext";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import darkTheme from "./styling/themes";
+import Theme from "./styling/themes";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <CurrentUserProvider>
-      <ThemeProvider theme={darkTheme}>
+      <ThemeProvider theme={Theme}>
         <CssBaseline />
         <App />
       </ThemeProvider>

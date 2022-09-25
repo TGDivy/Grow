@@ -1,6 +1,8 @@
 import { createTheme } from "@mui/material/styles";
 
-const darkTheme = createTheme({
+const primaryColor = "#8A3357";
+
+const Theme = createTheme({
   components: {
     MuiBottomNavigationAction: {
       styleOverrides: {
@@ -10,6 +12,15 @@ const darkTheme = createTheme({
         },
       },
     },
+
+    MuiAvatar: {
+      styleOverrides: {
+        root: {
+          borderColor: primaryColor,
+        },
+      },
+    },
+
     MuiCardHeader: {
       styleOverrides: {
         root: {
@@ -39,6 +50,11 @@ const darkTheme = createTheme({
     background: {
       default: "#8fba72",
     },
+    primary: {
+      main: primaryColor,
+      contrastText: "#fff",
+    },
+
     neutral: {
       main: "#64748B",
       contrastText: "#fff",
@@ -46,4 +62,4 @@ const darkTheme = createTheme({
   },
 });
 
-export default darkTheme;
+export default Theme;
