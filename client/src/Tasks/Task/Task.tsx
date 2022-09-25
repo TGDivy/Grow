@@ -88,12 +88,25 @@ const Task: FC<taskFC> = (props) => {
 
   const handleTaskComplete = () => {
     if (!props.createNewTask) {
-      setCompleted(!completed_);
+      console.log("completing", completed_);
+      editTask(
+        {
+          taskListName: props.taskListName,
+          title: title_,
+          description: description_,
+          priority: priority_,
+          subTasks: subtasks_.map((subTask) => [subTask[0], true]),
+          tags: tags_,
+          completed: !completed_,
+          dueDate: new Date(),
+        },
+        props.id
+      );
+      console.log("Task Completed", completed_);
       if (!completed_) {
         setSubtasks(subtasks_.map((subTask) => [subTask[0], true]));
       }
-      handleSave();
-      console.log("Task Completed");
+      setCompleted(!completed_);
     }
   };
 

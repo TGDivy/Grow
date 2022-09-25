@@ -31,7 +31,10 @@ const useTaskStore = create<taskListStoreType>()(
             {
                 name: 'task-list-storage',
             }
-        )
+        ),
+        {
+            name: "task-list-storage",
+        }
     )
 )
 

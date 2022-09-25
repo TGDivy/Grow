@@ -34,7 +34,10 @@ const useTimerStore = create<timerStoreType>()(
             {
                 name: "timer-storage",
             }
-        )
+        ),
+        {
+            name: "timer-storage",
+        }
     )
 )
 
