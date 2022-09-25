@@ -72,8 +72,9 @@ const SelectToDoList: FC<SelectToDoListProps> = ({ setList, listName }) => {
         spacing={2}
         direction="row"
         justifyContent="space-between"
+        alignItems="center"
       >
-        <Grid item xs={8}>
+        <Grid item xs={10}>
           <Box pb={2} pt={2}>
             <Typography variant="h3">{listName}</Typography>
           </Box>
@@ -86,7 +87,11 @@ const SelectToDoList: FC<SelectToDoListProps> = ({ setList, listName }) => {
             justifyContent="center"
             display="flex"
           >
-            <Button onClick={toggleDrawer(true)} variant="text" color="primary">
+            <Button
+              onClick={toggleDrawer(true)}
+              variant="contained"
+              color="primary"
+            >
               <Menu />
             </Button>
           </Box>

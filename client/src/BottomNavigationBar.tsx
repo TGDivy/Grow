@@ -17,6 +17,7 @@ const BottomNavigationBar: FC<Props> = ({ section, setSection }) => {
     <Paper
       sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
       elevation={3}
+      color="primary"
     >
       <BottomNavigation value={location.pathname}>
         <BottomNavigationAction

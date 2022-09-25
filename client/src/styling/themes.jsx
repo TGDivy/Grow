@@ -1,26 +1,17 @@
 import { createTheme } from "@mui/material/styles";
 
-const primaryColor = "#8A3357";
+const SDark = "#21496d";
+const SLight = "#81a3cc";
+const S = "#52749c";
+const SText = "#ffffff";
+
+const P = "#ac9172";
+const PDark = "#7c6446";
+const PLight = "#dec1a1";
+const PText = "#000000";
 
 const Theme = createTheme({
   components: {
-    MuiBottomNavigationAction: {
-      styleOverrides: {
-        root: {
-          // color: "red",
-          "&.Mui-selected": { color: "green" },
-        },
-      },
-    },
-
-    MuiAvatar: {
-      styleOverrides: {
-        root: {
-          borderColor: primaryColor,
-        },
-      },
-    },
-
     MuiCardHeader: {
       styleOverrides: {
         root: {
@@ -44,20 +35,39 @@ const Theme = createTheme({
         },
       },
     },
+    MuiBottomNavigation: {
+      styleOverrides: {
+        root: {
+          backgroundColor: P,
+        },
+      },
+    },
+    MuiBottomNavigationAction: {
+      styleOverrides: {
+        root: {
+          "&.Mui-selected": {
+            // color: primaryColorCompliment,
+            backgroundColor: SDark,
+            borderRadius: 4,
+          },
+        },
+      },
+    },
   },
   palette: {
     mode: "light",
     background: {
-      default: "#8fba72",
+      default: S,
     },
     primary: {
-      main: primaryColor,
+      main: P,
       contrastText: "#fff",
+      text: PText,
     },
-
-    neutral: {
-      main: "#64748B",
+    secondary: {
+      main: S,
       contrastText: "#fff",
+      text: SText,
     },
   },
 });
