@@ -83,7 +83,6 @@ const Task: FC<taskFC> = (props) => {
         },
         props.id
       );
-      console.log(props.priority);
     }
   };
 
@@ -94,14 +93,9 @@ const Task: FC<taskFC> = (props) => {
         setSubtasks(subtasks_.map((subTask) => [subTask[0], true]));
       }
       handleSave();
+      console.log("Task Completed");
     }
   };
-
-  useEffect(() => {
-    if (!editing && !props.createNewTask) {
-      handleSave();
-    }
-  }, [subtasks_]);
 
   return (
     <ClickAwayListener
@@ -175,6 +169,7 @@ const Task: FC<taskFC> = (props) => {
             <SubTaskList
               subTasks={subtasks_}
               setSubTasks={setSubtasks}
+              handleSave={handleSave}
               editing={editing}
             />
             <Description

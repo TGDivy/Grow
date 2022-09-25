@@ -12,12 +12,14 @@ interface SubTaskListProps {
   subTasks: Array<subtaskType>;
   setSubTasks: (subTasks: Array<subtaskType>) => void;
   editing: boolean;
+  handleSave: () => void;
 }
 
 const SubTaskList: FC<SubTaskListProps> = ({
   subTasks,
   editing,
   setSubTasks,
+  handleSave,
 }) => {
   const [subTask, setSubTask] = useState<subtaskType>(["", false]);
 
@@ -34,6 +36,7 @@ const SubTaskList: FC<SubTaskListProps> = ({
     const array = [...subTasks];
     array[index][1] = !array[index][1];
     setSubTasks(array);
+    handleSave();
   };
 
   const handleSubTaskChange = (

@@ -4,13 +4,20 @@ import Task from "./Task/Task";
 import CreateTask from "./CreateTask";
 
 import useTaskStore from "../Stores/TaskStore";
+import { tasksListType, taskType } from "../Stores/Types";
+import _ from "lodash";
 
 interface tasksListFC {
   taskListName: string;
 }
 
 const TasksList: FC<tasksListFC> = ({ taskListName }) => {
-  const tasks = useTaskStore((state) => state.tasks);
+  let tasks = useTaskStore((state) => state.tasks);
+  tasks = _.flow(
+    Object.entries,
+    (arr) => arr.filter(([, task]) => task.taskListName === taskListName),
+    Object.fromEntries
+  )(tasks);
 
   const displayTasks = Object.entries(tasks).map(([id, task]) => (
     <Grid item xs={12} sm={6} md={4} lg={3} key={id}>

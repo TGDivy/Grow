@@ -23,8 +23,8 @@ const useTaskStore = create<taskListStoreType>()(
                     return {tasks: newState}
                 }),
                 editTask : (task: taskType, id: string) => set((state) => {
-                    const {[id]: value, ...newState} = state.tasks;
-                    return {tasks: {...newState, [id]: task}}
+                    state.tasks[id] = task;
+                    return state;
                 }
                 ),
             }),

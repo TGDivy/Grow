@@ -47,8 +47,6 @@ const Priority: FC<priorityProps> = ({ priority, editing, setPriority }) => {
     handleClose();
   };
 
-  console.log(priority);
-
   if (editing) {
     return (
       <>
@@ -79,23 +77,18 @@ const Priority: FC<priorityProps> = ({ priority, editing, setPriority }) => {
             },
           }}
         >
-          {Object.values(priorityType).map(
-            (priority_) => (
-              console.log(priority_, "---"),
-              (
-                <MenuItem
-                  key={priority_}
-                  onClick={() => {
-                    handlePriorityChange(priority_ as priorityType);
-                  }}
-                  selected={priority === priority_}
-                  value={priority_}
-                >
-                  {priorities[priority_ as priorityType]}
-                </MenuItem>
-              )
-            )
-          )}
+          {Object.values(priorityType).map((priority_) => (
+            <MenuItem
+              key={priority_}
+              onClick={() => {
+                handlePriorityChange(priority_ as priorityType);
+              }}
+              selected={priority === priority_}
+              value={priority_}
+            >
+              {priorities[priority_ as priorityType]}
+            </MenuItem>
+          ))}
         </Menu>
       </>
     );
