@@ -120,6 +120,11 @@ const SubTaskList: FC<SubTaskListProps> = ({
                 <Add />
               </IconButton>
             }
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                handleAddSubTask();
+              }
+            }}
           >
             <Checkbox
               edge="start"
