@@ -10,12 +10,23 @@ interface DailyStoreType {
 }
 
 
+
 // Fetch Quote of the day
 // From https://zenquotes.io/api/today
 const fetchQuote = async () => {
-    const response = await fetch("https://zenquotes.io/api/today");
-    const data = await response.json();
-    return [data[0].q, data[0].a];
+    const response:any = await fetch("https://zenquotes.io/api/today", {mode: 'no-cors'});
+
+    if (!response.ok) {
+        throw new Error("Network response was not ok");
+    }
+
+    return ["Quote of the day", "Author of the day"];
+    
+
+
+
+    // const data:any = response.json();
+    // return [data[0].q, data[0].a];
   };
 
 const useDailyStore = create<DailyStoreType>()(
