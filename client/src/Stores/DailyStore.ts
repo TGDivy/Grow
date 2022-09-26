@@ -14,14 +14,14 @@ interface DailyStoreType {
 // Fetch Quote of the day
 // From https://zenquotes.io/api/today
 const fetchQuote = async () => {
-    const response:any = await fetch("https://zenquotes.io/api/today", {mode: 'no-cors'});
+    // const response:any = await fetch("https://zenquotes.io/api/today");
 
-    if (!response.ok) {
-        throw new Error("Network response was not ok");
-    }
+    // if (!response.ok) {
+    //     throw new Error("Network response was not ok");
+    // }
 
-    return ["Quote of the day", "Author of the day"];
-    
+    return ["When I let go of what I am, I become what I might be.", "Lao Tzu"];
+
 
 
 

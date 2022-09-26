@@ -30,6 +30,7 @@ const Timer = () => {
   const quoteDate = useDailyStore((state) => state.date);
   const setQuote = useDailyStore((state) => state.setQuote);
   const quote = useDailyStore((state) => state.quote);
+  const author = useDailyStore((state) => state.author);
 
   console.log(timeElapsed(quoteDate));
   if (timeElapsed(quoteDate) > 60 * 60 * 24) {
@@ -53,16 +54,27 @@ const Timer = () => {
       <Box
         sx={{
           minHeight: "5vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
-      >
-        <Typography variant="h3" align="center">
-          {quote}
-        </Typography>
-      </Box>
+      ></Box>
       <Box
         sx={{ display: "flex", justifyContent: "center", minHeight: "10vh" }}
       >
         <Typography variant="h1">{formatTime(studyTime)}</Typography>
+      </Box>
+      <Box
+        sx={{
+          minHeight: "5vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Typography variant="body2" align="center">
+          {quote} - {author}
+        </Typography>
       </Box>
       <Box sx={{ display: "flex", justifyContent: "center", minHeight: "7vh" }}>
         {active ? (
