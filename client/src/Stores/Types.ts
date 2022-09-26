@@ -33,8 +33,8 @@ export interface tasksListType {
 
 export interface timerType {
   active: boolean;
-  startTime: Date;
-  endTime: Date;
+  startTime: Date ;
+  endTime: Date ;
   taskKey: string;
   tags: Array<tagsType>;
 }

@@ -12,8 +12,10 @@ interface timerStoreType extends timerType {
     deleteTag: (tag: tagsType) => void;
 }
 
+
 const useTimerStore = create<timerStoreType>()(
     devtools(
+        persist(
             (set) => ({
                 active: false,
                 startTime: new Date(),
@@ -30,6 +32,18 @@ const useTimerStore = create<timerStoreType>()(
                     {tags: state.tags.filter((item) => item !== tag)}
                 )),
             }),
+            {
+                name: 'timer-storage',
+                
+                deserialize: (state) => {
+                    const newState = JSON.parse(state);
+                    newState.state.startTime = new Date(newState.state.startTime);
+                    newState.state.endTime = new Date(newState.state.endTime);
+                    console.log(newState)
+                    return newState;
+                },
+            }
+        ),
 
         {
             name: "timer-storage",

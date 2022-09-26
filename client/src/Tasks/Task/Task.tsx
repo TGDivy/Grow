@@ -1,4 +1,4 @@
-import { Delete, Edit, Save } from "@mui/icons-material";
+import { Delete, Edit, ExpandLess, Save } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -116,7 +116,7 @@ const Task: FC<taskFC> = (props) => {
   return (
     <ClickAwayListener
       onClickAway={() => {
-        if (!props.alwaysExpanded) setExpanded(false);
+        // if (!props.alwaysExpanded) setExpanded(false);
         if (!props.createNewTask) {
           setEditing(false);
         }
@@ -129,7 +129,9 @@ const Task: FC<taskFC> = (props) => {
           },
         }}
         onClick={() => {
-          setExpanded(true);
+          if (!expanded) {
+            setExpanded(true);
+          }
         }}
       >
         <CardHeader
@@ -222,6 +224,26 @@ const Task: FC<taskFC> = (props) => {
               editing={editing}
               setDescription={setDescription}
             />
+
+            {/* Collapse button */}
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                width: "100%",
+                zIndex: 100,
+              }}
+            >
+              <IconButton
+                aria-label="collapse"
+                onClick={() => {
+                  setExpanded(false);
+                }}
+              >
+                <ExpandLess />
+              </IconButton>
+            </Box>
           </CardContent>
         </Collapse>
       </Card>
