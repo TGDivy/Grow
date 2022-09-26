@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import useTimerStore from "../Stores/TimerStore";
+import useDailyStore from "../Stores/DailyStore";
 import { Box, Typography, Button } from "@mui/material";
 
 import { Stop, PlayArrow } from "@mui/icons-material";
@@ -26,6 +27,14 @@ const Timer = () => {
   const active = useTimerStore((state) => state.active);
   const startTimer = useTimerStore((state) => state.startTimer);
   const stopTimer = useTimerStore((state) => state.stopTimer);
+  const quoteDate = useDailyStore((state) => state.date);
+  const setQuote = useDailyStore((state) => state.setQuote);
+  const quote = useDailyStore((state) => state.quote);
+
+  console.log(timeElapsed(quoteDate));
+  if (timeElapsed(quoteDate) > 60 * 60 * 24) {
+    setQuote();
+  }
 
   useEffect(() => {
     if (!active) {
@@ -45,7 +54,11 @@ const Timer = () => {
         sx={{
           minHeight: "5vh",
         }}
-      />
+      >
+        <Typography variant="h3" align="center">
+          {quote}
+        </Typography>
+      </Box>
       <Box
         sx={{ display: "flex", justifyContent: "center", minHeight: "10vh" }}
       >

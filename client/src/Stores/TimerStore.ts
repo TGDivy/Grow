@@ -39,7 +39,6 @@ const useTimerStore = create<timerStoreType>()(
                     const newState = JSON.parse(state);
                     newState.state.startTime = new Date(newState.state.startTime);
                     newState.state.endTime = new Date(newState.state.endTime);
-                    console.log(newState)
                     return newState;
                 },
             }
