@@ -34,13 +34,12 @@ const fetchNewDocs = async (
     return prev;
   }, initialTask);
 
-  console.log("latestTask", latestTask);
-
-  const latestDate = latestTask
+  const latestDate: Date = latestTask
     ? latestTask[1].dateUpdated
     : new Date(2000, 1, 1);
 
   // Fetch tasks after the latest task date
+  console.log("latestTask", typeof latestDate);
 
   const q = query(collectionRef, where("dateUpdated", ">", latestDate));
 
@@ -64,12 +63,18 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
     const collectionRef = collection(db, "users", user_id, "plow");
     const querySnapshot = fetchNewDocs(tasks, collectionRef);
 
-    querySnapshot.then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        const task = doc.data() as taskType;
-        addTask(task, doc.id);
+    querySnapshot
+      .then((querySnapshot) => {
+        console.log("querySnapshot", querySnapshot);
+        querySnapshot.forEach((doc) => {
+          console.log(`${doc.id} => ${doc.data()}`);
+          const task = doc.data() as taskType;
+          addTask(task, doc.id);
+        });
+      })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
       });
-    });
   }, []);
 
   const displayTasks = Object.entries(tasks).map(([id, task]) => (

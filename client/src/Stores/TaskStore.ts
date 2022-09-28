@@ -2,6 +2,7 @@
 import create from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { taskType, tasksListType, taskChangeType } from "./Types";
+import produce from "immer";
 
 import {
   setDoc,
@@ -57,11 +58,13 @@ const useTaskStore = create<taskListStoreType>()(
         tasks: {},
 
         addTask: (task: taskType, id: string) =>
-          set((state) => {
-            addTask(id, task, state.user_id);
-            state.tasks[id] = task;
-            return state;
-          }),
+          set(
+            produce((state) => {
+              addTask(id, task, state.user_id);
+              state.tasks[id] = task;
+              return state;
+            })
+          ),
 
         deleteTask: (id: string) =>
           set((state) => {
@@ -69,15 +72,32 @@ const useTaskStore = create<taskListStoreType>()(
             return { tasks: newState };
           }),
         editTask: (task: taskType, id: string) =>
-          set((state) => {
-            updateTask(id, state.tasks[id], task, state.user_id);
-            state.tasks[id] = task;
-            return state;
-          }),
+          set(
+            produce((state) => {
+              updateTask(id, state.tasks[id], task, state.user_id);
+              state.tasks[id] = task;
+              return state;
+            })
+          ),
         setUserID: (user_id: string) => set(() => ({ user_id: user_id })),
       }),
       {
         name: "task-list-storage",
+
+        deserialize: (state) => {
+          const newState = JSON.parse(state);
+          for (const key in newState.state.tasks) {
+            newState.state.tasks[key].dateUpdated = new Date(
+              newState.state.tasks[key].dateUpdated
+            );
+          }
+          return newState;
+        },
+        // serialize: (state) => {
+        //     const newState = state;
+        //     newState.state.dateUpdated = new Date();
+        //     return JSON.stringify(newState);
+        //     },
       }
     ),
     {
