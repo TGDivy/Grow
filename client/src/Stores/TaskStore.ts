@@ -1,41 +1,89 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import create from 'zustand'
-import { devtools, persist } from 'zustand/middleware'
-import { taskType, tasksListType} from './Types'
+import create from "zustand";
+import { devtools, persist } from "zustand/middleware";
+import { taskType, tasksListType, taskChangeType } from "./Types";
+
+import {
+  setDoc,
+  collection,
+  updateDoc,
+  doc,
+  increment,
+} from "firebase/firestore";
+import { db } from "./../firebase-config";
 
 interface taskListStoreType {
-    addTask: (task: taskType, id: string) => void;
-    deleteTask: (id: string) => void;
-    editTask: (task: taskType, id: string) => void;
-    tasks: tasksListType;
+  addTask: (task: taskType, id: string) => void;
+  deleteTask: (id: string) => void;
+  editTask: (task: taskType, id: string) => void;
+  tasks: tasksListType;
+  user_id: string;
+  setUserID: (user_id: string) => void;
 }
 
+const addTask = async (task_id: string, task: taskType, user_id: string) => {
+  const plowDocRef = doc(db, "users", user_id, "plow", task_id);
+  await setDoc(plowDocRef, task);
+
+  console.log("Document written with ID: ", task_id);
+};
+
+type key = keyof taskType;
+
+const updateTask = async (
+  task_id: string,
+  task: taskType,
+  taskUpdate: taskType,
+  user_id: string
+) => {
+  const plowDocRef = doc(db, "users", user_id, "plow", task_id);
+  const changes: any = {};
+  (Object.keys(task as taskType) as Array<key>).forEach((key) => {
+    if (task[key] !== taskUpdate[key]) {
+      changes[key] = taskUpdate[key];
+    }
+  });
+
+  await updateDoc(plowDocRef, changes);
+
+  console.log("Document written with ID: ", task_id);
+};
+
 const useTaskStore = create<taskListStoreType>()(
-    devtools(
-        persist(
-            (set) => ({
-                tasks: {},
-                
-                addTask: (task: taskType, id: string) => set((state) => ({tasks: {...state.tasks, [id]: task}})),
+  devtools(
+    persist(
+      (set) => ({
+        user_id: "",
+        tasks: {},
 
-                deleteTask: (id: string) => set((state) => {
-                    const {[id]: value, ...newState} = state.tasks;
-                    return {tasks: newState}
-                }),
-                editTask : (task: taskType, id: string) => set((state) => {
-                    state.tasks[id] = task;
-                    return state;
-                }
-                ),
-            }),
-            {
-                name: 'task-list-storage',
-            }
-        ),
-        {
-            name: "task-list-storage",
-        }
-    )
-)
+        addTask: (task: taskType, id: string) =>
+          set((state) => {
+            addTask(id, task, state.user_id);
+            state.tasks[id] = task;
+            return state;
+          }),
 
-export default useTaskStore
+        deleteTask: (id: string) =>
+          set((state) => {
+            const { [id]: value, ...newState } = state.tasks;
+            return { tasks: newState };
+          }),
+        editTask: (task: taskType, id: string) =>
+          set((state) => {
+            updateTask(id, state.tasks[id], task, state.user_id);
+            state.tasks[id] = task;
+            return state;
+          }),
+        setUserID: (user_id: string) => set(() => ({ user_id: user_id })),
+      }),
+      {
+        name: "task-list-storage",
+      }
+    ),
+    {
+      name: "task-list-storage",
+    }
+  )
+);
+
+export default useTaskStore;

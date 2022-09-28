@@ -1,4 +1,3 @@
-
 export enum tagsType {
   "Engineering",
   "Research",
@@ -14,17 +13,33 @@ export enum priorityType {
   "Medium",
 }
 
-export type subtaskType = [string, boolean];
+// export type subtaskType = [string, boolean];
+
+export interface subtaskType {
+  title: string;
+  completed: boolean;
+}
 
 export interface taskType {
   taskListName: string;
   title: string;
   description: string;
-  dueDate: Date;
+  dateUpdated: Date;
   priority: boolean;
   completed: boolean;
   subTasks: Array<subtaskType>;
   tags: Array<tagsType>;
+}
+
+export interface taskChangeType {
+  taskListName?: string;
+  title?: string;
+  description?: string;
+  dueDate?: Date;
+  priority?: boolean;
+  completed?: boolean;
+  subTasks?: Array<subtaskType>;
+  tags?: Array<tagsType>;
 }
 
 export interface tasksListType {
@@ -33,8 +48,8 @@ export interface tasksListType {
 
 export interface timerType {
   active: boolean;
-  startTime: Date ;
-  endTime: Date ;
+  startTime: Date;
+  endTime: Date;
   taskKey: string;
   tags: Array<tagsType>;
 }

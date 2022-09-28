@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import addUser from "../firestore/addUser";
+import useTaskStore from "../Stores/TaskStore";
 
 export const CurrentUserContext = React.createContext();
 
@@ -9,6 +10,7 @@ export const CurrentUserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [once, setOnce] = useState(false);
   const auth = getAuth();
+  const setUserID = useTaskStore((state) => state.setUserID);
 
   onAuthStateChanged(auth, (user) => {
     if (user && !once) {
@@ -16,6 +18,7 @@ export const CurrentUserProvider = ({ children }) => {
       addUser(user)
         .then((userData) => {
           setUser(userData);
+          setUserID(userData.uid);
           setOnce(true);
         })
         .catch((error) => {

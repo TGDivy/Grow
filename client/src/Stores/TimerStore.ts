@@ -3,15 +3,42 @@ import create from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
 import { tagsType, timerType} from './Types'
 
+import {
+    setDoc,
+    collection,
+    updateDoc,
+    doc,
+    increment,
+    addDoc,
+  } from "firebase/firestore";
+import { db } from "./../firebase-config";
+
 interface timerStoreType extends timerType {
     startTimer: () => void;
-    stopTimer: () => void;
+    stopTimer: (user_id: string) => void;
     addTask: (id: string) => void;
     deleteTask: () => void;
     addTag: (tag: tagsType) => void;
     deleteTag: (tag: tagsType) => void;
 }
 
+const timerStoreTypeToTimerType = (timerStoreType: timerStoreType): timerType => {
+    const {startTimer, stopTimer, addTask, deleteTask, addTag, deleteTag, ...timerType} = timerStoreType;
+    return timerType;
+}
+
+
+  
+const pushStudyTime = async (timer:timerType, user_id:string) => {
+
+    const sowCollectionRef = collection(db, "users", user_id, "sow");
+    const docRef = await addDoc(sowCollectionRef, timer);
+
+    console.log("Document written with ID: ", docRef);
+};
+
+  
+  
 
 const useTimerStore = create<timerStoreType>()(
     devtools(
@@ -23,8 +50,19 @@ const useTimerStore = create<timerStoreType>()(
                 taskKey: "",
                 tags: [],
 
-                startTimer: () => set((state) => ({active: true, startTime: new Date()})),
-                stopTimer: () => set((state) => ({active: false, endTime: new Date()})),
+                startTimer: () => set(() => ({active: true, startTime: new Date()})),
+                stopTimer: (user_id:string) => set((state) => {
+                    const endState = {
+                        ...state,
+                        active: false,
+                        endTime: new Date(),
+                    }
+                    pushStudyTime(timerStoreTypeToTimerType(endState), user_id);
+                    console.log(timerStoreTypeToTimerType(endState));
+                    return(endState);
+                }),
+
+
                 addTask: (id: string) => set((state) => ({taskKey: id})),
                 deleteTask: () => set((state) => ({taskKey: ""})),
                 addTag: (tag: tagsType) => set((state) => ({tags: [...state.tags, tag]})),

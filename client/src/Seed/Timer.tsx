@@ -5,6 +5,7 @@ import useDailyStore from "../Stores/DailyStore";
 import { Box, Typography, Button } from "@mui/material";
 
 import { Stop, PlayArrow } from "@mui/icons-material";
+import useCurrentUser from "../contexts/UserContext";
 
 const timeElapsed = (startTime: Date) => {
   return Math.ceil((new Date().getTime() - startTime.getTime()) / 1000);
@@ -32,10 +33,16 @@ const Timer = () => {
   const quote = useDailyStore((state) => state.quote);
   const author = useDailyStore((state) => state.author);
 
+  const { user } = useCurrentUser();
+
   console.log(timeElapsed(quoteDate));
   if (timeElapsed(quoteDate) > 60 * 60 * 24) {
     setQuote();
   }
+
+  const onStop = () => {
+    stopTimer(user.uid);
+  };
 
   useEffect(() => {
     if (!active) {
@@ -78,7 +85,7 @@ const Timer = () => {
       </Box>
       <Box sx={{ display: "flex", justifyContent: "center", minHeight: "7vh" }}>
         {active ? (
-          <Button onClick={stopTimer} size="large">
+          <Button onClick={onStop} size="large">
             <Stop fontSize="large" />
           </Button>
         ) : (

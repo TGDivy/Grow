@@ -21,11 +21,14 @@ const SubTaskList: FC<SubTaskListProps> = ({
   setSubTasks,
   handleSave,
 }) => {
-  const [subTask, setSubTask] = useState<subtaskType>(["", false]);
+  const [subTask, setSubTask] = useState<subtaskType>({
+    title: "",
+    completed: false,
+  });
 
   const handleAddSubTask = () => {
     setSubTasks([...subTasks, subTask]);
-    setSubTask(["", false]);
+    setSubTask({ title: "", completed: false });
   };
 
   const handleDeleteSubTask = (subTaskToDelete: subtaskType) => {
@@ -34,7 +37,7 @@ const SubTaskList: FC<SubTaskListProps> = ({
 
   const handleToggleSubTask = (index: number) => {
     const array = [...subTasks];
-    array[index][1] = !array[index][1];
+    array[index].completed = !array[index].completed;
     setSubTasks(array);
     handleSave();
   };
@@ -44,7 +47,7 @@ const SubTaskList: FC<SubTaskListProps> = ({
     index: number
   ) => {
     const array = [...subTasks];
-    array[index][0] = event.target.value as string;
+    array[index].title = event.target.value as string;
     setSubTasks(array);
   };
 
@@ -78,7 +81,7 @@ const SubTaskList: FC<SubTaskListProps> = ({
                   sx={{ padding: "0px 5px 0px 5px" }}
                   edge="start"
                   size="small"
-                  checked={subTask[1]}
+                  checked={subTask.completed}
                   onClick={() => handleToggleSubTask(index)}
                 />
                 {editing ? (
@@ -86,7 +89,7 @@ const SubTaskList: FC<SubTaskListProps> = ({
                     id="small"
                     size="small"
                     variant="standard"
-                    value={subTasks[index][0]}
+                    value={subTasks[index].title}
                     onChange={(event) => {
                       handleSubTaskChange(event, index);
                     }}
@@ -96,11 +99,13 @@ const SubTaskList: FC<SubTaskListProps> = ({
                     <Typography
                       variant="body2"
                       sx={{
-                        textDecoration: subTask[1] ? "line-through" : "none",
-                        color: subTask[1] ? "gray" : "black",
+                        textDecoration: subTask.completed
+                          ? "line-through"
+                          : "none",
+                        color: subTask.completed ? "gray" : "black",
                       }}
                     >
-                      {subTask[0]}
+                      {subTask.title}
                     </Typography>
                   </ListItemText>
                 )}
@@ -136,9 +141,9 @@ const SubTaskList: FC<SubTaskListProps> = ({
               id="small"
               size="small"
               variant="standard"
-              value={subTask[0]}
+              value={subTask.title}
               onChange={(event) => {
-                setSubTask([event.target.value, false]);
+                setSubTask({ title: event.target.value, completed: false });
               }}
             />
           </ListItem>

@@ -12,7 +12,7 @@ const CreateTask: FC<createTaskFc> = ({ taskListName }) => {
     taskListName,
     title: "Create Task",
     description: "",
-    dueDate: new Date(),
+    dateUpdated: new Date(),
     priority: false,
     subTasks: [],
     tags: [],

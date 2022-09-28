@@ -62,7 +62,7 @@ const Task: FC<taskFC> = (props) => {
           subTasks: subtasks_,
           tags: tags_,
           completed: completed_,
-          dueDate: new Date(),
+          dateUpdated: new Date(),
         },
         props.id
       );
@@ -84,7 +84,7 @@ const Task: FC<taskFC> = (props) => {
           subTasks: subtasks_,
           tags: tags_,
           completed: completed_,
-          dueDate: new Date(),
+          dateUpdated: new Date(),
         },
         props.id
       );
@@ -99,15 +99,21 @@ const Task: FC<taskFC> = (props) => {
           title: title_,
           description: description_,
           priority: priority_,
-          subTasks: subtasks_.map((subTask) => [subTask[0], true]),
+          subTasks: subtasks_.map((subTask) => {
+            return { title: subTask.title, completed: true };
+          }),
           tags: tags_,
           completed: !completed_,
-          dueDate: new Date(),
+          dateUpdated: new Date(),
         },
         props.id
       );
       if (!completed_) {
-        setSubtasks(subtasks_.map((subTask) => [subTask[0], true]));
+        setSubtasks(
+          subtasks_.map((subTask) => {
+            return { title: subTask.title, completed: true };
+          })
+        );
       }
       setCompleted(!completed_);
     }
