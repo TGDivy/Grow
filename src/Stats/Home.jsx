@@ -51,8 +51,8 @@ const Home = () => {
       <Container>
         <Typography variant="h4">Home</Typography>
         <Typography variant="h5">Welcome {user.displayName} !</Typography>
-        <Typography variant="h5">{user.email}</Typography>
-        <Typography variant="h5">Total Sessions: {user.total_sess}</Typography>
+        {/* <Typography variant="h5">{user.email}</Typography> */}
+        {/* <Typography variant="h5">Total Sessions: {user.total_sess}</Typography> */}
       </Container>
     </>
   );
