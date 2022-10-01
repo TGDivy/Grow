@@ -12,6 +12,7 @@ import {
 import useTimerStore from "../Common/Stores/TimerStore";
 import useCurrentUser from "../Common/Contexts/UserContext";
 import { TransitionProps } from "@mui/material/transitions";
+import { MIN_STOPWATCH_DURATION } from "../Common/constants";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -38,7 +39,7 @@ const StopTimer: FC<Props> = ({ studyTime }) => {
   const resetTimer = useTimerStore((state) => state.resetTimer);
   const { user } = useCurrentUser();
 
-  const sufficientTime = studyTime > 60 * 100;
+  const sufficientTime = studyTime > MIN_STOPWATCH_DURATION;
 
   const handleClose = (end: boolean) => () => {
     if (end) {

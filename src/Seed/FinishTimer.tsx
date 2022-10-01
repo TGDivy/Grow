@@ -10,9 +10,9 @@ import {
 } from "@mui/material";
 import useTimerStore from "../Common/Stores/TimerStore";
 import useCurrentUser from "../Common/Contexts/UserContext";
-// import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
 import useWindowSize from "../Common/useWindowSize";
+import { MAX_STOPWATCH_DURATION } from "../Common/constants";
 
 type Props = {
   studyTime: number;
@@ -25,7 +25,7 @@ const FinishTimer = ({ studyTime }: Props) => {
 
   const { user } = useCurrentUser();
 
-  const sufficientTime = studyTime > 30;
+  const sufficientTime = studyTime > MAX_STOPWATCH_DURATION;
 
   const handleClose = () => {
     setOpen(false);

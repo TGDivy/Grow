@@ -6,6 +6,7 @@ import useTimerStore from "../Common/Stores/TimerStore";
 import ZenQuote from "./ZenQuote";
 import StopTimer from "./StopTimer";
 import FinishTimer from "./FinishTimer";
+import { MAX_STOPWATCH_DURATION } from "../Common/constants";
 
 const timeElapsed = (startTime: Date) => {
   return Math.ceil((new Date().getTime() - startTime.getTime()) / 1000);
@@ -33,9 +34,9 @@ const Timer = () => {
       return;
     }
     let interval: NodeJS.Timeout;
-    if (studyTime >= 60) {
+    if (studyTime >= MAX_STOPWATCH_DURATION) {
       interval = setInterval(() => {
-        setStudyTime(60);
+        setStudyTime(MAX_STOPWATCH_DURATION);
       }, 200);
     } else {
       interval = setInterval(() => {
