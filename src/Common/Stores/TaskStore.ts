@@ -106,11 +106,6 @@ const useTaskStore = create<taskListStoreType>()(
           }
           return newState;
         },
-        // serialize: (state) => {
-        //     const newState = state;
-        //     newState.state.dateUpdated = new Date();
-        //     return JSON.stringify(newState);
-        //     },
       }
     ),
     {
