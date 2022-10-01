@@ -85,7 +85,7 @@ const TimerTask = () => {
   return (
     <>
       <Grid item xs={8}>
-        <Box sx={{ minHeight: "60vh" }}>{TaskOrAdd()}</Box>
+        <Box>{TaskOrAdd()}</Box>
       </Grid>
     </>
   );
