@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Container, Grid, Stack } from "@mui/material";
+import { Container, Stack } from "@mui/material";
 import Timer from "./Timer";
 import TimerTask from "./AddTask";
 
@@ -9,14 +9,7 @@ const SeedMain = () => {
 
   return (
     <Container maxWidth="sm">
-      <Stack
-        // container
-        // direction="column"
-        // justifyContent="center"
-        spacing={1}
-        // style={{ minHeight: "calc(100vh - 50px)" }}
-        // border={1}
-      >
+      <Stack spacing={1}>
         <Timer />
         <TimerTask />
       </Stack>
