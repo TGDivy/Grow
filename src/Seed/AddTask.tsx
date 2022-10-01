@@ -74,7 +74,6 @@ const TimerTask = () => {
             justifyContent: "center",
             alignItems: "end",
             height: "inherit",
-            minHeight: "60vh",
           }}
         >
           {tasksToAdd}
