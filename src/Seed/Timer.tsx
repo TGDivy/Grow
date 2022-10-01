@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 
 import useTimerStore from "../Stores/TimerStore";
-import useDailyStore from "../Stores/DailyStore";
 import { Box, Typography, Button } from "@mui/material";
 
 import { Stop, PlayArrow } from "@mui/icons-material";
 import useCurrentUser from "../contexts/UserContext";
+import ZenQuote from "./ZenQuote";
 
 const timeElapsed = (startTime: Date) => {
   return Math.ceil((new Date().getTime() - startTime.getTime()) / 1000);
@@ -28,17 +28,8 @@ const Timer = () => {
   const active = useTimerStore((state) => state.active);
   const startTimer = useTimerStore((state) => state.startTimer);
   const stopTimer = useTimerStore((state) => state.stopTimer);
-  const quoteDate = useDailyStore((state) => state.date);
-  const setQuote = useDailyStore((state) => state.setQuote);
-  const quote = useDailyStore((state) => state.quote);
-  const author = useDailyStore((state) => state.author);
 
   const { user } = useCurrentUser();
-
-  console.log(timeElapsed(quoteDate));
-  if (timeElapsed(quoteDate) > 60 * 60 * 24) {
-    setQuote();
-  }
 
   const onStop = () => {
     stopTimer(user.uid);
@@ -79,9 +70,7 @@ const Timer = () => {
           alignItems: "center",
         }}
       >
-        <Typography variant="body2" align="center">
-          {quote} - {author}
-        </Typography>
+        <ZenQuote />
       </Box>
       <Box sx={{ display: "flex", justifyContent: "center", minHeight: "7vh" }}>
         {active ? (

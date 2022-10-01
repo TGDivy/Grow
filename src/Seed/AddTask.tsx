@@ -21,7 +21,7 @@ const TimerTask = () => {
 
   const tasks = useTaskStore((state) => state.tasks);
 
-  const [task, setTask] = useState<taskType>();
+  const [task, setTask] = useState<taskType | undefined>();
   useEffect(() => {
     if (taskKey) {
       setTask(tasks[taskKey]);
@@ -37,8 +37,6 @@ const TimerTask = () => {
         Select Task
       </InputLabel>
       <Select
-        labelId="demo-simple-select-standard-label"
-        id="demo-simple-select-standard"
         onChange={(event: SelectChangeEvent) => addTask(event.target.value)}
         label="Age"
       >
