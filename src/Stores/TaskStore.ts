@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import create from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import { taskType, tasksListType, taskChangeType } from "./Types";
+import { taskType, tasksListType, taskChangeType } from "../Types/Types";
 import produce from "immer";
 
 import {

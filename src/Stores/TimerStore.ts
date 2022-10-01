@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import create from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import { tagsType, timerType } from "./Types";
+import { tagsType, timerType } from "../Types/Types";
 
 import {
   setDoc,
@@ -15,7 +15,7 @@ import { db } from "./../firebase-config";
 
 interface timerStoreType extends timerType {
   startTimer: () => void;
-  stopTimer: (user_id: string) => void;
+  stopTimer: (user_id: string, duration: number) => void;
   addTask: (id: string) => void;
   deleteTask: () => void;
   addTag: (tag: tagsType) => void;
@@ -52,17 +52,17 @@ const useTimerStore = create<timerStoreType>()(
       (set) => ({
         active: false,
         startTime: new Date(),
-        endTime: new Date(),
+        duration: 0,
         taskKey: "",
         tags: [],
 
         startTimer: () => set(() => ({ active: true, startTime: new Date() })),
-        stopTimer: (user_id: string) =>
+        stopTimer: (user_id: string, duration: number) =>
           set((state) => {
             const endState = {
               ...state,
               active: false,
-              endTime: new Date(),
+              duration: duration,
             };
             pushStudyTime(timerStoreTypeToTimerType(endState), user_id);
             console.log(timerStoreTypeToTimerType(endState));
@@ -72,7 +72,7 @@ const useTimerStore = create<timerStoreType>()(
           set(() => ({
             active: false,
             startTime: new Date(),
-            endTime: new Date(),
+            duration: 0,
           })),
         addTask: (id: string) => set((state) => ({ taskKey: id })),
         deleteTask: () => set((state) => ({ taskKey: "" })),

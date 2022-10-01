@@ -6,7 +6,7 @@ import { Checkbox, IconButton } from "@mui/material";
 import { Delete, Add } from "@mui/icons-material";
 import { Collapse } from "@mui/material";
 
-import { subtaskType } from "../../Stores/Types";
+import { subtaskType } from "../../Types/Types";
 
 interface SubTaskListProps {
   subTasks: Array<subtaskType>;

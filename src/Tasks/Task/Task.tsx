@@ -19,7 +19,7 @@ import StartTimer from "./StartTimer";
 import SubTaskList from "./SubTaskList";
 import Tags from "./Tags";
 import Title from "./Title";
-import { taskType } from "../../Stores/Types";
+import { taskType } from "../../Types/Types";
 
 import useTaskStore from "../../Stores/TaskStore";
 

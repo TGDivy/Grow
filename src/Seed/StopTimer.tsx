@@ -43,7 +43,7 @@ const StopTimer: FC<Props> = ({ studyTime }) => {
   const handleClose = (end: boolean) => () => {
     if (end) {
       if (sufficientTime) {
-        stopTimer(user.uid);
+        stopTimer(user.uid, studyTime);
       } else {
         resetTimer();
       }

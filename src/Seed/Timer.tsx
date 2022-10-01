@@ -5,6 +5,7 @@ import useTimerStore from "../Stores/TimerStore";
 
 import ZenQuote from "./ZenQuote";
 import StopTimer from "./StopTimer";
+import FinishTimer from "./FinishTimer";
 
 const timeElapsed = (startTime: Date) => {
   return Math.ceil((new Date().getTime() - startTime.getTime()) / 1000);
@@ -31,9 +32,16 @@ const Timer = () => {
       setStudyTime(0);
       return;
     }
-    const interval = setInterval(() => {
-      setStudyTime(Math.ceil(timeElapsed(startTime)));
-    }, 200);
+    let interval: NodeJS.Timeout;
+    if (studyTime >= 60) {
+      interval = setInterval(() => {
+        setStudyTime(60);
+      }, 200);
+    } else {
+      interval = setInterval(() => {
+        setStudyTime(Math.ceil(timeElapsed(startTime)));
+      }, 200);
+    }
 
     return () => clearInterval(interval);
   }, [studyTime, active]);
@@ -66,6 +74,7 @@ const Timer = () => {
       <Box sx={{ display: "flex", justifyContent: "center", minHeight: "7vh" }}>
         <StopTimer studyTime={studyTime} />
       </Box>
+      <FinishTimer studyTime={studyTime} />
     </>
   );
 };

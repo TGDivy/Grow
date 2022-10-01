@@ -4,7 +4,7 @@ import useTimerStore from "../Stores/TimerStore";
 import useTaskStore from "../Stores/TaskStore";
 import { Button, Box, Grid } from "@mui/material";
 import Task from "../Tasks/Task/Task";
-import { taskType } from "../Stores/Types";
+import { taskType } from "../Types/Types";
 import {
   FormControl,
   InputLabel,

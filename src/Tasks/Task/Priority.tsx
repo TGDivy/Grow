@@ -2,7 +2,7 @@ import React, { FC, useState } from "react";
 import { MenuItem, Menu, IconButton, Avatar, Button } from "@mui/material";
 import { PriorityHigh } from "@mui/icons-material";
 
-import { priorityType } from "../../Stores/Types";
+import { priorityType } from "../../Types/Types";
 
 type priorityElement = {
   [key in priorityType]: JSX.Element;

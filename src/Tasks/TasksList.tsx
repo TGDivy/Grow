@@ -5,7 +5,7 @@ import CreateTask from "./CreateTask";
 
 import useTaskStore from "../Stores/TaskStore";
 import _ from "lodash";
-import { tasksListType, taskType } from "../Stores/Types";
+import { tasksListType, taskType } from "../Types/Types";
 import {
   collection,
   CollectionReference,
