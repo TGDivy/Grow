@@ -87,7 +87,6 @@ const useTimerStore = create<timerStoreType>()(
         deserialize: (state) => {
           const newState = JSON.parse(state);
           newState.state.startTime = new Date(newState.state.startTime);
-          newState.state.endTime = new Date(newState.state.endTime);
           return newState;
         },
       }
