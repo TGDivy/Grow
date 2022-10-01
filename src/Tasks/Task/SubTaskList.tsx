@@ -37,7 +37,10 @@ const SubTaskList: FC<SubTaskListProps> = ({
 
   const handleToggleSubTask = (index: number) => {
     const array = [...subTasks];
-    array[index].completed = !array[index].completed;
+    array[index] = {
+      completed: !array[index].completed,
+      title: array[index].title,
+    };
     setSubTasks(array);
     handleSave();
   };
