@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import useTimerStore from "../Stores/TimerStore";
 
-import { PlayArrow, Stop } from "@mui/icons-material";
 import ZenQuote from "./ZenQuote";
 import ConfirmDialog from "./ConfirmDialog";
 
@@ -27,8 +26,6 @@ const Timer = () => {
   const [studyTime, setStudyTime] = useState<number>(timeElapsed(startTime));
   const active = useTimerStore((state) => state.active);
 
-  const [giveUp, setGiveUp] = useState<boolean>(false);
-
   useEffect(() => {
     if (!active) {
       setStudyTime(0);
@@ -40,16 +37,6 @@ const Timer = () => {
 
     return () => clearInterval(interval);
   }, [studyTime, active]);
-
-  const GiveUp = () => {
-    return (
-      <>
-        <Button onClick={() => setGiveUp(true)} size="large">
-          <Stop fontSize="large" /> Give up
-        </Button>
-      </>
-    );
-  };
 
   return (
     <>
