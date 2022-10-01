@@ -1,7 +1,7 @@
 import React from "react";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { Button, Container, Grid } from "@mui/material";
-import { auth } from "./firebase-config";
+import { auth } from "./Common/Firestore/firebase-config";
 
 const LoginPage = () => {
   const signInWithGoogle = () => {

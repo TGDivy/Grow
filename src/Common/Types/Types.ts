@@ -49,7 +49,7 @@ export interface tasksListType {
 export interface timerType {
   active: boolean;
   startTime: Date;
-  endTime: Date;
+  duration: number;
   taskKey: string;
   tags: Array<tagsType>;
 }

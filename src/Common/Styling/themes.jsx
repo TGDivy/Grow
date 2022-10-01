@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createTheme } from "@mui/material/styles";
 
 // Primary and secondary colors are compliments of each other
@@ -82,6 +83,7 @@ const Theme = createTheme({
     },
     error: {
       main: Error,
+      backgroundColor: Error,
     },
   },
 });

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-import useTimerStore from "../Stores/TimerStore";
-import useTaskStore from "../Stores/TaskStore";
+import useTimerStore from "../Common/Stores/TimerStore";
+import useTaskStore from "../Common/Stores/TaskStore";
 import { Button, Box, Grid } from "@mui/material";
 import Task from "../Tasks/Task/Task";
-import { taskType } from "../Stores/Types";
+import { taskType } from "../Common/Types/Types";
 import {
   FormControl,
   InputLabel,
@@ -12,6 +12,7 @@ import {
   MenuItem,
   SelectChangeEvent,
 } from "@mui/material";
+import _ from "lodash";
 
 const TimerTask = () => {
   const active = useTimerStore((state) => state.active);
@@ -20,29 +21,30 @@ const TimerTask = () => {
   const deleteTask = useTimerStore((state) => state.deleteTask);
 
   const tasks = useTaskStore((state) => state.tasks);
+  const completedTasks = _.flow(
+    Object.entries,
+    (arr) => arr.filter(([, task]) => task.completed === false),
+    Object.fromEntries
+  )(tasks);
 
-  const [task, setTask] = useState<taskType>();
+  const [task, setTask] = useState<taskType | null>(null);
   useEffect(() => {
     if (taskKey) {
       setTask(tasks[taskKey]);
     } else {
-      setTask(undefined);
+      setTask(null);
     }
   }, [taskKey, tasks]);
 
   // Get tasks by title
   const tasksToAdd = (
     <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-      <InputLabel id="demo-simple-select-standard-label">
-        Select Task
-      </InputLabel>
+      <InputLabel>Select Task</InputLabel>
       <Select
-        labelId="demo-simple-select-standard-label"
-        id="demo-simple-select-standard"
         onChange={(event: SelectChangeEvent) => addTask(event.target.value)}
-        label="Age"
+        defaultValue=""
       >
-        {Object.keys(tasks).map((key) => (
+        {Object.keys(completedTasks).map((key) => (
           <MenuItem value={key} key={key}>
             {tasks[key].title}
           </MenuItem>
@@ -74,7 +76,6 @@ const TimerTask = () => {
             justifyContent: "center",
             alignItems: "end",
             height: "inherit",
-            minHeight: "60vh",
           }}
         >
           {tasksToAdd}
@@ -86,7 +87,7 @@ const TimerTask = () => {
   return (
     <>
       <Grid item xs={8}>
-        <Box sx={{ minHeight: "60vh" }}>{TaskOrAdd()}</Box>
+        <Box>{TaskOrAdd()}</Box>
       </Grid>
     </>
   );

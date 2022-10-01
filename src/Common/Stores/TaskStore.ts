@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import create from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import { taskType, tasksListType, taskChangeType } from "./Types";
+import { taskType, tasksListType, taskChangeType } from "../Types/Types";
 import produce from "immer";
 
 import {
@@ -11,7 +11,7 @@ import {
   doc,
   increment,
 } from "firebase/firestore";
-import { db } from "./../firebase-config";
+import { db } from "../Firestore/firebase-config";
 
 interface taskListStoreType {
   addTask: (task: taskType, id: string) => void;
@@ -38,6 +38,7 @@ const updateTask = async (
   user_id: string
 ) => {
   const plowDocRef = doc(db, "users", user_id, "plow", task_id);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const changes: any = {};
   (Object.keys(task as taskType) as Array<key>).forEach((key) => {
     if (task[key] !== taskUpdate[key]) {

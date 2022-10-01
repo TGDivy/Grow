@@ -1,4 +1,4 @@
-import { db } from "./../firebase-config";
+import { db } from "./firebase-config";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 
 const addUser = async (user) => {

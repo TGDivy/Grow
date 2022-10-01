@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import addUser from "../firestore/addUser";
+import addUser from "../Firestore/addUser";
 import useTaskStore from "../Stores/TaskStore";
 
 export const CurrentUserContext = React.createContext();

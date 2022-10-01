@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
-import useTimerStore from "../Stores/TimerStore";
-import useDailyStore from "../Stores/DailyStore";
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import useTimerStore from "../Common/Stores/TimerStore";
 
-import { Stop, PlayArrow } from "@mui/icons-material";
-import useCurrentUser from "../contexts/UserContext";
+import ZenQuote from "./ZenQuote";
+import StopTimer from "./StopTimer";
+import FinishTimer from "./FinishTimer";
+import { MAX_STOPWATCH_DURATION } from "../Common/constants";
 
 const timeElapsed = (startTime: Date) => {
   return Math.ceil((new Date().getTime() - startTime.getTime()) / 1000);
@@ -26,32 +27,22 @@ const Timer = () => {
   const startTime = useTimerStore((state) => state.startTime);
   const [studyTime, setStudyTime] = useState<number>(timeElapsed(startTime));
   const active = useTimerStore((state) => state.active);
-  const startTimer = useTimerStore((state) => state.startTimer);
-  const stopTimer = useTimerStore((state) => state.stopTimer);
-  const quoteDate = useDailyStore((state) => state.date);
-  const setQuote = useDailyStore((state) => state.setQuote);
-  const quote = useDailyStore((state) => state.quote);
-  const author = useDailyStore((state) => state.author);
-
-  const { user } = useCurrentUser();
-
-  console.log(timeElapsed(quoteDate));
-  if (timeElapsed(quoteDate) > 60 * 60 * 24) {
-    setQuote();
-  }
-
-  const onStop = () => {
-    stopTimer(user.uid);
-  };
 
   useEffect(() => {
     if (!active) {
       setStudyTime(0);
       return;
     }
-    const interval = setInterval(() => {
-      setStudyTime(Math.ceil(timeElapsed(startTime)));
-    }, 200);
+    let interval: NodeJS.Timeout;
+    if (studyTime >= MAX_STOPWATCH_DURATION) {
+      interval = setInterval(() => {
+        setStudyTime(MAX_STOPWATCH_DURATION);
+      }, 200);
+    } else {
+      interval = setInterval(() => {
+        setStudyTime(Math.ceil(timeElapsed(startTime)));
+      }, 200);
+    }
 
     return () => clearInterval(interval);
   }, [studyTime, active]);
@@ -79,21 +70,12 @@ const Timer = () => {
           alignItems: "center",
         }}
       >
-        <Typography variant="body2" align="center">
-          {quote} - {author}
-        </Typography>
+        <ZenQuote />
       </Box>
       <Box sx={{ display: "flex", justifyContent: "center", minHeight: "7vh" }}>
-        {active ? (
-          <Button onClick={onStop} size="large">
-            <Stop fontSize="large" />
-          </Button>
-        ) : (
-          <Button onClick={startTimer} size="large">
-            <PlayArrow fontSize="large" />
-          </Button>
-        )}
+        <StopTimer studyTime={studyTime} />
       </Box>
+      <FinishTimer studyTime={studyTime} />
     </>
   );
 };

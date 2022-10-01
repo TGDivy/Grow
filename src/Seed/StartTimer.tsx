@@ -1,6 +1,6 @@
 import React from "react";
 
-import useTimerStore from "../Stores/TimerStore";
+import useTimerStore from "../Common/Stores/TimerStore";
 import { Button, Container, Grid } from "@mui/material";
 
 const StartTimer = () => {
