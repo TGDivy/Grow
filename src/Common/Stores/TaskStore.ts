@@ -38,6 +38,7 @@ const updateTask = async (
   user_id: string
 ) => {
   const plowDocRef = doc(db, "users", user_id, "plow", task_id);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const changes: any = {};
   (Object.keys(task as taskType) as Array<key>).forEach((key) => {
     if (task[key] !== taskUpdate[key]) {
