@@ -8,11 +8,11 @@ import {
   DialogContentText,
   DialogContent,
 } from "@mui/material";
-import useTimerStore from "../Stores/TimerStore";
-import useCurrentUser from "../contexts/UserContext";
+import useTimerStore from "../Common/Stores/TimerStore";
+import useCurrentUser from "../Common/Contexts/UserContext";
 // import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
-import useWindowSize from "../Utils/useWindowSize";
+import useWindowSize from "../Common/useWindowSize";
 
 type Props = {
   studyTime: number;

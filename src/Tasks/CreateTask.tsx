@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import Task from "./Task/Task";
-import { taskType } from "../Types/Types";
+import { taskType } from "../Common/Types/Types";
 import { v4 as uuid_v4 } from "uuid";
 
 interface createTaskFc {

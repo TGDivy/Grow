@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { Container, Typography } from "@mui/material";
 
-import useCurrentUser from "../contexts/UserContext";
-import { db } from "../firebase-config";
+import useCurrentUser from "../Common/Contexts/UserContext";
+import { db } from "../Common/Firestore/firebase-config";
 import {
   onSnapshot,
   doc,

@@ -1,7 +1,7 @@
 import React, { FC, useState, MouseEvent } from "react";
 import { Box, Chip, Menu, MenuItem } from "@mui/material";
 import { Add } from "@mui/icons-material";
-import { tagsType } from "../../Types/Types";
+import { tagsType } from "../../Common/Types/Types";
 
 interface tagsFc {
   tags: Array<tagsType>;

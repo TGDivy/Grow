@@ -9,8 +9,8 @@ import {
   DialogTitle,
   Button,
 } from "@mui/material";
-import useTimerStore from "../Stores/TimerStore";
-import useCurrentUser from "../contexts/UserContext";
+import useTimerStore from "../Common/Stores/TimerStore";
+import useCurrentUser from "../Common/Contexts/UserContext";
 import { TransitionProps } from "@mui/material/transitions";
 
 const Transition = React.forwardRef(function Transition(

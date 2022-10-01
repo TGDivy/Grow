@@ -19,9 +19,9 @@ import StartTimer from "./StartTimer";
 import SubTaskList from "./SubTaskList";
 import Tags from "./Tags";
 import Title from "./Title";
-import { taskType } from "../../Types/Types";
+import { taskType } from "../../Common/Types/Types";
 
-import useTaskStore from "../../Stores/TaskStore";
+import useTaskStore from "../../Common/Stores/TaskStore";
 
 interface taskFC extends taskType {
   id: string;

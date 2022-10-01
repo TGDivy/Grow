@@ -1,5 +1,5 @@
 import React from "react";
-import useDailyStore from "../Stores/DailyStore";
+import useDailyStore from "../Common/Stores/DailyStore";
 import { Typography } from "@mui/material";
 
 const timeElapsed = (startTime: Date) => {

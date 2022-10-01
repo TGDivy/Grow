@@ -3,7 +3,7 @@ import { Box, Button } from "@mui/material";
 import { PlayArrow } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
-import useTimerStore from "../../Stores/TimerStore";
+import useTimerStore from "../../Common/Stores/TimerStore";
 interface startTimerProps {
   id: string;
 }

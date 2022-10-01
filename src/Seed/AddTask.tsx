@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-import useTimerStore from "../Stores/TimerStore";
-import useTaskStore from "../Stores/TaskStore";
+import useTimerStore from "../Common/Stores/TimerStore";
+import useTaskStore from "../Common/Stores/TaskStore";
 import { Button, Box, Grid } from "@mui/material";
 import Task from "../Tasks/Task/Task";
-import { taskType } from "../Types/Types";
+import { taskType } from "../Common/Types/Types";
 import {
   FormControl,
   InputLabel,

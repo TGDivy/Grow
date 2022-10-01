@@ -11,7 +11,7 @@ import {
   increment,
   addDoc,
 } from "firebase/firestore";
-import { db } from "./../firebase-config";
+import { db } from "../Firestore/firebase-config";
 
 interface timerStoreType extends timerType {
   startTimer: () => void;

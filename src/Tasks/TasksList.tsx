@@ -3,9 +3,9 @@ import { Grid } from "@mui/material";
 import Task from "./Task/Task";
 import CreateTask from "./CreateTask";
 
-import useTaskStore from "../Stores/TaskStore";
+import useTaskStore from "../Common/Stores/TaskStore";
 import _ from "lodash";
-import { tasksListType, taskType } from "../Types/Types";
+import { tasksListType, taskType } from "../Common/Types/Types";
 import {
   collection,
   CollectionReference,
@@ -13,7 +13,7 @@ import {
   where,
   getDocs,
 } from "firebase/firestore";
-import { db } from "../firebase-config";
+import { db } from "../Common/Firestore/firebase-config";
 
 interface tasksListFC {
   taskListName: string;

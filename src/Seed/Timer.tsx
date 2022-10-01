@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { Box, Typography } from "@mui/material";
-import useTimerStore from "../Stores/TimerStore";
+import useTimerStore from "../Common/Stores/TimerStore";
 
 import ZenQuote from "./ZenQuote";
 import StopTimer from "./StopTimer";

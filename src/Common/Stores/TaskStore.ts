@@ -11,7 +11,7 @@ import {
   doc,
   increment,
 } from "firebase/firestore";
-import { db } from "./../firebase-config";
+import { db } from "../Firestore/firebase-config";
 
 interface taskListStoreType {
   addTask: (task: taskType, id: string) => void;
