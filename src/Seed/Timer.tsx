@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
+import { Box, Button, Typography } from "@mui/material";
 import useTimerStore from "../Stores/TimerStore";
-import { Box, Typography, Button } from "@mui/material";
 
-import { Stop, PlayArrow } from "@mui/icons-material";
-import useCurrentUser from "../contexts/UserContext";
+import { PlayArrow, Stop } from "@mui/icons-material";
 import ZenQuote from "./ZenQuote";
+import ConfirmDialog from "./ConfirmDialog";
 
 const timeElapsed = (startTime: Date) => {
   return Math.ceil((new Date().getTime() - startTime.getTime()) / 1000);
@@ -26,14 +26,8 @@ const Timer = () => {
   const startTime = useTimerStore((state) => state.startTime);
   const [studyTime, setStudyTime] = useState<number>(timeElapsed(startTime));
   const active = useTimerStore((state) => state.active);
-  const startTimer = useTimerStore((state) => state.startTimer);
-  const stopTimer = useTimerStore((state) => state.stopTimer);
 
-  const { user } = useCurrentUser();
-
-  const onStop = () => {
-    stopTimer(user.uid);
-  };
+  const [giveUp, setGiveUp] = useState<boolean>(false);
 
   useEffect(() => {
     if (!active) {
@@ -46,6 +40,16 @@ const Timer = () => {
 
     return () => clearInterval(interval);
   }, [studyTime, active]);
+
+  const GiveUp = () => {
+    return (
+      <>
+        <Button onClick={() => setGiveUp(true)} size="large">
+          <Stop fontSize="large" /> Give up
+        </Button>
+      </>
+    );
+  };
 
   return (
     <>
@@ -73,15 +77,7 @@ const Timer = () => {
         <ZenQuote />
       </Box>
       <Box sx={{ display: "flex", justifyContent: "center", minHeight: "7vh" }}>
-        {active ? (
-          <Button onClick={onStop} size="large">
-            <Stop fontSize="large" />
-          </Button>
-        ) : (
-          <Button onClick={startTimer} size="large">
-            <PlayArrow fontSize="large" />
-          </Button>
-        )}
+        <ConfirmDialog studyTime={studyTime} />
       </Box>
     </>
   );

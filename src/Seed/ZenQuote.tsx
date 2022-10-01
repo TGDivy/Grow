@@ -11,7 +11,6 @@ const ZenQuote = () => {
   const setQuote = useDailyStore((state) => state.setQuote);
   const quote = useDailyStore((state) => state.quote);
   const author = useDailyStore((state) => state.author);
-  console.log(timeElapsed(quoteDate));
   if (timeElapsed(quoteDate) > 60 * 60 * 24) {
     setQuote();
   }

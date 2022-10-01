@@ -82,6 +82,7 @@ const Theme = createTheme({
     },
     error: {
       main: Error,
+      backgroundColor: Error,
     },
   },
 });
