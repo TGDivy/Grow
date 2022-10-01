@@ -30,7 +30,7 @@ type Props = {
   studyTime: number;
 };
 
-const ConfirmDialog: FC<Props> = ({ studyTime }) => {
+const StopTimer: FC<Props> = ({ studyTime }) => {
   const [open, setOpen] = React.useState(false);
   const active = useTimerStore((state) => state.active);
   const startTimer = useTimerStore((state) => state.startTimer);
@@ -108,4 +108,4 @@ const ConfirmDialog: FC<Props> = ({ studyTime }) => {
   );
 };
 
-export default memo(ConfirmDialog);
+export default memo(StopTimer);

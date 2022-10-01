@@ -4,7 +4,7 @@ import { Box, Typography } from "@mui/material";
 import useTimerStore from "../Stores/TimerStore";
 
 import ZenQuote from "./ZenQuote";
-import ConfirmDialog from "./ConfirmDialog";
+import StopTimer from "./StopTimer";
 
 const timeElapsed = (startTime: Date) => {
   return Math.ceil((new Date().getTime() - startTime.getTime()) / 1000);
@@ -64,7 +64,7 @@ const Timer = () => {
         <ZenQuote />
       </Box>
       <Box sx={{ display: "flex", justifyContent: "center", minHeight: "7vh" }}>
-        <ConfirmDialog studyTime={studyTime} />
+        <StopTimer studyTime={studyTime} />
       </Box>
     </>
   );
