@@ -12,6 +12,7 @@ import {
   MenuItem,
   SelectChangeEvent,
 } from "@mui/material";
+import _ from "lodash";
 
 const TimerTask = () => {
   const active = useTimerStore((state) => state.active);
@@ -20,6 +21,11 @@ const TimerTask = () => {
   const deleteTask = useTimerStore((state) => state.deleteTask);
 
   const tasks = useTaskStore((state) => state.tasks);
+  const completedTasks = _.flow(
+    Object.entries,
+    (arr) => arr.filter(([, task]) => task.completed === false),
+    Object.fromEntries
+  )(tasks);
 
   const [task, setTask] = useState<taskType | null>(null);
   useEffect(() => {
@@ -38,7 +44,7 @@ const TimerTask = () => {
         onChange={(event: SelectChangeEvent) => addTask(event.target.value)}
         defaultValue=""
       >
-        {Object.keys(tasks).map((key) => (
+        {Object.keys(completedTasks).map((key) => (
           <MenuItem value={key} key={key}>
             {tasks[key].title}
           </MenuItem>
