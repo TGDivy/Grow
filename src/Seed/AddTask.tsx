@@ -21,24 +21,22 @@ const TimerTask = () => {
 
   const tasks = useTaskStore((state) => state.tasks);
 
-  const [task, setTask] = useState<taskType | undefined>();
+  const [task, setTask] = useState<taskType | null>(null);
   useEffect(() => {
     if (taskKey) {
       setTask(tasks[taskKey]);
     } else {
-      setTask(undefined);
+      setTask(null);
     }
   }, [taskKey, tasks]);
 
   // Get tasks by title
   const tasksToAdd = (
     <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-      <InputLabel id="demo-simple-select-standard-label">
-        Select Task
-      </InputLabel>
+      <InputLabel>Select Task</InputLabel>
       <Select
         onChange={(event: SelectChangeEvent) => addTask(event.target.value)}
-        label="Age"
+        defaultValue=""
       >
         {Object.keys(tasks).map((key) => (
           <MenuItem value={key} key={key}>
