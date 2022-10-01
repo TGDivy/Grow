@@ -10,6 +10,7 @@ import {
   updateDoc,
   doc,
   increment,
+  deleteDoc,
 } from "firebase/firestore";
 import { db } from "../Firestore/firebase-config";
 
@@ -27,6 +28,14 @@ const addTask = async (task_id: string, task: taskType, user_id: string) => {
   await setDoc(plowDocRef, task);
 
   console.log("Document written with ID: ", task_id);
+};
+
+const deleteTask = async (task_id: string, user_id: string) => {
+  const plowDocRef = doc(db, "users", user_id, "plow", task_id);
+
+  await deleteDoc(plowDocRef);
+
+  console.log("Document deleted with ID: ", task_id);
 };
 
 type key = keyof taskType;
@@ -68,10 +77,13 @@ const useTaskStore = create<taskListStoreType>()(
           ),
 
         deleteTask: (id: string) =>
-          set((state) => {
-            const { [id]: value, ...newState } = state.tasks;
-            return { tasks: newState };
-          }),
+          set(
+            produce((state) => {
+              deleteTask(id, state.user_id);
+              const { [id]: value, ...newState } = state.tasks;
+              return { tasks: newState };
+            })
+          ),
         editTask: (task: taskType, id: string) =>
           set(
             produce((state) => {
