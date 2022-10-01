@@ -1,5 +1,5 @@
 import React, { memo, useEffect } from "react";
-import { Check, PartyMode } from "@mui/icons-material";
+import { Check } from "@mui/icons-material";
 import {
   Dialog,
   DialogActions,
@@ -21,6 +21,8 @@ type Props = {
 const FinishTimer = ({ studyTime }: Props) => {
   const [open, setOpen] = React.useState(false);
   const stopTimer = useTimerStore((state) => state.stopTimer);
+  const active = useTimerStore((state) => state.active);
+
   const { user } = useCurrentUser();
 
   const sufficientTime = studyTime > 30;
@@ -35,7 +37,7 @@ const FinishTimer = ({ studyTime }: Props) => {
   };
 
   useEffect(() => {
-    if (sufficientTime) {
+    if (sufficientTime && active) {
       handleOpen();
     }
   }, [sufficientTime]);
