@@ -10,7 +10,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 const App = () => {
   const { user } = useCurrentUser();
-  const [section, setSection] = React.useState("home");
 
   const renderSection = () => {
     if (!user) return <Route path="/" element={<LoginPage />} />;
@@ -31,7 +30,7 @@ const App = () => {
             <Routes>{renderSection()}</Routes>
           </Container>
         </div>
-        <BottomNavigationBar section={section} setSection={setSection} />
+        <BottomNavigationBar />
       </>
     </Router>
   );

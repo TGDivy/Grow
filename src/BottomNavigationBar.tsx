@@ -10,7 +10,7 @@ interface Props {
   setSection: (section: string) => void;
 }
 
-const BottomNavigationBar: FC<Props> = ({ section, setSection }) => {
+const BottomNavigationBar: FC<Props> = () => {
   const location = useLocation();
 
   return (

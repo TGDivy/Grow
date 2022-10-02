@@ -8,12 +8,12 @@ import Theme from "./Common/Styling/themes";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <CurrentUserProvider>
-      <ThemeProvider theme={Theme}>
-        <CssBaseline />
-        <App />
-      </ThemeProvider>
-    </CurrentUserProvider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <CurrentUserProvider>
+    <ThemeProvider theme={Theme}>
+      <CssBaseline />
+      <App />
+    </ThemeProvider>
+  </CurrentUserProvider>
+  // </React.StrictMode>
 );
