@@ -6,9 +6,20 @@ import { useNavigate } from "react-router-dom";
 import useTimerStore from "../../Common/Stores/TimerStore";
 interface startTimerProps {
   id: string;
+  timeSpent?: number;
 }
 
-const StartTimer: FC<startTimerProps> = ({ id }) => {
+const formatTime = (time: number) => {
+  const minutes = Math.floor(time / 60);
+  const seconds = time - minutes * 60;
+  if (seconds < 10) {
+    return `${minutes}:0${seconds}`;
+  }
+
+  return `${minutes}:${seconds}`;
+};
+
+const StartTimer: FC<startTimerProps> = ({ id, timeSpent }) => {
   const active = useTimerStore((state) => state.active);
   const navigate = useNavigate();
   const startTimer = useTimerStore((state) => state.startTimer);
@@ -33,7 +44,9 @@ const StartTimer: FC<startTimerProps> = ({ id }) => {
       }}
     >
       <Button variant="outlined" fullWidth>
-        <Typography variant="caption">00:00</Typography>
+        <Typography variant="caption">
+          {timeSpent ? formatTime(timeSpent) : "00:00"}
+        </Typography>
       </Button>
       <Button variant="contained" fullWidth onClick={handleStart}>
         <PlayArrow fontSize="small" />{" "}

@@ -194,7 +194,7 @@ const Task: FC<taskFC> = (props) => {
             </Grid>
             <Grid item xs={6}>
               {props.startTimerButton && !editing && (
-                <StartTimer id={props.id} />
+                <StartTimer id={props.id} timeSpent={props.timeSpent} />
               )}
               {!props.createNewTask && editing && (
                 <Button
