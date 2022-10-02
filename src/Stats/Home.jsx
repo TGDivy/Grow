@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Container, Typography } from "@mui/material";
+import { Container, Typography, Box } from "@mui/material";
 
 import useCurrentUser from "../Common/Contexts/UserContext";
 import { db } from "../Common/Firestore/firebase-config";
@@ -7,14 +7,13 @@ import { onSnapshot, doc } from "firebase/firestore";
 
 import useTimerRecordsStore from "../Common/Stores/TimerRecordsStore";
 
+import WeeklyWorkStat from "./WeeklyWorkStat";
+
 const Home = () => {
   const { user, setUser } = useCurrentUser();
-  const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
   const addLatestTimerRecord = useTimerRecordsStore(
     (state) => state.addLatestTimerRecord
   );
-
-  console.log("timerRecords", timerRecords);
 
   useEffect(() => {
     const unsub = onSnapshot(
@@ -38,6 +37,20 @@ const Home = () => {
       <Container>
         <Typography variant="h4">Home</Typography>
         <Typography variant="h5">Welcome {user.displayName} !</Typography>
+        <Box sx={{ height: "20px" }} />
+
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            minHeight: "200px",
+          }}
+        >
+          <WeeklyWorkStat />
+        </Box>
       </Container>
     </>
   );
