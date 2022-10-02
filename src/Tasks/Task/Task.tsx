@@ -63,6 +63,7 @@ const Task: FC<taskFC> = (props) => {
           tags: tags_,
           completed: completed_,
           dateUpdated: new Date(),
+          timeSpent: props.timeSpent,
         },
         props.id
       );
@@ -85,6 +86,7 @@ const Task: FC<taskFC> = (props) => {
           tags: tags_,
           completed: completed_,
           dateUpdated: new Date(),
+          timeSpent: props.timeSpent,
         },
         props.id
       );
@@ -105,6 +107,7 @@ const Task: FC<taskFC> = (props) => {
           tags: tags_,
           completed: !completed_,
           dateUpdated: new Date(),
+          timeSpent: props.timeSpent,
         },
         props.id
       );

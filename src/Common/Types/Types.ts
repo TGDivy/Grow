@@ -29,6 +29,7 @@ export interface taskType {
   completed: boolean;
   subTasks: Array<subtaskType>;
   tags: Array<tagsType>;
+  timeSpent: number;
 }
 
 export interface taskChangeType {

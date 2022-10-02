@@ -17,6 +17,7 @@ const CreateTask: FC<createTaskFc> = ({ taskListName }) => {
     subTasks: [],
     tags: [],
     completed: false,
+    timeSpent: 0,
   };
 
   return <Task {...createTask} id={uuid_v4()} createNewTask />;

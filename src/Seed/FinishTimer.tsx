@@ -25,7 +25,7 @@ const FinishTimer = ({ studyTime }: Props) => {
 
   const { user } = useCurrentUser();
 
-  const sufficientTime = studyTime > MAX_STOPWATCH_DURATION;
+  const sufficientTime = studyTime >= MAX_STOPWATCH_DURATION;
 
   const handleClose = () => {
     setOpen(false);
