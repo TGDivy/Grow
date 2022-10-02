@@ -156,7 +156,7 @@ const Task: FC<taskFC> = (props) => {
             </>
           }
           action={
-            props.startTimerButton &&
+            true &&
             ((editing && (
               <IconButton aria-label="save" onClick={handleSave}>
                 <Save />

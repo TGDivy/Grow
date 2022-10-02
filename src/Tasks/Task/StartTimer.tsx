@@ -9,14 +9,15 @@ interface startTimerProps {
   timeSpent?: number;
 }
 
+// timeSpent is in seconds
+// if less than 10 hours, show minutes
+// if greater than 10 hours, show hours
 const formatTime = (time: number) => {
-  const minutes = Math.floor(time / 60);
-  const seconds = time - minutes * 60;
-  if (seconds < 10) {
-    return `${minutes}:0${seconds}`;
+  if (time < 36000) {
+    return `${Math.floor(time / 60)}m`;
+  } else {
+    return `${Math.floor(time / 3600)}h`;
   }
-
-  return `${minutes}:${seconds}`;
 };
 
 const StartTimer: FC<startTimerProps> = ({ id, timeSpent }) => {
@@ -45,7 +46,7 @@ const StartTimer: FC<startTimerProps> = ({ id, timeSpent }) => {
     >
       <Button variant="outlined" fullWidth>
         <Typography variant="caption">
-          {timeSpent ? formatTime(timeSpent) : "00:00"}
+          {timeSpent ? formatTime(timeSpent) : "0m"}
         </Typography>
       </Button>
       <Button variant="contained" fullWidth onClick={handleStart}>

@@ -23,6 +23,17 @@ const formatTime = (time: number) => {
   return `${minutes}:${seconds}`;
 };
 
+// timeSpent is in seconds
+// if less than 10 minutes, show seconds
+// if greater than 10 minutes, show minutes
+// const formatTime = (time: number) => {
+//   if (time < 600) {
+//     return `${time}S`;
+//   } else {
+//     return `${Math.floor(time / 60)}M`;
+//   }
+// };
+
 const Timer = () => {
   const startTime = useTimerStore((state) => state.startTime);
   const [studyTime, setStudyTime] = useState<number>(timeElapsed(startTime));
