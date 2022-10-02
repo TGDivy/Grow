@@ -156,7 +156,8 @@ const Task: FC<taskFC> = (props) => {
             </>
           }
           action={
-            (editing && (
+            props.startTimerButton &&
+            ((editing && (
               <IconButton aria-label="save" onClick={handleSave}>
                 <Save />
               </IconButton>
@@ -164,7 +165,7 @@ const Task: FC<taskFC> = (props) => {
               <IconButton aria-label="edit" onClick={handleEdit}>
                 <Edit color="primary" />
               </IconButton>
-            )
+            ))
           }
         />
         <CardContent sx={{ padding: "5px 20px 5px 20px" }}>

@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { PlayArrow } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
@@ -29,10 +29,14 @@ const StartTimer: FC<startTimerProps> = ({ id }) => {
         justifyContent: "center",
         alignItems: "center",
         width: "100%",
+        gap: 1,
       }}
     >
+      <Button variant="outlined" fullWidth>
+        <Typography variant="caption">00:00</Typography>
+      </Button>
       <Button variant="contained" fullWidth onClick={handleStart}>
-        <PlayArrow fontSize="small" />
+        <PlayArrow fontSize="small" />{" "}
       </Button>
     </Box>
   );
