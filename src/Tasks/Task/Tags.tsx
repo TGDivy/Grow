@@ -73,16 +73,19 @@ const Tags: FC<tagsFc> = ({ tags, editing, setTags }) => {
         </Menu>
         <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: 1 }}>
           <Chip
-            style={{
-              width: "30px",
-              height: "25px",
-              paddingLeft: "8px",
-              marginBottom: "5px",
-            }}
+            style={
+              {
+                // width: "30px",
+                // height: "25px",
+                // paddingLeft: "8px",
+                // marginBottom: "5px",
+              }
+            }
             icon={<Add />}
             color="primary"
             onClick={handleClickOpen}
             size="small"
+            label="Tag"
           />
 
           {tags.map((tag) => (

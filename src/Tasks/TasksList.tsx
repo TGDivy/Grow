@@ -49,12 +49,13 @@ const fetchNewDocs = async (
 };
 
 const TasksList: FC<tasksListFC> = ({ taskListName }) => {
-  let tasks = useTaskStore((state) => state.tasks);
+  const tasks = useTaskStore((state) => state.tasks);
   const addTask = useTaskStore((state) => state.addTask);
-  tasks = _.flow(
+  const tasksArray = _.flow(
     Object.entries,
     (arr) => arr.filter(([, task]) => task.taskListName === taskListName),
-    Object.fromEntries
+    (arr) => arr.reverse()
+    // (arr) => arr.sort(([, a], [, b]) => b.dateUpdated - a.dateUpdated),
   )(tasks);
 
   const user_id = useTaskStore((state) => state.user_id);
@@ -77,15 +78,15 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
       });
   }, []);
 
-  const displayTasks = Object.entries(tasks).map(([id, task]) => (
-    <Grid item xs={12} sm={6} md={4} lg={3} key={id}>
+  const displayTasks = tasksArray.map(([id, task]) => (
+    <Grid item xs={12} sm={6} md={4} lg={4} key={id}>
       <Task {...task} id={id} createNewTask={false} startTimerButton />
     </Grid>
   ));
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} sm={6} md={4} lg={3}>
+      <Grid item xs={12} sm={6} md={4} lg={4}>
         <CreateTask taskListName={taskListName} />
       </Grid>
       {displayTasks}

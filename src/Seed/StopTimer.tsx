@@ -1,5 +1,4 @@
 import React, { memo, FC } from "react";
-import Slide from "@mui/material/Slide";
 import { Check, Close, PlayArrow, Stop } from "@mui/icons-material";
 import {
   Dialog,
@@ -11,22 +10,9 @@ import {
 } from "@mui/material";
 import useTimerStore from "../Common/Stores/TimerStore";
 import useCurrentUser from "../Common/Contexts/UserContext";
-import { TransitionProps } from "@mui/material/transitions";
 import { MIN_STOPWATCH_DURATION } from "../Common/constants";
 import useTaskStore from "../Common/Stores/TaskStore";
-
-const Transition = React.forwardRef(function Transition(
-  props: TransitionProps & {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    children: React.ReactElement<any, any>;
-  },
-  ref: React.Ref<unknown>
-) {
-  if (!props.in) {
-    return <Slide direction="up" in ref={ref} {...props} />;
-  }
-  return <Slide direction="down" in ref={ref} {...props} />;
-});
+import Transition from "../Common/Utils/Transitions";
 
 type Props = {
   studyTime: number;
