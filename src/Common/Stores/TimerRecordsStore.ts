@@ -21,7 +21,7 @@ const getLatestTimerRecord = async (
     const querySnapshot = await getDocs(q);
     return querySnapshot;
   }
-  const latestRecordTime = timerRecords[-1].startTime;
+  const latestRecordTime = timerRecords[timerRecords.length - 1].startTime;
   const q = query(collectionRef, where("startTime", ">", latestRecordTime));
   const querySnapshot = await getDocs(q);
 
@@ -42,7 +42,7 @@ const useTimerRecordsStore = create<timerRecordsStoreType>()(
           querySnapshot
             .then((querySnapshot) => {
               querySnapshot.forEach((doc) => {
-                console.log(`${doc.id} => ${doc.data()}`);
+                console.log(`Fetch Sow Records => ${doc.id}`);
                 const timer = doc.data() as timerType;
                 addTimerRecord(timer);
               });
