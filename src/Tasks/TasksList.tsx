@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from "react";
-import { Grid } from "@mui/material";
+import { Grid, Stack } from "@mui/material";
 import Task from "./Task/Task";
 import CreateTask from "./CreateTask";
 
@@ -14,6 +14,13 @@ import {
   getDocs,
 } from "firebase/firestore";
 import { db } from "../Common/Firestore/firebase-config";
+import {
+  Accordion,
+  AccordionSummary,
+  Typography,
+  AccordionDetails,
+} from "@mui/material";
+import { ExpandMore } from "@mui/icons-material";
 
 interface tasksListFC {
   taskListName: string;
@@ -39,7 +46,6 @@ const fetchNewDocs = async (
     : new Date(2000, 1, 1);
 
   // Fetch tasks after the latest task date
-  console.log("latestTask", typeof latestDate);
 
   const q = query(collectionRef, where("dateUpdated", ">", latestDate));
 
@@ -51,11 +57,12 @@ const fetchNewDocs = async (
 const TasksList: FC<tasksListFC> = ({ taskListName }) => {
   const tasks = useTaskStore((state) => state.tasks);
   const addTask = useTaskStore((state) => state.addTask);
-  const tasksArray = _.flow(
+  const [tasksArray, completedArray] = _.flow(
     Object.entries,
     (arr) => arr.filter(([, task]) => task.taskListName === taskListName),
-    (arr) => arr.reverse()
-    // (arr) => arr.sort(([, a], [, b]) => b.dateUpdated - a.dateUpdated),
+    (arr) => arr.reverse(),
+    (arr) => _.partition(arr, ([, task]) => !task.completed)
+    // (arr) => _.partition(arr, ([, task]) => task.completed)
   )(tasks);
 
   const user_id = useTaskStore((state) => state.user_id);
@@ -66,7 +73,7 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
 
     querySnapshot
       .then((querySnapshot) => {
-        console.log("querySnapshot", querySnapshot);
+        // console.log("querySnapshot", querySnapshot);
         querySnapshot.forEach((doc) => {
           console.log(`${doc.id} => ${doc.data()}`);
           const task = doc.data() as taskType;
@@ -84,13 +91,41 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
     </Grid>
   ));
 
-  return (
-    <Grid container spacing={2}>
-      <Grid item xs={12} sm={6} md={4} lg={4}>
-        <CreateTask taskListName={taskListName} />
-      </Grid>
-      {displayTasks}
+  const completedTasks = completedArray.map(([id, task]) => (
+    <Grid item xs={12} sm={6} md={4} lg={4} key={id}>
+      <Task {...task} id={id} createNewTask={false} startTimerButton />
     </Grid>
+  ));
+
+  return (
+    <Stack direction="column" spacing={3}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6} md={4} lg={4}>
+          <CreateTask taskListName={taskListName} />
+        </Grid>
+        {displayTasks}
+      </Grid>
+      {completedTasks.length > 0 && (
+        <Accordion
+          sx={{
+            backgroundColor: "rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMore />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography variant="h6">Completed</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Grid container spacing={2}>
+              {completedTasks}
+            </Grid>
+          </AccordionDetails>
+        </Accordion>
+      )}
+    </Stack>
   );
 };
 
