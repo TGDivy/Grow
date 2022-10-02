@@ -63,6 +63,7 @@ const Task: FC<taskFC> = (props) => {
           tags: tags_,
           completed: completed_,
           dateUpdated: new Date(),
+          timeSpent: props.timeSpent,
         },
         props.id
       );
@@ -85,6 +86,7 @@ const Task: FC<taskFC> = (props) => {
           tags: tags_,
           completed: completed_,
           dateUpdated: new Date(),
+          timeSpent: props.timeSpent,
         },
         props.id
       );
@@ -105,6 +107,7 @@ const Task: FC<taskFC> = (props) => {
           tags: tags_,
           completed: !completed_,
           dateUpdated: new Date(),
+          timeSpent: props.timeSpent,
         },
         props.id
       );
@@ -153,7 +156,8 @@ const Task: FC<taskFC> = (props) => {
             </>
           }
           action={
-            (editing && (
+            true &&
+            ((editing && (
               <IconButton aria-label="save" onClick={handleSave}>
                 <Save />
               </IconButton>
@@ -161,7 +165,7 @@ const Task: FC<taskFC> = (props) => {
               <IconButton aria-label="edit" onClick={handleEdit}>
                 <Edit color="primary" />
               </IconButton>
-            )
+            ))
           }
         />
         <CardContent sx={{ padding: "5px 20px 5px 20px" }}>
@@ -190,7 +194,7 @@ const Task: FC<taskFC> = (props) => {
             </Grid>
             <Grid item xs={6}>
               {props.startTimerButton && !editing && (
-                <StartTimer id={props.id} />
+                <StartTimer id={props.id} timeSpent={props.timeSpent} />
               )}
               {!props.createNewTask && editing && (
                 <Button

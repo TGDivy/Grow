@@ -60,7 +60,6 @@ const Theme = createTheme({
           "&.Mui-selected": {
             color: PLight,
             backgroundColor: SDark,
-            borderRadius: 4,
           },
         },
       },

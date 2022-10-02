@@ -21,6 +21,7 @@ interface taskListStoreType {
   tasks: tasksListType;
   user_id: string;
   setUserID: (user_id: string) => void;
+  updateTimeSpent: (id: string, timeSpent: number) => void;
 }
 
 const addTask = async (task_id: string, task: taskType, user_id: string) => {
@@ -60,6 +61,20 @@ const updateTask = async (
   console.log("Document written with ID: ", task_id);
 };
 
+const updateTimeSpent = async (
+  task_id: string,
+  timeSpent: number,
+  user_id: string
+) => {
+  const plowDocRef = doc(db, "users", user_id, "plow", task_id);
+
+  await updateDoc(plowDocRef, {
+    timeSpent: increment(timeSpent),
+  });
+
+  console.log("Document written with ID: ", task_id);
+};
+
 const useTaskStore = create<taskListStoreType>()(
   devtools(
     persist(
@@ -92,6 +107,14 @@ const useTaskStore = create<taskListStoreType>()(
               return state;
             })
           ),
+        updateTimeSpent: (id: string, timeSpent: number) =>
+          set(
+            produce((state) => {
+              updateTimeSpent(id, timeSpent, state.user_id);
+              state.tasks[id].timeSpent += timeSpent;
+              return state;
+            })
+          ),
         setUserID: (user_id: string) => set(() => ({ user_id: user_id })),
       }),
       {
@@ -106,11 +129,6 @@ const useTaskStore = create<taskListStoreType>()(
           }
           return newState;
         },
-        // serialize: (state) => {
-        //     const newState = state;
-        //     newState.state.dateUpdated = new Date();
-        //     return JSON.stringify(newState);
-        //     },
       }
     ),
     {
