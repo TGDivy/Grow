@@ -28,6 +28,7 @@ interface taskFC extends taskType {
   createNewTask: boolean;
   alwaysExpanded?: boolean;
   startTimerButton?: boolean;
+  handleCreateNewTask?: () => void;
 }
 
 const Task: FC<taskFC> = (props) => {
@@ -74,6 +75,9 @@ const Task: FC<taskFC> = (props) => {
       setPriority(false);
       setSubtasks([]);
       setTags([]);
+      if (props.handleCreateNewTask) {
+        props.handleCreateNewTask();
+      }
     } else {
       setEditing(false);
       editTask(
@@ -122,6 +126,8 @@ const Task: FC<taskFC> = (props) => {
     }
   };
 
+  const backgroundColor = completed_ ? "#e0e0e0" : "#ffffff";
+
   return (
     <ClickAwayListener
       onClickAway={() => {
@@ -136,6 +142,7 @@ const Task: FC<taskFC> = (props) => {
           ":hover": {
             boxShadow: 20,
           },
+          backgroundColor: backgroundColor,
         }}
         onClick={() => {
           if (!expanded) {
