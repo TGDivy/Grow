@@ -4,7 +4,7 @@ import SelectToDoList from "./SelectToDoList";
 import TasksList from "./TasksList";
 
 const TasksMain = () => {
-  const [taskListName, setList] = useState("My Day");
+  const [taskListName, setList] = useState("Tasks");
 
   return (
     <Container>
