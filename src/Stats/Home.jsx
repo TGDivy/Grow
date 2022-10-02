@@ -3,30 +3,19 @@ import { Container, Typography } from "@mui/material";
 
 import useCurrentUser from "../Common/Contexts/UserContext";
 import { db } from "../Common/Firestore/firebase-config";
-import {
-  onSnapshot,
-  doc,
-  query,
-  where,
-  getDocs,
-  collection,
-} from "firebase/firestore";
+import { onSnapshot, doc } from "firebase/firestore";
 
-const executeQuery = async (collectionRef) => {
-  const q = query(
-    collectionRef,
-    where("startTime", ">=", new Date(2023, 0, 1))
-  );
-
-  const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => {
-    // doc.data() is never undefined for query doc snapshots
-    console.log(doc.id, " => ", doc.data());
-  });
-};
+import useTimerRecordsStore from "../Common/Stores/TimerRecordsStore";
 
 const Home = () => {
   const { user, setUser } = useCurrentUser();
+  const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
+  const addLatestTimerRecord = useTimerRecordsStore(
+    (state) => state.addLatestTimerRecord
+  );
+
+  console.log("timerRecords", timerRecords);
+
   useEffect(() => {
     const unsub = onSnapshot(
       doc(db, "users", user.uid),
@@ -39,9 +28,7 @@ const Home = () => {
       }
     );
 
-    const collectionRef = collection(db, "users", user.uid, "sow");
-
-    executeQuery(collectionRef);
+    addLatestTimerRecord(user.uid);
 
     return unsub;
   }, []);
@@ -51,8 +38,6 @@ const Home = () => {
       <Container>
         <Typography variant="h4">Home</Typography>
         <Typography variant="h5">Welcome {user.displayName} !</Typography>
-        {/* <Typography variant="h5">{user.email}</Typography> */}
-        {/* <Typography variant="h5">Total Sessions: {user.total_sess}</Typography> */}
       </Container>
     </>
   );

@@ -16,6 +16,11 @@ const getLatestTimerRecord = async (
   user_id: string
 ) => {
   const collectionRef = collection(db, "users", user_id, "sow");
+  if (timerRecords.length === 0) {
+    const q = query(collectionRef);
+    const querySnapshot = await getDocs(q);
+    return querySnapshot;
+  }
   const latestRecordTime = timerRecords[-1].startTime;
   const q = query(collectionRef, where("startTime", ">", latestRecordTime));
   const querySnapshot = await getDocs(q);
@@ -23,7 +28,7 @@ const getLatestTimerRecord = async (
   return querySnapshot;
 };
 
-const useTimerStore = create<timerRecordsStoreType>()(
+const useTimerRecordsStore = create<timerRecordsStoreType>()(
   devtools(
     persist(
       (set, get) => ({
@@ -57,4 +62,4 @@ const useTimerStore = create<timerRecordsStoreType>()(
   )
 );
 
-export default useTimerStore;
+export default useTimerRecordsStore;
