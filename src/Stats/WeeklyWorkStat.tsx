@@ -25,16 +25,32 @@ interface dataType {
 
 const getWeeklyWorkStat = async (timerRecords: timerType[]) => {
   // const week = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
   const weeklyWorkStat = timerRecords.reduce((acc, cur) => {
     const date = cur.startTime;
     console.log(date);
     const day = date.getDate();
+    const month = date.getMonth();
     console.log("day: ", day);
+    const dayEntry = `${months[month]} ${day}`;
 
-    if (acc[day]) {
-      acc[day] += cur.duration;
+    if (acc[dayEntry]) {
+      acc[dayEntry] += cur.duration;
     } else {
-      acc[day] = cur.duration;
+      acc[dayEntry] = cur.duration;
     }
 
     return acc;
@@ -47,7 +63,7 @@ const getWeeklyWorkStat = async (timerRecords: timerType[]) => {
     console.log("entry: ", entry);
     data.push({
       day: entry,
-      time: weeklyWorkStat[entry] / 60,
+      time: Math.floor(weeklyWorkStat[entry] / 60),
     });
   }
 
@@ -76,13 +92,13 @@ const WeeklyWorkStat = () => {
       <BarChart
         data={data}
         margin={{
-          top: 5,
-          right: 30,
+          top: 20,
+          right: 20,
           left: 20,
-          bottom: 5,
+          bottom: 20,
         }}
       >
-        <CartesianGrid strokeDasharray="3 3" />
+        {/* <CartesianGrid strokeDasharray="3 3" /> */}
         <XAxis dataKey="day" />
         <YAxis />
         <Tooltip />
