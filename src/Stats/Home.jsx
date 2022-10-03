@@ -1,47 +1,30 @@
 import React, { useEffect } from "react";
-import { Container, Typography } from "@mui/material";
+import { Container, Typography, Box } from "@mui/material";
 
 import useCurrentUser from "../Common/Contexts/UserContext";
 import { db } from "../Common/Firestore/firebase-config";
-import {
-  onSnapshot,
-  doc,
-  query,
-  where,
-  getDocs,
-  collection,
-} from "firebase/firestore";
+import { onSnapshot, doc } from "firebase/firestore";
 
-const executeQuery = async (collectionRef) => {
-  const q = query(
-    collectionRef,
-    where("startTime", ">=", new Date(2023, 0, 1))
-  );
+import useTimerRecordsStore from "../Common/Stores/TimerRecordsStore";
 
-  const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => {
-    // doc.data() is never undefined for query doc snapshots
-    console.log(doc.id, " => ", doc.data());
-  });
-};
+import WeeklyWorkStat from "./WeeklyWorkStat";
 
 const Home = () => {
   const { user, setUser } = useCurrentUser();
+  const addLatestTimerRecord = useTimerRecordsStore(
+    (state) => state.addLatestTimerRecord
+  );
+
   useEffect(() => {
     const unsub = onSnapshot(
       doc(db, "users", user.uid),
       { includeMetadataChanges: true },
       (doc) => {
-        const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
-
-        console.log("Current data: ", source);
         setUser(doc.data());
       }
     );
 
-    const collectionRef = collection(db, "users", user.uid, "sow");
-
-    executeQuery(collectionRef);
+    addLatestTimerRecord(user.uid);
 
     return unsub;
   }, []);
@@ -51,8 +34,22 @@ const Home = () => {
       <Container>
         <Typography variant="h4">Home</Typography>
         <Typography variant="h5">Welcome {user.displayName} !</Typography>
-        {/* <Typography variant="h5">{user.email}</Typography> */}
-        {/* <Typography variant="h5">Total Sessions: {user.total_sess}</Typography> */}
+        <Box sx={{ height: "20px" }} />
+
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            height: "500px",
+            width: "100%",
+            backgroundColor: "#ffffffff",
+          }}
+        >
+          <WeeklyWorkStat />
+        </Box>
       </Container>
     </>
   );

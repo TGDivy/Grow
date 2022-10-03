@@ -73,7 +73,6 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
 
     querySnapshot
       .then((querySnapshot) => {
-        // console.log("querySnapshot", querySnapshot);
         querySnapshot.forEach((doc) => {
           console.log(`${doc.id} => ${doc.data()}`);
           const task = doc.data() as taskType;

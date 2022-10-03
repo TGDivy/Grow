@@ -78,7 +78,7 @@ const updateTimeSpent = async (
 const useTaskStore = create<taskListStoreType>()(
   devtools(
     persist(
-      (set) => ({
+      (set, get) => ({
         user_id: "",
         tasks: {},
 
@@ -107,14 +107,19 @@ const useTaskStore = create<taskListStoreType>()(
               return state;
             })
           ),
-        updateTimeSpent: (id: string, timeSpent: number) =>
-          set(
+        updateTimeSpent: (id: string, timeSpent: number) => {
+          const user_id = get().user_id;
+          if (user_id === "" || user_id === undefined) return;
+          if (id === "" || id === undefined) return;
+          if (id in get().tasks === false) return;
+          updateTimeSpent(id, timeSpent, user_id);
+          return set(
             produce((state) => {
-              updateTimeSpent(id, timeSpent, state.user_id);
               state.tasks[id].timeSpent += timeSpent;
               return state;
             })
-          ),
+          );
+        },
         setUserID: (user_id: string) => set(() => ({ user_id: user_id })),
       }),
       {
