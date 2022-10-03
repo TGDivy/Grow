@@ -15,7 +15,7 @@ import { timerType } from "../Common/Types/Types";
 import _ from "lodash";
 
 interface weeklyWorkStatType {
-  [key: number]: number;
+  [key: string]: number;
 }
 
 interface dataType {
@@ -24,29 +24,34 @@ interface dataType {
 }
 
 const getWeeklyWorkStat = async (timerRecords: timerType[]) => {
-  const weeklyWorkStat = await timerRecords.reduce((acc, cur) => {
-    const date = new Date(cur.startTime);
-    const day = date.getDay();
-    const hour = date.getHours();
-    const minute = date.getMinutes();
-    const second = date.getSeconds();
-    const time = hour * 3600 + minute * 60 + second;
+  // const week = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const weeklyWorkStat = timerRecords.reduce((acc, cur) => {
+    const date = cur.startTime;
+    console.log(date);
+    const day = date.getDate();
+    console.log("day: ", day);
 
     if (acc[day]) {
-      acc[day] += time;
+      acc[day] += cur.duration;
     } else {
-      acc[day] = time;
+      acc[day] = cur.duration;
     }
 
     return acc;
   }, {} as weeklyWorkStatType);
 
-  const data = _.flow(Object.entries, ([key, value]) => {
-    return {
-      day: key,
-      time: value,
-    } as unknown as dataType;
-  })(weeklyWorkStat);
+  console.log("weeklyWorkStat: ", weeklyWorkStat);
+
+  const data = [];
+  for (const entry in weeklyWorkStat) {
+    console.log("entry: ", entry);
+    data.push({
+      day: entry,
+      time: weeklyWorkStat[entry] / 60,
+    });
+  }
+
+  console.log("data: ", data);
 
   return data;
 };
@@ -57,19 +62,18 @@ const WeeklyWorkStat = () => {
   const [data, setData] = React.useState<dataType[]>();
 
   React.useEffect(() => {
-    const getData = async () => {
-      const d = await getWeeklyWorkStat(timerRecords);
-      setData(d as unknown as dataType[]);
-    };
-
-    getData();
+    getWeeklyWorkStat(timerRecords).then((data) => {
+      if (data) {
+        setData(data);
+      }
+    });
   }, [timerRecords]);
+
+  console.log("data: ", data);
 
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart
-        width={500}
-        height={300}
         data={data}
         margin={{
           top: 5,
