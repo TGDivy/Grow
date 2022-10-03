@@ -98,6 +98,10 @@ const WeeklyWorkStat = () => {
   // let ticks = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   // ticks = ticks.map((tick) => tick * 60);
 
+  if (!data) {
+    return null;
+  }
+
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active) {
       return (
