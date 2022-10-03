@@ -36,6 +36,7 @@ const Theme = createTheme({
         root: {
           marginRight: 5,
           marginBottom: 5,
+          padding: "0px 7px",
         },
       },
     },
@@ -76,10 +77,11 @@ const Theme = createTheme({
       text: PText,
     },
     secondary: {
-      main: S,
+      main: SDark,
       contrastText: "#fff",
       text: SText,
     },
+
     error: {
       main: Error,
       backgroundColor: Error,

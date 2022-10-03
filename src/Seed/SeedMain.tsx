@@ -3,6 +3,7 @@ import React from "react";
 import { Container, Stack } from "@mui/material";
 import Timer from "./Timer";
 import TimerTask from "./AddTask";
+import AddTags from "./AddTags";
 
 const SeedMain = () => {
   // Occupy full page
@@ -11,6 +12,7 @@ const SeedMain = () => {
     <Container maxWidth="sm">
       <Stack spacing={1}>
         <Timer />
+        <AddTags />
         <TimerTask />
       </Stack>
     </Container>
