@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Container, Typography, Box } from "@mui/material";
+import { Container, Typography, Box, Grid, Divider } from "@mui/material";
 
 import useCurrentUser from "../Common/Contexts/UserContext";
 import { db } from "../Common/Firestore/firebase-config";
@@ -32,24 +32,31 @@ const Home = () => {
   return (
     <>
       <Container>
-        <Typography variant="h4">Home</Typography>
-        <Typography variant="h5">Welcome {user.displayName} !</Typography>
-        <Box sx={{ height: "20px" }} />
-
-        <Box
+        <Typography variant="h3">Home</Typography>
+        <Divider
           sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-            height: "500px",
-            width: "100%",
-            backgroundColor: "#ffffffff",
+            marginTop: 2,
+            marginBottom: 2,
           }}
-        >
-          <WeeklyWorkStat />
-        </Box>
+        />
+
+        <Grid container spacing={2} alignContent="center">
+          <Grid item xs={6} md={6}>
+            <Typography variant="h6">Total Work Time</Typography>
+            <Typography variant="h4">
+              {user.totalWorkTime ? user.totalWorkTime : 0} hours
+            </Typography>
+          </Grid>
+          <Grid item xs={6} md={6}>
+            <Typography variant="h6">Total Break Time</Typography>
+            <Typography variant="h4">
+              {user.totalBreakTime ? user.totalBreakTime : 0} hours
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <WeeklyWorkStat />
+          </Grid>
+        </Grid>
       </Container>
     </>
   );
