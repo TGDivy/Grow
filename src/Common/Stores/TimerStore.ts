@@ -65,7 +65,6 @@ const useTimerStore = create<timerStoreType>()(
               duration: duration,
             };
             pushStudyTime(timerStoreTypeToTimerType(endState), user_id);
-            console.log(timerStoreTypeToTimerType(endState));
             return endState;
           }),
         resetTimer: () =>

@@ -6,13 +6,11 @@ import {
   Bar,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   Legend,
   ResponsiveContainer,
 } from "recharts";
 import { timerType } from "../Common/Types/Types";
-import _ from "lodash";
 
 interface weeklyWorkStatType {
   [key: string]: number;
@@ -41,10 +39,8 @@ const getWeeklyWorkStat = async (timerRecords: timerType[]) => {
   ];
   const weeklyWorkStat = timerRecords.reduce((acc, cur) => {
     const date = cur.startTime;
-    console.log(date);
     const day = date.getDate();
     const month = date.getMonth();
-    console.log("day: ", day);
     const dayEntry = `${months[month]} ${day}`;
 
     if (acc[dayEntry]) {
@@ -56,18 +52,13 @@ const getWeeklyWorkStat = async (timerRecords: timerType[]) => {
     return acc;
   }, {} as weeklyWorkStatType);
 
-  console.log("weeklyWorkStat: ", weeklyWorkStat);
-
   const data = [];
   for (const entry in weeklyWorkStat) {
-    console.log("entry: ", entry);
     data.push({
       day: entry,
       time: Math.floor(weeklyWorkStat[entry] / 60),
     });
   }
-
-  console.log("data: ", data);
 
   return data;
 };
@@ -84,8 +75,6 @@ const WeeklyWorkStat = () => {
       }
     });
   }, [timerRecords]);
-
-  console.log("data: ", data);
 
   return (
     <ResponsiveContainer width="100%" height="100%">
