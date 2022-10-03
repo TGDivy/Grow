@@ -43,8 +43,9 @@ const useTimerRecordsStore = create<timerRecordsStoreType>()(
             .then((querySnapshot) => {
               querySnapshot.forEach((doc) => {
                 console.log(`Fetch Sow Records => ${doc.id}`);
-                const timer = doc.data() as timerType;
-                addTimerRecord(timer);
+                const timer = doc.data();
+                timer.startTime = timer.startTime.toDate();
+                addTimerRecord(timer as timerType);
               });
             })
             .catch((error) => {
@@ -54,6 +55,14 @@ const useTimerRecordsStore = create<timerRecordsStoreType>()(
       }),
       {
         name: "timer-records-storage",
+        deserialize: (state) => {
+          const newState = JSON.parse(state);
+
+          for (const record of newState.state.timerRecords) {
+            record.startTime = new Date(record.startTime);
+          }
+          return newState;
+        },
       }
     ),
     {
