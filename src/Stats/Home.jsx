@@ -20,9 +20,6 @@ const Home = () => {
       doc(db, "users", user.uid),
       { includeMetadataChanges: true },
       (doc) => {
-        const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
-
-        console.log("Current data: ", source);
         setUser(doc.data());
       }
     );
@@ -46,7 +43,9 @@ const Home = () => {
             justifyContent: "space-between",
             alignItems: "center",
             flexWrap: "wrap",
-            minHeight: "200px",
+            height: "500px",
+            width: "100%",
+            backgroundColor: "#ffffffff",
           }}
         >
           <WeeklyWorkStat />
