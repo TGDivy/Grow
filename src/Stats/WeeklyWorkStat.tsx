@@ -1,18 +1,10 @@
 import React from "react";
 
 import useTimerRecordsStore from "../Common/Stores/TimerRecordsStore";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  CartesianGrid,
-} from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 import { timerType } from "../Common/Types/Types";
-import { Card, Box, CardContent, Typography, CardHeader } from "@mui/material";
+import { Typography } from "@mui/material";
+import GraphCard from "./GraphCard";
 
 interface weeklyWorkStatType {
   [key: string]: number;
@@ -95,9 +87,6 @@ const WeeklyWorkStat = () => {
     });
   }, [timerRecords]);
 
-  // let ticks = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-  // ticks = ticks.map((tick) => tick * 60);
-
   if (!data) {
     return null;
   }
@@ -123,63 +112,33 @@ const WeeklyWorkStat = () => {
   };
 
   return (
-    <Card
-      sx={{
-        ":hover": {
-          boxShadow: 20,
-        },
-      }}
-    >
-      <CardHeader
-        title={
-          <Typography variant="h5" color="text.primary">
-            Weekly Work
-          </Typography>
-        }
-      />
-      <CardContent>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-            height: "300px",
-            width: "100%",
-            backgroundColor: "#ffffffff",
-          }}
-        >
-          <ResponsiveContainer>
-            <BarChart
-              data={data}
-              margin={{
-                top: 20,
-                right: 20,
-                left: 20,
-                bottom: 20,
-              }}
-            >
-              <CartesianGrid vertical={false} />
+    <GraphCard title="Weekly Work">
+      <BarChart
+        data={data}
+        margin={{
+          top: 20,
+          right: 20,
+          left: 20,
+          bottom: 20,
+        }}
+      >
+        <CartesianGrid vertical={false} />
 
-              <XAxis dataKey="day" />
-              <YAxis
-                axisLine={false}
-                width={30}
-                orientation="left"
-                tickCount={6}
-                tickFormatter={(tick) => `${tick}`}
-                tickLine={false}
-                // ticks={ticks}
-              />
-              <Tooltip content={<CustomTooltip />} />
-              {/* <Legend /> */}
-              <Bar dataKey="time" fill="#8884d8" />
-            </BarChart>
-          </ResponsiveContainer>
-        </Box>
-      </CardContent>
-    </Card>
+        <XAxis dataKey="day" />
+        <YAxis
+          axisLine={false}
+          width={30}
+          orientation="left"
+          tickCount={6}
+          tickFormatter={(tick) => `${tick}`}
+          tickLine={false}
+          // ticks={ticks}
+        />
+        <Tooltip content={<CustomTooltip />} />
+        {/* <Legend /> */}
+        <Bar dataKey="time" fill="#8884d8" />
+      </BarChart>
+    </GraphCard>
   );
 };
 
