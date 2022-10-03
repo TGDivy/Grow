@@ -99,9 +99,6 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
   return (
     <Stack direction="column" spacing={3}>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} md={4} lg={4}>
-          <CreateTask taskListName={taskListName} />
-        </Grid>
         {displayTasks}
       </Grid>
       {completedTasks.length > 0 && (
@@ -124,6 +121,7 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
           </AccordionDetails>
         </Accordion>
       )}
+      <CreateTask taskListName={taskListName} />
     </Stack>
   );
 };

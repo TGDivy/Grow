@@ -2,16 +2,8 @@ import React, { FC, useState } from "react";
 import Task from "./Task/Task";
 import { taskType } from "../Common/Types/Types";
 import { v4 as uuid_v4 } from "uuid";
-import Box from "@mui/material/Box";
 import Transition from "../Common/Utils/Transitions";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Button,
-} from "@mui/material";
+import { Dialog, Fab } from "@mui/material";
 import { Add } from "@mui/icons-material";
 
 interface createTaskFc {
@@ -43,28 +35,21 @@ const CreateTask: FC<createTaskFc> = ({ taskListName }) => {
 
   return (
     <>
-      <Box
+      <Fab
+        variant="extended"
+        color="primary"
+        aria-label="add"
+        onClick={handleClickOpen}
+        size="small"
         sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100px",
-          // width: "100px",
-          borderColor: "primary.main",
-          // border: "1px solid #ac9172",
+          position: "fixed",
+          bottom: "76px",
+          zIndex: 10,
         }}
       >
-        <Button
-          variant="contained"
-          // fullWidth
-          sx={{
-            alignSelf: "center",
-          }}
-          onClick={handleClickOpen}
-        >
-          <Add /> Create Task
-        </Button>
-      </Box>
+        <Add />
+        Task
+      </Fab>
       <Dialog
         open={open}
         TransitionComponent={Transition}
