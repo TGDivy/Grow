@@ -20,6 +20,7 @@ interface timerStoreType extends timerType {
   deleteTask: () => void;
   addTag: (tag: tagsType) => void;
   deleteTag: (tag: tagsType) => void;
+  setTags: (tags: Array<tagsType>) => void;
   resetTimer: () => void;
 }
 
@@ -79,6 +80,7 @@ const useTimerStore = create<timerStoreType>()(
           set((state) => ({ tags: [...state.tags, tag] })),
         deleteTag: (tag: tagsType) =>
           set((state) => ({ tags: state.tags.filter((item) => item !== tag) })),
+        setTags: (tags: Array<tagsType>) => set(() => ({ tags: tags })),
       }),
       {
         name: "timer-storage",

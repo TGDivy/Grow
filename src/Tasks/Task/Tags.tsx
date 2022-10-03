@@ -1,5 +1,5 @@
 import React, { FC, useState, MouseEvent } from "react";
-import { Box, Chip, Menu, MenuItem } from "@mui/material";
+import { Box, Chip, Menu, MenuItem, Divider } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import { tagsType } from "../../Common/Types/Types";
 
@@ -7,9 +7,10 @@ interface tagsFc {
   tags: Array<tagsType>;
   setTags: (tags: Array<tagsType>) => void;
   editing: boolean;
+  timerPage?: boolean;
 }
 
-const Tags: FC<tagsFc> = ({ tags, editing, setTags }) => {
+const Tags: FC<tagsFc> = ({ tags, editing, setTags, timerPage }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const [open, setOpen] = useState(false);
@@ -50,7 +51,7 @@ const Tags: FC<tagsFc> = ({ tags, editing, setTags }) => {
           }}
           PaperProps={{
             style: {
-              maxHeight: ITEM_HEIGHT * 4.5,
+              maxHeight: ITEM_HEIGHT * 6,
               width: "15ch",
             },
           }}
@@ -71,28 +72,23 @@ const Tags: FC<tagsFc> = ({ tags, editing, setTags }) => {
               </MenuItem>
             ))}
         </Menu>
-        <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: 1 }}>
-          <Chip
-            style={
-              {
-                // width: "30px",
-                // height: "25px",
-                // paddingLeft: "8px",
-                // marginBottom: "5px",
-              }
-            }
-            icon={<Add />}
-            color="primary"
-            onClick={handleClickOpen}
-            size="small"
-            label="Tag"
-          />
 
+        <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: 1 }}>
+          {timerPage && (
+            <Chip
+              icon={<Add />}
+              color="primary"
+              onClick={handleClickOpen}
+              size="small"
+              label="Tag"
+            />
+          )}
           {tags.map((tag) => (
             <Chip
               key={tag}
               label={tag}
               size="small"
+              color="secondary"
               onDelete={() => handleDeleteTag(tag)}
             />
           ))}
@@ -103,7 +99,7 @@ const Tags: FC<tagsFc> = ({ tags, editing, setTags }) => {
   return (
     <>
       {tags.map((tag) => (
-        <Chip key={tag} label={tag} size="small" />
+        <Chip key={tag} label={tag} color="primary" size="small" />
       ))}
     </>
   );
