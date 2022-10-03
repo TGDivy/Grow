@@ -6,18 +6,32 @@ import BottomNavigationBar from "./BottomNavigationBar";
 import TasksMain from "./Tasks/TasksMain";
 import SeedMain from "./Seed/SeedMain";
 import { Container } from "@mui/material";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
 const App = () => {
   const { user } = useCurrentUser();
 
-  const renderSection = () => {
-    if (!user) return <Route path="/" element={<LoginPage />} />;
+  const routes = () => {
     return (
       <>
-        <Route path="/" element={<Home />} />
-        <Route path="/Tasks" element={<TasksMain />} />
-        <Route path="/Seed" element={<SeedMain />} />
+        <Route
+          path="/Login"
+          element={user ? <Navigate to="/" /> : <LoginPage />}
+        />
+        <Route path="/" element={user ? <Home /> : <Navigate to="/Login" />} />
+        <Route
+          path="/Tasks"
+          element={user ? <TasksMain /> : <Navigate to="/Login" />}
+        />
+        <Route
+          path="/Seed"
+          element={user ? <SeedMain /> : <Navigate to="/Login" />}
+        />
       </>
     );
   };
@@ -27,7 +41,7 @@ const App = () => {
       <>
         <div style={{ marginBottom: 80 }}>
           <Container>
-            <Routes>{renderSection()}</Routes>
+            <Routes>{routes()}</Routes>
           </Container>
         </div>
         <BottomNavigationBar />

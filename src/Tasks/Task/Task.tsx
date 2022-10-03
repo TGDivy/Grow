@@ -19,7 +19,7 @@ import StartTimer from "./StartTimer";
 import SubTaskList from "./SubTaskList";
 import Tags from "./Tags";
 import Title from "./Title";
-import { taskType } from "../../Common/Types/Types";
+import { subtaskType, taskType } from "../../Common/Types/Types";
 
 import useTaskStore from "../../Common/Stores/TaskStore";
 
@@ -95,6 +95,23 @@ const Task: FC<taskFC> = (props) => {
         props.id
       );
     }
+  };
+
+  const handleSubTaskToggle = (subTasks: Array<subtaskType>) => {
+    editTask(
+      {
+        taskListName: props.taskListName,
+        title: title_,
+        description: description_,
+        priority: priority_,
+        subTasks: subTasks,
+        tags: tags_,
+        completed: completed_,
+        dateUpdated: new Date(),
+        timeSpent: props.timeSpent,
+      },
+      props.id
+    );
   };
 
   const handleTaskComplete = () => {
@@ -233,7 +250,7 @@ const Task: FC<taskFC> = (props) => {
             <SubTaskList
               subTasks={subtasks_}
               setSubTasks={setSubtasks}
-              handleSave={handleSave}
+              handleSave={handleSubTaskToggle}
               editing={editing}
             />
             <Description
