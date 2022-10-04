@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 
 import useTimerRecordsStore from "../Common/Stores/TimerRecordsStore";
-import { PieChart, Pie, LabelList, Sector } from "recharts";
+import { PieChart, Pie, Sector } from "recharts";
 import { timerType } from "../Common/Types/Types";
 import GraphCard from "./GraphCard";
 
@@ -21,9 +21,6 @@ const getPieData = async (timerRecords: timerType[]) => {
       timerRecord.startTime.getTime() >=
       today.getTime() - 7 * 24 * 60 * 60 * 1000
   );
-
-  console.log(weeklyTimerRecords);
-  //   console.log(timerRecords);
 
   const tagStat: TagStatType = {};
   let total = 0;
@@ -67,15 +64,12 @@ const renderActiveShape = (props: any) => {
     cx,
     cy,
     midAngle,
-    innerRadius,
     outerRadius,
     startAngle,
     endAngle,
     fill,
     payload,
     percent,
-    value,
-    index,
   } = props;
   const sin = Math.sin(-RADIAN * midAngle);
   const cos = Math.cos(-RADIAN * midAngle);
@@ -86,7 +80,6 @@ const renderActiveShape = (props: any) => {
   const ex = mx + (cos >= 0 ? 1 : -1) * 11;
   const ey = my;
   const textAnchor = cos >= 0 ? "start" : "end";
-  console.log(payload);
   return (
     <g>
       <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
