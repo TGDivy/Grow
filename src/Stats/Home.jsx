@@ -8,6 +8,7 @@ import { onSnapshot, doc } from "firebase/firestore";
 import useTimerRecordsStore from "../Common/Stores/TimerRecordsStore";
 
 import WeeklyWorkStat from "./WeeklyWorkStat";
+import TagPieStat from "./TagPieStat";
 
 const Home = () => {
   const { user, setUser } = useCurrentUser();
@@ -55,6 +56,9 @@ const Home = () => {
           </Grid>
           <Grid item xs={12} md={6}>
             <WeeklyWorkStat />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TagPieStat />
           </Grid>
         </Grid>
       </Container>

@@ -35,12 +35,14 @@ const timerStoreTypeToTimerType = (
     addTag,
     deleteTag,
     resetTimer,
+    setTags,
     ...timerType
   } = timerStoreType;
   return timerType;
 };
 
 const pushStudyTime = async (timer: timerType, user_id: string) => {
+  console.log(timer);
   const sowCollectionRef = collection(db, "users", user_id, "sow");
   const docRef = await addDoc(sowCollectionRef, timer);
 
