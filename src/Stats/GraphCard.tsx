@@ -32,7 +32,7 @@ const GraphCard: FC<Props> = (props) => {
             justifyContent: "space-between",
             alignItems: "center",
             flexWrap: "wrap",
-            height: "300px",
+            height: "25vh",
             width: "100%",
             backgroundColor: "#ffffffff",
           }}

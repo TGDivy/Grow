@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 
 import useTimerRecordsStore from "../Common/Stores/TimerRecordsStore";
-import { PieChart, Pie, Sector, ResponsiveContainer } from "recharts";
+import { PieChart, Pie, LabelList, Sector } from "recharts";
 import { timerType } from "../Common/Types/Types";
 import GraphCard from "./GraphCard";
 
@@ -26,15 +26,16 @@ const getPieData = async (timerRecords: timerType[]) => {
   //   console.log(timerRecords);
 
   const tagStat: TagStatType = {};
+  let total = 0;
 
   weeklyTimerRecords.forEach((timerRecord) => {
     const tags = timerRecord.tags;
     if (tags && tags.length > 0) {
       tags.forEach((tag) => {
         if (tagStat[tag]) {
-          tagStat[tag] += timerRecord.duration;
+          tagStat[tag] += timerRecord.duration / tags.length;
         } else {
-          tagStat[tag] = timerRecord.duration;
+          tagStat[tag] = timerRecord.duration / tags.length;
         }
       });
     } else {
@@ -44,6 +45,7 @@ const getPieData = async (timerRecords: timerType[]) => {
         tagStat["unset"] = timerRecord.duration;
       }
     }
+    total += timerRecord.duration;
   });
 
   console.log(tagStat);
@@ -52,11 +54,77 @@ const getPieData = async (timerRecords: timerType[]) => {
   for (const entry in tagStat) {
     data.push({
       tag: entry,
-      time: Math.floor(tagStat[entry] / 60),
+      time: Math.floor((tagStat[entry] / total) * 100),
     } as dataType);
   }
 
   return data;
+};
+
+const renderActiveShape = (props: any) => {
+  const RADIAN = Math.PI / 180;
+  const {
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    startAngle,
+    endAngle,
+    fill,
+    payload,
+    percent,
+    value,
+    index,
+  } = props;
+  const sin = Math.sin(-RADIAN * midAngle);
+  const cos = Math.cos(-RADIAN * midAngle);
+  const sx = cx + (outerRadius + 10) * cos;
+  const sy = cy + (outerRadius + 10) * sin;
+  const mx = cx + (outerRadius + 20) * cos;
+  const my = cy + (outerRadius + 20) * sin;
+  const ex = mx + (cos >= 0 ? 1 : -1) * 11;
+  const ey = my;
+  const textAnchor = cos >= 0 ? "start" : "end";
+  console.log(payload);
+  return (
+    <g>
+      <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
+        {payload.name}
+      </text>
+      <Sector
+        cx={cx}
+        cy={cy}
+        startAngle={startAngle + 5}
+        endAngle={endAngle - 5}
+        innerRadius={outerRadius + 6}
+        outerRadius={outerRadius + 10}
+        fill={fill}
+      />
+      <path
+        d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
+        stroke={fill}
+        fill="none"
+      />
+      <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
+      <text
+        x={ex + (cos >= 0 ? 1 : -1) * -5}
+        y={ey - 15}
+        textAnchor={textAnchor}
+        fill="#333"
+      >
+        {payload.tag}
+      </text>
+      <text
+        x={ex + (cos >= 0 ? 1 : -1) * 8}
+        y={ey + 5}
+        textAnchor={textAnchor}
+        fill="#999"
+      >
+        {`(${(percent * 100).toFixed(0)}%)`}
+      </text>
+    </g>
+  );
 };
 
 const TagPieStat = () => {
@@ -76,20 +144,20 @@ const TagPieStat = () => {
     return null;
   }
 
-  console.log(data);
-
   return (
-    <GraphCard title="Weekly Work">
-      <PieChart width={400} height={400}>
+    <GraphCard title="Distribuition by Tags">
+      <PieChart>
         <Pie
           data={data}
           dataKey="time"
           cx="50%"
           cy="50%"
-          innerRadius={90}
-          outerRadius={110}
+          innerRadius="60%"
+          outerRadius="80%"
           fill="#82ca9d"
-          label
+          label={renderActiveShape}
+          // label={(entry) => `${entry.tag} ${entry.time}%`}
+          labelLine
         />
       </PieChart>
     </GraphCard>
