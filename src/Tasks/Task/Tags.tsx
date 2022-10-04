@@ -74,15 +74,14 @@ const Tags: FC<tagsFc> = ({ tags, editing, setTags, timerPage }) => {
         </Menu>
 
         <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: 1 }}>
-          {timerPage && (
-            <Chip
-              icon={<Add />}
-              color="primary"
-              onClick={handleClickOpen}
-              size="small"
-              label="Tag"
-            />
-          )}
+          <Chip
+            icon={<Add />}
+            color="primary"
+            onClick={handleClickOpen}
+            size="small"
+            label="Tag"
+          />
+
           {tags.map((tag) => (
             <Chip
               key={tag}
