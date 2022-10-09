@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import propTypes from "prop-types";
-import { Box, Typography, TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
+import MuiMarkdown from "mui-markdown";
 
 interface descriptionProps {
   description: string;
@@ -37,7 +38,7 @@ const Description: FC<descriptionProps> = ({
   }
   return (
     <Box paddingTop={1}>
-      <Typography variant="body1">{description}</Typography>
+      <MuiMarkdown>{description}</MuiMarkdown>
     </Box>
   );
 };
