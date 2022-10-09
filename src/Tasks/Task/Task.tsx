@@ -166,6 +166,9 @@ const Task: FC<taskFC> = (props) => {
             setExpanded(true);
           }
         }}
+        onDoubleClick={() => {
+          setEditing(true);
+        }}
       >
         <CardHeader
           title={
