@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 
-import useTimerRecordsStore from "../Common/Stores/TimerRecordsStore";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 import { timerType } from "../Common/Types/Types";
 import { Typography } from "@mui/material";

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Container, Typography, Box, Grid, Divider } from "@mui/material";
+import { Container, Typography, Grid, Divider } from "@mui/material";
 
 import useCurrentUser from "../Common/Contexts/UserContext";
 import { db } from "../Common/Firestore/firebase-config";
