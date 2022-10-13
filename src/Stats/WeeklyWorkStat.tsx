@@ -16,7 +16,6 @@ interface dataType {
 }
 
 const getWeeklyWorkStat = async (timerRecords: timerType[]) => {
-  // const week = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const months = [
     "Jan",
     "Feb",
@@ -32,27 +31,13 @@ const getWeeklyWorkStat = async (timerRecords: timerType[]) => {
     "Dec",
   ];
 
-  const today = new Date();
   const weeklyWorkStatTemp: weeklyWorkStatType = {};
-  for (let i = 6; i >= 0; i--) {
-    const date = new Date(today.getTime() - i * 24 * 60 * 60 * 1000);
-    const day = date.getDate();
-    const month = date.getMonth();
-    let dayEntry = `${months[month]} ${day}`;
-    if (day === 0) {
-      dayEntry = `Today`;
-    }
-    weeklyWorkStatTemp[dayEntry] = 0;
-  }
 
   const weeklyWorkStat = timerRecords.reduce((acc, cur) => {
     const date = cur.startTime;
     const day = date.getDate();
     const month = date.getMonth();
-    let dayEntry = `${months[month]} ${day}`;
-    if (day === 0) {
-      dayEntry = `Today`;
-    }
+    const dayEntry = `${months[month]} ${day}`;
 
     if (acc[dayEntry]) {
       acc[dayEntry] += cur.duration;
@@ -70,6 +55,13 @@ const getWeeklyWorkStat = async (timerRecords: timerType[]) => {
       time: Math.floor(weeklyWorkStat[entry] / 60),
     });
   }
+
+  // sort by date
+  data.sort((a, b) => {
+    const aDate = new Date(a.day);
+    const bDate = new Date(b.day);
+    return aDate.getTime() - bDate.getTime();
+  });
 
   return data;
 };
@@ -128,7 +120,7 @@ const WeeklyWorkStat: FC<Props> = ({ timerRecords }) => {
       >
         <CartesianGrid vertical={false} />
 
-        <XAxis dataKey="day" />
+        <XAxis dataKey="day" angle={-60} interval={0} dy={20} fontSize={14} />
         <YAxis
           axisLine={false}
           width={30}
@@ -140,7 +132,7 @@ const WeeklyWorkStat: FC<Props> = ({ timerRecords }) => {
         />
         <Tooltip content={<CustomTooltip />} />
         {/* <Legend /> */}
-        <Bar dataKey="time" fill="#8884d8" />
+        <Bar dataKey="time" fill="#ac9172" />
       </BarChart>
     </GraphCard>
   );
