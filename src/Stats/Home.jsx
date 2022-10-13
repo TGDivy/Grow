@@ -17,12 +17,30 @@ const Home = () => {
   );
   const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
 
-  const today = new Date();
+  const DAY = 24 * 60 * 60 * 1000;
+
+  const daysBack = -5;
+  const timePeriodLength = 14;
+
+  const current = new Date(Date.now() - daysBack * DAY);
   const weeklyTimerRecords = timerRecords.filter(
     (timerRecord) =>
       timerRecord.startTime.getTime() >=
-      today.getTime() - 7 * 24 * 60 * 60 * 1000
+        current.getTime() - timePeriodLength * DAY &&
+      timerRecord.startTime.getTime() < current.getTime()
   );
+  // Pad weeklyTimerRecords with empty days
+  for (let i = 0; i < timePeriodLength; i++) {
+    const date = new Date(current.getTime() - i * DAY);
+
+    weeklyTimerRecords.push({
+      startTime: date,
+      duration: 0,
+      tags: [],
+      description: "",
+      taskKey: "",
+    });
+  }
 
   useEffect(() => {
     const unsub = onSnapshot(
