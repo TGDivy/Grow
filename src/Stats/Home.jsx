@@ -9,21 +9,13 @@ import useTimerRecordsStore from "../Common/Stores/TimerRecordsStore";
 
 import WeeklyWorkStat from "./WeeklyWorkStat";
 import TagPieStat from "./TagPieStat";
+import TagRadarStat from "./TagRadarStat";
 
-const Home = () => {
-  const { user, setUser } = useCurrentUser();
-  const addLatestTimerRecord = useTimerRecordsStore(
-    (state) => state.addLatestTimerRecord
-  );
-  const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
-
+const filterTimerRecords = (timerRecords, timePeriodLength, daysBack) => {
   const DAY = 24 * 60 * 60 * 1000;
 
-  const daysBack = -5;
-  const timePeriodLength = 14;
-
   const current = new Date(Date.now() - daysBack * DAY);
-  const weeklyTimerRecords = timerRecords.filter(
+  const filteredTimerRecords = timerRecords.filter(
     (timerRecord) =>
       timerRecord.startTime.getTime() >=
         current.getTime() - timePeriodLength * DAY &&
@@ -33,7 +25,7 @@ const Home = () => {
   for (let i = 0; i < timePeriodLength; i++) {
     const date = new Date(current.getTime() - i * DAY);
 
-    weeklyTimerRecords.push({
+    filteredTimerRecords.push({
       startTime: date,
       duration: 0,
       tags: [],
@@ -41,6 +33,29 @@ const Home = () => {
       taskKey: "",
     });
   }
+
+  return filteredTimerRecords;
+};
+
+const Home = () => {
+  const { user, setUser } = useCurrentUser();
+  const addLatestTimerRecord = useTimerRecordsStore(
+    (state) => state.addLatestTimerRecord
+  );
+  const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
+
+  const daysBack = 0;
+  const timePeriodLength = 7;
+  const selectedPeriod = filterTimerRecords(
+    timerRecords,
+    timePeriodLength,
+    daysBack
+  );
+  const previousPeriod = filterTimerRecords(
+    timerRecords,
+    timePeriodLength,
+    daysBack + timePeriodLength
+  );
 
   useEffect(() => {
     const unsub = onSnapshot(
@@ -81,10 +96,16 @@ const Home = () => {
             </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
-            <WeeklyWorkStat timerRecords={weeklyTimerRecords} />
+            <WeeklyWorkStat timerRecords={selectedPeriod} />
           </Grid>
           <Grid item xs={12} md={6}>
-            <TagPieStat timerRecords={weeklyTimerRecords} />
+            <TagRadarStat
+              selectedPeriod={selectedPeriod}
+              previousPeriod={previousPeriod}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TagPieStat timerRecords={selectedPeriod} />
           </Grid>
         </Grid>
       </Container>

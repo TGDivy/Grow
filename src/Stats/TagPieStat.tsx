@@ -60,7 +60,7 @@ const renderActiveShape = (props: any) => {
     outerRadius,
     startAngle,
     endAngle,
-    fill,
+    // fill,
     payload,
     percent,
   } = props;
@@ -70,8 +70,9 @@ const renderActiveShape = (props: any) => {
   const sy = cy + (outerRadius + 10) * sin;
   const mx = cx + (outerRadius + 20) * cos;
   const my = cy + (outerRadius + 20) * sin;
-  const ex = mx + (cos >= 0 ? 1 : -1) * 11;
-  const ey = my;
+  const ex = mx + (cos >= 0 ? 1 : -1) * 20 * Math.abs(sin);
+  const ey = my - sin * 10;
+  const fill = "#52749c";
   const textAnchor = cos >= 0 ? "start" : "end";
   return (
     <g>
@@ -94,21 +95,21 @@ const renderActiveShape = (props: any) => {
       />
       <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
       <text
-        x={ex + (cos >= 0 ? 1 : -1) * -5}
-        y={ey - 15}
+        x={ex + (cos >= 0 ? 1 : -1) * 8}
+        y={ey + 5}
         textAnchor={textAnchor}
-        fill="#333"
+        // fill="#999"
       >
         {payload.tag}
       </text>
-      <text
+      {/* <text
         x={ex + (cos >= 0 ? 1 : -1) * 8}
         y={ey + 5}
         textAnchor={textAnchor}
         fill="#999"
       >
         {`(${(percent * 100).toFixed(0)}%)`}
-      </text>
+      </text> */}
     </g>
   );
 };
@@ -144,10 +145,8 @@ const TagPieStat: FC<Props> = ({ timerRecords }) => {
           cy="50%"
           innerRadius="60%"
           outerRadius="80%"
-          fill="#82ca9d"
+          fill="#ac9172"
           label={renderActiveShape}
-          // label={(entry) => `${entry.tag} ${entry.time}%`}
-          labelLine
         />
       </PieChart>
     </GraphCard>
