@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 
 import useTimerRecordsStore from "../Common/Stores/TimerRecordsStore";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
@@ -74,8 +74,12 @@ const getWeeklyWorkStat = async (timerRecords: timerType[]) => {
   return data;
 };
 
-const WeeklyWorkStat = () => {
-  const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
+interface Props {
+  timerRecords: timerType[];
+}
+
+const WeeklyWorkStat: FC<Props> = ({ timerRecords }) => {
+  // const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
 
   const [data, setData] = React.useState<dataType[]>();
 

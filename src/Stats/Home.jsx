@@ -15,6 +15,14 @@ const Home = () => {
   const addLatestTimerRecord = useTimerRecordsStore(
     (state) => state.addLatestTimerRecord
   );
+  const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
+
+  const today = new Date();
+  const weeklyTimerRecords = timerRecords.filter(
+    (timerRecord) =>
+      timerRecord.startTime.getTime() >=
+      today.getTime() - 7 * 24 * 60 * 60 * 1000
+  );
 
   useEffect(() => {
     const unsub = onSnapshot(
@@ -55,10 +63,10 @@ const Home = () => {
             </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
-            <WeeklyWorkStat />
+            <WeeklyWorkStat timerRecords={weeklyTimerRecords} />
           </Grid>
           <Grid item xs={12} md={6}>
-            <TagPieStat />
+            <TagPieStat timerRecords={weeklyTimerRecords} />
           </Grid>
         </Grid>
       </Container>

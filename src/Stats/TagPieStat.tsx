@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 
 import useTimerRecordsStore from "../Common/Stores/TimerRecordsStore";
 import { PieChart, Pie, Sector } from "recharts";
@@ -15,17 +15,10 @@ interface dataType {
 }
 
 const getPieData = async (timerRecords: timerType[]) => {
-  const today = new Date();
-  const weeklyTimerRecords = timerRecords.filter(
-    (timerRecord) =>
-      timerRecord.startTime.getTime() >=
-      today.getTime() - 7 * 24 * 60 * 60 * 1000
-  );
-
   const tagStat: TagStatType = {};
   let total = 0;
 
-  weeklyTimerRecords.forEach((timerRecord) => {
+  timerRecords.forEach((timerRecord) => {
     const tags = timerRecord.tags;
     if (tags && tags.length > 0) {
       tags.forEach((tag) => {
@@ -120,8 +113,12 @@ const renderActiveShape = (props: any) => {
   );
 };
 
-const TagPieStat = () => {
-  const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
+interface Props {
+  timerRecords: timerType[];
+}
+
+const TagPieStat: FC<Props> = ({ timerRecords }) => {
+  // const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
 
   const [data, setData] = React.useState<dataType[]>();
 
