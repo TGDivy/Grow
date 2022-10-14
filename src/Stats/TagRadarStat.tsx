@@ -139,7 +139,7 @@ const TagRadarStat: FC<Props> = ({ selectedPeriod, previousPeriod }) => {
           dot={false}
           activeDot={false}
         />
-        <Radar dataKey="time" name="Current" fill="#82ca9d" fillOpacity={0.8} />
+        <Radar dataKey="time" name="Current" fill="#21496d" fillOpacity={0.8} />
         <Tooltip
           formatter={(value, name) => {
             return [`${value} h`, name];
