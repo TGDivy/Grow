@@ -6,7 +6,7 @@ import {
   PolarGrid,
   PolarAngleAxis,
   PolarRadiusAxis,
-  ResponsiveContainer,
+  Tooltip,
   Legend,
 } from "recharts";
 import { timerType } from "../Common/Types/Types";
@@ -136,8 +136,15 @@ const TagRadarStat: FC<Props> = ({ selectedPeriod, previousPeriod }) => {
           name="Previous"
           fill="#627368"
           fillOpacity={0.35}
+          dot={false}
+          activeDot={false}
         />
         <Radar dataKey="time" name="Current" fill="#82ca9d" fillOpacity={0.8} />
+        <Tooltip
+          formatter={(value, name) => {
+            return [`${value} h`, name];
+          }}
+        />
       </RadarChart>
     </GraphCard>
   );

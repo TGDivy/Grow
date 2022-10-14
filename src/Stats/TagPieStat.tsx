@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useCallback, useState } from "react";
 
 import useTimerRecordsStore from "../Common/Stores/TimerRecordsStore";
 import { PieChart, Pie, Sector } from "recharts";
@@ -16,7 +16,6 @@ interface dataType {
 
 const getPieData = async (timerRecords: timerType[]) => {
   const tagStat: TagStatType = {};
-  let total = 0;
 
   timerRecords.forEach((timerRecord) => {
     const tags = timerRecord.tags;
@@ -29,13 +28,12 @@ const getPieData = async (timerRecords: timerType[]) => {
         }
       });
     } else {
-      if (tagStat["unset"]) {
-        tagStat["unset"] += timerRecord.duration;
+      if (tagStat["Unset"]) {
+        tagStat["Unset"] += timerRecord.duration;
       } else {
-        tagStat["unset"] = timerRecord.duration;
+        tagStat["Unset"] = timerRecord.duration;
       }
     }
-    total += timerRecord.duration;
   });
 
   console.log(tagStat);
@@ -44,7 +42,7 @@ const getPieData = async (timerRecords: timerType[]) => {
   for (const entry in tagStat) {
     data.push({
       tag: entry,
-      time: Math.floor((tagStat[entry] / total) * 100),
+      time: tagStat[entry],
     } as dataType);
   }
 
@@ -57,6 +55,7 @@ const renderActiveShape = (props: any) => {
     cx,
     cy,
     midAngle,
+    innerRadius,
     outerRadius,
     startAngle,
     endAngle,
@@ -77,8 +76,17 @@ const renderActiveShape = (props: any) => {
   return (
     <g>
       <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
-        {payload.name}
+        {payload.tag}
       </text>
+      <Sector
+        cx={cx}
+        cy={cy}
+        innerRadius={innerRadius}
+        outerRadius={outerRadius}
+        startAngle={startAngle}
+        endAngle={endAngle}
+        fill={fill}
+      />
       <Sector
         cx={cx}
         cy={cy}
@@ -96,20 +104,21 @@ const renderActiveShape = (props: any) => {
       <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
       <text
         x={ex + (cos >= 0 ? 1 : -1) * 8}
-        y={ey + 5}
+        y={ey}
         textAnchor={textAnchor}
         // fill="#999"
       >
-        {payload.tag}
+        {Math.floor(payload.time / 60 / 60)}h{" "}
+        {Math.floor((payload.time / 60) % 60)}m
       </text>
-      {/* <text
+      <text
         x={ex + (cos >= 0 ? 1 : -1) * 8}
-        y={ey + 5}
+        y={ey + 18}
         textAnchor={textAnchor}
         fill="#999"
       >
         {`(${(percent * 100).toFixed(0)}%)`}
-      </text> */}
+      </text>
     </g>
   );
 };
@@ -131,6 +140,14 @@ const TagPieStat: FC<Props> = ({ timerRecords }) => {
     });
   }, [timerRecords]);
 
+  const [activeIndex, setActiveIndex] = useState(0);
+  const onPieEnter = useCallback(
+    (_: any, index: React.SetStateAction<number>) => {
+      setActiveIndex(index);
+    },
+    [setActiveIndex]
+  );
+
   if (!data) {
     return null;
   }
@@ -146,7 +163,10 @@ const TagPieStat: FC<Props> = ({ timerRecords }) => {
           innerRadius="60%"
           outerRadius="80%"
           fill="#ac9172"
-          label={renderActiveShape}
+          activeIndex={activeIndex}
+          activeShape={renderActiveShape}
+          // label={renderActiveShape}
+          onMouseEnter={onPieEnter}
         />
       </PieChart>
     </GraphCard>
