@@ -1,6 +1,5 @@
-import React from "react";
+import React, { FC } from "react";
 
-import useTimerRecordsStore from "../Common/Stores/TimerRecordsStore";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 import { timerType } from "../Common/Types/Types";
 import { Typography } from "@mui/material";
@@ -16,7 +15,6 @@ interface dataType {
 }
 
 const getWeeklyWorkStat = async (timerRecords: timerType[]) => {
-  // const week = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const months = [
     "Jan",
     "Feb",
@@ -32,27 +30,13 @@ const getWeeklyWorkStat = async (timerRecords: timerType[]) => {
     "Dec",
   ];
 
-  const today = new Date();
   const weeklyWorkStatTemp: weeklyWorkStatType = {};
-  for (let i = 6; i >= 0; i--) {
-    const date = new Date(today.getTime() - i * 24 * 60 * 60 * 1000);
-    const day = date.getDate();
-    const month = date.getMonth();
-    let dayEntry = `${months[month]} ${day}`;
-    if (day === 0) {
-      dayEntry = `Today`;
-    }
-    weeklyWorkStatTemp[dayEntry] = 0;
-  }
 
   const weeklyWorkStat = timerRecords.reduce((acc, cur) => {
     const date = cur.startTime;
     const day = date.getDate();
     const month = date.getMonth();
-    let dayEntry = `${months[month]} ${day}`;
-    if (day === 0) {
-      dayEntry = `Today`;
-    }
+    const dayEntry = `${months[month]} ${day}`;
 
     if (acc[dayEntry]) {
       acc[dayEntry] += cur.duration;
@@ -71,11 +55,22 @@ const getWeeklyWorkStat = async (timerRecords: timerType[]) => {
     });
   }
 
+  // sort by date
+  data.sort((a, b) => {
+    const aDate = new Date(a.day);
+    const bDate = new Date(b.day);
+    return aDate.getTime() - bDate.getTime();
+  });
+
   return data;
 };
 
-const WeeklyWorkStat = () => {
-  const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
+interface Props {
+  timerRecords: timerType[];
+}
+
+const WeeklyWorkStat: FC<Props> = ({ timerRecords }) => {
+  // const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
 
   const [data, setData] = React.useState<dataType[]>();
 
@@ -124,7 +119,7 @@ const WeeklyWorkStat = () => {
       >
         <CartesianGrid vertical={false} />
 
-        <XAxis dataKey="day" />
+        <XAxis dataKey="day" angle={-60} interval={0} dy={20} fontSize={14} />
         <YAxis
           axisLine={false}
           width={30}
@@ -136,7 +131,7 @@ const WeeklyWorkStat = () => {
         />
         <Tooltip content={<CustomTooltip />} />
         {/* <Legend /> */}
-        <Bar dataKey="time" fill="#8884d8" />
+        <Bar dataKey="time" fill="#ac9172" />
       </BarChart>
     </GraphCard>
   );

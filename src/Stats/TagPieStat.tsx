@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC, useCallback, useState } from "react";
 
 import useTimerRecordsStore from "../Common/Stores/TimerRecordsStore";
 import { PieChart, Pie, Sector } from "recharts";
@@ -15,17 +15,9 @@ interface dataType {
 }
 
 const getPieData = async (timerRecords: timerType[]) => {
-  const today = new Date();
-  const weeklyTimerRecords = timerRecords.filter(
-    (timerRecord) =>
-      timerRecord.startTime.getTime() >=
-      today.getTime() - 7 * 24 * 60 * 60 * 1000
-  );
-
   const tagStat: TagStatType = {};
-  let total = 0;
 
-  weeklyTimerRecords.forEach((timerRecord) => {
+  timerRecords.forEach((timerRecord) => {
     const tags = timerRecord.tags;
     if (tags && tags.length > 0) {
       tags.forEach((tag) => {
@@ -36,13 +28,12 @@ const getPieData = async (timerRecords: timerType[]) => {
         }
       });
     } else {
-      if (tagStat["unset"]) {
-        tagStat["unset"] += timerRecord.duration;
+      if (tagStat["Unset"]) {
+        tagStat["Unset"] += timerRecord.duration;
       } else {
-        tagStat["unset"] = timerRecord.duration;
+        tagStat["Unset"] = timerRecord.duration;
       }
     }
-    total += timerRecord.duration;
   });
 
   console.log(tagStat);
@@ -51,7 +42,7 @@ const getPieData = async (timerRecords: timerType[]) => {
   for (const entry in tagStat) {
     data.push({
       tag: entry,
-      time: Math.floor((tagStat[entry] / total) * 100),
+      time: tagStat[entry],
     } as dataType);
   }
 
@@ -64,10 +55,11 @@ const renderActiveShape = (props: any) => {
     cx,
     cy,
     midAngle,
+    innerRadius,
     outerRadius,
     startAngle,
     endAngle,
-    fill,
+    // fill,
     payload,
     percent,
   } = props;
@@ -77,14 +69,24 @@ const renderActiveShape = (props: any) => {
   const sy = cy + (outerRadius + 10) * sin;
   const mx = cx + (outerRadius + 20) * cos;
   const my = cy + (outerRadius + 20) * sin;
-  const ex = mx + (cos >= 0 ? 1 : -1) * 11;
-  const ey = my;
+  const ex = mx + (cos >= 0 ? 1 : -1) * 20 * Math.abs(sin);
+  const ey = my - sin * 10;
+  const fill = "#52749c";
   const textAnchor = cos >= 0 ? "start" : "end";
   return (
     <g>
       <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
-        {payload.name}
+        {payload.tag}
       </text>
+      <Sector
+        cx={cx}
+        cy={cy}
+        innerRadius={innerRadius}
+        outerRadius={outerRadius}
+        startAngle={startAngle}
+        endAngle={endAngle}
+        fill={fill}
+      />
       <Sector
         cx={cx}
         cy={cy}
@@ -101,16 +103,17 @@ const renderActiveShape = (props: any) => {
       />
       <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
       <text
-        x={ex + (cos >= 0 ? 1 : -1) * -5}
-        y={ey - 15}
+        x={ex + (cos >= 0 ? 1 : -1) * 8}
+        y={ey}
         textAnchor={textAnchor}
-        fill="#333"
+        // fill="#999"
       >
-        {payload.tag}
+        {Math.floor(payload.time / 60 / 60)}h{" "}
+        {Math.floor((payload.time / 60) % 60)}m
       </text>
       <text
         x={ex + (cos >= 0 ? 1 : -1) * 8}
-        y={ey + 5}
+        y={ey + 18}
         textAnchor={textAnchor}
         fill="#999"
       >
@@ -120,8 +123,12 @@ const renderActiveShape = (props: any) => {
   );
 };
 
-const TagPieStat = () => {
-  const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
+interface Props {
+  timerRecords: timerType[];
+}
+
+const TagPieStat: FC<Props> = ({ timerRecords }) => {
+  // const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
 
   const [data, setData] = React.useState<dataType[]>();
 
@@ -132,6 +139,14 @@ const TagPieStat = () => {
       }
     });
   }, [timerRecords]);
+
+  const [activeIndex, setActiveIndex] = useState(0);
+  const onPieEnter = useCallback(
+    (_: any, index: React.SetStateAction<number>) => {
+      setActiveIndex(index);
+    },
+    [setActiveIndex]
+  );
 
   if (!data) {
     return null;
@@ -147,10 +162,11 @@ const TagPieStat = () => {
           cy="50%"
           innerRadius="60%"
           outerRadius="80%"
-          fill="#82ca9d"
-          label={renderActiveShape}
-          // label={(entry) => `${entry.tag} ${entry.time}%`}
-          labelLine
+          fill="#ac9172"
+          activeIndex={activeIndex}
+          activeShape={renderActiveShape}
+          // label={renderActiveShape}
+          onMouseEnter={onPieEnter}
         />
       </PieChart>
     </GraphCard>

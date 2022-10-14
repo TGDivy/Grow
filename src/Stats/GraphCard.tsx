@@ -24,22 +24,22 @@ const GraphCard: FC<Props> = (props) => {
           </Typography>
         }
       />
-      <CardContent>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-            height: "25vh",
-            width: "100%",
-            backgroundColor: "#ffffffff",
-          }}
-        >
-          <ResponsiveContainer>{props.children}</ResponsiveContainer>
-        </Box>
-      </CardContent>
+      {/* <CardContent> */}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+          height: "30vh",
+          width: "100%",
+          backgroundColor: "#ffffffff",
+        }}
+      >
+        <ResponsiveContainer>{props.children}</ResponsiveContainer>
+      </Box>
+      {/* </CardContent> */}
     </Card>
   );
 };
