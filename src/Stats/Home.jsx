@@ -164,7 +164,7 @@ const Home = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={6} md={6}>
+          {/* <Grid item xs={6} md={6}>
             <Typography variant="h6">Total Work Time</Typography>
             <Typography variant="h4">
               {user.totalWorkTime ? user.totalWorkTime : 0} hours
@@ -175,7 +175,7 @@ const Home = () => {
             <Typography variant="h4">
               {user.totalBreakTime ? user.totalBreakTime : 0} hours
             </Typography>
-          </Grid>
+          </Grid> */}
           <Grid item xs={12} md={6}>
             <WeeklyWorkStat timerRecords={selectedPeriod} />
           </Grid>
