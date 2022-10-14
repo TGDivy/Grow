@@ -1,3 +1,4 @@
+import { isInteger } from "lodash";
 import React, { FC } from "react";
 
 import {
@@ -9,7 +10,7 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
-import { timerType } from "../Common/Types/Types";
+import { tagsType, timerType } from "../Common/Types/Types";
 import GraphCard from "./GraphCard";
 
 interface TagStatType {
@@ -27,7 +28,14 @@ const getRadarData = async (
   previousPeriod: timerType[]
 ) => {
   const getTagStat = (timerRecords: timerType[]) => {
-    const tagStat: TagStatType = {};
+    // filter into tags
+    const tagStat: TagStatType = {
+      Engineering: 0,
+      Applications: 0,
+      Study: 0,
+      Planning: 0,
+    };
+
     let total = 0;
 
     timerRecords.forEach((timerRecord) => {
@@ -97,7 +105,7 @@ const TagRadarStat: FC<Props> = ({ selectedPeriod, previousPeriod }) => {
     return null;
   }
   console.log(data);
-  const angle = 180 / data.length;
+  const angle = 90;
   return (
     <GraphCard title="Distribuition by Tags">
       <RadarChart
@@ -105,19 +113,20 @@ const TagRadarStat: FC<Props> = ({ selectedPeriod, previousPeriod }) => {
         cy="50%"
         outerRadius="90%"
         innerRadius="15%"
-        startAngle={angle}
-        endAngle={angle + 360}
+        // startAngle={-angle}
+        // endAngle={-angle + 360}
         data={data}
         margin={{ top: 10, right: 0, bottom: 10, left: 0 }}
       >
         <PolarGrid />
         <PolarAngleAxis
+          angleAxisId={0}
           dataKey="tag"
           tick={{ fill: "#2e2e2e", fontSize: 16, fontWeight: 500 }}
         />
         <PolarRadiusAxis
           domain={[0, "dataMax"]}
-          tickCount={3}
+          tickCount={4}
           axisLine={false}
           angle={angle}
           orientation="middle"
