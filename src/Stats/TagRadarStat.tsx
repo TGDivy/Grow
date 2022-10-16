@@ -68,8 +68,6 @@ const getRadarData = async (
   const tags: string[] = Array.from(
     new Set([...Object.keys(tagStat), ...Object.keys(tagStat2)])
   );
-
-  console.log(tags);
   for (const tag of tags) {
     const time = tagStat[tag] ? tagStat[tag] : 0;
     const timePrev = tagStat2[tag] ? tagStat2[tag] : 0;
@@ -104,7 +102,6 @@ const TagRadarStat: FC<Props> = ({ selectedPeriod, previousPeriod }) => {
   if (!data) {
     return null;
   }
-  console.log(data);
   const angle = 90;
   return (
     <GraphCard title="Distribuition by Tags">

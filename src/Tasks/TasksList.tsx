@@ -42,9 +42,10 @@ const fetchNewDocs = async (
   }, initialTask);
 
   const latestDate: Date = latestTask
-    ? latestTask[1].dateUpdated
+    ? new Date(latestTask[1].dateUpdated)
     : new Date(2000, 1, 1);
 
+  console.log("latestDate", latestDate);
   // Fetch tasks after the latest task date
 
   const q = query(collectionRef, where("dateUpdated", ">", latestDate));
@@ -76,6 +77,7 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
         querySnapshot.forEach((doc) => {
           console.log(`${doc.id} => ${doc.data()}`);
           const task = doc.data() as taskType;
+          task.dateUpdated = doc.data().dateUpdated.toDate();
           addTask(task, doc.id);
         });
       })

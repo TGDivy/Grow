@@ -36,8 +36,6 @@ const getPieData = async (timerRecords: timerType[]) => {
     }
   });
 
-  console.log(tagStat);
-
   const data = [];
   for (const entry in tagStat) {
     data.push({

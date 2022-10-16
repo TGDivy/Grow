@@ -2,7 +2,7 @@ import React, { FC } from "react";
 
 import { Link, useLocation } from "react-router-dom";
 
-import { Home, Task, Nature } from "@mui/icons-material";
+import { Home, Task, Nature, Terrain } from "@mui/icons-material";
 import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 
 interface Props {
@@ -40,6 +40,13 @@ const BottomNavigationBar: FC<Props> = () => {
           label="Seed"
           value="/Seed"
           icon={<Nature />}
+        />
+        <BottomNavigationAction
+          component={Link}
+          to="/Soil"
+          label="Soil"
+          value="/Soil"
+          icon={<Terrain />}
         />
       </BottomNavigation>
     </Paper>

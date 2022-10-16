@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import addUser from "../Firestore/addUser";
 import useTaskStore from "../Stores/TaskStore";
+import useWorkoutStore from "../Stores/WorkoutStore";
+import useActivityStore from "../Stores/ActivityStore";
 
 export const CurrentUserContext = React.createContext();
 
@@ -11,6 +13,8 @@ export const CurrentUserProvider = ({ children }) => {
   const [once, setOnce] = useState(false);
   const auth = getAuth();
   const setUserID = useTaskStore((state) => state.setUserID);
+  const setWorkoutUserID = useWorkoutStore((state) => state.setUserId);
+  const setActivityUserID = useActivityStore((state) => state.setUserId);
 
   onAuthStateChanged(auth, (user) => {
     if (user && !once) {
@@ -19,6 +23,8 @@ export const CurrentUserProvider = ({ children }) => {
         .then((userData) => {
           setUser(userData);
           setUserID(userData.uid);
+          setWorkoutUserID(userData.uid);
+          setActivityUserID(userData.uid);
           setOnce(true);
         })
         .catch((error) => {

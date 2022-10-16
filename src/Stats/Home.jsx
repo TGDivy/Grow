@@ -18,12 +18,13 @@ import TagRadarStat from "./TagRadarStat";
 const filterTimerRecords = (timerRecords, timePeriodLength, daysBack) => {
   const DAY = 24 * 60 * 60 * 1000;
 
-  const current = new Date(Date.now() - daysBack * DAY);
+  const today = new Date().setHours(0, 0, 0, 0);
+  const current = new Date(today - daysBack * DAY);
   const filteredTimerRecords = timerRecords.filter(
     (timerRecord) =>
       timerRecord.startTime.getTime() >
         current.getTime() - (timePeriodLength - 1) * DAY &&
-      timerRecord.startTime.getTime() < current.getTime()
+      timerRecord.startTime.getTime() < current.getTime() + DAY
   );
   // Pad weeklyTimerRecords with empty days
   for (let i = 0; i < timePeriodLength; i++) {

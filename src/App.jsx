@@ -5,6 +5,7 @@ import useCurrentUser from "./Common/Contexts/UserContext";
 import BottomNavigationBar from "./BottomNavigationBar";
 import TasksMain from "./Tasks/TasksMain";
 import SeedMain from "./Seed/SeedMain";
+import SoilMain from "./Soil/SoilMain";
 import { Container } from "@mui/material";
 import {
   BrowserRouter as Router,
@@ -31,6 +32,10 @@ const App = () => {
         <Route
           path="/Seed"
           element={user ? <SeedMain /> : <Navigate to="/Login" />}
+        />
+        <Route
+          path="/Soil"
+          element={user ? <SoilMain /> : <Navigate to="/Login" />}
         />
       </>
     );
