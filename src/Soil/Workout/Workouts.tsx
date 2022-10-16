@@ -11,7 +11,6 @@ const Workouts = () => {
   const fetchWorkouts = useWorkoutStore((state) => state.fetchWorkouts);
   useEffect(() => {
     fetchWorkouts();
-    console.log("fetching workouts");
   }, []);
 
   const workoutCards = _.map(workouts, (workout: workoutType) => {

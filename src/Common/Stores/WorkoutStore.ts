@@ -61,7 +61,6 @@ const fetchWorkouts = async (user_id: string, date: Date) => {
   querySnapshot.forEach((doc) => {
     workouts[doc.data().name] = doc.data() as workoutType;
   });
-  console.log("Workouts fetched: ", workouts);
   return workouts;
 };
 
@@ -77,6 +76,7 @@ const useWorkoutStore = create<workoutStoreType>()(
 
           set((state) => ({
             workouts: { ...state.workouts, [workout.name]: workout },
+            latestWorkoutTypeDate: workout.date,
           }));
         },
 
@@ -110,6 +110,7 @@ const useWorkoutStore = create<workoutStoreType>()(
             .then((workouts) => {
               set((state) => ({
                 workouts: { ...state.workouts, ...workouts },
+                latestWorkoutTypeDate: new Date(),
               }));
             })
             .catch((error) => {
