@@ -61,7 +61,7 @@ export interface setRepCountType {
 
 export interface activityType {
   name: string;
-  date: Date;
+  date?: Date;
   distance?: number;
   duration?: number;
   set?: Array<setRepCountType>;
