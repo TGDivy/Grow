@@ -72,12 +72,18 @@ const useWorkoutStore = create<workoutStoreType>()(
         workouts: {},
         user_id: "",
         addWorkout: (workout) => {
-          set(
-            produce((state) => {
-              state.workouts[workout.name] = workout;
-            })
-          );
           addWorkoutToDB(workout.name, workout, get().user_id);
+
+          set((state) => {
+            const newState = produce(state, (draftState) => {
+              draftState.workouts[workout.name] = [
+                ...draftState.workouts[workout.name],
+                workout,
+              ];
+              draftState.latestWorkoutTypeDate = workout.date;
+            });
+            return newState;
+          });
         },
 
         setUserId: (user_id) => {
