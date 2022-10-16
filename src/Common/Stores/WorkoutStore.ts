@@ -57,10 +57,11 @@ const fetchWorkouts = async (user_id: string, date: Date) => {
   const workoutCollectionRef = collection(db, "users", user_id, "workouts");
   const q = query(workoutCollectionRef, where("date", ">", date));
   const querySnapshot = await getDocs(q);
-  const workouts: workoutType[] = [];
+  const workouts: { [key: string]: workoutType } = {};
   querySnapshot.forEach((doc) => {
-    workouts.push(doc.data() as workoutType);
+    workouts[doc.data().name] = doc.data() as workoutType;
   });
+  console.log("Workouts fetched: ", workouts);
   return workouts;
 };
 
@@ -102,15 +103,18 @@ const useWorkoutStore = create<workoutStoreType>()(
           );
         },
         fetchWorkouts: () => {
-          const workouts = fetchWorkouts(
+          fetchWorkouts(
             get().user_id,
             get().latestWorkoutTypeDate || new Date(0)
-          );
-          set(
-            produce((state) => {
-              state.workouts = workouts;
+          )
+            .then((workouts) => {
+              set((state) => ({
+                workouts: { ...state.workouts, ...workouts },
+              }));
             })
-          );
+            .catch((error) => {
+              console.log("Error getting documents: ", error);
+            });
         },
       }),
       {
