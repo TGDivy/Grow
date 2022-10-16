@@ -97,7 +97,8 @@ const WeeklyWorkStat: FC<Props> = ({ timerRecords }) => {
           }}
         >
           <Typography variant="h6" color="text.primary">
-            {`${payload[0].value} M`}
+            {/* {`${payload[0].value} M`} */}
+            {`${Math.floor(payload[0].value / 60)}H ${payload[0].value % 60}M`}
           </Typography>
         </div>
       );
@@ -125,7 +126,7 @@ const WeeklyWorkStat: FC<Props> = ({ timerRecords }) => {
           width={30}
           orientation="left"
           tickCount={6}
-          tickFormatter={(tick) => `${tick}`}
+          tickFormatter={(tick) => `${(tick / 60).toFixed(0)}H`}
           tickLine={false}
           // ticks={ticks}
         />

@@ -126,10 +126,12 @@ const WorkStatLine: FC<Props> = ({
           }}
         >
           <Typography variant="h6" color="text.primary">
-            {`${payload[1].value} M`}
+            {`${Math.floor(payload[1].value / 60)}H ${payload[1].value % 60}M`}
           </Typography>
           <Typography variant="body2" color="text.primary">
-            {`Previous ${payload[0].value} M`}
+            {`Previous ${Math.floor(payload[0].value / 60)}H ${
+              payload[0].value % 60
+            }M`}
           </Typography>
         </div>
       );
@@ -157,9 +159,8 @@ const WorkStatLine: FC<Props> = ({
           width={30}
           orientation="left"
           tickCount={6}
-          tickFormatter={(tick) => `${tick}`}
+          tickFormatter={(tick) => `${(tick / 60).toFixed(0)}H`}
           tickLine={false}
-          // ticks={ticks}
         />
         <Tooltip content={<CustomTooltip />} />
         {/* <Legend /> */}

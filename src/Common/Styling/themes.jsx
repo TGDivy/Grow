@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createTheme } from "@mui/material/styles";
-
+import shadows from "@mui/material/styles/shadows";
 // Primary and secondary colors are compliments of each other
 const SDark = "#21496d";
 const SLight = "#81a3cc";
@@ -16,6 +16,17 @@ const Error = "#B00020";
 
 const Theme = createTheme({
   components: {
+    // Add hover effect to mui card
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          "&:hover": {
+            boxShadow: shadows[20],
+          },
+        },
+      },
+    },
+
     MuiCardHeader: {
       styleOverrides: {
         root: {
