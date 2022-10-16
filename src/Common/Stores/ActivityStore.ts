@@ -1,15 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import create from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { activityType } from "../Types/Types";
 import produce from "immer";
 
 import {
-  setDoc,
   collection,
   updateDoc,
   doc,
-  increment,
   addDoc,
   arrayUnion,
   getDoc,
