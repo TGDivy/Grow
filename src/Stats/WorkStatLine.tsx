@@ -50,7 +50,6 @@ const getWeeklyWorkStat = async (
       const date = new Date(
         cur.startTime.getTime() + diff * 24 * 60 * 60 * 1000
       );
-      console.log(date);
       const day = date.getDate();
       const month = date.getMonth();
       const dayEntry = `${months[month]} ${day}`;
@@ -115,8 +114,6 @@ const WorkStatLine: FC<Props> = ({
   if (!data) {
     return null;
   }
-
-  console.log(data);
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active) {
