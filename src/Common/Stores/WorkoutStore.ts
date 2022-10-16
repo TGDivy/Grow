@@ -19,7 +19,7 @@ interface workoutStoreType {
   workouts: { [key: string]: workoutType[] };
   user_id: string;
   addWorkout: (workout: workoutType) => void;
-  fetchWorkouts: (user_id: string) => void;
+  fetchWorkouts: () => void;
   setUserId: (user_id: string) => void;
   updateWorkout: (workout: workoutType) => void;
   deleteWorkout: (workout: workoutType) => void;
@@ -30,14 +30,8 @@ const addWorkoutToDB = async (
   workout: workoutType,
   user_id: string
 ) => {
-  const workoutCollectionRef = collection(
-    db,
-    "users",
-    user_id,
-    "workouts",
-    workout_id
-  );
-  await addDoc(workoutCollectionRef, workout);
+  const workoutDocumentRef = doc(db, "users", user_id, "workouts", workout_id);
+  await setDoc(workoutDocumentRef, workout);
 
   console.log("Document written with ID: ", workout_id);
 };
@@ -85,22 +79,7 @@ const useWorkoutStore = create<workoutStoreType>()(
           );
           addWorkoutToDB(workout.name, workout, get().user_id);
         },
-        fetchWorkouts: (user_id) => {
-          set(
-            produce((state) => {
-              state.user_id = user_id;
-            })
-          );
-          const workouts = fetchWorkouts(
-            user_id,
-            get().latestWorkoutTypeDate || new Date(0)
-          );
-          set(
-            produce((state) => {
-              state.workouts = workouts;
-            })
-          );
-        },
+
         setUserId: (user_id) => {
           set(
             produce((state) => {
@@ -120,6 +99,17 @@ const useWorkoutStore = create<workoutStoreType>()(
           set(
             produce((state) => {
               delete state.workouts[workout.name];
+            })
+          );
+        },
+        fetchWorkouts: () => {
+          const workouts = fetchWorkouts(
+            get().user_id,
+            get().latestWorkoutTypeDate || new Date(0)
+          );
+          set(
+            produce((state) => {
+              state.workouts = workouts;
             })
           );
         },
@@ -143,7 +133,7 @@ const useWorkoutStore = create<workoutStoreType>()(
     ),
 
     {
-      name: "activity-storage",
+      name: "workout-storage",
     }
   )
 );

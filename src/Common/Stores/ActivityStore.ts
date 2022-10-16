@@ -24,6 +24,7 @@ interface activityStoreType {
   user_id: string;
   addActivity: (activity: activityType, id: string) => void;
   fetchActivities: (user_id: string) => void;
+  setUserId: (user_id: string) => void;
 }
 
 const addActivityToDB = async (
@@ -98,7 +99,7 @@ const fetchActivities = async (
   return { activities, activityTypes };
 };
 
-const useTimerStore = create<activityStoreType>()(
+const useActivityStore = create<activityStoreType>()(
   devtools(
     persist(
       (set, get) => ({
@@ -123,6 +124,9 @@ const useTimerStore = create<activityStoreType>()(
             get().activities
           );
           set({ activities, activityTypes, user_id });
+        },
+        setUserId: (user_id) => {
+          set({ user_id });
         },
       }),
       {
@@ -149,4 +153,4 @@ const useTimerStore = create<activityStoreType>()(
   )
 );
 
-export default useTimerStore;
+export default useActivityStore;
