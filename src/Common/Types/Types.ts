@@ -1,3 +1,5 @@
+import { TupleType } from "typescript";
+
 export enum tagsType {
   "Engineering",
   "Research",
@@ -53,4 +55,16 @@ export interface timerType {
   duration: number;
   taskKey: string;
   tags: Array<tagsType>;
+}
+
+export interface setRepCountType {
+  (repCount: number): void;
+}
+
+export interface activityType {
+  name: string;
+  date: Date;
+  distance?: number;
+  duration?: number;
+  set?: Array<setRepCountType>;
 }
