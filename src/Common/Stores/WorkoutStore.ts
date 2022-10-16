@@ -60,6 +60,7 @@ const fetchWorkouts = async (user_id: string, date: Date) => {
   const workouts: { [key: string]: workoutType } = {};
   querySnapshot.forEach((doc) => {
     workouts[doc.data().name] = doc.data() as workoutType;
+    workouts[doc.data().name].date = doc.data().date.toDate();
   });
   return workouts;
 };

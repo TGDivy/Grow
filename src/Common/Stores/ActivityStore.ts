@@ -77,6 +77,7 @@ const fetchActivities = async (
 
   querySnapshot.forEach((doc) => {
     const data = doc.data() as activityType;
+    data.date = doc.data().date.toDate();
     if (activities[data.name]) {
       activities[data.name].push(data);
     } else {
