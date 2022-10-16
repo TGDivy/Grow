@@ -66,3 +66,13 @@ export interface activityType {
   duration?: number;
   set?: Array<setRepCountType>;
 }
+
+export interface workoutType {
+  name: string;
+  date: Date;
+  activities: Array<activityType>;
+}
+
+export interface activityTypeDoc {
+  activityTypes: string[];
+}

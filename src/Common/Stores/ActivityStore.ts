@@ -1,6 +1,6 @@
 import create from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import { activityType } from "../Types/Types";
+import { activityType, activityTypeDoc } from "../Types/Types";
 import produce from "immer";
 
 import {
@@ -56,10 +56,6 @@ const addActivityToDB = async (
     });
   }
 };
-
-interface activityTypeDoc {
-  activityTypes: string[];
-}
 
 const fetchActivities = async (
   user_id: string,
