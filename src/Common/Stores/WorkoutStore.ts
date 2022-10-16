@@ -16,7 +16,7 @@ import { db } from "../Firestore/firebase-config";
 
 interface workoutStoreType {
   latestWorkoutTypeDate: Date | null;
-  workouts: { [key: string]: workoutType[] };
+  workouts: { [key: string]: workoutType };
   user_id: string;
   addWorkout: (workout: workoutType) => void;
   fetchWorkouts: () => void;
@@ -74,16 +74,9 @@ const useWorkoutStore = create<workoutStoreType>()(
         addWorkout: (workout) => {
           addWorkoutToDB(workout.name, workout, get().user_id);
 
-          set((state) => {
-            const newState = produce(state, (draftState) => {
-              draftState.workouts[workout.name] = [
-                ...draftState.workouts[workout.name],
-                workout,
-              ];
-              draftState.latestWorkoutTypeDate = workout.date;
-            });
-            return newState;
-          });
+          set((state) => ({
+            workouts: { ...state.workouts, [workout.name]: workout },
+          }));
         },
 
         setUserId: (user_id) => {

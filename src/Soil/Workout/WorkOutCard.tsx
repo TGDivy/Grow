@@ -13,6 +13,8 @@ interface Props {
 }
 
 const WorkOutCard: FC<Props> = ({ workout }) => {
+  const { name, description, activities } = workout;
+
   return (
     <Card>
       <CardContent>

@@ -1,3 +1,5 @@
+import { TupleType } from "typescript";
+
 export enum tagsType {
   "Engineering",
   "Research",
@@ -11,6 +13,14 @@ export enum tagsType {
 export enum priorityType {
   "High",
   "Medium",
+}
+
+export enum workoutMeasurements {
+  "Duration",
+  "Distance",
+  "Reps",
+  "Sets and Reps",
+  "Duration and Distance",
 }
 
 // export type subtaskType = [string, boolean];
@@ -55,22 +65,25 @@ export interface timerType {
   tags: Array<tagsType>;
 }
 
-export interface setRepCountType {
-  (repCount: number): void;
+export interface setRepType {
+  repCount: number;
+  repWeight: number;
 }
 
 export interface activityType {
   name: string;
   date: Date;
+  type: workoutMeasurements;
   distance?: number;
   duration?: number;
-  set?: Array<setRepCountType>;
+  set?: Array<setRepType>;
 }
 
 export interface workoutType {
   name: string;
   date: Date;
   activities: Array<activityType>;
+  description: string;
 }
 
 export interface activityTypeDoc {
