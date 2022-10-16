@@ -5,12 +5,15 @@ import WorkOutCard from "./WorkOutCard";
 import CreateWorkout from "./CreateWorkout";
 import { workoutType } from "../../Common/Types/Types";
 import _ from "lodash";
+import useActivityStore from "../../Common/Stores/ActivityStore";
 
 const Workouts = () => {
   const workouts = useWorkoutStore((state) => state.workouts);
   const fetchWorkouts = useWorkoutStore((state) => state.fetchWorkouts);
+  const fetchActivities = useActivityStore((state) => state.fetchActivities);
   useEffect(() => {
     fetchWorkouts();
+    fetchActivities();
   }, []);
 
   const workoutCards = _.map(workouts, (workout: workoutType) => {

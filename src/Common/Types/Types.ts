@@ -15,13 +15,21 @@ export enum priorityType {
   "Medium",
 }
 
-export enum workoutMeasurements {
-  "Duration",
-  "Distance",
-  "Reps",
-  "Sets and Reps",
-  "Duration and Distance",
-}
+// export enum workoutMeasurements {
+//   "Duration",
+//   "Distance",
+//   "Reps",
+//   "Sets and Reps",
+//   "Duration and Distance",
+// }
+
+export const workoutMeasurements = {
+  Duration: "Duration",
+  Distance: "Distance",
+  Reps: "Reps",
+  "Sets and Reps": "Sets and Reps",
+  "Duration and Distance": "Duration and Distance",
+};
 
 // export type subtaskType = [string, boolean];
 
@@ -66,17 +74,16 @@ export interface timerType {
 }
 
 export interface setRepType {
-  repCount: number;
-  repWeight: number;
+  reps: number;
+  weight: number;
 }
 
 export interface activityType {
   name: string;
   date: Date;
-  type: workoutMeasurements;
   distance?: number;
   duration?: number;
-  set?: Array<setRepType>;
+  sets?: Array<setRepType>;
 }
 
 export interface workoutType {

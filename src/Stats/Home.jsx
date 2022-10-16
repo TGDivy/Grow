@@ -20,7 +20,6 @@ const filterTimerRecords = (timerRecords, timePeriodLength, daysBack) => {
 
   const today = new Date().setHours(0, 0, 0, 0);
   const current = new Date(today - daysBack * DAY);
-  console.log(daysBack, current);
   const filteredTimerRecords = timerRecords.filter(
     (timerRecord) =>
       timerRecord.startTime.getTime() >

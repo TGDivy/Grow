@@ -127,6 +127,10 @@ const useWorkoutStore = create<workoutStoreType>()(
             newState.state.workouts[key].date = new Date(
               newState.state.workouts[key].date
             );
+
+            newState.state.workouts[key].activities.forEach((activity: any) => {
+              activity.date = new Date(activity.date);
+            });
           }
           newState.state.latestWorkoutTypeDate = new Date(
             newState.state.latestWorkoutTypeDate
