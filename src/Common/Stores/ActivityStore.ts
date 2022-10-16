@@ -13,6 +13,7 @@ import {
   where,
   query,
   getDocs,
+  setDoc,
 } from "firebase/firestore";
 import { db } from "../Firestore/firebase-config";
 import { Set } from "typescript";
@@ -20,31 +21,24 @@ import { Set } from "typescript";
 interface activityStoreType {
   latestActivityDate: Date | null;
   activities: { [key: string]: activityType[] };
-  activityTypes: Set<string>;
+  activityTypes: string[];
   user_id: string;
-  addActivity: (activity: activityType, id: string) => void;
-  fetchActivities: (user_id: string) => void;
+  addActivity: (activity: activityType) => void;
+  fetchActivities: () => void;
   setUserId: (user_id: string) => void;
 }
 
 const addActivityToDB = async (
-  activity_id: string,
   activity: activityType,
   user_id: string,
-  activityTypes: Set<string>
+  activityTypes: string[]
 ) => {
-  const activityCollectionRef = collection(
-    db,
-    "users",
-    user_id,
-    "soil",
-    activity_id
-  );
+  const activityCollectionRef = collection(db, "users", user_id, "soil");
   await addDoc(activityCollectionRef, activity);
 
-  console.log("Document written with ID: ", activity_id);
+  console.log("Document written with ID: ", activity.name);
 
-  if (!activityTypes.has(activity.name)) {
+  if (!activityTypes.includes(activity.name)) {
     const activityTypeDocRef = doc(
       db,
       "users",
@@ -52,7 +46,7 @@ const addActivityToDB = async (
       "soil",
       "activityTypes"
     );
-    await updateDoc(activityTypeDocRef, {
+    await setDoc(activityTypeDocRef, {
       activityTypes: arrayUnion(activity.name),
     });
   }
@@ -65,35 +59,29 @@ const fetchActivities = async (
 ) => {
   const activityTypeDocRef = doc(db, "users", user_id, "soil", "activityTypes");
   const activityTypeDoc = await getDoc(activityTypeDocRef);
-  const activityTypes = new Set<string>();
+  const activityTypes = [] as string[];
   if (activityTypeDoc.exists()) {
     const data = activityTypeDoc.data() as activityTypeDoc;
     data.activityTypes.forEach((activityType) => {
-      activityTypes.add(activityType);
+      if (!activityTypes.includes(activityType)) {
+        activityTypes.push(activityType);
+      }
     });
   }
 
-  activityTypes.forEach(async (activityType) => {
-    const activityCollectionRef = collection(
-      db,
-      "users",
-      user_id,
-      "soil",
-      activityType
-    );
+  const activityCollectionRef = collection(db, "users", user_id, "soil");
 
-    const q = query(activityCollectionRef, where("date", ">", date));
+  const q = query(activityCollectionRef, where("date", ">", date));
 
-    const querySnapshot = await getDocs(q);
+  const querySnapshot = await getDocs(q);
 
-    querySnapshot.forEach((doc) => {
-      const data = doc.data() as activityType;
-      if (activities[activityType]) {
-        activities[activityType].push(data);
-      } else {
-        activities[activityType] = [data];
-      }
-    });
+  querySnapshot.forEach((doc) => {
+    const data = doc.data() as activityType;
+    if (activities[data.name]) {
+      activities[data.name].push(data);
+    } else {
+      activities[data.name] = [data];
+    }
   });
 
   return { activities, activityTypes };
@@ -104,26 +92,39 @@ const useActivityStore = create<activityStoreType>()(
     persist(
       (set, get) => ({
         activities: {},
-        activityTypes: new Set<string>(),
+        activityTypes: [] as string[],
         latestActivityDate: null,
         user_id: "",
-        addActivity: (activity, id) => {
-          addActivityToDB(id, activity, get().user_id, get().activityTypes);
-          set(
-            produce((state) => {
-              state.activities[id].push(activity);
-              state.activityTypes.add(activity.name);
-              state.latestActivityDate = activity.date;
-            })
-          );
+        addActivity: (activity) => {
+          addActivityToDB(activity, get().user_id, get().activityTypes);
+          set((state) => {
+            if (state.activities[activity.name]) {
+              state.activities[activity.name].push(activity);
+            } else {
+              state.activities[activity.name] = [activity];
+            }
+            if (!state.activityTypes.includes(activity.name)) {
+              state.activityTypes.push(activity.name);
+            }
+            state.latestActivityDate = activity.date;
+            return state;
+          });
         },
-        fetchActivities: async (user_id) => {
-          const { activities, activityTypes } = await fetchActivities(
-            user_id,
+        fetchActivities: async () => {
+          fetchActivities(
+            get().user_id,
             get().latestActivityDate || new Date(0),
             get().activities
-          );
-          set({ activities, activityTypes, user_id });
+          ).then(({ activities, activityTypes }) => {
+            set((state) => {
+              return {
+                ...state,
+                activities,
+                activityTypes,
+                user_id: state.user_id,
+              };
+            });
+          });
         },
         setUserId: (user_id) => {
           set({ user_id });
@@ -142,6 +143,8 @@ const useActivityStore = create<activityStoreType>()(
           newState.state.latestActivityDate = new Date(
             newState.state.latestActivityDate
           );
+          newState.state.activityTypes =
+            newState.state.activityTypes || ([] as string[]);
           return newState;
         },
       }

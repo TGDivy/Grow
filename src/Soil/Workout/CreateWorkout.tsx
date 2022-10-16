@@ -59,6 +59,12 @@ const CreateWorkout = () => {
   const handleSave = () => {
     addWorkout(workout);
     setOpen(false);
+    setWorkout({
+      name: "",
+      description: "",
+      activities: [],
+      date: new Date(),
+    });
   };
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,8 +82,10 @@ const CreateWorkout = () => {
   const [activity, setActivity] = React.useState<activityType>({
     name: "",
     date: new Date(),
-    type: workoutMeasurements["Sets and Reps"],
   });
+  const [measurement, setMeasurement] = React.useState<string>(
+    workoutMeasurements.Distance
+  );
 
   const handleActivityNameChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -86,14 +94,41 @@ const CreateWorkout = () => {
   };
 
   // list of measurements
-  const measurementTypes = Object.keys(workoutMeasurements).filter(
-    (key) =>
-      typeof workoutMeasurements[key as keyof typeof workoutMeasurements] ===
-      "number"
-  );
+  const measurementTypes = Object.keys(workoutMeasurements);
 
   const handleAddActivity = () => {
-    setWorkout({ ...workout, activities: [...workout.activities, activity] });
+    let newActivity = {} as activityType;
+
+    switch (measurement) {
+      case workoutMeasurements.Distance:
+        newActivity = {
+          ...activity,
+          distance: 0,
+        };
+        break;
+      case workoutMeasurements.Duration:
+        newActivity = {
+          ...activity,
+          duration: 0,
+        };
+        break;
+      case workoutMeasurements["Sets and Reps"]:
+        newActivity = {
+          ...activity,
+          sets: [],
+        };
+        break;
+      default:
+        newActivity = activity;
+    }
+    setActivity({
+      name: "",
+      date: new Date(),
+    });
+    setWorkout({
+      ...workout,
+      activities: [...workout.activities, newActivity],
+    });
   };
 
   return (
@@ -152,14 +187,9 @@ const CreateWorkout = () => {
             <Select
               labelId="measurement"
               id="measurement"
-              value={activity.type}
+              value={measurement}
               label="Measurement"
-              onChange={(event) =>
-                setActivity({
-                  ...activity,
-                  type: event.target.value as workoutMeasurements,
-                })
-              }
+              onChange={(event) => setMeasurement(event.target.value)}
             >
               {measurementTypes.map((measurement) => (
                 <MenuItem key={measurement} value={measurement}>
