@@ -36,14 +36,10 @@ const CreateTask: FC<createTaskFc> = ({ taskListName }) => {
   return (
     <>
       <Button
-        variant="outlined"
-        color="primary"
+        variant="contained"
+        color="secondary"
         onClick={handleClickOpen}
-        sx={{
-          width: "100%",
-          // height: "100%",
-          border: "1px solid",
-        }}
+        fullWidth
       >
         <Add />
         Task

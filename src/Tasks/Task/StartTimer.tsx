@@ -44,12 +44,12 @@ const StartTimer: FC<startTimerProps> = ({ id, timeSpent }) => {
         gap: 1,
       }}
     >
-      <Button variant="outlined" fullWidth>
+      <Button variant="outlined" fullWidth size="small">
         <Typography variant="caption">
           {timeSpent ? formatTime(timeSpent) : "0m"}
         </Typography>
       </Button>
-      <Button variant="contained" fullWidth onClick={handleStart}>
+      <Button variant="contained" fullWidth onClick={handleStart} size="small">
         <PlayArrow fontSize="small" />{" "}
       </Button>
     </Box>
