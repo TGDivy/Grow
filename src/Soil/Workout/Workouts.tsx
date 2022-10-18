@@ -18,7 +18,7 @@ const Workouts = () => {
 
   const workoutCards = _.map(workouts, (workout: workoutType) => {
     return (
-      <Grid item xs={12} sm={6} md={4} lg={3} key={workout.name}>
+      <Grid item xs={12} md={6} key={workout.name}>
         <WorkOutCard workout={workout} />
       </Grid>
     );

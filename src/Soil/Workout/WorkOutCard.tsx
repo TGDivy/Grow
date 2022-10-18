@@ -411,19 +411,39 @@ const WorkOutCard: FC<Props> = ({ workout }) => {
           <Typography variant="body1" sx={{ color: "primary.contrastText" }}>
             {description}
           </Typography>
-          <Grid container spacing={2} alignItems="center">
-            {activities.map((activity) => {
-              return (
-                <Grid item xs={12} key={activity.name}>
-                  <ActivityCard activity={activity} submitWorkout={submit} />
-                </Grid>
-              );
-            })}
+          <Grid container alignItems="center" justifyContent="center">
+            <Grid
+              container
+              spacing={2}
+              alignItems="center"
+              justifyContent="center"
+              xs={12}
+              sm={10}
+              md={8}
+              lg={6}
+              xl={4}
+            >
+              {activities.map((activity) => {
+                return (
+                  <Grid
+                    item
+                    xs={12}
+                    // sm={10}
+                    // md={8}
+                    // lg={6}
+                    // xl={4}
+                    key={activity.name}
+                  >
+                    <ActivityCard activity={activity} submitWorkout={submit} />
+                  </Grid>
+                );
+              })}
 
-            <Grid item xs={12}>
-              <Button variant="contained" onClick={submitWorkout}>
-                Submit
-              </Button>
+              <Grid item xs={12}>
+                <Button variant="contained" onClick={submitWorkout} fullWidth>
+                  Submit
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
         </DialogContent>
