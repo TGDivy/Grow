@@ -3,7 +3,7 @@ import Task from "./Task/Task";
 import { taskType } from "../Common/Types/Types";
 import { v4 as uuid_v4 } from "uuid";
 import Transition from "../Common/Utils/Transitions";
-import { Dialog, Fab } from "@mui/material";
+import { Dialog, Button } from "@mui/material";
 import { Add } from "@mui/icons-material";
 
 interface createTaskFc {
@@ -35,21 +35,19 @@ const CreateTask: FC<createTaskFc> = ({ taskListName }) => {
 
   return (
     <>
-      <Fab
-        variant="extended"
+      <Button
+        variant="outlined"
         color="primary"
-        aria-label="add"
         onClick={handleClickOpen}
-        size="small"
         sx={{
-          position: "fixed",
-          bottom: "76px",
-          zIndex: 10,
+          width: "100%",
+          // height: "100%",
+          border: "1px solid",
         }}
       >
         <Add />
         Task
-      </Fab>
+      </Button>
       <Dialog
         open={open}
         TransitionComponent={Transition}
