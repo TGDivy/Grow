@@ -1,7 +1,20 @@
 import React from "react";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
-import { auth } from "./Common/Firestore/firebase-config";
+import {
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInAnonymously,
+} from "firebase/auth";
+import {
+  Box,
+  Button,
+  Container,
+  Divider,
+  Grid,
+  Typography,
+} from "@mui/material";
+import { Link } from "react-router-dom";
+
+import { auth } from "../Common/Firestore/firebase-config";
 import { Stack } from "@mui/system";
 
 const LoginPage = () => {
@@ -9,7 +22,17 @@ const LoginPage = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
       .then(() => {
-        console.log("popup result");
+        console.log("Google Login");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const guestLogin = () => {
+    signInAnonymously(auth)
+      .then(() => {
+        console.log("guest login");
       })
       .catch((error) => {
         console.log(error);
@@ -66,7 +89,29 @@ const LoginPage = () => {
             others.
           </Typography>
         </Box>
+        <Divider />
+        <Typography variant="h6" component="h2">
+          Just want to try it out?
+        </Typography>
+        <Button
+          variant="contained"
+          size="large"
+          onClick={guestLogin}
+          component={Link}
+          to="/"
+        >
+          Try as Guest (coming soon)
+        </Button>
       </Stack>
+      <Box
+        sx={{
+          position: "fixed",
+          bottom: 10,
+          right: 10,
+        }}
+      >
+        <Typography variant="body1">Made with ❤️ by TGDivy</Typography>
+      </Box>
     </Container>
   );
 };

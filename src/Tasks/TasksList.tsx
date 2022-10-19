@@ -44,8 +44,6 @@ const fetchNewDocs = async (
   const latestDate: Date = latestTask
     ? new Date(latestTask[1].dateUpdated)
     : new Date(2000, 1, 1);
-
-  console.log("latestDate", latestDate);
   // Fetch tasks after the latest task date
 
   const q = query(collectionRef, where("dateUpdated", ">", latestDate));
