@@ -70,8 +70,9 @@ const SelectToDoList: FC<SelectToDoListProps> = ({ setList, listName }) => {
       <Grid
         container
         spacing={2}
-        direction="row"
-        justifyContent="space-between"
+        direction="row-reverse"
+        // justifyContent="space-between"
+        justifyContent="flex-start"
         alignItems="center"
       >
         <Grid item xs={10}>

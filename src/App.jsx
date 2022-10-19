@@ -1,5 +1,5 @@
 import React from "react";
-import LoginPage from "./LoginPage";
+import LoginPage from "./Login/LoginPage";
 import useCurrentUser from "./Common/Contexts/UserContext";
 import BottomNavigationBar from "./BottomNavigationBar";
 import TasksMain from "./Tasks/TasksMain";
@@ -7,13 +7,14 @@ import SeedMain from "./Seed/SeedMain";
 import StatsMain from "./Stats/StatsMain";
 import SoilMain from "./Soil/SoilMain";
 import HomeMain from "./Home/Home";
-import { Container } from "@mui/material";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
+import AnonymousUser from "./Login/AnonymousUser";
+import AnonToLogin from "./Login/AnonToLogin";
 
 const App = () => {
   const { user } = useCurrentUser();
@@ -23,7 +24,17 @@ const App = () => {
       <>
         <Route
           path="/Login"
-          element={user ? <Navigate to="/" /> : <LoginPage />}
+          element={
+            user ? (
+              user.email ? (
+                <Navigate to="/" />
+              ) : (
+                <AnonToLogin />
+              )
+            ) : (
+              <LoginPage />
+            )
+          }
         />
         <Route
           path="/"
@@ -56,6 +67,7 @@ const App = () => {
           <Routes>{routes()}</Routes>
         </div>
         <BottomNavigationBar />
+        <AnonymousUser />
       </>
     </Router>
   );

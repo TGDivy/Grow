@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  GoogleAuthProvider,
-  signInWithPopup,
-  signInAnonymously,
-} from "firebase/auth";
+import { GoogleAuthProvider, linkWithPopup, User } from "firebase/auth";
 import {
   Box,
   Button,
@@ -12,25 +8,17 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { auth } from "./Common/Firestore/firebase-config";
+import { Link } from "react-router-dom";
+
+import { auth } from "../Common/Firestore/firebase-config";
 import { Stack } from "@mui/system";
 
-const LoginPage = () => {
+const AnonToLogin = () => {
   const signInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then(() => {
-        console.log("popup result");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const guestLogin = () => {
-    signInAnonymously(auth)
-      .then(() => {
-        console.log("guest login");
+    linkWithPopup(auth.currentUser as User, provider)
+      .then((result) => {
+        console.log(result);
       })
       .catch((error) => {
         console.log(error);
@@ -50,25 +38,11 @@ const LoginPage = () => {
       >
         <Box
           sx={{
-            height: "20vh",
+            minHeight: "10vh",
           }}
         >
-          <Typography variant="h2">Welcome to GROW!</Typography>
+          <Typography variant="h3">Link your account to GROW!</Typography>
         </Box>
-
-        <Typography variant="h4" component="h1">
-          Sign in or Sign up
-        </Typography>
-
-        <Button variant="contained" size="large" disabled>
-          with Email (coming soon)
-        </Button>
-        <Typography variant="h6" component="h2">
-          or
-        </Typography>
-        <Button variant="contained" onClick={signInWithGoogle} size="large">
-          with Google
-        </Button>
         <Box
           sx={{
             height: "20vh",
@@ -87,13 +61,34 @@ const LoginPage = () => {
             others.
           </Typography>
         </Box>
-        <Divider />
-        <Typography variant="h6" component="h2">
-          Just want to try it out?
-        </Typography>
-        <Button variant="contained" size="large" onClick={guestLogin}>
-          Try as Guest (coming soon)
+        <Button variant="contained" size="large" disabled>
+          with Email (coming soon)
         </Button>
+        <Typography variant="h6" component="h2">
+          or
+        </Typography>
+        <Button variant="contained" onClick={signInWithGoogle} size="large">
+          with Google
+        </Button>
+
+        <Divider />
+        <Box
+          sx={{
+            height: "5vh",
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+            flexDirection: "row",
+            gap: 2,
+          }}
+        >
+          <Typography variant="h6" component="h2">
+            Still Unsure?
+          </Typography>
+          <Button variant="contained" component={Link} to="/">
+            Home
+          </Button>
+        </Box>
       </Stack>
       <Box
         sx={{
@@ -108,4 +103,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default AnonToLogin;
