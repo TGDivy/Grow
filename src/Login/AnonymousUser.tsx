@@ -12,6 +12,10 @@ const AnonymousUser = () => {
 
   const location = useLocation();
 
+  if (location.pathname === "/Login") {
+    return null;
+  }
+
   if (isAnonymous) {
     return (
       <Box
@@ -32,9 +36,10 @@ const AnonymousUser = () => {
           <Button
             variant="contained"
             color="error"
+            size="small"
             component={Link}
             to="/Login"
-            startIcon={<Warning />}
+            endIcon={<Warning fontSize="small" />}
           >
             Sign in
           </Button>

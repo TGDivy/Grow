@@ -41,7 +41,7 @@ const AnonToLogin = () => {
             minHeight: "10vh",
           }}
         >
-          <Typography variant="h3">Link your account to GROW!</Typography>
+          <Typography variant="h3">Link your account!</Typography>
         </Box>
         <Box
           sx={{
@@ -53,12 +53,13 @@ const AnonToLogin = () => {
           }}
         >
           <Typography variant="h6" component="h2">
-            GROW is a web app that helps you track your progress in your
-            personal growth journey.
+            To save your progress
           </Typography>
           <Typography variant="h6" component="h2">
-            Its fundamental principle is to compete with yourself, not with
-            others.
+            and
+          </Typography>
+          <Typography variant="h6" component="h2">
+            access it from any device.
           </Typography>
         </Box>
         <Button variant="contained" size="large" disabled>
