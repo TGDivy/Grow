@@ -12,9 +12,6 @@ const AnonymousUser = () => {
 
   const location = useLocation();
 
-  console.log(isAnonymous);
-  console.log(user);
-
   if (isAnonymous) {
     return (
       <Box

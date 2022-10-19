@@ -22,7 +22,7 @@ const LoginPage = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
       .then(() => {
-        console.log("popup result");
+        console.log("Google Login");
       })
       .catch((error) => {
         console.log(error);

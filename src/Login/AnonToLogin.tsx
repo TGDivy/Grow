@@ -18,7 +18,7 @@ const AnonToLogin = () => {
     const provider = new GoogleAuthProvider();
     linkWithPopup(auth.currentUser as User, provider)
       .then((result) => {
-        console.log(result);
+        console.log("Linked with Google");
       })
       .catch((error) => {
         console.log(error);
