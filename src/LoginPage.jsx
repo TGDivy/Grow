@@ -32,7 +32,7 @@ const LoginPage = () => {
             height: "20vh",
           }}
         >
-          <Typography variant="h2">Welcome to the app</Typography>
+          <Typography variant="h2">Welcome to GROW!</Typography>
         </Box>
 
         <Typography variant="h4" component="h1">
@@ -48,6 +48,24 @@ const LoginPage = () => {
         <Button variant="contained" onClick={signInWithGoogle} size="large">
           with Google
         </Button>
+        <Box
+          sx={{
+            height: "20vh",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          <Typography variant="h6" component="h2">
+            GROW is a web app that helps you track your progress in your
+            personal growth journey.
+          </Typography>
+          <Typography variant="h6" component="h2">
+            Its fundamental principle is to compete with yourself, not with
+            others.
+          </Typography>
+        </Box>
       </Stack>
     </Container>
   );
