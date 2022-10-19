@@ -45,7 +45,9 @@ const Timer = () => {
   const setTimerDuration = useTimerStore((state) => state.setTimerDuration);
 
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
-    setTimerDuration(newValue as number);
+    if (typeof newValue === "number" && newValue >= 10 * 60) {
+      setTimerDuration(newValue as number);
+    }
   };
 
   useEffect(() => {
@@ -117,12 +119,14 @@ const Timer = () => {
         </div>
 
         <Slider
-          value={timerDuration - studyTime}
+          value={
+            timerMode === "stopwatch" ? studyTime : timerDuration - studyTime
+          }
           size="small"
           marks
           color="secondary"
           onChange={handleSliderChange}
-          min={2 * 5 * 60}
+          min={0}
           max={2 * 60 * 60}
           step={5 * 60}
           disabled={active || timerMode === "stopwatch"}
