@@ -1,5 +1,9 @@
 import React from "react";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInAnonymously,
+} from "firebase/auth";
 import {
   Box,
   Button,
@@ -24,9 +28,9 @@ const LoginPage = () => {
   };
 
   const guestLogin = () => {
-    signInWithPopup(auth, { providerId: "anonymous" })
+    signInAnonymously(auth)
       .then(() => {
-        console.log("popup result");
+        console.log("guest login");
       })
       .catch((error) => {
         console.log(error);
