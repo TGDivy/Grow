@@ -35,8 +35,10 @@ import BottomNavigationBar from "../BottomNavigationBar";
 const Home = () => {
   const location = useLocation();
 
-  const inspirationalQuote =
-    "The best way to predict the future is to create it.";
+  const inspirationalQuote = {
+    quote: "Life is a process. We are a process. The universe is a process.",
+    author: "Anne Wilson Schaef",
+  };
 
   const places = [
     {
@@ -72,12 +74,21 @@ const Home = () => {
           alignItems: "center",
         }}
       >
-        <Stack spacing={2} alignContent="center" justifyContent="center">
-          <Typography variant="h4" align="center">
-            {inspirationalQuote}
-          </Typography>
+        <Stack spacing={3} alignContent="center" justifyContent="center">
+          <Box>
+            <Typography variant="h4" align="center">
+              {inspirationalQuote.quote}
+            </Typography>
+            <Typography variant="h6" align="center">
+              ~{inspirationalQuote.author}
+            </Typography>
+          </Box>
 
-          <Stack direction="row" spacing={2} justifyContent="center">
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={2}
+            justifyContent="center"
+          >
             {places.map((place) => (
               <Button
                 variant="contained"
@@ -93,20 +104,6 @@ const Home = () => {
           </Stack>
         </Stack>
       </Box>
-      {/* <Typography variant="h5" align="center">
-            <Link to="/Tasks">Tasks</Link>
-          </Typography>
-          <Typography variant="h5" align="center">
-            <Link to="/Seed">Seed</Link>
-          </Typography>
-          <Typography variant="h5" align="center">
-            <Link to="/Soil">Soil</Link>
-          </Typography>
-          <Typography variant="h5" align="center">
-            <Link to="/Stats">Statistics</Link>
-          </Typography>
-        </Stack>
-      </Box> */}
     </Container>
   );
 };

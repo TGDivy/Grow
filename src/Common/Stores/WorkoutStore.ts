@@ -11,6 +11,7 @@ import {
   where,
   query,
   getDocs,
+  deleteDoc,
 } from "firebase/firestore";
 import { db } from "../Firestore/firebase-config";
 
@@ -51,6 +52,19 @@ const updateWorkoutDB = async (
   await setDoc(workoutCollectionRef, workout);
 
   console.log("Document updated with ID: ", workout_id);
+};
+
+const deleteWorkoutDB = async (workout_id: string, user_id: string) => {
+  const workoutCollectionRef = doc(
+    db,
+    "users",
+    user_id,
+    "workouts",
+    workout_id
+  );
+  await deleteDoc(workoutCollectionRef);
+
+  console.log("Document deleted with ID: ", workout_id);
 };
 
 const fetchWorkouts = async (user_id: string, date: Date) => {
@@ -97,6 +111,7 @@ const useWorkoutStore = create<workoutStoreType>()(
           updateWorkoutDB(workout.name, workout, get().user_id);
         },
         deleteWorkout: (workout) => {
+          deleteWorkoutDB(workout.name, get().user_id);
           set(
             produce((state) => {
               delete state.workouts[workout.name];

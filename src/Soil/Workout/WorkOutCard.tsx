@@ -23,6 +23,7 @@ import {
   AppBar,
   styled,
   Chip,
+  Stack,
 } from "@mui/material";
 import Slider from "@mui/material/Slider";
 import MuiInput from "@mui/material/Input";
@@ -35,7 +36,7 @@ import {
   TextField,
 } from "@mui/material";
 
-import { Close, Add, Remove } from "@mui/icons-material";
+import { Close, Add, Remove, Delete } from "@mui/icons-material";
 import Transition from "../../Common/Utils/Transitions";
 import { Box } from "@mui/system";
 
@@ -43,62 +44,191 @@ interface Props {
   workout: workoutType;
 }
 
-import useActivityStore from "../../Common/Stores/ActivityStore";
+const secondsToTime = (seconds: number) => {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds - hours * 3600) / 60);
+  const secs = seconds - hours * 3600 - minutes * 60;
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-const durationPicker = (duration: number, setDuration: Function) => {
-  const handleSliderChange = (event: Event, newValue: number | number[]) => {
-    setDuration(newValue);
-  };
+  const hoursString = hours > 0 ? hours + "H " : "";
+  const minutesString = minutes > 0 ? minutes + "M " : "";
+  const secondsString = secs > 0 ? secs + "S" : "";
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setDuration(event.target.value === "" ? "" : Number(event.target.value));
-  };
-
-  const handleBlur = () => {
-    if (duration < 0) {
-      setDuration(0);
-    } else if (duration > 100) {
-      setDuration(100);
-    }
-  };
-
-  return (
-    <Grid container spacing={2} alignItems="center">
-      <Grid item xs>
-        <Slider
-          value={typeof duration === "number" ? duration : 0}
-          onChange={handleSliderChange}
-          aria-labelledby="input-slider"
-          min={0}
-          max={100}
-        />
-      </Grid>
-      <Grid item>
-        <MuiInput
-          value={duration}
-          margin="dense"
-          onChange={handleInputChange}
-          onBlur={handleBlur}
-          inputProps={{
-            step: 10,
-            min: 0,
-            max: 100,
-            type: "number",
-            "aria-labelledby": "input-slider",
-          }}
-        />
-      </Grid>
-    </Grid>
-  );
+  return hoursString + minutesString + secondsString;
 };
 
+import useActivityStore from "../../Common/Stores/ActivityStore";
+import useWorkoutStore from "../../Common/Stores/WorkoutStore";
 const TinyText = styled(Typography)({
   fontSize: "0.75rem",
   opacity: 0.38,
   fontWeight: 500,
   letterSpacing: 0.2,
 });
+// eslint-disable-next-line @typescript-eslint/ban-types
+const durationPicker = (duration: number, setDuration: Function) => {
+  const [seconds, setSeconds] = React.useState(0);
+  const [minutes, setMinutes] = React.useState(0);
+  const [hours, setHours] = React.useState(0);
+
+  const handleSliderChangeSeconds = (
+    event: Event,
+    newValue: number | number[]
+  ) => {
+    setSeconds(newValue as number);
+  };
+
+  const handleSliderChangeMinutes = (
+    event: Event,
+    newValue: number | number[]
+  ) => {
+    setMinutes(newValue as number);
+  };
+
+  const handleSliderChangeHours = (
+    event: Event,
+    newValue: number | number[]
+  ) => {
+    setHours(newValue as number);
+  };
+
+  useEffect(() => {
+    setDuration(seconds + minutes * 60 + hours * 3600);
+  }, [seconds, minutes, hours]);
+
+  return (
+    <Grid container spacing={2} alignItems="center" justifyContent="center">
+      <Grid item xs={5}>
+        <Slider
+          value={seconds}
+          size="small"
+          marks
+          onChange={handleSliderChangeSeconds}
+          min={0}
+          max={50}
+          step={10}
+          sx={{
+            "& .MuiSlider-thumb": {
+              width: 8,
+              height: 8,
+              transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
+              "&:before": {
+                boxShadow: "0 2px 12px 0 rgba(0,0,0,0.4)",
+              },
+              "&:hover, &.Mui-focusVisible": {
+                boxShadow: `0px 0px 0px 8px ${"rgb(255 255 255 / 16%)"}`,
+              },
+              "&.Mui-active": {
+                width: 16,
+                height: 16,
+              },
+            },
+          }}
+        />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            mt: -2,
+          }}
+        >
+          <TinyText>Seconds</TinyText>
+          <TinyText>{seconds} S</TinyText>
+        </Box>
+      </Grid>
+
+      <Grid item xs={5}>
+        <Slider
+          value={hours}
+          size="small"
+          marks
+          onChange={handleSliderChangeHours}
+          min={0}
+          max={8}
+          step={1}
+          sx={{
+            "& .MuiSlider-thumb": {
+              width: 8,
+              height: 8,
+              transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
+              "&:before": {
+                boxShadow: "0 2px 12px 0 rgba(0,0,0,0.4)",
+              },
+              "&:hover, &.Mui-focusVisible": {
+                boxShadow: `0px 0px 0px 8px ${"rgb(255 255 255 / 16%)"}`,
+              },
+              "&.Mui-active": {
+                width: 16,
+                height: 16,
+              },
+            },
+          }}
+        />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            mt: -2,
+          }}
+        >
+          <TinyText>Hours</TinyText>
+          <TinyText>{hours} H</TinyText>
+        </Box>
+      </Grid>
+      <Grid
+        item
+        xs={10}
+        sx={{
+          mt: -3,
+        }}
+      >
+        <Slider
+          value={minutes}
+          size="small"
+          marks
+          onChange={handleSliderChangeMinutes}
+          min={0}
+          max={60}
+          step={1}
+          sx={{
+            "& .MuiSlider-thumb": {
+              width: 8,
+              height: 8,
+              transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
+              "&:before": {
+                boxShadow: "0 2px 12px 0 rgba(0,0,0,0.4)",
+              },
+              "&:hover, &.Mui-focusVisible": {
+                boxShadow: `0px 0px 0px 8px ${"rgb(255 255 255 / 16%)"}`,
+              },
+              "&.Mui-active": {
+                width: 16,
+                height: 16,
+              },
+            },
+          }}
+        />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            mt: -2,
+          }}
+        >
+          <TinyText>Minutes</TinyText>
+          <TinyText>{minutes} M</TinyText>
+        </Box>
+      </Grid>
+      <Grid item xs={12}>
+        <Typography id="Duration-SS-MM-HH" gutterBottom>
+          Duration: {secondsToTime(duration)}
+        </Typography>
+      </Grid>
+    </Grid>
+  );
+};
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 const setRepPicker = (setRep: Array<setRepType>, setSetRep: Function) => {
@@ -290,7 +420,11 @@ const ActivityCard: FC<ActivityCardProps> = ({
   };
 
   return (
-    <Card>
+    <Card
+      sx={{
+        width: "100%",
+      }}
+    >
       <CardHeader title={activity.name} />
       <CardContent>
         {activity?.duration !== undefined &&
@@ -303,6 +437,7 @@ const ActivityCard: FC<ActivityCardProps> = ({
 
 const WorkOutCard: FC<Props> = ({ workout }) => {
   const { name, description, activities } = workout;
+  const deleteWorkout = useWorkoutStore((state) => state.deleteWorkout);
 
   const [open, setOpen] = React.useState(false);
   const [submit, setSubmit] = React.useState(false);
@@ -317,6 +452,11 @@ const WorkOutCard: FC<Props> = ({ workout }) => {
     setSubmit(true);
     setOpen(false);
   };
+  const handleDelete = () => {
+    deleteWorkout(workout);
+    setOpen(false);
+  };
+
   return (
     <>
       <Card
@@ -393,8 +533,12 @@ const WorkOutCard: FC<Props> = ({ workout }) => {
             >
               {name}
             </Typography>
+            <IconButton color="inherit" onClick={handleDelete}>
+              <Delete />
+            </IconButton>
+
             <IconButton
-              edge="start"
+              // edge="start"
               color="inherit"
               onClick={handleClose}
               aria-label="close"
@@ -412,39 +556,29 @@ const WorkOutCard: FC<Props> = ({ workout }) => {
             {description}
           </Typography>
           <Grid container alignItems="center" justifyContent="center">
-            <Grid
-              container
+            <Stack
               spacing={2}
               alignItems="center"
               justifyContent="center"
-              xs={12}
-              sm={10}
-              md={8}
-              lg={6}
-              xl={4}
+              sx={{
+                width: "100%",
+                maxWidth: 600,
+              }}
             >
               {activities.map((activity) => {
                 return (
-                  <Grid
-                    item
-                    xs={12}
-                    // sm={10}
-                    // md={8}
-                    // lg={6}
-                    // xl={4}
+                  <ActivityCard
+                    activity={activity}
+                    submitWorkout={submit}
                     key={activity.name}
-                  >
-                    <ActivityCard activity={activity} submitWorkout={submit} />
-                  </Grid>
+                  />
                 );
               })}
 
-              <Grid item xs={12}>
-                <Button variant="contained" onClick={submitWorkout} fullWidth>
-                  Submit
-                </Button>
-              </Grid>
-            </Grid>
+              <Button variant="contained" onClick={submitWorkout} fullWidth>
+                Submit
+              </Button>
+            </Stack>
           </Grid>
         </DialogContent>
       </Dialog>
