@@ -98,6 +98,9 @@ const Theme = createTheme({
       backgroundColor: Error,
     },
   },
+  typography: {
+    fontFamily: "Fuzzy Bubbles",
+  },
 });
 
 export default Theme;

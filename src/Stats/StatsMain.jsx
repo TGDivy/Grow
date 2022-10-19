@@ -42,7 +42,7 @@ const filterTimerRecords = (timerRecords, timePeriodLength, daysBack) => {
   return filteredTimerRecords;
 };
 
-const Home = () => {
+const StatsMain = () => {
   const { user, setUser } = useCurrentUser();
   const addLatestTimerRecord = useTimerRecordsStore(
     (state) => state.addLatestTimerRecord
@@ -111,7 +111,7 @@ const Home = () => {
   return (
     <>
       <Container>
-        <Typography variant="h3">Home</Typography>
+        <Typography variant="h3">Stats</Typography>
         <Divider
           sx={{
             marginTop: 2,
@@ -202,4 +202,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default StatsMain;

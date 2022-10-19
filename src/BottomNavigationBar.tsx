@@ -5,13 +5,12 @@ import { Link, useLocation } from "react-router-dom";
 import { Home, Task, Nature, Terrain } from "@mui/icons-material";
 import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 
-interface Props {
-  section: string;
-  setSection: (section: string) => void;
-}
-
-const BottomNavigationBar: FC<Props> = () => {
+const BottomNavigationBar: FC = () => {
   const location = useLocation();
+
+  if (location.pathname === "/") {
+    return null;
+  }
 
   return (
     <Paper
@@ -40,13 +39,6 @@ const BottomNavigationBar: FC<Props> = () => {
           label="Seed"
           value="/Seed"
           icon={<Nature />}
-        />
-        <BottomNavigationAction
-          component={Link}
-          to="/Soil"
-          label="Soil"
-          value="/Soil"
-          icon={<Terrain />}
         />
       </BottomNavigation>
     </Paper>
