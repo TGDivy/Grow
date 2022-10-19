@@ -8,7 +8,7 @@ import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 const BottomNavigationBar: FC = () => {
   const location = useLocation();
 
-  if (location.pathname === "/") {
+  if (location.pathname === "/" || location.pathname === "/Login") {
     return null;
   }
 
