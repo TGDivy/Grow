@@ -100,7 +100,7 @@ const LoginPage = () => {
           component={Link}
           to="/"
         >
-          Try as Guest (coming soon)
+          Try as Guest
         </Button>
       </Stack>
       <Box
