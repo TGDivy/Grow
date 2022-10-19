@@ -2,7 +2,7 @@ import React, { FC } from "react";
 
 import { Link, useLocation } from "react-router-dom";
 
-import { Home, Task, Nature, Terrain } from "@mui/icons-material";
+import { Home, Task, Nature, Terrain, TrendingUp } from "@mui/icons-material";
 import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 
 const BottomNavigationBar: FC = () => {
@@ -11,6 +11,50 @@ const BottomNavigationBar: FC = () => {
   if (location.pathname === "/" || location.pathname === "/Login") {
     return null;
   }
+
+  const workPlaces = [
+    {
+      name: "Tasks",
+      icon: <Task />,
+      link: "/Tasks",
+    },
+    {
+      name: "Seed",
+      icon: <Nature />,
+      link: "/Seed",
+    },
+  ];
+
+  const workoutPlaces = [
+    {
+      name: "Workout",
+      icon: <Terrain />,
+      link: "/Soil",
+    },
+  ];
+
+  const statsPlaces = [
+    {
+      name: "Statistics",
+      icon: <TrendingUp />,
+      link: "/Stats",
+    },
+  ];
+
+  const places = () => {
+    switch (location.pathname) {
+      case "/Tasks":
+        return workPlaces;
+      case "/Seed":
+        return workPlaces;
+      case "/Soil":
+        return workoutPlaces;
+      case "/Stats":
+        return statsPlaces;
+      default:
+        return workPlaces;
+    }
+  };
 
   return (
     <Paper
@@ -26,20 +70,16 @@ const BottomNavigationBar: FC = () => {
           value="/"
           icon={<Home />}
         />
-        <BottomNavigationAction
-          label="Tasks"
-          component={Link}
-          to="/Tasks"
-          value="/Tasks"
-          icon={<Task />}
-        />
-        <BottomNavigationAction
-          component={Link}
-          to="/Seed"
-          label="Seed"
-          value="/Seed"
-          icon={<Nature />}
-        />
+        {places().map((place) => (
+          <BottomNavigationAction
+            component={Link}
+            to={place.link}
+            label={place.name}
+            value={place.link}
+            icon={place.icon}
+            key={place.name}
+          />
+        ))}
       </BottomNavigation>
     </Paper>
   );
