@@ -70,32 +70,29 @@ const SelectToDoList: FC<SelectToDoListProps> = ({ setList, listName }) => {
       <Grid
         container
         spacing={2}
-        direction="row-reverse"
-        // justifyContent="space-between"
-        justifyContent="flex-start"
+        direction="row"
+        justifyContent="space-between"
         alignItems="center"
       >
-        <Grid item xs={10}>
-          <Box pb={2} pt={2}>
-            <Typography variant="h3">{listName}</Typography>
+        <Grid item>
+          <Box
+            pb={2}
+            pt={2}
+            sx={{
+              width: "100%",
+            }}
+          >
+            <Typography variant="h4">{listName}</Typography>
           </Box>
         </Grid>
-        <Grid item xs={2}>
-          <Box
-            width="100%"
-            height={"100%"}
-            alignContent="center"
-            justifyContent="center"
-            display="flex"
+        <Grid item>
+          <Button
+            onClick={toggleDrawer(true)}
+            variant="contained"
+            color="primary"
           >
-            <Button
-              onClick={toggleDrawer(true)}
-              variant="contained"
-              color="primary"
-            >
-              <Menu />
-            </Button>
-          </Box>
+            <Menu />
+          </Button>
         </Grid>
       </Grid>
       <Drawer anchor={"top"} open={open} onClose={toggleDrawer(false)}>

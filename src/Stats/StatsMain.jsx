@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Container, Typography, Grid, Divider } from "@mui/material";
+import { Container, Typography, Grid, Divider, Box } from "@mui/material";
 
 import useCurrentUser from "../Common/Contexts/UserContext";
 import { db } from "../Common/Firestore/firebase-config";
@@ -111,13 +111,11 @@ const StatsMain = () => {
   return (
     <>
       <Container>
-        <Typography variant="h3">Stats</Typography>
-        <Divider
-          sx={{
-            marginTop: 2,
-            marginBottom: 2,
-          }}
-        />
+        <Divider textAlign="left">
+          <Box pb={2} pt={2}>
+            <Typography variant="h3">Stats</Typography>
+          </Box>
+        </Divider>
 
         <Grid
           container

@@ -1,5 +1,5 @@
 import React from "react";
-import { Stack, Typography, Divider } from "@mui/material";
+import { Stack, Typography, Divider, Box } from "@mui/material";
 import Workouts from "./Workout/Workouts";
 import { Container } from "@mui/system";
 
@@ -7,8 +7,11 @@ const SoilMain = () => {
   return (
     <Container>
       <Stack>
-        <Typography variant="h3">Soil</Typography>
-        <Divider />
+        <Divider textAlign="left">
+          <Box pb={2} pt={2}>
+            <Typography variant="h3">Soil</Typography>
+          </Box>
+        </Divider>
         <Workouts />
       </Stack>
     </Container>

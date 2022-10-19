@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container } from "@mui/material";
+import { Box, Container, Divider, Typography } from "@mui/material";
 import SelectToDoList from "./SelectToDoList";
 import TasksList from "./TasksList";
 
@@ -8,7 +8,11 @@ const TasksMain = () => {
 
   return (
     <Container>
-      <SelectToDoList setList={setList} listName={taskListName} />
+      <Divider textAlign="left">
+        <Box pb={2} pt={2}>
+          <Typography variant="h3">{taskListName}</Typography>
+        </Box>
+      </Divider>
       <TasksList taskListName={taskListName} />
     </Container>
   );
