@@ -12,6 +12,7 @@ import {
   addDoc,
 } from "firebase/firestore";
 import { db } from "../Firestore/firebase-config";
+import { MAX_STOPWATCH_DURATION } from "../constants";
 
 interface timerStoreType extends timerType {
   startTimer: () => void;
@@ -22,6 +23,10 @@ interface timerStoreType extends timerType {
   deleteTag: (tag: tagsType) => void;
   setTags: (tags: Array<tagsType>) => void;
   resetTimer: () => void;
+  timerMode: "stopwatch" | "timer";
+  timerDuration: number;
+  setTimerMode: (mode: "stopwatch" | "timer") => void;
+  setTimerDuration: (duration: number) => void;
 }
 
 const timerStoreTypeToTimerType = (
@@ -36,6 +41,10 @@ const timerStoreTypeToTimerType = (
     deleteTag,
     resetTimer,
     setTags,
+    timerMode,
+    setTimerMode,
+    timerDuration,
+    setTimerDuration,
     ...timerType
   } = timerStoreType;
   return timerType;
@@ -57,6 +66,8 @@ const useTimerStore = create<timerStoreType>()(
         duration: 0,
         taskKey: "",
         tags: [],
+        timerMode: "stopwatch",
+        timerDuration: MAX_STOPWATCH_DURATION,
 
         startTimer: () => set(() => ({ active: true, startTime: new Date() })),
         stopTimer: (user_id: string, duration: number) =>
@@ -82,6 +93,10 @@ const useTimerStore = create<timerStoreType>()(
         deleteTag: (tag: tagsType) =>
           set((state) => ({ tags: state.tags.filter((item) => item !== tag) })),
         setTags: (tags: Array<tagsType>) => set(() => ({ tags: tags })),
+        setTimerMode: (mode: "stopwatch" | "timer") =>
+          set(() => ({ timerMode: mode })),
+        setTimerDuration: (duration: number) =>
+          set(() => ({ timerDuration: duration })),
       }),
       {
         name: "timer-storage",

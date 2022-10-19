@@ -16,16 +16,17 @@ import { MAX_STOPWATCH_DURATION } from "../Common/constants";
 
 type Props = {
   studyTime: number;
+  maxDuration: number;
 };
 
-const FinishTimer = ({ studyTime }: Props) => {
+const FinishTimer = ({ studyTime, maxDuration }: Props) => {
   const [open, setOpen] = React.useState(false);
   const stopTimer = useTimerStore((state) => state.stopTimer);
   const active = useTimerStore((state) => state.active);
 
   const { user } = useCurrentUser();
 
-  const sufficientTime = studyTime >= MAX_STOPWATCH_DURATION;
+  const sufficientTime = studyTime >= maxDuration;
 
   const handleClose = () => {
     setOpen(false);

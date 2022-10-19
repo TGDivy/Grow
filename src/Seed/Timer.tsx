@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 
-import { Box, Typography } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Switch,
+  Slider,
+  styled,
+  duration,
+} from "@mui/material";
 import useTimerStore from "../Common/Stores/TimerStore";
 
 import ZenQuote from "./ZenQuote";
@@ -13,7 +20,11 @@ const timeElapsed = (startTime: Date) => {
 };
 
 // Format Seconds to MM:SS
-const formatTime = (time: number) => {
+const formatTime = (time_: number, mode: string, duration: number) => {
+  let time = time_;
+  if (mode === "timer") {
+    time = duration - time;
+  }
   const minutes = Math.floor(time / 60);
   const seconds = time - minutes * 60;
   if (seconds < 10) {
@@ -23,21 +34,19 @@ const formatTime = (time: number) => {
   return `${minutes}:${seconds}`;
 };
 
-// timeSpent is in seconds
-// if less than 10 minutes, show seconds
-// if greater than 10 minutes, show minutes
-// const formatTime = (time: number) => {
-//   if (time < 600) {
-//     return `${time}S`;
-//   } else {
-//     return `${Math.floor(time / 60)}M`;
-//   }
-// };
-
 const Timer = () => {
   const startTime = useTimerStore((state) => state.startTime);
   const [studyTime, setStudyTime] = useState<number>(timeElapsed(startTime));
   const active = useTimerStore((state) => state.active);
+
+  const timerMode = useTimerStore((state) => state.timerMode);
+  const setTimerMode = useTimerStore((state) => state.setTimerMode);
+  const timerDuration = useTimerStore((state) => state.timerDuration);
+  const setTimerDuration = useTimerStore((state) => state.setTimerDuration);
+
+  const handleSliderChange = (event: Event, newValue: number | number[]) => {
+    setTimerDuration(newValue as number);
+  };
 
   useEffect(() => {
     if (!active) {
@@ -45,9 +54,9 @@ const Timer = () => {
       return;
     }
     let interval: NodeJS.Timeout;
-    if (studyTime >= MAX_STOPWATCH_DURATION) {
+    if (studyTime >= timerDuration) {
       interval = setInterval(() => {
-        setStudyTime(MAX_STOPWATCH_DURATION);
+        setStudyTime(timerDuration);
       }, 200);
     } else {
       interval = setInterval(() => {
@@ -64,14 +73,87 @@ const Timer = () => {
         sx={{
           minHeight: "5vh",
           display: "flex",
-          justifyContent: "center",
+          justifyContent: "flex-start",
           alignItems: "center",
         }}
       ></Box>
       <Box
-        sx={{ display: "flex", justifyContent: "center", minHeight: "10vh" }}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          minHeight: "10vh",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
       >
-        <Typography variant="h1">{formatTime(studyTime)}</Typography>
+        <Typography variant="h1">
+          {formatTime(studyTime, timerMode, timerDuration)}
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          minHeight: "7vh",
+          display: "flex",
+          justifyContent: "flex-start",
+          alignItems: "center",
+          flexDirection: "column-reverse",
+        }}
+      >
+        <div>
+          Timer Mode
+          <Switch
+            checked={timerMode === "stopwatch"}
+            disabled={active}
+            onChange={() => {
+              if (timerMode === "timer") {
+                setTimerMode("stopwatch");
+                setTimerDuration(MAX_STOPWATCH_DURATION);
+              } else {
+                setTimerMode("timer");
+              }
+            }}
+          />
+          Stop Watch
+        </div>
+
+        <Slider
+          value={timerDuration - studyTime}
+          size="small"
+          marks
+          color="secondary"
+          onChange={handleSliderChange}
+          min={2 * 5 * 60}
+          max={2 * 60 * 60}
+          step={5 * 60}
+          disabled={active || timerMode === "stopwatch"}
+          sx={{
+            "& .MuiSlider-thumb": {
+              width: 8,
+              height: 8,
+              transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
+              "&:before": {
+                boxShadow: "0 2px 12px 0 rgba(0,0,0,0.4)",
+              },
+              "&:hover, &.Mui-focusVisible": {
+                boxShadow: `0px 0px 0px 8px ${"rgb(255 255 255 / 16%)"}`,
+              },
+              "&.Mui-active": {
+                width: 16,
+                height: 16,
+              },
+            },
+            "& .MuiSlider-mark": {
+              // backgroundColor: "#000",
+              height: 8,
+              opacity: 0.5,
+              // width: 1,
+              "&.MuiSlider-markActive": {
+                opacity: 1,
+                backgroundColor: "currentColor",
+              },
+            },
+          }}
+        />
       </Box>
       <Box
         sx={{
@@ -86,7 +168,7 @@ const Timer = () => {
       <Box sx={{ display: "flex", justifyContent: "center", minHeight: "7vh" }}>
         <StopTimer studyTime={studyTime} />
       </Box>
-      <FinishTimer studyTime={studyTime} />
+      <FinishTimer studyTime={studyTime} maxDuration={timerDuration} />
     </>
   );
 };
