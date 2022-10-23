@@ -26,6 +26,15 @@ const Theme = createTheme({
         },
       },
     },
+    MuiTabs: {
+      styleOverrides: {
+        scrollButtons: {
+          "&.Mui-disabled": {
+            opacity: 0.3,
+          },
+        },
+      },
+    },
 
     MuiCardHeader: {
       styleOverrides: {
