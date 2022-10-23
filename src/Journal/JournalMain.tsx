@@ -7,6 +7,7 @@ import { Button } from "@mui/material";
 import useJournalStore from "../Common/Stores/DailyJournalStore";
 
 import Mood from "./Mood";
+import Habits from "./Habits";
 
 const JournalMain = () => {
   const activeStep = useJournalStore((state) => state.activeStep);
@@ -33,6 +34,11 @@ const JournalMain = () => {
       label: "How are you feeling today?",
       component: <Mood />,
       shortLabel: "Mood",
+    },
+    {
+      label: "Keeping up with your habits?",
+      component: <Habits />,
+      shortLabel: "Habits",
     },
     {
       label: "What are you grateful for today?",
@@ -69,17 +75,26 @@ const JournalMain = () => {
           </Stepper>
         </Box>
 
-        <Grid container spacing={2} direction="row" justifyContent="center">
-          <Grid item xs={12}>
-            <Typography variant="h4" align="center">
-              {steps[activeStep].label}
-            </Typography>
+        <Box
+          sx={{
+            width: "100%",
+            minHeight: "50vh",
+            // alignItems: "center",
+            // justifyContent: "center",
+            // display: "flex",
+          }}
+        >
+          <Grid container spacing={2} direction="row" justifyContent="center">
+            <Grid item xs={12}>
+              <Typography variant="h4" align="center">
+                {steps[activeStep].label}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={10}>
+              {steps[activeStep].component}
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={10}>
-            {steps[activeStep].component}
-          </Grid>
-        </Grid>
-
+        </Box>
         <Stack direction="row" spacing={2}>
           <Button
             variant="contained"

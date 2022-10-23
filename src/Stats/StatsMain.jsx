@@ -15,7 +15,11 @@ import WorkStatLine from "./WorkStatLine";
 import TagPieStat from "./TagPieStat";
 import TagRadarStat from "./TagRadarStat";
 
-const filterTimerRecords = (timerRecords, timePeriodLength, daysBack) => {
+export const filterTimerRecords = (
+  timerRecords,
+  timePeriodLength,
+  daysBack
+) => {
   const DAY = 24 * 60 * 60 * 1000;
 
   const today = new Date().setHours(0, 0, 0, 0);
@@ -40,6 +44,15 @@ const filterTimerRecords = (timerRecords, timePeriodLength, daysBack) => {
   }
 
   return filteredTimerRecords;
+};
+
+export const totalTimeWorked = (timerRecords) => {
+  const T = Math.floor(
+    timerRecords.reduce((acc, timerRecord) => {
+      return acc + timerRecord.duration;
+    }, 0) / 60
+  );
+  return `${Math.floor(T / 60)}H ${T % 60}M`;
 };
 
 const StatsMain = () => {
@@ -163,18 +176,11 @@ const StatsMain = () => {
               </Grid>
             </Grid>
           </Grid>
-          {/* <Grid item xs={6} md={6}>
-            <Typography variant="h6">Total Work Time</Typography>
-            <Typography variant="h4">
-              {user.totalWorkTime ? user.totalWorkTime : 0} hours
+          <Grid item xs={12} md={11}>
+            <Typography variant="h6">
+              Total Time Worked : {totalTimeWorked(selectedPeriod)}
             </Typography>
           </Grid>
-          <Grid item xs={6} md={6}>
-            <Typography variant="h6">Total Break Time</Typography>
-            <Typography variant="h4">
-              {user.totalBreakTime ? user.totalBreakTime : 0} hours
-            </Typography>
-          </Grid> */}
           <Grid item xs={12} md={6}>
             <WeeklyWorkStat timerRecords={selectedPeriod} />
           </Grid>
