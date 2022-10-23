@@ -109,7 +109,6 @@ const Timer = () => {
             onChange={() => {
               if (timerMode === "timer") {
                 setTimerMode("stopwatch");
-                setTimerDuration(MAX_STOPWATCH_DURATION);
               } else {
                 setTimerMode("timer");
               }
@@ -172,7 +171,12 @@ const Timer = () => {
       <Box sx={{ display: "flex", justifyContent: "center", minHeight: "7vh" }}>
         <StopTimer studyTime={studyTime} />
       </Box>
-      <FinishTimer studyTime={studyTime} maxDuration={timerDuration} />
+      <FinishTimer
+        studyTime={studyTime}
+        maxDuration={
+          timerMode === "stopwatch" ? MAX_STOPWATCH_DURATION : timerDuration
+        }
+      />
     </>
   );
 };
