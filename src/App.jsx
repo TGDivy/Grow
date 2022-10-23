@@ -15,6 +15,7 @@ import {
 } from "react-router-dom";
 import AnonymousUser from "./Login/AnonymousUser";
 import AnonToLogin from "./Login/AnonToLogin";
+import JournalMain from "./Journal/JournalMain";
 
 const App = () => {
   const { user } = useCurrentUser();
@@ -55,6 +56,10 @@ const App = () => {
         <Route
           path="/Stats"
           element={user ? <StatsMain /> : <Navigate to="/Login" />}
+        />
+        <Route
+          path="/Reflect"
+          element={user ? <JournalMain /> : <Navigate to="/Reflect" />}
         />
       </>
     );

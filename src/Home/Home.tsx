@@ -61,6 +61,11 @@ const Home = () => {
       icon: <TrendingUp />,
       link: "/Stats",
     },
+    {
+      name: "Reflect",
+      icon: <Terrain />,
+      link: "/Reflect",
+    },
   ];
 
   return (

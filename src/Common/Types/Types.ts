@@ -96,3 +96,20 @@ export interface workoutType {
 export interface activityTypeDoc {
   activityTypes: string[];
 }
+
+export interface JournalType {
+  date: Date;
+  title: string;
+  entry: string;
+  plansForTomorrow: string;
+  tasksForTomorrow: Array<taskType>;
+  mood: string[];
+  workDone: number;
+  exercised: boolean;
+  meals: number;
+  noMB: boolean;
+}
+
+export interface JournalTypeDoc {
+  [key: string]: JournalType;
+}
