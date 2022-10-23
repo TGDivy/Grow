@@ -11,11 +11,11 @@ import {
   TrendingUp,
 } from "@mui/icons-material";
 
-import { Container, Stack, Typography } from "@mui/material";
+import { Container, Grid, Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { Button, Drawer } from "@mui/material";
 import BottomNavigationBar from "../BottomNavigationBar";
-
+import Mood from "../Journal/Mood";
 /**
  * A simple, elegant and inspiration home page for the app.
  * Allow easy access to the main features of the app.
@@ -73,41 +73,47 @@ const Home = () => {
       <Box
         sx={{
           height: "90vh",
+          width: "100%",
           alignContent: "center",
           justifyContent: "center",
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
         }}
       >
-        <Stack spacing={3} alignContent="center" justifyContent="center">
-          <Box>
+        <Grid container spacing={3} alignItems="center" justifyContent="center">
+          <Grid item xs={12}>
             <Typography variant="h4" align="center">
               {inspirationalQuote.quote}
             </Typography>
             <Typography variant="h6" align="center">
               ~{inspirationalQuote.author}
             </Typography>
-          </Box>
-
-          <Stack
-            direction={{ xs: "column", sm: "row" }}
-            spacing={2}
-            justifyContent="center"
-          >
-            {places.map((place) => (
-              <Button
-                variant="contained"
-                color="primary"
-                startIcon={place.icon}
-                component={Link}
-                to={place.link}
-                key={place.name}
-              >
-                {place.name}
-              </Button>
-            ))}
-          </Stack>
-        </Stack>
+          </Grid>
+          <Grid item xs={12}>
+            <Stack
+              direction={{ xs: "column", sm: "row" }}
+              spacing={2}
+              justifyContent="center"
+            >
+              {places.map((place) => (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={place.icon}
+                  component={Link}
+                  to={place.link}
+                  key={place.name}
+                >
+                  {place.name}
+                </Button>
+              ))}
+            </Stack>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Mood />
+          </Grid>
+        </Grid>
       </Box>
     </Container>
   );
