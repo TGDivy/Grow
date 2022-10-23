@@ -15,7 +15,7 @@ const Mood = () => {
 
   // if current time is less than 1 hour from last mood updated, then disable the buttons
   const updatedMoodTooRecently =
-    new Date().getTime() - lastMoodUpdated.getTime() < 600 * 1000;
+    new Date().getTime() - lastMoodUpdated.getTime() < 60 * 60 * 1000;
 
   // get last selected mood
   const lastMood = moods.length > 0 ? moods[moods.length - 1] : "Happy";
@@ -99,6 +99,10 @@ const Mood = () => {
         {EmotionIcons.map((emotion, index) => (
           <Tab
             key={emotion.label}
+            onClick={() => {
+              setValue(index);
+              addMood(emotion.label);
+            }}
             icon={
               <emotion.icon
                 sx={{
