@@ -33,11 +33,9 @@ import Mood from "../Journal/Mood";
  */
 
 const Home = () => {
-  const location = useLocation();
-
   const inspirationalQuote = {
-    quote: "Life is a process. We are a process. The universe is a process.",
-    author: "Anne Wilson Schaef",
+    quote: "It is not the mountain we conquer, but ourselves.",
+    author: "Sir Edmund Hillary",
   };
 
   const places = [
