@@ -2,7 +2,14 @@ import React, { FC } from "react";
 
 import { Link, useLocation } from "react-router-dom";
 
-import { Home, Task, Nature, Terrain, TrendingUp } from "@mui/icons-material";
+import {
+  Home,
+  Task,
+  Nature,
+  Terrain,
+  TrendingUp,
+  SelfImprovement,
+} from "@mui/icons-material";
 import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 
 const BottomNavigationBar: FC = () => {
@@ -45,6 +52,14 @@ const BottomNavigationBar: FC = () => {
     },
   ];
 
+  const selfImprovementPlaces = [
+    {
+      name: "Reflect",
+      icon: <SelfImprovement />,
+      link: "/Reflect",
+    },
+  ];
+
   const places = () => {
     switch (location.pathname) {
       case "/Tasks":
@@ -55,6 +70,8 @@ const BottomNavigationBar: FC = () => {
         return workoutPlaces;
       case "/Stats":
         return statsPlaces;
+      case "/Reflect":
+        return selfImprovementPlaces;
       default:
         return workPlaces;
     }
