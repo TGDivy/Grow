@@ -6,29 +6,57 @@ interface JournalStoreType extends JournalType {
   updateJournal: (journal: JournalType) => void;
   user_id: string;
   setUserId: (user_id: string) => void;
+  activeStep: number;
+  resetStore: () => void;
+  setActiveStep: (step: number) => void;
+  addMood: (mood: string) => void;
+  lastMoodUpdated: Date;
 }
+
+const initialState = {
+  user_id: "",
+  date: new Date(),
+  title: "",
+  entry: "",
+  plansForTomorrow: "",
+  tasksForTomorrow: [],
+  mood: [],
+  lastMoodUpdated: new Date(),
+  workDone: 0,
+  exercised: false,
+  meals: 0,
+  noMB: false,
+  activeStep: 0,
+};
 
 const useJournalStore = create<JournalStoreType>()(
   devtools(
     persist(
       (set) => ({
-        user_id: "",
-        date: new Date(),
-        title: "",
-        entry: "",
-        plansForTomorrow: "",
-        tasksForTomorrow: [],
-        mood: [],
-        workDone: 0,
-        exercised: false,
-        meals: 0,
-        noMB: false,
+        ...initialState,
         setUserId: (user_id: string) => set(() => ({ user_id })),
         updateJournal: (journal: JournalType) => set(() => ({ ...journal })),
+        resetStore: () => set(() => ({ ...initialState })),
+
+        setActiveStep: (step: number) => set(() => ({ activeStep: step })),
+        addMood: (mood: string) =>
+          set((state) => ({
+            mood: [...state.mood, mood],
+            lastMoodUpdated: new Date(),
+          })),
       }),
       {
         name: "journal-storage",
         getStorage: () => localStorage,
+        deserialize: (state) => {
+          const newState = JSON.parse(state);
+
+          newState.state.lastMoodUpdated = new Date(
+            newState.state.lastMoodUpdated
+          );
+
+          return newState;
+        },
       }
     ),
     {
