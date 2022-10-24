@@ -32,7 +32,7 @@ const Habits = () => {
   // - no MB
 
   const today = new Date();
-  const totalWorkTime = totalTimeWorked(filterTimerRecords(timerRecords, 2, 0));
+  const totalWorkTime = totalTimeWorked(filterTimerRecords(timerRecords, 1, 0));
   const exercisedToday = latestActivityDate
     ? latestActivityDate.getDate() === today.getDate() &&
       latestActivityDate.getMonth() === today.getMonth() &&
@@ -104,7 +104,7 @@ const Habits = () => {
           secondaryAction={
             <Checkbox
               edge="end"
-              checked={totalWorkTime >= 8 * 60 * 60}
+              checked={totalWorkTime >= 8 * 60}
               tabIndex={-1}
               disableRipple
             />
