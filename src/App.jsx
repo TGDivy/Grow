@@ -16,9 +16,18 @@ import {
 import AnonymousUser from "./Login/AnonymousUser";
 import AnonToLogin from "./Login/AnonToLogin";
 import JournalMain from "./Journal/JournalMain";
+import { useLocation } from "react-router-dom";
 
 const App = () => {
   const { user } = useCurrentUser();
+  const [initialPath, setInitialPath] = React.useState("/");
+  const location = useLocation();
+
+  React.useEffect(() => {
+    if (location.pathname !== "/") {
+      setInitialPath(location.pathname);
+    }
+  }, []);
 
   const routes = () => {
     return (
@@ -28,7 +37,7 @@ const App = () => {
           element={
             user ? (
               user.email ? (
-                <Navigate to="/" />
+                <Navigate to={initialPath} />
               ) : (
                 <AnonToLogin />
               )
@@ -59,22 +68,20 @@ const App = () => {
         />
         <Route
           path="/Reflect"
-          element={user ? <JournalMain /> : <Navigate to="/Reflect" />}
+          element={user ? <JournalMain /> : <Navigate to="/Login" />}
         />
       </>
     );
   };
 
   return (
-    <Router>
-      <>
-        <div style={{ marginBottom: 80 }}>
-          <Routes>{routes()}</Routes>
-        </div>
-        <BottomNavigationBar />
-        <AnonymousUser />
-      </>
-    </Router>
+    <>
+      <div style={{ marginBottom: 80 }}>
+        <Routes>{routes()}</Routes>
+      </div>
+      <BottomNavigationBar />
+      <AnonymousUser />
+    </>
   );
 };
 

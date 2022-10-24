@@ -99,6 +99,7 @@ export interface JournalType {
   date: Date;
   title: string;
   entry: string;
+  grateful: string;
   plansForTomorrow: string;
   tasksForTomorrow: Array<taskType>;
   mood: string[];

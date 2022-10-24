@@ -13,6 +13,7 @@ interface JournalStoreType extends JournalType {
   setMeals: (meals: string[]) => void;
   setNB: (nb: boolean) => void;
   lastMoodUpdated: Date;
+  setGrateful: (grateful: string) => void;
 }
 
 const initialState = {
@@ -20,6 +21,7 @@ const initialState = {
   date: new Date(),
   title: "",
   entry: "",
+  grateful: "",
   plansForTomorrow: "",
   tasksForTomorrow: [],
   mood: [],
@@ -48,6 +50,7 @@ const useJournalStore = create<JournalStoreType>()(
           })),
         setMeals: (meals: string[]) => set(() => ({ meals })),
         setNB: (nb: boolean) => set(() => ({ noMB: nb })),
+        setGrateful: (grateful: string) => set(() => ({ grateful })),
       }),
       {
         name: "journal-storage",
