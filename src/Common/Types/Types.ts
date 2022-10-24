@@ -104,7 +104,7 @@ export interface JournalType {
   mood: string[];
   workDone: number;
   exercised: boolean;
-  meals: number;
+  meals: string[];
   noMB: boolean;
 }
 

@@ -10,6 +10,8 @@ interface JournalStoreType extends JournalType {
   resetStore: () => void;
   setActiveStep: (step: number) => void;
   addMood: (mood: string) => void;
+  setMeals: (meals: string[]) => void;
+  setNB: (nb: boolean) => void;
   lastMoodUpdated: Date;
 }
 
@@ -24,7 +26,7 @@ const initialState = {
   lastMoodUpdated: new Date(),
   workDone: 0,
   exercised: false,
-  meals: 0,
+  meals: [],
   noMB: false,
   activeStep: 0,
 };
@@ -44,6 +46,8 @@ const useJournalStore = create<JournalStoreType>()(
             mood: [...state.mood, mood],
             lastMoodUpdated: new Date(),
           })),
+        setMeals: (meals: string[]) => set(() => ({ meals })),
+        setNB: (nb: boolean) => set(() => ({ noMB: nb })),
       }),
       {
         name: "journal-storage",
