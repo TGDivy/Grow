@@ -9,6 +9,7 @@ import {
   Checkbox,
   ClickAwayListener,
   Collapse,
+  Divider,
   Grid,
   IconButton,
 } from "@mui/material";
@@ -143,7 +144,7 @@ const Task: FC<taskFC> = (props) => {
     }
   };
 
-  const backgroundColor = completed_ ? "#e0e0e0" : "#ffffff";
+  const backgroundColor = !props.createNewTask ? "#00000088" : "#223141aa";
 
   return (
     <ClickAwayListener
@@ -160,6 +161,9 @@ const Task: FC<taskFC> = (props) => {
             boxShadow: 20,
           },
           backgroundColor: backgroundColor,
+          color: "primary.main",
+
+          // backgroundColor: backgroundColor,
         }}
         onClick={() => {
           if (!expanded) {
@@ -196,8 +200,32 @@ const Task: FC<taskFC> = (props) => {
           }
         />
         <CardContent sx={{ padding: "5px 20px 5px 20px" }}>
-          <Tags tags={tags_} editing={editing} setTags={setTags} />
+          <Divider
+            textAlign="left"
+            sx={{
+              alignItems: "center",
+              justifyContent: "center",
+
+              "&.MuiDivider-root": {
+                color: "primary.main",
+                // p: 1,
+                "&::before": {
+                  borderTopWidth: 2,
+                  borderTopStyle: "solid",
+                  borderTopColor: "primary.main",
+                },
+                "&::after": {
+                  borderTopWidth: 2,
+                  borderTopStyle: "solid",
+                  borderTopColor: "primary.main",
+                },
+              },
+            }}
+          >
+            <Tags tags={tags_} editing={editing} setTags={setTags} />
+          </Divider>
         </CardContent>
+
         <CardActions>
           <Grid container justifyContent="space-between" alignItems="center">
             <Grid item xs={2}>

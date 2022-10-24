@@ -2,9 +2,9 @@
 import { createTheme } from "@mui/material/styles";
 import shadows from "@mui/material/styles/shadows";
 // Primary and secondary colors are compliments of each other
-const SDark = "#21496d";
+const SDark = "#2e4661";
 const SLight = "#81a3cc";
-const S = "#52749c";
+const S = "#416187";
 const SText = "#ffffff";
 
 const P = "#ac9172";

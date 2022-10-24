@@ -88,7 +88,7 @@ const Timer = () => {
           alignItems: "center",
         }}
       >
-        <Typography variant="h1">
+        <Typography variant="h1" color="#00000088">
           {formatTime(studyTime, timerMode, timerDuration)}
         </Typography>
       </Box>

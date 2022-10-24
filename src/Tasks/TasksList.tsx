@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from "react";
-import { Grid, Stack } from "@mui/material";
+import { Box, Grid, Stack } from "@mui/material";
 import Task from "./Task/Task";
 import CreateTask from "./CreateTask";
 
@@ -98,12 +98,17 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
 
   return (
     <Stack direction="column" spacing={3}>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <CreateTask taskListName={taskListName} />
+      <CreateTask taskListName={taskListName} />
+      <Box
+        sx={{
+          p: 2,
+          backgroundColor: "rgba(0, 0, 0, 0.1)",
+        }}
+      >
+        <Grid container spacing={2}>
+          {displayTasks}
         </Grid>
-        {displayTasks}
-      </Grid>
+      </Box>
       {completedTasks.length > 0 && (
         <Accordion
           sx={{
