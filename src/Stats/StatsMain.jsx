@@ -52,7 +52,7 @@ export const totalTimeWorked = (timerRecords) => {
       return acc + timerRecord.duration;
     }, 0) / 60
   );
-  return `${Math.floor(T / 60)}H ${T % 60}M`;
+  return T;
 };
 
 const StatsMain = () => {
@@ -121,6 +121,8 @@ const StatsMain = () => {
     );
   };
 
+  const totalTimeWorkedV = totalTimeWorked(selectedPeriod);
+
   return (
     <>
       <Container>
@@ -178,7 +180,10 @@ const StatsMain = () => {
           </Grid>
           <Grid item xs={12} md={11}>
             <Typography variant="h6">
-              Total Time Worked : {totalTimeWorked(selectedPeriod)}
+              Total Time Worked :{" "}
+              {`${Math.floor(totalTimeWorkedV / 60)}H ${
+                totalTimeWorkedV % 60
+              }M`}
             </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
