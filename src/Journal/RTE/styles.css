@@ -109,7 +109,7 @@ body {
   }
   
   .editor-text-code {
-    background-color: rgb(240, 242, 245);
+    background-color: rgba(240, 242, 245, 0.477);
     padding: 1px 0.25rem;
     font-family: Menlo, Consolas, Monaco, monospace;
     font-size: 94%;
@@ -352,7 +352,7 @@ body {
     display: flex;
     overflow: scroll;
     margin-bottom: 1px;
-    background: #eeeeeeaa;
+    background: #ac9172;
     padding: 4px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -436,7 +436,7 @@ body {
     width: 200px;
     vertical-align: middle;
     font-size: 14px;
-    color: #777;
+    color: #000;
     text-overflow: ellipsis;
     width: 70px;
     overflow: hidden;
