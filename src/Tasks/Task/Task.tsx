@@ -144,7 +144,7 @@ const Task: FC<taskFC> = (props) => {
     }
   };
 
-  const backgroundColor = !props.createNewTask ? "#00000088" : "#223141aa";
+  const backgroundColor = !props.createNewTask ? "#00000088" : "#adc2d985";
 
   return (
     <ClickAwayListener
@@ -162,6 +162,8 @@ const Task: FC<taskFC> = (props) => {
           },
           backgroundColor: backgroundColor,
           color: "primary.main",
+          width: "800px",
+          maxWidth: "100%",
 
           // backgroundColor: backgroundColor,
         }}

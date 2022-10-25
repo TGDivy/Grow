@@ -37,6 +37,16 @@ const Title: FC<titleFc> = ({
           onChange={(event) => {
             setTitle(event.target.value);
           }}
+          InputLabelProps={{
+            sx: {
+              color: "primary.main",
+            },
+          }}
+          sx={{
+            "& .MuiInputBase-root": {
+              color: "primary.main",
+            },
+          }}
         />
       </>
     );

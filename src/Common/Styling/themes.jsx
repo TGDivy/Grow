@@ -4,7 +4,7 @@ import shadows from "@mui/material/styles/shadows";
 // Primary and secondary colors are compliments of each other
 const SDark = "#2e4661";
 const SLight = "#81a3cc";
-const S = "#416187";
+const S = "#52749c";
 const SText = "#ffffff";
 
 const P = "#ac9172";
