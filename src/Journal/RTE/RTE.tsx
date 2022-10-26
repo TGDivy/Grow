@@ -56,7 +56,6 @@ const RTE: FC<props> = ({ text, setText, textToAdd }) => {
   };
 
   const onChange = (editorState: any) => {
-    console.log("onChange", JSON.stringify(editorState));
     setText(JSON.stringify(editorState));
   };
 

@@ -13,10 +13,10 @@ const Reflect2 = () => {
       <Box
         sx={{
           position: "relative",
-          height: "500px",
+          // height: "500px",
           width: "100%",
           "& .editor-inner": {
-            height: "450px",
+            minHeight: "450px",
           },
         }}
       >
