@@ -8,7 +8,9 @@ import useJournalStore from "../Common/Stores/DailyJournalStore";
 
 import Mood from "./Mood";
 import Habits from "./Habits";
-import Grateful from "./Grateful";
+import Reflect from "./Grateful";
+import Reflect2 from "./Reflect2";
+import Goals from "./Goals";
 
 const JournalMain = () => {
   const activeStep = useJournalStore((state) => state.activeStep);
@@ -42,13 +44,18 @@ const JournalMain = () => {
       shortLabel: "Habits",
     },
     {
-      label: "What are you grateful for today?",
-      component: <Grateful />,
+      label: "What went well today?",
+      component: <Reflect />,
       shortLabel: "Grateful",
     },
     {
-      label: "What are your goals for today?",
-      component: <div>Goals</div>,
+      label: "What could I have done better today?",
+      component: <Reflect2 />,
+      shortLabel: "Reflect2",
+    },
+    {
+      label: "What are your goals for tomorrow?",
+      component: <Goals />,
       shortLabel: "Goals",
     },
     {
