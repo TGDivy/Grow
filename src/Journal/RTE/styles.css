@@ -60,6 +60,7 @@ body {
   .editor-inner {
     background: #00000088;
     position: relative;
+    overflow: scroll;
   }
   
   .editor-input {
