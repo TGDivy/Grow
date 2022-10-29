@@ -5,8 +5,8 @@ import RTE from "./RTE/RTE";
 
 const Reflect2 = () => {
   // A place to write down what you're grateful for.
-  const grateful = useJournalStore((state) => state.grateful);
-  const setGrateful = useJournalStore((state) => state.setGrateful);
+  const grateful = useJournalStore((state) => state.entry);
+  const setGrateful = useJournalStore((state) => state.setEntry);
 
   return (
     <>

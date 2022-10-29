@@ -22,7 +22,12 @@ export default function AddHelloWorldPlugin({ textToAdd }: props) {
           textNode.setMode("token");
           headingNode.append(textNode);
 
-          root.append(headingNode);
+          const lastChild = root.getLastChild();
+          if (lastChild?.getTextContent() === "") {
+            lastChild.insertBefore(headingNode);
+          } else {
+            lastChild?.insertAfter(headingNode);
+          }
         }
       });
     }

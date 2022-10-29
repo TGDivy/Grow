@@ -3,7 +3,6 @@ import { devtools, persist } from "zustand/middleware";
 import { JournalType } from "../Types/Types";
 
 interface JournalStoreType extends JournalType {
-  updateJournal: (journal: JournalType) => void;
   user_id: string;
   setUserId: (user_id: string) => void;
   activeStep: number;
@@ -13,23 +12,27 @@ interface JournalStoreType extends JournalType {
   setMeals: (meals: string[]) => void;
   setNB: (nb: boolean) => void;
   lastMoodUpdated: Date;
-  setGrateful: (grateful: string) => void;
+  setEntry: (entry: string) => void;
 }
 
 const initialState = {
-  user_id: "",
   date: new Date(),
   title: "",
+
   entry: "",
-  grateful: "",
-  plansForTomorrow: "",
+  nextDayNotes: "",
+
   tasksForTomorrow: [],
+
   mood: [],
   lastMoodUpdated: new Date(),
+
   workDone: 0,
   exercised: false,
   meals: [],
   noMB: false,
+
+  user_id: "",
   activeStep: 0,
 };
 
@@ -39,7 +42,6 @@ const useJournalStore = create<JournalStoreType>()(
       (set) => ({
         ...initialState,
         setUserId: (user_id: string) => set(() => ({ user_id })),
-        updateJournal: (journal: JournalType) => set(() => ({ ...journal })),
         resetStore: () => set(() => ({ ...initialState })),
 
         setActiveStep: (step: number) => set(() => ({ activeStep: step })),
@@ -50,7 +52,7 @@ const useJournalStore = create<JournalStoreType>()(
           })),
         setMeals: (meals: string[]) => set(() => ({ meals })),
         setNB: (nb: boolean) => set(() => ({ noMB: nb })),
-        setGrateful: (grateful: string) => set(() => ({ grateful })),
+        setEntry: (entry: string) => set(() => ({ entry })),
       }),
       {
         name: "journal-storage",

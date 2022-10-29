@@ -98,11 +98,14 @@ export interface activityTypeDoc {
 export interface JournalType {
   date: Date;
   title: string;
+
   entry: string;
-  grateful: string;
-  plansForTomorrow: string;
+  nextDayNotes: string;
+
   tasksForTomorrow: Array<taskType>;
+
   mood: string[];
+
   workDone: number;
   exercised: boolean;
   meals: string[];

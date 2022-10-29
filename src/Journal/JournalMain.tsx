@@ -16,10 +16,6 @@ const JournalMain = () => {
   const activeStep = useJournalStore((state) => state.activeStep);
   const setActiveStep = useJournalStore((state) => state.setActiveStep);
 
-  const handleStep = (step: number) => () => {
-    setActiveStep(step);
-  };
-
   const handleNext = () => {
     setActiveStep(activeStep + 1);
   };
