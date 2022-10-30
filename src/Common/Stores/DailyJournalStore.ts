@@ -75,7 +75,7 @@ const useDailyJournalStore = create<JournalStoreType>()(
             noMB,
           } = get();
           return {
-            date,
+            date: new Date(),
             title,
             entry,
             nextDayNotes,

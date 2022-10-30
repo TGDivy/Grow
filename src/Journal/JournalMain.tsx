@@ -81,9 +81,11 @@ const JournalMain = () => {
   if (submittedRecently) {
     return (
       <Container>
-        <Typography variant="h4" align="center">
-          {"You've already submitted your journal for today!"}
-        </Typography>
+        <Box sx={{ mt: 4 }}>
+          <Typography variant="h4" align="center">
+            {"You've already submitted your journal for today!"}
+          </Typography>
+        </Box>
       </Container>
     );
   }
@@ -116,7 +118,7 @@ const JournalMain = () => {
           <Grid container spacing={2} direction="row" justifyContent="center">
             <Grid item xs={12}>
               <Typography variant="h4" align="center">
-                {steps[activeStep].shortLabel}
+                {steps[activeStep].label}
               </Typography>
             </Grid>
             <Grid item xs={12} md={10}>
