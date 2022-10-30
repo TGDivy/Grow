@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import useJournalStore from "../Common/Stores/DailyJournalStore";
 import CreateTask from "../Tasks/CreateTask";
 import { v4 as uuid_v4 } from "uuid";
@@ -19,7 +19,11 @@ import Task from "../Tasks/Task/Task";
 import { Switch, ToggleButton } from "@mui/material";
 import RTE from "./RTE/RTE";
 
-const Goals = () => {
+interface Props {
+  readonly?: boolean;
+}
+
+const Goals: FC<Props> = ({ readonly }) => {
   const tasksForTomorrow = useJournalStore((state) => state.tasksForTomorrow);
   const setTasksForTomorrow = useJournalStore(
     (state) => state.setTasksForTomorrow
@@ -94,53 +98,71 @@ const Goals = () => {
   ));
 
   return (
-    <Stack direction="column" spacing={3} alignItems="flex-end">
+    <Stack direction="column" spacing={readonly ? 0 : 3} alignItems="flex-end">
       <Box
         sx={{
           position: "relative",
           width: "100%",
           "& .editor-inner": {
-            minHeight: "150px",
+            minHeight: readonly ? "max-content" : "150px",
           },
         }}
       >
-        <RTE text={nextDayNotes} setText={setNextDayNotes} textToAdd="Notes:" />
+        <RTE
+          text={nextDayNotes}
+          setText={setNextDayNotes}
+          textToAdd="Notes:"
+          readonly={readonly}
+        />
       </Box>
 
       <Box
         sx={{
-          p: 2,
+          p: readonly ? 0 : 2,
           width: "100%",
-          backgroundColor: "rgba(0, 0, 0, 0.1)",
+          backgroundColor: readonly ? "transparent" : "rgba(0, 0, 0, 0.5)",
         }}
       >
         <Grid container spacing={2} alignItems="center">
           <Grid item xs={10}>
-            <Typography variant="h5">Goals for Tomorrow</Typography>
-            <Typography variant="body2">
-              {addAndRemove
-                ? "Click on a task to add or remove it from your goals for tomorrow."
-                : "Click the edit button to add or remove tasks from your goals for tomorrow."}
-            </Typography>
+            {readonly ? (
+              <Typography variant="h5" color="white"></Typography>
+            ) : (
+              <>
+                <Typography variant="h5" color="primary">
+                  Goals for Tomorrow
+                </Typography>
+
+                <Typography variant="body2" color="primary">
+                  {addAndRemove
+                    ? "Click on a task to add or remove it from your goals for tomorrow."
+                    : "Click the edit button to add or remove tasks from your goals for tomorrow."}
+                </Typography>
+              </>
+            )}
           </Grid>
 
-          <Grid item xs={2}>
-            <ToggleButton
-              value={addAndRemove}
-              color="standard"
-              selected={addAndRemove}
-              fullWidth
-              onChange={() => {
-                setAddAndRemove(!addAndRemove);
-              }}
-              size="medium"
-            >
-              <Edit /> Edit
-            </ToggleButton>
-          </Grid>
-          <Grid item xs={12}>
-            <CreateTask taskListName="Tasks" id={newTaskId} />
-          </Grid>
+          {!readonly && (
+            <>
+              <Grid item xs={2}>
+                <ToggleButton
+                  value={addAndRemove}
+                  color="primary"
+                  selected={addAndRemove}
+                  fullWidth
+                  onChange={() => {
+                    setAddAndRemove(!addAndRemove);
+                  }}
+                  size="medium"
+                >
+                  <Edit /> Edit
+                </ToggleButton>
+              </Grid>
+              <Grid item xs={12}>
+                <CreateTask taskListName="Tasks" id={newTaskId} />
+              </Grid>
+            </>
+          )}
 
           {displayTasks}
         </Grid>
@@ -151,10 +173,10 @@ const Goals = () => {
           width: "100%",
         }}
       >
-        {completedTasks.length > 0 && (
+        {completedTasks.length > 0 && !readonly && (
           <Accordion
             sx={{
-              backgroundColor: "rgba(0, 0, 0, 0.1)",
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
             }}
           >
             <AccordionSummary
@@ -162,7 +184,9 @@ const Goals = () => {
               aria-controls="panel1a-content"
               id="panel1a-header"
             >
-              <Typography variant="h5">Tasks To Do</Typography>
+              <Typography variant="h5" color="primary">
+                Tasks To Do
+              </Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Grid container spacing={2}>
