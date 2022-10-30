@@ -28,19 +28,20 @@ interface props {
   setText: any;
   textToAdd?: string;
   noToolbar?: boolean;
+  notEditable?: boolean;
 }
 
-const RTE: FC<props> = ({ text, setText, textToAdd, noToolbar }) => {
+const RTE: FC<props> = ({
+  text,
+  setText,
+  textToAdd,
+  noToolbar,
+  notEditable,
+}) => {
   const editorConfig = {
     namespace: "MyEditor",
     // Handling of errors during update
-    onError(error: any) {
-      console.error(error);
-    },
-    editorState: text ? text : undefined,
-
-    theme: exampleTheme,
-    // Any custom nodes go here
+    editable: !notEditable,
     nodes: [
       HeadingNode,
       ListNode,
@@ -54,6 +55,13 @@ const RTE: FC<props> = ({ text, setText, textToAdd, noToolbar }) => {
       AutoLinkNode,
       LinkNode,
     ],
+    onError(error: any) {
+      console.error(error);
+    },
+    editorState: text ? text : undefined,
+
+    theme: exampleTheme,
+    // Any custom nodes go here
   };
 
   const onChange = (editorState: any) => {
@@ -63,7 +71,7 @@ const RTE: FC<props> = ({ text, setText, textToAdd, noToolbar }) => {
   return (
     <LexicalComposer initialConfig={editorConfig}>
       <div className="editor-container">
-        {!noToolbar ? <ToolbarPlugin /> : null}
+        {!noToolbar && !notEditable ? <ToolbarPlugin /> : null}
         <div className="editor-inner">
           <RichTextPlugin
             contentEditable={<ContentEditable className="editor-input" />}
@@ -71,7 +79,6 @@ const RTE: FC<props> = ({ text, setText, textToAdd, noToolbar }) => {
               <div className="editor-placeholder">Enter some rich text...</div>
             }
           />
-          <OnChangePlugin onChange={onChange} ignoreSelectionChange />
           <HistoryPlugin />
           <AutoFocusPlugin />
           <CodeHighlightPlugin />
@@ -81,6 +88,7 @@ const RTE: FC<props> = ({ text, setText, textToAdd, noToolbar }) => {
           <ListMaxIndentLevelPlugin maxDepth={7} />
           <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
           <AddHelloWorldPlugin textToAdd={textToAdd} />
+          <OnChangePlugin onChange={onChange} ignoreSelectionChange />
         </div>
       </div>
     </LexicalComposer>
