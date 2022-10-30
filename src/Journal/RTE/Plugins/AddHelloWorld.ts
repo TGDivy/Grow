@@ -1,11 +1,20 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { useEffect } from "react";
-import { $createParagraphNode, $createTextNode } from "lexical";
+import { $createParagraphNode, $createTextNode, LexicalNode } from "lexical";
 import { $getRoot } from "lexical";
 import { $createHeadingNode } from "@lexical/rich-text";
+import { $createHorizontalRuleNode } from "@lexical/react/LexicalHorizontalRuleNode";
 
 interface props {
   textToAdd?: string;
+}
+
+export function $insertNodesBack(
+  nodes: Array<LexicalNode>,
+  selectStart?: boolean
+): boolean {
+  const selection = $getRoot().selectStart();
+  return selection.insertNodes(nodes, selectStart);
 }
 
 export default function AddHelloWorldPlugin({ textToAdd }: props) {
@@ -30,15 +39,13 @@ export default function AddHelloWorldPlugin({ textToAdd }: props) {
             root.append(paragraphNode);
           }
 
-          const lastChild = root.getLastChild();
+          const child = root.getFirstChild();
 
-          if (lastChild?.getTextContent() === "") {
-            lastChild.insertBefore(headingNode);
-          } else {
-            // lastChild?.insertBefore(lastChild);
-            // lastChild?.replaceWith($createHeadingNode("h1"));
-            lastChild?.insertAfter(headingNode);
+          if (text !== "") {
+            child?.insertBefore($createParagraphNode());
+            child?.insertBefore($createHorizontalRuleNode());
           }
+          $insertNodesBack([headingNode, $createParagraphNode()]);
         }
       });
     }
