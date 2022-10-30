@@ -138,7 +138,7 @@ body {
   }
   
   .editor-code {
-    background-color: rgb(240, 242, 245);
+    background-color: rgba(240, 242, 245, 0.055);
     font-family: Menlo, Consolas, Monaco, monospace;
     display: block;
     padding: 8px 8px 8px 52px;
@@ -156,12 +156,12 @@ body {
   .editor-code:before {
     content: attr(data-gutter);
     position: absolute;
-    background-color: #eee;
+    background-color: rgba(238, 238, 238, 0.238);
     left: 0;
     top: 0;
-    border-right: 1px solid #ccc;
+    border-right: 1px solid rgb(6, 6, 6);
     padding: 8px;
-    color: #777;
+    color: rgb(225, 217, 217);
     white-space: pre-wrap;
     text-align: right;
     min-width: 25px;
@@ -244,7 +244,7 @@ body {
     margin: 0;
     margin-left: 20px;
     font-size: 15px;
-    color: rgb(101, 103, 107);
+    color: rgb(255, 255, 255);
     border-left-color: rgb(206, 208, 212);
     border-left-width: 4px;
     border-left-style: solid;
