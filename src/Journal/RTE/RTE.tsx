@@ -27,9 +27,10 @@ interface props {
   text: string;
   setText: any;
   textToAdd?: string;
+  noToolbar?: boolean;
 }
 
-const RTE: FC<props> = ({ text, setText, textToAdd }) => {
+const RTE: FC<props> = ({ text, setText, textToAdd, noToolbar }) => {
   const editorConfig = {
     namespace: "MyEditor",
     // Handling of errors during update
@@ -62,7 +63,7 @@ const RTE: FC<props> = ({ text, setText, textToAdd }) => {
   return (
     <LexicalComposer initialConfig={editorConfig}>
       <div className="editor-container">
-        <ToolbarPlugin />
+        {!noToolbar ? <ToolbarPlugin /> : null}
         <div className="editor-inner">
           <RichTextPlugin
             contentEditable={<ContentEditable className="editor-input" />}

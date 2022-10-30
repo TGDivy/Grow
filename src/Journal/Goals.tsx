@@ -101,13 +101,11 @@ const Goals = () => {
           width: "100%",
           "& .editor-inner": {
             minHeight: "150px",
-            // width: "80%",
           },
         }}
       >
         <RTE text={nextDayNotes} setText={setNextDayNotes} textToAdd="Notes:" />
       </Box>
-      <CreateTask taskListName="Tasks" id={newTaskId} />
 
       <Box
         sx={{
@@ -125,6 +123,7 @@ const Goals = () => {
                 : "Click the edit button to add or remove tasks from your goals for tomorrow."}
             </Typography>
           </Grid>
+
           <Grid item xs={2}>
             <ToggleButton
               value={addAndRemove}
@@ -139,30 +138,40 @@ const Goals = () => {
               <Edit /> Edit
             </ToggleButton>
           </Grid>
+          <Grid item xs={12}>
+            <CreateTask taskListName="Tasks" id={newTaskId} />
+          </Grid>
+
           {displayTasks}
         </Grid>
       </Box>
 
-      {completedTasks.length > 0 && (
-        <Accordion
-          sx={{
-            backgroundColor: "rgba(0, 0, 0, 0.1)",
-          }}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMore />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+      <Box
+        sx={{
+          width: "100%",
+        }}
+      >
+        {completedTasks.length > 0 && (
+          <Accordion
+            sx={{
+              backgroundColor: "rgba(0, 0, 0, 0.1)",
+            }}
           >
-            <Typography variant="h5">Tasks To Do</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Grid container spacing={2}>
-              {completedTasks}
-            </Grid>
-          </AccordionDetails>
-        </Accordion>
-      )}
+            <AccordionSummary
+              expandIcon={<ExpandMore />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography variant="h5">Tasks To Do</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Grid container spacing={2}>
+                {completedTasks}
+              </Grid>
+            </AccordionDetails>
+          </Accordion>
+        )}
+      </Box>
     </Stack>
   );
 };
