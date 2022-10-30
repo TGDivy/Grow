@@ -18,7 +18,7 @@ interface JournalStoreType {
   user_id: string;
   setUserId: (user_id: string) => void;
 
-  addDocument: (document: JournalType) => void;
+  addDocument: (document: JournalType, localOnly?: boolean) => void;
   fetchDocuments: () => void;
   getLastDocumentDate: () => Date;
 }
@@ -60,10 +60,12 @@ const useJournalStore = create<JournalStoreType>()(
       (set, get) => ({
         ...initialState,
         setUserId: (user_id: string) => set(() => ({ user_id })),
-        addDocument: (document: JournalType) => {
+        addDocument: (document: JournalType, localOnly) => {
           const user_id = get().user_id;
           document.date = new Date(document.date);
-          addJournalRecord(document, user_id);
+          if (!localOnly) {
+            addJournalRecord(document, user_id);
+          }
           set((state) => ({
             documents: {
               ...state.documents,
@@ -81,8 +83,10 @@ const useJournalStore = create<JournalStoreType>()(
               querySnapshot.forEach((doc) => {
                 console.log(`Fetch Journal Records => ${doc.id}`);
                 const document = doc.data();
+                console.log(document.date);
+                console.log(typeof document.date);
                 document.date = document.date.toDate();
-                addDocument(document as JournalType);
+                addDocument(document as JournalType, true);
               });
             })
             .catch((error) => {

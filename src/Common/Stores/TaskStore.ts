@@ -11,27 +11,32 @@ import {
   doc,
   increment,
   deleteDoc,
+  CollectionReference,
+  getDocs,
+  query,
+  where,
 } from "firebase/firestore";
 import { db } from "../Firestore/firebase-config";
 
 interface taskListStoreType {
-  addTask: (task: taskType, id: string) => void;
+  addTask: (task: taskType, id: string, localOnly?: boolean) => void;
   deleteTask: (id: string) => void;
   editTask: (task: taskType, id: string) => void;
   tasks: tasksListType;
   user_id: string;
   setUserID: (user_id: string) => void;
   updateTimeSpent: (id: string, timeSpent: number) => void;
+  fetchNewDocs: () => void;
 }
 
-const addTask = async (task_id: string, task: taskType, user_id: string) => {
+const addTaskFS = async (task_id: string, task: taskType, user_id: string) => {
   const plowDocRef = doc(db, "users", user_id, "plow", task_id);
   await setDoc(plowDocRef, task);
 
   console.log("Document written with ID: ", task_id);
 };
 
-const deleteTask = async (task_id: string, user_id: string) => {
+const deleteTaskFS = async (task_id: string, user_id: string) => {
   const plowDocRef = doc(db, "users", user_id, "plow", task_id);
 
   await deleteDoc(plowDocRef);
@@ -75,6 +80,31 @@ const updateTimeSpent = async (
   console.log("Document written with ID: ", task_id);
 };
 
+// find the latest task in tasksList
+const fetchNewDocs = async (tasks: tasksListType, user_id: string) => {
+  const collectionRef = collection(db, "users", user_id, "plow");
+  const tasksEntries = Object.entries(tasks);
+  const initialTask = tasksEntries[0];
+
+  const latestTask = await tasksEntries.reduce((prev, next) => {
+    if (next[1].dateUpdated > prev[1].dateUpdated) {
+      return next;
+    }
+    return prev;
+  }, initialTask);
+
+  const latestDate: Date = latestTask
+    ? new Date(latestTask[1].dateUpdated)
+    : new Date(2000, 1, 1);
+  // Fetch tasks after the latest task date
+
+  const q = query(collectionRef, where("dateUpdated", ">", latestDate));
+
+  const querySnapshot = await getDocs(q);
+
+  return querySnapshot;
+};
+
 const useTaskStore = create<taskListStoreType>()(
   devtools(
     persist(
@@ -82,31 +112,36 @@ const useTaskStore = create<taskListStoreType>()(
         user_id: "",
         tasks: {},
 
-        addTask: (task: taskType, id: string) =>
-          set(
+        addTask: (task: taskType, id: string, localOnly) => {
+          if (!localOnly) {
+            addTaskFS(id, task, get().user_id);
+          }
+          return set(
             produce((state) => {
-              addTask(id, task, state.user_id);
               state.tasks[id] = task;
               return state;
             })
-          ),
+          );
+        },
 
-        deleteTask: (id: string) =>
-          set(
+        deleteTask: (id: string) => {
+          deleteTaskFS(id, get().user_id);
+          return set(
             produce((state) => {
-              deleteTask(id, state.user_id);
               const { [id]: value, ...newState } = state.tasks;
               return { tasks: newState };
             })
-          ),
-        editTask: (task: taskType, id: string) =>
-          set(
+          );
+        },
+        editTask: (task: taskType, id: string) => {
+          updateTask(id, get().tasks[id], task, get().user_id);
+          return set(
             produce((state) => {
-              updateTask(id, state.tasks[id], task, state.user_id);
               state.tasks[id] = task;
               return state;
             })
-          ),
+          );
+        },
         updateTimeSpent: (id: string, timeSpent: number) => {
           const user_id = get().user_id;
           if (user_id === "" || user_id === undefined) return;
@@ -121,6 +156,22 @@ const useTaskStore = create<taskListStoreType>()(
           );
         },
         setUserID: (user_id: string) => set(() => ({ user_id: user_id })),
+        fetchNewDocs: async () => {
+          const user_id = get().user_id;
+          const querySnapshot = fetchNewDocs(get().tasks, user_id);
+          querySnapshot
+            .then((querySnapshot) => {
+              querySnapshot.forEach((doc) => {
+                console.log(`${doc.id} => ${doc.data()}`);
+                const task = doc.data() as taskType;
+                task.dateUpdated = doc.data().dateUpdated.toDate();
+                get().addTask(task, doc.id, true);
+              });
+            })
+            .catch((error) => {
+              console.log("Error getting documents: ", error);
+            });
+        },
       }),
       {
         name: "task-list-storage",

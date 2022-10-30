@@ -17,17 +17,44 @@ import AnonymousUser from "./Login/AnonymousUser";
 import AnonToLogin from "./Login/AnonToLogin";
 import JournalMain from "./Journal/JournalMain";
 import { useLocation } from "react-router-dom";
+import useTimerRecordsStore from "./Common/Stores/TimerRecordsStore";
+import useWorkoutStore from "./Common/Stores/WorkoutStore";
+import useJournalStore from "./Common/Stores/JournalStore";
+import useActivityStore from "./Common/Stores/ActivityStore";
+import useTaskStore from "./Common/Stores/TaskStore";
 
 const App = () => {
   const { user } = useCurrentUser();
   const [initialPath, setInitialPath] = React.useState("/");
   const location = useLocation();
 
+  const fetchWorkouts = useWorkoutStore((state) => state.fetchWorkouts);
+  const fetchTimerRecords = useTimerRecordsStore(
+    (state) => state.addLatestTimerRecord
+  );
+  const fetchJournalEntries = useJournalStore((state) => state.fetchDocuments);
+  const fetchActivities = useActivityStore((state) => state.fetchActivities);
+  const fetchTasks = useTaskStore((state) => state.fetchNewDocs);
+
   React.useEffect(() => {
     if (location.pathname !== "/") {
       setInitialPath(location.pathname);
     }
+    fetchActivities();
+    fetchWorkouts();
+    fetchTimerRecords();
+    fetchJournalEntries();
+    fetchTasks();
   }, []);
+
+  React.useEffect(() => {
+    if (user) {
+      fetchActivities();
+      fetchWorkouts();
+      fetchTimerRecords();
+      fetchJournalEntries();
+    }
+  }, [user]);
 
   const routes = () => {
     return (

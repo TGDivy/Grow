@@ -44,7 +44,6 @@ const Goals: FC<Props> = ({ readonly }) => {
     if (addAndRemove) {
       setTasksForTomorrow([...tasksForTomorrow, task]);
       setNewTaskId(uuid_v4());
-      console.log(tasksForTomorrow);
     }
   };
 
@@ -58,7 +57,6 @@ const Goals: FC<Props> = ({ readonly }) => {
     if (newTaskId in tasks && !tasksForTomorrow.includes(newTaskId)) {
       setTasksForTomorrow([...tasksForTomorrow, newTaskId]);
       setNewTaskId(uuid_v4());
-      console.log(newTaskId);
     }
   }, [newTaskId, tasks, tasksForTomorrow]);
 
@@ -67,10 +65,7 @@ const Goals: FC<Props> = ({ readonly }) => {
     (arr) => arr.filter(([, task]) => !task.completed),
     (arr) => arr.reverse(),
     (arr) => _.partition(arr, ([id]) => tasksForTomorrow.includes(id))
-    // (arr) => _.partition(arr, ([, task]) => task.completed)
   )(tasks);
-
-  console.log(tasksForTomorrowT, otherTasksT);
 
   const displayTasks = tasksForTomorrowT.map(([id, task]) => (
     <Grid item xs={12} md={6} key={id}>

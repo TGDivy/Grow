@@ -57,9 +57,7 @@ export const totalTimeWorked = (timerRecords) => {
 
 const StatsMain = () => {
   const { user, setUser } = useCurrentUser();
-  const addLatestTimerRecord = useTimerRecordsStore(
-    (state) => state.addLatestTimerRecord
-  );
+
   const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
 
   // const daysBack = -0;
@@ -81,20 +79,6 @@ const StatsMain = () => {
     timePeriodLength,
     periodBack * timePeriodLength + timePeriodLength
   );
-
-  useEffect(() => {
-    const unsub = onSnapshot(
-      doc(db, "users", user.uid),
-      { includeMetadataChanges: true },
-      (doc) => {
-        setUser(doc.data());
-      }
-    );
-
-    addLatestTimerRecord(user.uid);
-
-    return unsub;
-  }, []);
 
   // Display selected period, and change daysBack to change the period
   const handlePeriodBack = (direction) => {

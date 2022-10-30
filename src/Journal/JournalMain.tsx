@@ -75,7 +75,6 @@ const JournalMain = () => {
   console.log(new Date());
   console.log(lastDocumentDate.getTime() > Date.now() - 60 * 1 * 1 * 1000);
 
-  // TODO: Add a check to see if the last document is from today
   const submittedRecently =
     lastDocumentDate.getTime() > Date.now() - 60 * 1 * 1 * 1000;
 
@@ -100,7 +99,7 @@ const JournalMain = () => {
         >
           <Stepper activeStep={activeStep} alternativeLabel>
             {steps.map((step) => (
-              <Step key={step.label}>
+              <Step key={step.shortLabel}>
                 <StepLabel>{step.shortLabel}</StepLabel>
               </Step>
             ))}
@@ -111,15 +110,13 @@ const JournalMain = () => {
           sx={{
             width: "100%",
             minHeight: "50vh",
-            // alignItems: "center",
-            // justifyContent: "center",
             // display: "flex",
           }}
         >
           <Grid container spacing={2} direction="row" justifyContent="center">
             <Grid item xs={12}>
               <Typography variant="h4" align="center">
-                {steps[activeStep].label}
+                {steps[activeStep].shortLabel}
               </Typography>
             </Grid>
             <Grid item xs={12} md={10}>
