@@ -41,6 +41,9 @@ const Mood = () => {
           justifyContent: "space-between",
           height: "100%",
           backgroundColor: "#00000088",
+          ":hover": {
+            boxShadow: 20,
+          },
         }}
       >
         <Tabs
@@ -86,6 +89,9 @@ const Mood = () => {
         height: "100%",
         backgroundColor: "#00000088",
         color: "white",
+        ":hover": {
+          boxShadow: 20,
+        },
       }}
     >
       <Tabs

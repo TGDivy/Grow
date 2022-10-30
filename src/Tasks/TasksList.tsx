@@ -102,7 +102,7 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
       <Box
         sx={{
           p: 2,
-          backgroundColor: "rgba(0, 0, 0, 0.1)",
+          backgroundColor: "rgba(0, 0, 0, 0.3)",
         }}
       >
         <Grid container spacing={2}>

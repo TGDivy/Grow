@@ -244,7 +244,11 @@ const Task: FC<taskFC> = (props) => {
                     checked={completed_}
                     onChange={handleTaskComplete}
                     size="medium"
-                    sx={{ paddingBottom: "0px", paddingTop: "0px" }}
+                    sx={{
+                      paddingBottom: "0px",
+                      paddingTop: "0px",
+                      color: "primary.main",
+                    }}
                   />
                 )}
               </Box>
