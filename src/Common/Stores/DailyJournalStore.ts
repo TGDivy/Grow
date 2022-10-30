@@ -1,6 +1,6 @@
 import create from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import { JournalType } from "../Types/Types";
+import { JournalType, taskType } from "../Types/Types";
 
 interface JournalStoreType extends JournalType {
   user_id: string;
@@ -13,6 +13,8 @@ interface JournalStoreType extends JournalType {
   setNB: (nb: boolean) => void;
   lastMoodUpdated: Date;
   setEntry: (entry: string) => void;
+  setTasksForTomorrow: (tasks: Array<string>) => void;
+  setNextDayNotes: (notes: string) => void;
 }
 
 const initialState = {
@@ -53,6 +55,10 @@ const useJournalStore = create<JournalStoreType>()(
         setMeals: (meals: string[]) => set(() => ({ meals })),
         setNB: (nb: boolean) => set(() => ({ noMB: nb })),
         setEntry: (entry: string) => set(() => ({ entry })),
+        setTasksForTomorrow: (tasks: Array<string>) =>
+          set(() => ({ tasksForTomorrow: tasks })),
+        setNextDayNotes: (notes: string) =>
+          set(() => ({ nextDayNotes: notes })),
       }),
       {
         name: "journal-storage",

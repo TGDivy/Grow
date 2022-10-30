@@ -102,7 +102,7 @@ export interface JournalType {
   entry: string;
   nextDayNotes: string;
 
-  tasksForTomorrow: Array<taskType>;
+  tasksForTomorrow: Array<string>; // task keys
 
   mood: string[];
 

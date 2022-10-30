@@ -50,7 +50,7 @@ const JournalMain = () => {
       shortLabel: "Reflect2",
     },
     {
-      label: "What are your goals for tomorrow?",
+      label: "",
       component: <Goals />,
       shortLabel: "Goals",
     },
