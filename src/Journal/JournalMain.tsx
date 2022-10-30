@@ -92,7 +92,7 @@ const JournalMain = () => {
 
   return (
     <Container>
-      <Stack spacing={2} alignItems="center">
+      <Stack spacing={2} alignItems="center" justifyContent="center">
         <Box
           sx={{
             width: "100%",
@@ -122,7 +122,16 @@ const JournalMain = () => {
               </Typography>
             </Grid>
             <Grid item xs={12} md={10}>
-              {steps[activeStep].component}
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {steps[activeStep].component}
+              </Box>
             </Grid>
           </Grid>
         </Box>

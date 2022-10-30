@@ -10,6 +10,8 @@ import {
   Box,
   Button,
   Grid,
+  Grow,
+  Slide,
   Stack,
   Typography,
 } from "@mui/material";
@@ -18,15 +20,24 @@ import _, { remove } from "lodash";
 import Task from "../Tasks/Task/Task";
 import { Switch, ToggleButton } from "@mui/material";
 import RTE from "./RTE/RTE";
+import useJournalStore from "../Common/Stores/JournalStore";
 
 interface Props {
   readonly?: boolean;
 }
 
 const Goals: FC<Props> = ({ readonly }) => {
-  const tasksForTomorrow = useDailyJournalStore(
+  let tasksForTomorrow = useDailyJournalStore(
     (state) => state.tasksForTomorrow
   );
+  if (readonly) {
+    const documents = useJournalStore((state) => state.documents);
+    const latest = Object.values(documents).sort(
+      (a, b) => b.date.getTime() - a.date.getTime()
+    )[0];
+    tasksForTomorrow = latest?.tasksForTomorrow;
+  }
+
   const setTasksForTomorrow = useDailyJournalStore(
     (state) => state.setTasksForTomorrow
   );
@@ -98,103 +109,108 @@ const Goals: FC<Props> = ({ readonly }) => {
 
   return (
     <Stack direction="column" spacing={readonly ? 0 : 3} alignItems="flex-end">
-      <Box
-        sx={{
-          position: "relative",
-          width: "100%",
-          "& .editor-inner": {
-            minHeight: readonly ? "max-content" : "150px",
-          },
-        }}
-      >
-        <RTE
-          text={nextDayNotes}
-          setText={setNextDayNotes}
-          textToAdd="Notes:"
-          readonly={readonly}
-        />
-      </Box>
+      <Grow in={true} timeout={1000}>
+        <Box
+          sx={{
+            position: "relative",
+            width: "100%",
+            "& .editor-inner": {
+              minHeight: readonly ? "max-content" : "150px",
+            },
+          }}
+        >
+          <RTE
+            text={nextDayNotes}
+            setText={setNextDayNotes}
+            textToAdd="Notes:"
+            readonly={readonly}
+          />
+        </Box>
+      </Grow>
 
-      <Box
-        sx={{
-          p: readonly ? 0 : 2,
-          width: "100%",
-          backgroundColor: readonly ? "transparent" : "rgba(0, 0, 0, 0.5)",
-        }}
-      >
-        <Grid container spacing={2} alignItems="center">
-          <Grid item xs={10}>
-            {readonly ? (
-              <Typography variant="h5" color="white"></Typography>
-            ) : (
+      <Grow in={true} timeout={1000}>
+        <Box
+          sx={{
+            p: readonly ? 0 : 2,
+            width: "100%",
+            backgroundColor: readonly ? "transparent" : "rgba(0, 0, 0, 0.5)",
+          }}
+        >
+          <Grid container spacing={2} alignItems="center">
+            <Grid item xs={10}>
+              {readonly ? (
+                <Typography variant="h5" color="white"></Typography>
+              ) : (
+                <>
+                  <Typography variant="h5" color="primary">
+                    Goals for Tomorrow
+                  </Typography>
+
+                  <Typography variant="body2" color="primary">
+                    {addAndRemove
+                      ? "Click on a task to add or remove it from your goals for tomorrow."
+                      : "Click the edit button to add or remove tasks from your goals for tomorrow."}
+                  </Typography>
+                </>
+              )}
+            </Grid>
+
+            {!readonly && (
               <>
-                <Typography variant="h5" color="primary">
-                  Goals for Tomorrow
-                </Typography>
-
-                <Typography variant="body2" color="primary">
-                  {addAndRemove
-                    ? "Click on a task to add or remove it from your goals for tomorrow."
-                    : "Click the edit button to add or remove tasks from your goals for tomorrow."}
-                </Typography>
+                <Grid item xs={2}>
+                  <ToggleButton
+                    value={addAndRemove}
+                    color="primary"
+                    selected={addAndRemove}
+                    fullWidth
+                    onChange={() => {
+                      setAddAndRemove(!addAndRemove);
+                    }}
+                    size="medium"
+                  >
+                    <Edit /> Edit
+                  </ToggleButton>
+                </Grid>
+                <Grid item xs={12}>
+                  <CreateTask taskListName="Tasks" id={newTaskId} />
+                </Grid>
               </>
             )}
+
+            {displayTasks}
           </Grid>
-
-          {!readonly && (
-            <>
-              <Grid item xs={2}>
-                <ToggleButton
-                  value={addAndRemove}
-                  color="primary"
-                  selected={addAndRemove}
-                  fullWidth
-                  onChange={() => {
-                    setAddAndRemove(!addAndRemove);
-                  }}
-                  size="medium"
-                >
-                  <Edit /> Edit
-                </ToggleButton>
-              </Grid>
-              <Grid item xs={12}>
-                <CreateTask taskListName="Tasks" id={newTaskId} />
-              </Grid>
-            </>
-          )}
-
-          {displayTasks}
-        </Grid>
-      </Box>
-
-      <Box
-        sx={{
-          width: "100%",
-        }}
-      >
-        {completedTasks.length > 0 && !readonly && (
-          <Accordion
-            sx={{
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
-            }}
-          >
-            <AccordionSummary
-              expandIcon={<ExpandMore />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
+        </Box>
+      </Grow>
+      <Grow in={true} timeout={1000}>
+        <Box
+          sx={{
+            width: "100%",
+          }}
+        >
+          {completedTasks.length > 0 && !readonly && (
+            <Accordion
+              sx={{
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+              }}
             >
-              <Typography variant="h5" color="primary">
-                Tasks To Do
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Grid container spacing={2}>
-                {completedTasks}
-              </Grid>
-            </AccordionDetails>
-          </Accordion>
-        )}
-      </Box>
+              <AccordionSummary
+                expandIcon={<ExpandMore />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <Typography variant="h5" color="primary">
+                  Tasks To Do
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Grid container spacing={2}>
+                  {completedTasks}
+                </Grid>
+              </AccordionDetails>
+            </Accordion>
+          )}
+        </Box>
+      </Grow>
     </Stack>
   );
 };

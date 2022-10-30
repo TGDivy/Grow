@@ -17,7 +17,8 @@ const Mood = () => {
 
   // if current time is less than 1 hour from last mood updated, then disable the buttons
   const updatedMoodTooRecently =
-    new Date().getTime() - lastMoodUpdated.getTime() < 60 * 60 * 1000;
+    new Date().getTime() - lastMoodUpdated.getTime() < 60 * 60 * 1000 &&
+    moods.length > 0;
 
   // get last selected mood
   const lastMood = moods.length > 0 ? moods[moods.length - 1] : "Happy";
@@ -89,6 +90,7 @@ const Mood = () => {
         flexDirection: "row",
         alignItems: "center",
         width: "100%",
+        maxWidth: "870px",
         justifyContent: "space-between",
         height: "100%",
         backgroundColor: "#00000088",
