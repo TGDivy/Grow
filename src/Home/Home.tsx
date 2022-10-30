@@ -18,9 +18,13 @@ import {
   AccordionSummary,
   Container,
   Divider,
+  Fade,
   Grid,
+  Grow,
+  Slide,
   Stack,
   Typography,
+  Zoom,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { Button, Drawer } from "@mui/material";
@@ -76,6 +80,16 @@ const Home = () => {
     },
   ];
 
+  // Add transitions to the home page.
+
+  const transitionDelays = {
+    quote: 0,
+    quoteAuthor: 200,
+    places: 1000,
+    mood: 2000,
+    goals: 3000,
+  };
+
   return (
     <Container>
       <Box
@@ -96,12 +110,27 @@ const Home = () => {
       >
         <Grid container spacing={3} alignItems="center" justifyContent="center">
           <Grid item xs={12}>
-            <Typography variant="h4" align="center">
-              {inspirationalQuote.quote}
-            </Typography>
-            <Typography variant="h6" align="center">
-              ~{inspirationalQuote.author}
-            </Typography>
+            <Grow
+              in={true}
+              style={{ transformOrigin: "0 0 0" }}
+              {...{ timeout: 1000 }}
+            >
+              <Typography variant="h4" align="center">
+                {inspirationalQuote.quote}
+              </Typography>
+            </Grow>
+            <Grow
+              in={true}
+              style={{
+                transformOrigin: "0 0 0",
+                transitionDelay: `${transitionDelays.quoteAuthor}ms`,
+              }}
+              {...{ timeout: 1000 }}
+            >
+              <Typography variant="h6" align="center">
+                ~{inspirationalQuote.author}
+              </Typography>
+            </Grow>
           </Grid>
           <Grid item xs={12}>
             <Stack
@@ -109,60 +138,93 @@ const Home = () => {
               spacing={2}
               justifyContent="center"
             >
-              {places.map((place) => (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={place.icon}
-                  component={Link}
-                  to={place.link}
+              {places.map((place, index) => (
+                <Zoom
+                  in={true}
+                  style={{
+                    transitionDelay: `${
+                      index * 150 + transitionDelays.places
+                    }ms`,
+                  }}
                   key={place.name}
                 >
-                  {place.name}
-                </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={place.icon}
+                    component={Link}
+                    to={place.link}
+                    key={place.name}
+                  >
+                    {place.name}
+                  </Button>
+                </Zoom>
               ))}
             </Stack>
           </Grid>
           <Grid item xs={12} md={6}>
-            <Mood />
+            <Fade
+              in={true}
+              style={{
+                transitionDelay: `${transitionDelays.mood}ms`,
+              }}
+              {...{ timeout: 1000 }}
+            >
+              <Box
+                sx={{
+                  height: "100%",
+                  width: "100%",
+                }}
+              >
+                <Mood />
+              </Box>
+            </Fade>
           </Grid>
 
           <Grid item xs={12} md={8} sx={{ pb: 0, mb: 0 }}>
-            <Accordion
-              sx={{
-                backgroundColor: "rgba(0, 0, 0, 0.5)",
-                ":hover": {
-                  boxShadow: 20,
-                },
+            <Fade
+              in={true}
+              style={{
+                transitionDelay: `${transitionDelays.goals}ms`,
               }}
+              {...{ timeout: 1000 }}
             >
-              <AccordionSummary
-                expandIcon={<ExpandMore />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
+              <Accordion
                 sx={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 1,
-                  // flexDirection: "row-reverse",
-                  " .MuiAccordionSummary-content": {
-                    flexGrow: 0,
+                  backgroundColor: "rgba(0, 0, 0, 0.5)",
+                  ":hover": {
+                    boxShadow: 20,
                   },
                 }}
               >
-                <Typography variant="h6" color="primary">
-                  {"Today's Brief"}
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails
-                sx={{
-                  pt: 2,
-                  bgcolor: "rgba(255, 255, 255, 0.05)",
-                }}
-              >
-                <Goals readonly />
-              </AccordionDetails>
-            </Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMore />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                  sx={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 1,
+                    // flexDirection: "row-reverse",
+                    " .MuiAccordionSummary-content": {
+                      flexGrow: 0,
+                    },
+                  }}
+                >
+                  <Typography variant="h6" color="primary">
+                    {"Today's Brief"}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails
+                  sx={{
+                    pt: 2,
+                    bgcolor: "rgba(255, 255, 255, 0.05)",
+                  }}
+                >
+                  <Goals readonly />
+                </AccordionDetails>
+              </Accordion>
+            </Fade>
           </Grid>
         </Grid>
       </Box>

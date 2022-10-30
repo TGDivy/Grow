@@ -11,7 +11,7 @@ import {
   SelfImprovement,
   Menu,
 } from "@mui/icons-material";
-import { Fab, IconButton, Paper, Button, Box, Grid } from "@mui/material";
+import { Fab, IconButton, Paper, Button, Box, Grid, Zoom } from "@mui/material";
 
 const BottomNavigationBar: FC = () => {
   const location = useLocation();
@@ -120,11 +120,13 @@ const BottomNavigationBar: FC = () => {
               top: "-20px",
             }}
           >
-            <Link to="/">
-              <Fab color="secondary" aria-label="menu">
-                <Home />
-              </Fab>
-            </Link>
+            <Zoom in={true} timeout={500}>
+              <Link to="/">
+                <Fab color="secondary" aria-label="menu">
+                  <Home />
+                </Fab>
+              </Link>
+            </Zoom>
           </Box>
         </Grid>
         <Grid item xs={5} md={2}>

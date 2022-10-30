@@ -1,6 +1,6 @@
 import React from "react";
 import useDailyJournalStore from "../Common/Stores/DailyJournalStore";
-import { Stack, Button, Grid, Typography, Paper } from "@mui/material";
+import { Stack, Button, Grid, Typography, Paper, Grow } from "@mui/material";
 import EmotionIcons from "../Common/EmotionIcons/EmotionIcons";
 import { Box } from "@mui/system";
 import Tabs from "@mui/material/Tabs";
@@ -33,49 +33,51 @@ const Mood = () => {
 
   if (updatedMoodTooRecently) {
     return (
-      <Paper
-        sx={{
-          p: 2,
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          width: "100%",
-          justifyContent: "space-between",
-          height: "100%",
-          backgroundColor: "#00000088",
-          ":hover": {
-            boxShadow: 20,
-          },
-        }}
-      >
-        <Tabs
-          value={value}
-          aria-label="mood"
+      <Grow in={true} timeout={1000}>
+        <Paper
           sx={{
-            width: "135px",
+            p: 2,
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            width: "100%",
+            justifyContent: "space-between",
+            height: "100%",
+            backgroundColor: "#00000088",
+            ":hover": {
+              boxShadow: 20,
+            },
           }}
         >
-          <Tab
-            key={value}
-            icon={
-              <EmotionIcon
-                sx={{
-                  width: 50,
-                  height: 50,
-                  filter: "brightness(80%) sepia(65%) contrast(150%)",
-                }}
-              />
-            }
-            label={EmotionIcons[value].label}
+          <Tabs
             value={value}
-          />
-        </Tabs>
-        <Box sx={{ color: "white", height: "max-content", width: "100%" }}>
-          <Typography variant="body1" align="center">
-            {EmotionIcons[value].description}.
-          </Typography>
-        </Box>
-      </Paper>
+            aria-label="mood"
+            sx={{
+              width: "135px",
+            }}
+          >
+            <Tab
+              key={value}
+              icon={
+                <EmotionIcon
+                  sx={{
+                    width: 50,
+                    height: 50,
+                    filter: "brightness(80%) sepia(65%) contrast(150%)",
+                  }}
+                />
+              }
+              label={EmotionIcons[value].label}
+              value={value}
+            />
+          </Tabs>
+          <Box sx={{ color: "white", height: "max-content", width: "100%" }}>
+            <Typography variant="body1" align="center">
+              {EmotionIcons[value].description}.
+            </Typography>
+          </Box>
+        </Paper>
+      </Grow>
     );
   }
 

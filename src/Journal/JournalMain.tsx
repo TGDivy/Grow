@@ -67,9 +67,9 @@ const JournalMain = () => {
     },
   ];
 
-  useEffect(() => {
-    setActiveStep(0);
-  }, [documents]);
+  // useEffect(() => {
+  //   setActiveStep(0);
+  // }, [documents]);
 
   console.log(lastDocumentDate);
   console.log(new Date());

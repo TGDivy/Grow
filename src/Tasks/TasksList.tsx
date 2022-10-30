@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Box, Grid, Stack } from "@mui/material";
+import { Box, Grid, Grow, Stack, Zoom } from "@mui/material";
 import Task from "./Task/Task";
 import CreateTask from "./CreateTask";
 
@@ -29,9 +29,20 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
     // (arr) => _.partition(arr, ([, task]) => task.completed)
   )(tasks);
 
-  const displayTasks = tasksArray.map(([id, task]) => (
+  const displayTasks = tasksArray.map(([id, task], index) => (
     <Grid item xs={12} sm={6} md={4} lg={4} key={id}>
-      <Task {...task} id={id} createNewTask={false} startTimerButton />
+      <Grow
+        in={true}
+        // timeout={1000}
+        style={{ transformOrigin: "0 0 0" }}
+        {...{ timeout: 800 + index * 150 }}
+        // timeout={400}
+        // style={{ transitionDelay: `${index * 200}ms` }}
+      >
+        <Box>
+          <Task {...task} id={id} createNewTask={false} startTimerButton />
+        </Box>
+      </Grow>
     </Grid>
   ));
 
