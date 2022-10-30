@@ -8,8 +8,7 @@ import useJournalStore from "../Common/Stores/DailyJournalStore";
 
 import Mood from "./Mood";
 import Habits from "./Habits";
-import Reflect from "./Grateful";
-import Reflect2 from "./Reflect2";
+import Reflect from "./Reflect";
 import Goals from "./Goals";
 
 const JournalMain = () => {
@@ -40,24 +39,21 @@ const JournalMain = () => {
       shortLabel: "Habits",
     },
     {
-      label: "What went well today?",
-      component: <Reflect />,
-      shortLabel: "Grateful",
+      component: <Reflect Question="What went well today?" />,
+      shortLabel: "Positives",
     },
     {
-      label: "What could I have done better today?",
-      component: <Reflect2 />,
-      shortLabel: "Reflect2",
+      component: <Reflect Question="What could have gone better today?" />,
+      shortLabel: "Negatives",
+    },
+    {
+      component: <Reflect Question="How are feeling overall?" />,
+      shortLabel: "Overall",
     },
     {
       label: "",
       component: <Goals />,
       shortLabel: "Goals",
-    },
-    {
-      label: "What are your goals for the week?",
-      component: <div>Week Goals</div>,
-      shortLabel: "Week Goals",
     },
   ];
 
