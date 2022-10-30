@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from "react";
 import { Box } from "@mui/material";
-import useJournalStore from "../Common/Stores/DailyJournalStore";
+import useDailyJournalStore from "../Common/Stores/DailyJournalStore";
 import RTE from "./RTE/RTE";
 
 interface Props {
@@ -9,8 +9,8 @@ interface Props {
 
 const Reflect: FC<Props> = ({ Question }) => {
   // A place to write down what you're grateful for.
-  const text = useJournalStore((state) => state.entry);
-  const setText = useJournalStore((state) => state.setEntry);
+  const text = useDailyJournalStore((state) => state.entry);
+  const setText = useDailyJournalStore((state) => state.setEntry);
 
   return (
     <>

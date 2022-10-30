@@ -16,7 +16,7 @@ import { Cancel, LocalDining, TakeoutDining } from "@mui/icons-material";
 import { totalTimeWorked, filterTimerRecords } from "../Stats/StatsMain";
 import useTimerRecordsStore from "../Common/Stores/TimerRecordsStore";
 import useActivityStore from "../Common/Stores/ActivityStore";
-import useJournalStore from "../Common/Stores/DailyJournalStore";
+import useDailyJournalStore from "../Common/Stores/DailyJournalStore";
 
 const Habits = () => {
   const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
@@ -38,11 +38,11 @@ const Habits = () => {
       latestActivityDate.getMonth() === today.getMonth() &&
       latestActivityDate.getFullYear() === today.getFullYear()
     : false;
-  const meals = useJournalStore((state) => state.meals);
-  const noMB = useJournalStore((state) => state.noMB);
+  const meals = useDailyJournalStore((state) => state.meals);
+  const noMB = useDailyJournalStore((state) => state.noMB);
 
-  const setMeals = useJournalStore((state) => state.setMeals);
-  const setNB = useJournalStore((state) => state.setNB);
+  const setMeals = useDailyJournalStore((state) => state.setMeals);
+  const setNB = useDailyJournalStore((state) => state.setNB);
 
   const handleMeals = (index: number, meal: string) => () => {
     const newMeals = [...meals];

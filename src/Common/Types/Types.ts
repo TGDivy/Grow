@@ -112,6 +112,6 @@ export interface JournalType {
   noMB: boolean;
 }
 
-export interface JournalTypeDoc {
+export interface JournalDicType {
   [key: string]: JournalType;
 }

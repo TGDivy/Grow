@@ -1,19 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Grid, IconButton, Stepper, Typography } from "@mui/material";
 import { Step, StepLabel } from "@mui/material";
 import { Container } from "@mui/material";
 import { Stack } from "@mui/system";
 import { Button } from "@mui/material";
-import useJournalStore from "../Common/Stores/DailyJournalStore";
+import useDailyJournalStore from "../Common/Stores/DailyJournalStore";
 
 import Mood from "./Mood";
 import Habits from "./Habits";
 import Reflect from "./Reflect";
 import Goals from "./Goals";
+import useJournalStore from "../Common/Stores/JournalStore";
 
 const JournalMain = () => {
-  const activeStep = useJournalStore((state) => state.activeStep);
-  const setActiveStep = useJournalStore((state) => state.setActiveStep);
+  const activeStep = useDailyJournalStore((state) => state.activeStep);
+  const setActiveStep = useDailyJournalStore((state) => state.setActiveStep);
+  const getLastDocumentDate = useJournalStore(
+    (state) => state.getLastDocumentDate
+  );
+  const resetStore = useDailyJournalStore((state) => state.resetStore);
+  const getJournal = useDailyJournalStore((state) => state.getJournal);
+  const documents = useJournalStore((state) => state.documents);
+  const addDocument = useJournalStore((state) => state.addDocument);
+  const lastDocumentDate = getLastDocumentDate();
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -24,7 +33,8 @@ const JournalMain = () => {
   };
 
   const handleSubmit = () => {
-    console.log("submit");
+    addDocument(getJournal());
+    resetStore();
   };
 
   const steps = [
@@ -56,6 +66,28 @@ const JournalMain = () => {
       shortLabel: "Goals",
     },
   ];
+
+  useEffect(() => {
+    setActiveStep(0);
+  }, [documents]);
+
+  console.log(lastDocumentDate);
+  console.log(new Date());
+  console.log(lastDocumentDate.getTime() > Date.now() - 60 * 1 * 1 * 1000);
+
+  // TODO: Add a check to see if the last document is from today
+  const submittedRecently =
+    lastDocumentDate.getTime() > Date.now() - 60 * 1 * 1 * 1000;
+
+  if (submittedRecently) {
+    return (
+      <Container>
+        <Typography variant="h4" align="center">
+          {"You've already submitted your journal for today!"}
+        </Typography>
+      </Container>
+    );
+  }
 
   return (
     <Container>

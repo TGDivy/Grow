@@ -1,7 +1,7 @@
 import { Box, Grid, Slider, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import React, { useEffect, useState } from "react";
-import useJournalStore from "../Common/Stores/DailyJournalStore";
+import useDailyJournalStore from "../Common/Stores/DailyJournalStore";
 import RTE from "./RTE/RTE";
 
 const timeElapsed = (startTime: Date) => {
@@ -23,8 +23,8 @@ const formatTime = (time_: number, mode: string, duration: number) => {
 
 const Reflect = () => {
   // A place to write down what you're grateful for.
-  const grateful = useJournalStore((state) => state.entry);
-  const setGrateful = useJournalStore((state) => state.setEntry);
+  const grateful = useDailyJournalStore((state) => state.entry);
+  const setGrateful = useDailyJournalStore((state) => state.setEntry);
 
   const [active, setActive] = useState(true);
   const [studyTime, setStudyTime] = useState(0);

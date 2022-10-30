@@ -1,5 +1,5 @@
 import React from "react";
-import useJournalStore from "../Common/Stores/DailyJournalStore";
+import useDailyJournalStore from "../Common/Stores/DailyJournalStore";
 import { Stack, Button, Grid, Typography, Paper } from "@mui/material";
 import EmotionIcons from "../Common/EmotionIcons/EmotionIcons";
 import { Box } from "@mui/system";
@@ -9,9 +9,11 @@ import Tab from "@mui/material/Tab";
 // props
 
 const Mood = () => {
-  const moods = useJournalStore((state) => state.mood);
-  const addMood = useJournalStore((state) => state.addMood);
-  const lastMoodUpdated = useJournalStore((state) => state.lastMoodUpdated);
+  const moods = useDailyJournalStore((state) => state.mood);
+  const addMood = useDailyJournalStore((state) => state.addMood);
+  const lastMoodUpdated = useDailyJournalStore(
+    (state) => state.lastMoodUpdated
+  );
 
   // if current time is less than 1 hour from last mood updated, then disable the buttons
   const updatedMoodTooRecently =

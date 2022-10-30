@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import useJournalStore from "../Common/Stores/DailyJournalStore";
+import useDailyJournalStore from "../Common/Stores/DailyJournalStore";
 import CreateTask from "../Tasks/CreateTask";
 import { v4 as uuid_v4 } from "uuid";
 import useTaskStore from "../Common/Stores/TaskStore";
@@ -24,15 +24,19 @@ interface Props {
 }
 
 const Goals: FC<Props> = ({ readonly }) => {
-  const tasksForTomorrow = useJournalStore((state) => state.tasksForTomorrow);
-  const setTasksForTomorrow = useJournalStore(
+  const tasksForTomorrow = useDailyJournalStore(
+    (state) => state.tasksForTomorrow
+  );
+  const setTasksForTomorrow = useDailyJournalStore(
     (state) => state.setTasksForTomorrow
   );
   const tasks = useTaskStore((state) => state.tasks);
   const [addAndRemove, setAddAndRemove] = useState(false);
 
-  const nextDayNotes = useJournalStore((state) => state.nextDayNotes);
-  const setNextDayNotes = useJournalStore((state) => state.setNextDayNotes);
+  const nextDayNotes = useDailyJournalStore((state) => state.nextDayNotes);
+  const setNextDayNotes = useDailyJournalStore(
+    (state) => state.setNextDayNotes
+  );
 
   const [newTaskId, setNewTaskId] = React.useState(uuid_v4());
 

@@ -15,6 +15,7 @@ interface JournalStoreType extends JournalType {
   setEntry: (entry: string) => void;
   setTasksForTomorrow: (tasks: Array<string>) => void;
   setNextDayNotes: (notes: string) => void;
+  getJournal: () => JournalType;
 }
 
 const initialState = {
@@ -38,13 +39,13 @@ const initialState = {
   activeStep: 0,
 };
 
-const useJournalStore = create<JournalStoreType>()(
+const useDailyJournalStore = create<JournalStoreType>()(
   devtools(
     persist(
-      (set) => ({
+      (set, get) => ({
         ...initialState,
         setUserId: (user_id: string) => set(() => ({ user_id })),
-        resetStore: () => set(() => ({ ...initialState })),
+        resetStore: () => set(() => ({ ...initialState, date: new Date() })),
 
         setActiveStep: (step: number) => set(() => ({ activeStep: step })),
         addMood: (mood: string) =>
@@ -59,6 +60,34 @@ const useJournalStore = create<JournalStoreType>()(
           set(() => ({ tasksForTomorrow: tasks })),
         setNextDayNotes: (notes: string) =>
           set(() => ({ nextDayNotes: notes })),
+        getJournal: () => {
+          const {
+            date,
+            title,
+            entry,
+            nextDayNotes,
+            tasksForTomorrow,
+            mood,
+            lastMoodUpdated,
+            workDone,
+            exercised,
+            meals,
+            noMB,
+          } = get();
+          return {
+            date,
+            title,
+            entry,
+            nextDayNotes,
+            tasksForTomorrow,
+            mood,
+            lastMoodUpdated,
+            workDone,
+            exercised,
+            meals,
+            noMB,
+          } as JournalType;
+        },
       }),
       {
         name: "journal-storage",
@@ -80,4 +109,4 @@ const useJournalStore = create<JournalStoreType>()(
   )
 );
 
-export default useJournalStore;
+export default useDailyJournalStore;
