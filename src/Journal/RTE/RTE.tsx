@@ -22,13 +22,14 @@ import { AutoLinkPlugin } from "@lexical/react/LexicalAutoLinkPlugin";
 import CodeHighlightPlugin from "./Plugins/CodeHighlightPlugin";
 import ListMaxIndentLevelPlugin from "./Plugins/ListMaxIndentLevelPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
+import { HorizontalRuleNode } from "@lexical/react/LexicalHorizontalRuleNode";
 
 interface props {
   text: string;
   setText: any;
   textToAdd?: string;
   noToolbar?: boolean;
-  notEditable?: boolean;
+  readonly?: boolean;
 }
 
 const RTE: FC<props> = ({
@@ -36,7 +37,7 @@ const RTE: FC<props> = ({
   setText,
   textToAdd,
   noToolbar,
-  notEditable,
+  readonly: notEditable,
 }) => {
   const editorConfig = {
     namespace: "MyEditor",
@@ -54,6 +55,7 @@ const RTE: FC<props> = ({
       TableRowNode,
       AutoLinkNode,
       LinkNode,
+      HorizontalRuleNode,
     ],
     onError(error: any) {
       console.error(error);
