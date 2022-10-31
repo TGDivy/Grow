@@ -10,7 +10,9 @@ import Mood from "./Mood";
 import Habits from "./Habits";
 import Reflect from "./Reflect";
 import Goals from "./Goals";
+import All from "./All";
 import useJournalStore from "../Common/Stores/JournalStore";
+import moment from "moment";
 
 const JournalMain = () => {
   const activeStep = useDailyJournalStore((state) => state.activeStep);
@@ -65,6 +67,11 @@ const JournalMain = () => {
       component: <Goals />,
       shortLabel: "Goals",
     },
+    {
+      label: "",
+      component: <All />,
+      shortLabel: "Summary",
+    },
   ];
 
   // useEffect(() => {
@@ -76,16 +83,33 @@ const JournalMain = () => {
   console.log(lastDocumentDate.getTime() > Date.now() - 60 * 1 * 1 * 1000);
 
   const submittedRecently =
-    lastDocumentDate.getTime() > Date.now() - 60 * 1 * 1 * 1000;
+    lastDocumentDate.getTime() > Date.now() - 60 * 60 * 16 * 1000;
+
+  const timeUntilNextSubmission = new Date(
+    lastDocumentDate.getTime() + 60 * 60 * 16 * 1000
+  );
 
   if (submittedRecently) {
     return (
       <Container>
-        <Box sx={{ mt: 4 }}>
+        <Stack spacing={2} justifyContent="center">
+          <Box
+            sx={{
+              width: "100%",
+              margin: "20px 0 0 0",
+            }}
+          />
           <Typography variant="h4" align="center">
             {"You've already submitted your journal for today!"}
           </Typography>
-        </Box>
+          <Typography variant="h6" align="center">
+            {`Come back again ${moment(timeUntilNextSubmission).fromNow()}`}
+          </Typography>
+          <Typography variant="h6" align="center">
+            {"Or, if you want to see your previous entries, click below!"}
+          </Typography>
+          <All allEntries />
+        </Stack>
       </Container>
     );
   }
@@ -125,8 +149,8 @@ const JournalMain = () => {
               <Box
                 sx={{
                   width: "100%",
-                  display: "flex",
-                  alignItems: "center",
+                  // display: "flex",
+                  // alignItems: "center",
                   justifyContent: "center",
                 }}
               >

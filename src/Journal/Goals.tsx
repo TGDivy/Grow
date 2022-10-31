@@ -8,34 +8,42 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
-  Button,
   Grid,
   Grow,
-  Slide,
   Stack,
   Typography,
 } from "@mui/material";
-import { Edit, ExpandMore, Remove } from "@mui/icons-material";
-import _, { remove } from "lodash";
+import { Edit, ExpandMore } from "@mui/icons-material";
+import _ from "lodash";
 import Task from "../Tasks/Task/Task";
-import { Switch, ToggleButton } from "@mui/material";
+import { ToggleButton } from "@mui/material";
 import RTE from "./RTE/RTE";
 import useJournalStore from "../Common/Stores/JournalStore";
+import { JournalType } from "../Common/Types/Types";
 
 interface Props {
   readonly?: boolean;
+  document?: JournalType;
 }
 
-const Goals: FC<Props> = ({ readonly }) => {
+const Goals: FC<Props> = ({ readonly, document }) => {
   let tasksForTomorrow = useDailyJournalStore(
     (state) => state.tasksForTomorrow
   );
+  let nextDayNotes = useDailyJournalStore((state) => state.nextDayNotes);
+
   if (readonly) {
-    const documents = useJournalStore((state) => state.documents);
-    const latest = Object.values(documents).sort(
-      (a, b) => b.date.getTime() - a.date.getTime()
-    )[0];
-    tasksForTomorrow = latest?.tasksForTomorrow;
+    if (document) {
+      tasksForTomorrow = document.tasksForTomorrow;
+      nextDayNotes = document.nextDayNotes;
+    } else {
+      const documents = useJournalStore((state) => state.documents);
+      const latest = Object.values(documents).sort(
+        (a, b) => b.date.getTime() - a.date.getTime()
+      )[0];
+      tasksForTomorrow = latest?.tasksForTomorrow;
+      nextDayNotes = latest?.nextDayNotes;
+    }
   }
 
   const setTasksForTomorrow = useDailyJournalStore(
@@ -44,7 +52,6 @@ const Goals: FC<Props> = ({ readonly }) => {
   const tasks = useTaskStore((state) => state.tasks);
   const [addAndRemove, setAddAndRemove] = useState(false);
 
-  const nextDayNotes = useDailyJournalStore((state) => state.nextDayNotes);
   const setNextDayNotes = useDailyJournalStore(
     (state) => state.setNextDayNotes
   );
@@ -75,7 +82,7 @@ const Goals: FC<Props> = ({ readonly }) => {
     Object.entries,
     (arr) => arr.filter(([, task]) => !task.completed),
     (arr) => arr.reverse(),
-    (arr) => _.partition(arr, ([id]) => tasksForTomorrow.includes(id))
+    (arr) => _.partition(arr, ([id]) => tasksForTomorrow?.includes(id))
   )(tasks);
 
   const displayTasks = tasksForTomorrowT.map(([id, task]) => (

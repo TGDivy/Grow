@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import {
   Paper,
   List,
@@ -19,8 +19,15 @@ import { totalTimeWorked, filterTimerRecords } from "../Stats/StatsMain";
 import useTimerRecordsStore from "../Common/Stores/TimerRecordsStore";
 import useActivityStore from "../Common/Stores/ActivityStore";
 import useDailyJournalStore from "../Common/Stores/DailyJournalStore";
+import { JournalType } from "../Common/Types/Types";
+import useJournalStore from "../Common/Stores/JournalStore";
 
-const Habits = () => {
+interface Props {
+  readonly?: boolean;
+  document?: JournalType;
+}
+
+const Habits: FC<Props> = ({ readonly, document }) => {
   const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
   const latestActivityDate = useActivityStore(
     (state) => state.latestActivityDate
@@ -33,15 +40,34 @@ const Habits = () => {
   // - number of meals
   // - no MB
 
-  const today = new Date();
+  let today = new Date();
+  let meals = useDailyJournalStore((state) => state.meals);
+  let noMB = useDailyJournalStore((state) => state.noMB);
+
+  if (readonly) {
+    if (document) {
+      meals = document.meals;
+      noMB = document.noMB;
+      today = document.date;
+    } else {
+      const documents = useJournalStore((state) => state.documents);
+      const latest = Object.values(documents).sort(
+        (a, b) => b.date.getTime() - a.date.getTime()
+      )[0];
+      meals = latest?.meals;
+      noMB = latest?.noMB;
+      today = latest?.date;
+    }
+  }
+  // subtract 4 hours to get the time I started working
+  today = new Date(today.getTime() - 4 * 60 * 60 * 1000);
+
   const totalWorkTime = totalTimeWorked(filterTimerRecords(timerRecords, 1, 0));
   const exercisedToday = latestActivityDate
     ? latestActivityDate.getDate() === today.getDate() &&
       latestActivityDate.getMonth() === today.getMonth() &&
       latestActivityDate.getFullYear() === today.getFullYear()
     : false;
-  const meals = useDailyJournalStore((state) => state.meals);
-  const noMB = useDailyJournalStore((state) => state.noMB);
 
   const setMeals = useDailyJournalStore((state) => state.setMeals);
   const setNB = useDailyJournalStore((state) => state.setNB);
@@ -100,9 +126,9 @@ const Habits = () => {
               })}
             </Typography>
           </Divider>
-          <ListItem>
-            <Typography variant="body1">Today, you:</Typography>
-          </ListItem>
+          {/* <ListItem>
+            <Typography variant="body1">You:</Typography>
+          </ListItem> */}
           <ListItem
             secondaryAction={
               <Checkbox
@@ -110,13 +136,14 @@ const Habits = () => {
                 checked={totalWorkTime >= 8 * 60}
                 tabIndex={-1}
                 disableRipple
+                disabled
               />
             }
             sx={{
               backgroundColor: "#ffffff22",
             }}
           >
-            <ListItemButton sx={{ width: "100%" }}>
+            <ListItemButton sx={{ width: "100%" }} disabled={readonly}>
               <ListItemText
                 primary={`Worked for ${Math.floor(totalWorkTime / 60)}H ${
                   totalWorkTime % 60
@@ -132,13 +159,18 @@ const Habits = () => {
 
           <ListItem
             secondaryAction={
-              <Checkbox edge="end" checked={exercisedToday} tabIndex={-1} />
+              <Checkbox
+                edge="end"
+                checked={exercisedToday}
+                tabIndex={-1}
+                disabled
+              />
             }
             sx={{
               backgroundColor: "#ffffff22",
             }}
           >
-            <ListItemButton sx={{ width: "100%" }}>
+            <ListItemButton sx={{ width: "100%" }} disabled={readonly}>
               <ListItemText
                 primary={exercisedToday ? "Exercised" : "Did not exercise"}
               />
@@ -156,13 +188,14 @@ const Habits = () => {
                 edge="end"
                 checked={meals.filter((meal) => meal).length >= 3}
                 tabIndex={-1}
+                disabled
               />
             }
             sx={{
               backgroundColor: "#ffffff22",
             }}
           >
-            <ListItemButton sx={{ width: "100%" }}>
+            <ListItemButton sx={{ width: "100%" }} disabled={readonly}>
               <ListItemText
                 sx={{
                   width: "100%",
@@ -194,11 +227,13 @@ const Habits = () => {
                       <Button
                         variant={meals[index] === "" ? "contained" : "outlined"}
                         onClick={handleMeals(index, "")}
+                        disabled={readonly}
                       >
                         <Cancel />
                       </Button>
                       <Button
                         onClick={handleMeals(index, "cooked")}
+                        disabled={readonly}
                         variant={
                           meals[index] === "cooked" ? "contained" : "outlined"
                         }
@@ -207,6 +242,7 @@ const Habits = () => {
                       </Button>
                       <Button
                         onClick={handleMeals(index, "restaurant")}
+                        disabled={readonly}
                         variant={
                           meals[index] === "restaurant"
                             ? "contained"
@@ -218,7 +254,7 @@ const Habits = () => {
                     </ButtonGroup>
                   }
                 >
-                  <ListItemButton sx={{ width: "100%" }}>
+                  <ListItemButton sx={{ width: "100%" }} disabled={readonly}>
                     <ListItemText
                       primary={`${meal}`}
                       secondary={meals[index] || "none"}
@@ -241,13 +277,18 @@ const Habits = () => {
                 checked={noMB}
                 tabIndex={-1}
                 onChange={(e) => setNB(e.target.checked)}
+                disabled={readonly}
               />
             }
             sx={{
               backgroundColor: "#ffffff22",
             }}
           >
-            <ListItemButton sx={{ width: "100%" }} onClick={() => setNB(!noMB)}>
+            <ListItemButton
+              sx={{ width: "100%" }}
+              onClick={() => setNB(!noMB)}
+              disabled={readonly}
+            >
               <ListItemText primary={noMB ? "Did not MB" : "Did MB"} />
             </ListItemButton>
           </ListItem>

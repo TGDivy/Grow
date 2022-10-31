@@ -22,7 +22,12 @@ export const filterTimerRecords = (
 ) => {
   const DAY = 24 * 60 * 60 * 1000;
 
-  const today = new Date().setHours(0, 0, 0, 0);
+  const today = new Date(new Date().getTime() - 4 * 60 * 60 * 1000).setHours(
+    0,
+    0,
+    0,
+    0
+  );
   const current = new Date(today - daysBack * DAY);
   const filteredTimerRecords = timerRecords.filter(
     (timerRecord) =>
