@@ -59,7 +59,7 @@ const JournalMain = () => {
       shortLabel: "Negatives",
     },
     {
-      component: <Reflect Question="How are feeling overall?" />,
+      component: <Reflect Question="How are you feeling overall?" />,
       shortLabel: "Overall",
     },
     {
