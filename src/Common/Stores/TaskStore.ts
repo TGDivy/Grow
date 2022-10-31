@@ -75,6 +75,7 @@ const updateTimeSpent = async (
 
   await updateDoc(plowDocRef, {
     timeSpent: increment(timeSpent),
+    dateUpdated: new Date(),
   });
 
   console.log("Document written with ID: ", task_id);
@@ -151,6 +152,7 @@ const useTaskStore = create<taskListStoreType>()(
           return set(
             produce((state) => {
               state.tasks[id].timeSpent += timeSpent;
+              state.tasks[id].dateUpdated = new Date();
               return state;
             })
           );
