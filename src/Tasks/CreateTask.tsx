@@ -8,9 +8,10 @@ import { Add } from "@mui/icons-material";
 
 interface createTaskFc {
   taskListName: string;
+  id?: string;
 }
 
-const CreateTask: FC<createTaskFc> = ({ taskListName }) => {
+const CreateTask: FC<createTaskFc> = ({ taskListName, id }) => {
   const createTask: taskType = {
     taskListName,
     title: "Create Task",
@@ -58,7 +59,7 @@ const CreateTask: FC<createTaskFc> = ({ taskListName }) => {
       >
         <Task
           {...createTask}
-          id={uuid_v4()}
+          id={id || uuid_v4()}
           createNewTask
           alwaysExpanded
           handleCreateNewTask={handleClose}

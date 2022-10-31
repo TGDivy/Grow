@@ -13,6 +13,7 @@ import useCurrentUser from "../Common/Contexts/UserContext";
 import Confetti from "react-confetti";
 import useWindowSize from "../Common/useWindowSize";
 import { MAX_STOPWATCH_DURATION } from "../Common/constants";
+import useTaskStore from "../Common/Stores/TaskStore";
 
 type Props = {
   studyTime: number;
@@ -23,6 +24,8 @@ const FinishTimer = ({ studyTime, maxDuration }: Props) => {
   const [open, setOpen] = React.useState(false);
   const stopTimer = useTimerStore((state) => state.stopTimer);
   const active = useTimerStore((state) => state.active);
+  const updateTimeSpent = useTaskStore((state) => state.updateTimeSpent);
+  const taskKey = useTimerStore((state) => state.taskKey);
 
   const { user } = useCurrentUser();
 
@@ -31,6 +34,7 @@ const FinishTimer = ({ studyTime, maxDuration }: Props) => {
   const handleClose = () => {
     setOpen(false);
     stopTimer(user.uid, studyTime);
+    updateTimeSpent(taskKey, studyTime);
   };
 
   const handleOpen = () => {

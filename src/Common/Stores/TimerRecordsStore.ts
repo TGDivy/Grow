@@ -9,6 +9,8 @@ interface timerRecordsStoreType {
   addLatestTimerRecord: (user_id: string) => void;
 
   timerRecords: timerType[];
+  user_id: string;
+  setUserId: (user_id: string) => void;
 }
 
 const getLatestTimerRecord = async (
@@ -21,7 +23,11 @@ const getLatestTimerRecord = async (
     const querySnapshot = await getDocs(q);
     return querySnapshot;
   }
-  const latestRecordTime = timerRecords[timerRecords.length - 1].startTime;
+  // get the latest record time
+  const latestRecordTime = timerRecords.reduce((a, b) => {
+    return a.startTime > b.startTime ? a : b;
+  }).startTime;
+  // const latestRecordTime = timerRecords[timerRecords.length - 1].startTime;
   const q = query(collectionRef, where("startTime", ">", latestRecordTime));
   const querySnapshot = await getDocs(q);
 
@@ -33,11 +39,13 @@ const useTimerRecordsStore = create<timerRecordsStoreType>()(
     persist(
       (set, get) => ({
         timerRecords: [],
+        user_id: "",
         addTimerRecord: (timer: timerType) =>
           set((state) => ({ timerRecords: [...state.timerRecords, timer] })),
-        addLatestTimerRecord: (user_id: string) => {
+        addLatestTimerRecord: () => {
           const records = get().timerRecords;
           const addTimerRecord = get().addTimerRecord;
+          const user_id = get().user_id;
           const querySnapshot = getLatestTimerRecord(records, user_id);
           querySnapshot
             .then((querySnapshot) => {
@@ -52,6 +60,7 @@ const useTimerRecordsStore = create<timerRecordsStoreType>()(
               console.log("Error getting documents: ", error);
             });
         },
+        setUserId: (user_id) => set({ user_id }),
       }),
       {
         name: "timer-records-storage",

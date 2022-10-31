@@ -1,5 +1,3 @@
-import { TupleType } from "typescript";
-
 export enum tagsType {
   "Engineering",
   "Research",
@@ -95,4 +93,25 @@ export interface workoutType {
 
 export interface activityTypeDoc {
   activityTypes: string[];
+}
+
+export interface JournalType {
+  date: Date;
+  title: string;
+
+  entry: string;
+  nextDayNotes: string;
+
+  tasksForTomorrow: Array<string>; // task keys
+
+  mood: string[];
+
+  workDone: number;
+  exercised: boolean;
+  meals: string[];
+  noMB: boolean;
+}
+
+export interface JournalDicType {
+  [key: string]: JournalType;
 }

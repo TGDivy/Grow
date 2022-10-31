@@ -5,6 +5,8 @@ import addUser from "../Firestore/addUser";
 import useTaskStore from "../Stores/TaskStore";
 import useWorkoutStore from "../Stores/WorkoutStore";
 import useActivityStore from "../Stores/ActivityStore";
+import useJournalStore from "../Stores/JournalStore";
+import useTimerRecordsStore from "../Stores/TimerRecordsStore";
 
 export const CurrentUserContext = React.createContext();
 
@@ -15,6 +17,10 @@ export const CurrentUserProvider = ({ children }) => {
   const setUserID = useTaskStore((state) => state.setUserID);
   const setWorkoutUserID = useWorkoutStore((state) => state.setUserId);
   const setActivityUserID = useActivityStore((state) => state.setUserId);
+  const setJournalUserID = useJournalStore((state) => state.setUserId);
+  const setTimerRecordsUserID = useTimerRecordsStore(
+    (state) => state.setUserId
+  );
 
   onAuthStateChanged(auth, (user) => {
     if (user && !once) {
@@ -25,6 +31,8 @@ export const CurrentUserProvider = ({ children }) => {
           setUserID(userData.uid);
           setWorkoutUserID(userData.uid);
           setActivityUserID(userData.uid);
+          setJournalUserID(userData.uid);
+          setTimerRecordsUserID(userData.uid);
           setOnce(true);
         })
         .catch((error) => {

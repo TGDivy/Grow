@@ -15,10 +15,19 @@ import WorkStatLine from "./WorkStatLine";
 import TagPieStat from "./TagPieStat";
 import TagRadarStat from "./TagRadarStat";
 
-const filterTimerRecords = (timerRecords, timePeriodLength, daysBack) => {
+export const filterTimerRecords = (
+  timerRecords,
+  timePeriodLength,
+  daysBack
+) => {
   const DAY = 24 * 60 * 60 * 1000;
 
-  const today = new Date().setHours(0, 0, 0, 0);
+  const today = new Date(new Date().getTime() - 4 * 60 * 60 * 1000).setHours(
+    0,
+    0,
+    0,
+    0
+  );
   const current = new Date(today - daysBack * DAY);
   const filteredTimerRecords = timerRecords.filter(
     (timerRecord) =>
@@ -42,11 +51,18 @@ const filterTimerRecords = (timerRecords, timePeriodLength, daysBack) => {
   return filteredTimerRecords;
 };
 
+export const totalTimeWorked = (timerRecords) => {
+  const T = Math.floor(
+    timerRecords.reduce((acc, timerRecord) => {
+      return acc + timerRecord.duration;
+    }, 0) / 60
+  );
+  return T;
+};
+
 const StatsMain = () => {
   const { user, setUser } = useCurrentUser();
-  const addLatestTimerRecord = useTimerRecordsStore(
-    (state) => state.addLatestTimerRecord
-  );
+
   const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
 
   // const daysBack = -0;
@@ -68,20 +84,6 @@ const StatsMain = () => {
     timePeriodLength,
     periodBack * timePeriodLength + timePeriodLength
   );
-
-  useEffect(() => {
-    const unsub = onSnapshot(
-      doc(db, "users", user.uid),
-      { includeMetadataChanges: true },
-      (doc) => {
-        setUser(doc.data());
-      }
-    );
-
-    addLatestTimerRecord(user.uid);
-
-    return unsub;
-  }, []);
 
   // Display selected period, and change daysBack to change the period
   const handlePeriodBack = (direction) => {
@@ -107,6 +109,8 @@ const StatsMain = () => {
       </Typography>
     );
   };
+
+  const totalTimeWorkedV = totalTimeWorked(selectedPeriod);
 
   return (
     <>
@@ -163,18 +167,14 @@ const StatsMain = () => {
               </Grid>
             </Grid>
           </Grid>
-          {/* <Grid item xs={6} md={6}>
-            <Typography variant="h6">Total Work Time</Typography>
-            <Typography variant="h4">
-              {user.totalWorkTime ? user.totalWorkTime : 0} hours
+          <Grid item xs={12} md={11}>
+            <Typography variant="h6">
+              Total Time Worked :{" "}
+              {`${Math.floor(totalTimeWorkedV / 60)}H ${
+                totalTimeWorkedV % 60
+              }M`}
             </Typography>
           </Grid>
-          <Grid item xs={6} md={6}>
-            <Typography variant="h6">Total Break Time</Typography>
-            <Typography variant="h4">
-              {user.totalBreakTime ? user.totalBreakTime : 0} hours
-            </Typography>
-          </Grid> */}
           <Grid item xs={12} md={6}>
             <WeeklyWorkStat timerRecords={selectedPeriod} />
           </Grid>

@@ -98,7 +98,31 @@ const Tags: FC<tagsFc> = ({ tags, editing, setTags, timerPage }) => {
   return (
     <>
       {tags.map((tag) => (
-        <Chip key={tag} label={tag} color="primary" size="small" />
+        <Chip
+          key={tag}
+          label={tag}
+          color="primary"
+          size="small"
+          variant="outlined"
+          // labelProps={{
+          //   sx: {
+          //     overflow: "hidden",
+          //     textOverflow: "clip",
+          //   },
+          // }}
+          sx={{
+            marginBottom: 0,
+            maxWidth: "80px",
+            pl: 0,
+            pr: 0,
+            pt: 0.2,
+            "& .MuiChip-label": {
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            },
+          }}
+        />
       ))}
     </>
   );

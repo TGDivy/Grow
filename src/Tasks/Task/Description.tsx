@@ -28,10 +28,21 @@ const Description: FC<descriptionProps> = ({
         variant="standard"
         defaultValue={description}
         multiline
+        color="primary"
         rows={4}
         fullWidth
         onChange={(event) => {
           setDescription(event.target.value);
+        }}
+        InputLabelProps={{
+          sx: {
+            color: "primary.main",
+          },
+        }}
+        sx={{
+          "& .MuiInputBase-root": {
+            color: "primary.main",
+          },
         }}
       />
     );

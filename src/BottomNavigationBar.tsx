@@ -2,8 +2,16 @@ import React, { FC } from "react";
 
 import { Link, useLocation } from "react-router-dom";
 
-import { Home, Task, Nature, Terrain, TrendingUp } from "@mui/icons-material";
-import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
+import {
+  Home,
+  Task,
+  Nature,
+  Terrain,
+  TrendingUp,
+  SelfImprovement,
+  Menu,
+} from "@mui/icons-material";
+import { Fab, IconButton, Paper, Button, Box, Grid, Zoom } from "@mui/material";
 
 const BottomNavigationBar: FC = () => {
   const location = useLocation();
@@ -15,6 +23,8 @@ const BottomNavigationBar: FC = () => {
   ) {
     return null;
   }
+
+  const list = ["/Reflect", "/Soil", "/Stats", "Seed", "/Tasks"];
 
   const workPlaces = [
     {
@@ -45,46 +55,105 @@ const BottomNavigationBar: FC = () => {
     },
   ];
 
-  const places = () => {
-    switch (location.pathname) {
-      case "/Tasks":
-        return workPlaces;
-      case "/Seed":
-        return workPlaces;
-      case "/Soil":
-        return workoutPlaces;
-      case "/Stats":
-        return statsPlaces;
-      default:
-        return workPlaces;
-    }
-  };
+  const selfImprovementPlaces = [
+    {
+      name: "Workout",
+      icon: <Terrain />,
+      link: "/Soil",
+    },
+    {
+      name: "Reflect",
+      icon: <SelfImprovement />,
+      link: "/Reflect",
+    },
+  ];
 
+  const all = [
+    ...workPlaces,
+    ...workoutPlaces,
+    ...statsPlaces,
+    ...selfImprovementPlaces,
+  ];
   return (
     <Paper
-      sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
+      sx={{
+        position: "fixed",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: "#00000088",
+      }}
       elevation={3}
       color="primary"
     >
-      <BottomNavigation value={location.pathname}>
-        <BottomNavigationAction
-          component={Link}
-          to="/"
-          label="Home"
-          value="/"
-          icon={<Home />}
-        />
-        {places().map((place) => (
-          <BottomNavigationAction
-            component={Link}
-            to={place.link}
-            label={place.name}
-            value={place.link}
-            icon={place.icon}
-            key={place.name}
-          />
-        ))}
-      </BottomNavigation>
+      <Grid container justifyContent="center" alignItems="center">
+        <Grid item xs={5} md={2}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-evenly",
+              alignItems: "center",
+            }}
+          >
+            {workPlaces.map((place) => (
+              <Link to={place.link} key={place.name}>
+                <IconButton
+                  sx={{
+                    color:
+                      location.pathname === place.link
+                        ? "primary.main"
+                        : "primary",
+                  }}
+                >
+                  {place.icon}
+                </IconButton>
+              </Link>
+            ))}
+          </Box>
+        </Grid>
+        <Grid item>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              position: "relative",
+              top: "-20px",
+            }}
+          >
+            <Zoom in={true} timeout={500}>
+              <Link to="/">
+                <Fab color="secondary" aria-label="menu">
+                  <Home />
+                </Fab>
+              </Link>
+            </Zoom>
+          </Box>
+        </Grid>
+        <Grid item xs={5} md={2}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-evenly",
+              alignItems: "center",
+            }}
+          >
+            {selfImprovementPlaces.map((place) => (
+              <Link to={place.link} key={place.name}>
+                <IconButton
+                  sx={{
+                    color:
+                      location.pathname === place.link
+                        ? "primary.main"
+                        : "primary",
+                  }}
+                >
+                  {place.icon}
+                </IconButton>
+              </Link>
+            ))}
+          </Box>
+        </Grid>
+      </Grid>
     </Paper>
   );
 };

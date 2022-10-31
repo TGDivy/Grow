@@ -61,13 +61,14 @@ const SubTaskList: FC<SubTaskListProps> = ({
         sx={{
           paddingTop: 0,
           marginTop: 0,
+          color: "primary.main",
         }}
       >
         <TransitionGroup>
           {subTasks.map((subTask, index) => (
             <Collapse key={index}>
               <ListItem
-                sx={{ padding: "0px 0px 0px 15px" }}
+                sx={{ padding: "0px 0px 0px 15px", color: "primary.main" }}
                 secondaryAction={
                   editing && (
                     <IconButton
@@ -84,6 +85,7 @@ const SubTaskList: FC<SubTaskListProps> = ({
                   sx={{ padding: "0px 5px 0px 5px" }}
                   edge="start"
                   size="small"
+                  color="primary"
                   checked={subTask.completed}
                   onClick={() => handleToggleSubTask(index)}
                 />
@@ -105,7 +107,7 @@ const SubTaskList: FC<SubTaskListProps> = ({
                         textDecoration: subTask.completed
                           ? "line-through"
                           : "none",
-                        color: subTask.completed ? "gray" : "black",
+                        color: subTask.completed ? "gray" : "primary.main",
                       }}
                     >
                       {subTask.title}
