@@ -31,6 +31,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import moment from "moment";
+import useDailyJournalStore from "../Common/Stores/DailyJournalStore";
 
 interface Props {
   allEntries?: boolean;
@@ -41,6 +42,7 @@ interface onePage {
 }
 
 const All: FC<Props> = ({ allEntries }) => {
+  const currentDoc = useDailyJournalStore((state) => state.getJournal());
   const documents = useJournalStore((state) => state.documents);
   const sortedDocuments = Object.values(documents).sort(
     (a, b) => b.date.getTime() - a.date.getTime()
@@ -141,7 +143,7 @@ const All: FC<Props> = ({ allEntries }) => {
           <OnePage document={sortedDocuments[selectedValue]} />
         </>
       ) : (
-        <OnePage document={latest} />
+        <OnePage document={currentDoc} />
       )}
     </Stack>
   );

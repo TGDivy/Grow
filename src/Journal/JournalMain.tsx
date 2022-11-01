@@ -74,16 +74,8 @@ const JournalMain = () => {
     },
   ];
 
-  // useEffect(() => {
-  //   setActiveStep(0);
-  // }, [documents]);
-
-  console.log(lastDocumentDate);
-  console.log(new Date());
-  console.log(lastDocumentDate.getTime() > Date.now() - 60 * 1 * 1 * 1000);
-
   const submittedRecently =
-    lastDocumentDate.getTime() > Date.now() - 60 * 60 * 16 * 1000;
+    lastDocumentDate.getTime() > Date.now() - 60 * 60 * 18 * 1000;
 
   const timeUntilNextSubmission = new Date(
     lastDocumentDate.getTime() + 60 * 60 * 16 * 1000

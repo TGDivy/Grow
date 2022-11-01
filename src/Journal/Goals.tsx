@@ -52,9 +52,13 @@ const Goals: FC<Props> = ({ readonly, document }) => {
   const tasks = useTaskStore((state) => state.tasks);
   const [addAndRemove, setAddAndRemove] = useState(false);
 
-  const setNextDayNotes = useDailyJournalStore(
-    (state) => state.setNextDayNotes
-  );
+  let setNextDayNotes = useDailyJournalStore((state) => state.setNextDayNotes);
+
+  if (readonly) {
+    setNextDayNotes = () => {
+      return null;
+    };
+  }
 
   const [newTaskId, setNewTaskId] = React.useState(uuid_v4());
 

@@ -14,10 +14,16 @@ const Reflect: FC<Props> = ({ Question, readonly, document }) => {
   // A place to write down what you're grateful for.
 
   let text = useDailyJournalStore((state) => state.entry);
-  const setText = useDailyJournalStore((state) => state.setEntry);
+  let setText = useDailyJournalStore((state) => state.setEntry);
 
   if (document) {
     text = document.entry;
+  }
+
+  if (readonly) {
+    setText = () => {
+      return null;
+    };
   }
 
   return (
