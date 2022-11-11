@@ -7,11 +7,18 @@ import useWorkoutStore from "../Stores/WorkoutStore";
 import useActivityStore from "../Stores/ActivityStore";
 import useJournalStore from "../Stores/JournalStore";
 import useTimerRecordsStore from "../Stores/TimerRecordsStore";
+import useUserStore from "../Stores/User";
+import { userType } from "../Types/Types";
 
-export const CurrentUserContext = React.createContext();
+export const CurrentUserContext = React.createContext(
+  {} as {
+    user: userType | null;
+    setUser: React.Dispatch<React.SetStateAction<userType | null>>;
+  }
+);
 
-export const CurrentUserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+export const CurrentUserProvider = ({ children }: any) => {
+  const [user, setUser] = useState<userType | null>(null);
   const [once, setOnce] = useState(false);
   const auth = getAuth();
   const setUserID = useTaskStore((state) => state.setUserID);
@@ -21,18 +28,20 @@ export const CurrentUserProvider = ({ children }) => {
   const setTimerRecordsUserID = useTimerRecordsStore(
     (state) => state.setUserId
   );
+  const setUserStore = useUserStore((state) => state.setUser);
 
   onAuthStateChanged(auth, (user) => {
     if (user && !once) {
       console.log("auth state changed", user);
       addUser(user)
         .then((userData) => {
-          setUser(userData);
+          setUser(userData as userType);
           setUserID(userData.uid);
           setWorkoutUserID(userData.uid);
           setActivityUserID(userData.uid);
           setJournalUserID(userData.uid);
           setTimerRecordsUserID(userData.uid);
+          setUserStore(userData as userType);
           setOnce(true);
         })
         .catch((error) => {

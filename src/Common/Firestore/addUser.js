@@ -29,6 +29,8 @@ const addUser = async (user) => {
       email: user.email,
       guest: user.isAnonymous,
       created: new Date(),
+      tags: ["work", "chores", "personal"],
+      displayName: user.displayName,
     };
 
     await setDoc(docRef, userDoc);

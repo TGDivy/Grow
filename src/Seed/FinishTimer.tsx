@@ -33,7 +33,9 @@ const FinishTimer = ({ studyTime, maxDuration }: Props) => {
 
   const handleClose = () => {
     setOpen(false);
-    stopTimer(user.uid, studyTime);
+    if (user) {
+      stopTimer(user.uid, studyTime);
+    }
     updateTimeSpent(taskKey, studyTime);
   };
 
