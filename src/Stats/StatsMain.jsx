@@ -14,6 +14,7 @@ import WeeklyWorkStat from "./WeeklyWorkStat";
 import WorkStatLine from "./WorkStatLine";
 import TagPieStat from "./TagPieStat";
 import TagRadarStat from "./TagRadarStat";
+import StickerPieStat from "./StickerPieStat";
 
 export const filterTimerRecords = (
   timerRecords,
@@ -179,19 +180,22 @@ const StatsMain = () => {
             <WeeklyWorkStat timerRecords={selectedPeriod} />
           </Grid>
           <Grid item xs={12} md={6}>
-            <TagRadarStat
-              selectedPeriod={selectedPeriod}
-              previousPeriod={previousPeriod}
+            <WorkStatLine
+              timerRecords={selectedPeriod}
+              previousRecords={previousPeriod}
+              dayDiff={timePeriodLength}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <TagPieStat timerRecords={selectedPeriod} />
           </Grid>
           <Grid item xs={12} md={6}>
-            <WorkStatLine
-              timerRecords={selectedPeriod}
-              previousRecords={previousPeriod}
-              dayDiff={timePeriodLength}
+            <StickerPieStat timerRecords={selectedPeriod} />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TagRadarStat
+              selectedPeriod={selectedPeriod}
+              previousPeriod={previousPeriod}
             />
           </Grid>
         </Grid>
