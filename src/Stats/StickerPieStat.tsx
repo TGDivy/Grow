@@ -27,7 +27,6 @@ const getPieData = async (timerRecords: timerType[]) => {
     } else {
       stickerStat[sticker] = timerRecord.duration;
     }
-    stickerStat[sticker] += timerRecord.duration;
   });
 
   const data = [];
