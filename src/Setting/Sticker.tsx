@@ -3,6 +3,7 @@ import useUserStore from "../Common/Stores/User";
 import { Box, Paper, Grid, Typography, Button } from "@mui/material";
 import { TextField, Chip } from "@mui/material";
 import { Add } from "@mui/icons-material";
+import { Stack } from "@mui/system";
 
 const Sticker = () => {
   // Text box for adding new tags
@@ -60,22 +61,22 @@ const Sticker = () => {
           </Typography>
         </Grid>
 
-        <Grid item xs={4}>
-          <TextField
-            id="outlined-basic"
-            label="Add new sticker"
-            variant="outlined"
-            size="small"
-            value={sticker}
-            onChange={(event) => {
-              setSticker(event.target.value);
-            }}
-          />
-        </Grid>
-        <Grid item>
-          <Button variant="contained" onClick={handleAddTag}>
-            <Add />
-          </Button>
+        <Grid item xs={6}>
+          <Stack direction="row" spacing={1} justifyContent="right">
+            <TextField
+              id="outlined-basic"
+              label="Add new sticker"
+              variant="outlined"
+              size="small"
+              value={sticker}
+              onChange={(event) => {
+                setSticker(event.target.value);
+              }}
+            />
+            <Button variant="contained" onClick={handleAddTag}>
+              <Add />
+            </Button>
+          </Stack>
         </Grid>
         <Grid item xs={12}>
           <Typography variant="body1" sx={{ textAlign: "left" }}>

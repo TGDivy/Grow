@@ -1,6 +1,6 @@
 import React from "react";
 import useUserStore from "../Common/Stores/User";
-import { Box, Paper, Grid, Typography, Button } from "@mui/material";
+import { Box, Paper, Grid, Typography, Button, Stack } from "@mui/material";
 import { TextField, Chip } from "@mui/material";
 import { Add } from "@mui/icons-material";
 
@@ -60,23 +60,24 @@ const Tags = () => {
           </Typography>
         </Grid>
 
-        <Grid item xs={4}>
-          <TextField
-            id="outlined-basic"
-            label="Add new tag"
-            variant="outlined"
-            size="small"
-            value={tag}
-            onChange={(event) => {
-              setTag(event.target.value);
-            }}
-          />
+        <Grid item xs={6}>
+          <Stack direction="row" spacing={1} justifyContent="right">
+            <TextField
+              id="outlined-basic"
+              label="Add new tag"
+              variant="outlined"
+              size="small"
+              value={tag}
+              onChange={(event) => {
+                setTag(event.target.value);
+              }}
+            />
+            <Button variant="contained" onClick={handleAddTag}>
+              <Add />
+            </Button>
+          </Stack>
         </Grid>
-        <Grid item>
-          <Button variant="contained" onClick={handleAddTag}>
-            <Add />
-          </Button>
-        </Grid>
+
         <Grid item xs={12}>
           <Typography variant="body1" sx={{ textAlign: "left" }}>
             - Tags are used to categorize your tasks, and understand what type
