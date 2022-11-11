@@ -98,6 +98,16 @@ const SubTaskList: FC<SubTaskListProps> = ({
                     onChange={(event) => {
                       handleSubTaskChange(event, index);
                     }}
+                    InputLabelProps={{
+                      sx: {
+                        color: "primary.main",
+                      },
+                    }}
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        color: "primary.main",
+                      },
+                    }}
                   />
                 ) : (
                   <ListItemText>
@@ -149,6 +159,16 @@ const SubTaskList: FC<SubTaskListProps> = ({
               value={subTask.title}
               onChange={(event) => {
                 setSubTask({ title: event.target.value, completed: false });
+              }}
+              InputLabelProps={{
+                sx: {
+                  color: "primary.main",
+                },
+              }}
+              sx={{
+                "& .MuiInputBase-root": {
+                  color: "primary.main",
+                },
               }}
             />
           </ListItem>

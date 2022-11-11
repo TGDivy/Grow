@@ -23,6 +23,7 @@ import Title from "./Title";
 import { subtaskType, taskType } from "../../Common/Types/Types";
 
 import useTaskStore from "../../Common/Stores/TaskStore";
+import Sticker from "./Sticker";
 
 interface taskFC extends taskType {
   id: string;
@@ -45,6 +46,7 @@ const Task: FC<taskFC> = (props) => {
   const [description_, setDescription] = useState(props.description);
   const [priority_, setPriority] = useState(props.priority);
   const [tags_, setTags] = useState(props.tags);
+  const [sticker_, setSticker] = useState(props.sticker);
   const [completed_, setCompleted] = useState(props.completed);
 
   const handleEdit = () => {
@@ -66,7 +68,7 @@ const Task: FC<taskFC> = (props) => {
           completed: completed_,
           dateUpdated: new Date(),
           timeSpent: props.timeSpent,
-          sticker: props.sticker,
+          sticker: sticker_,
         },
         props.id
       );
@@ -93,7 +95,7 @@ const Task: FC<taskFC> = (props) => {
           completed: completed_,
           dateUpdated: new Date(),
           timeSpent: props.timeSpent,
-          sticker: props.sticker,
+          sticker: sticker_,
         },
         props.id
       );
@@ -112,7 +114,7 @@ const Task: FC<taskFC> = (props) => {
         completed: completed_,
         dateUpdated: new Date(),
         timeSpent: props.timeSpent,
-        sticker: props.sticker,
+        sticker: sticker_,
       },
       props.id
     );
@@ -133,7 +135,7 @@ const Task: FC<taskFC> = (props) => {
           completed: !completed_,
           dateUpdated: new Date(),
           timeSpent: props.timeSpent,
-          sticker: props.sticker,
+          sticker: sticker_,
         },
         props.id
       );
@@ -176,9 +178,9 @@ const Task: FC<taskFC> = (props) => {
             setExpanded(true);
           }
         }}
-        onDoubleClick={() => {
-          setEditing(true);
-        }}
+        // onDoubleClick={() => {
+        //   setEditing(true);
+        // }}
       >
         <CardHeader
           title={
@@ -205,6 +207,7 @@ const Task: FC<taskFC> = (props) => {
             ))
           }
         />
+
         <CardContent sx={{ padding: "5px 20px 5px 20px" }}>
           <Divider
             textAlign="left"
@@ -214,7 +217,7 @@ const Task: FC<taskFC> = (props) => {
 
               "&.MuiDivider-root": {
                 color: "primary.main",
-                // p: 1,
+                py: 1,
                 "&::before": {
                   borderTopWidth: 2,
                   borderTopStyle: "solid",
@@ -224,14 +227,20 @@ const Task: FC<taskFC> = (props) => {
                   borderTopWidth: 2,
                   borderTopStyle: "solid",
                   borderTopColor: "primary.main",
+                  width: "100%",
                 },
               },
             }}
           >
-            <Tags tags={tags_} editing={editing} setTags={setTags} />
+            {(editing || sticker_) && (
+              <Sticker
+                sticker={sticker_}
+                setSticker={setSticker}
+                editing={editing}
+              />
+            )}
           </Divider>
         </CardContent>
-
         <CardActions>
           <Grid container justifyContent="space-between" alignItems="center">
             <Grid item xs={2}>
@@ -280,7 +289,6 @@ const Task: FC<taskFC> = (props) => {
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent
             sx={{
-              marginTop: 0,
               marginBottom: 0,
               paddingTop: 0,
               "&:last-child": {
@@ -288,6 +296,9 @@ const Task: FC<taskFC> = (props) => {
               },
             }}
           >
+            <Box sx={{ py: 1 }}>
+              <Tags tags={tags_} editing={editing} setTags={setTags} />
+            </Box>
             <SubTaskList
               subTasks={subtasks_}
               setSubTasks={setSubtasks}

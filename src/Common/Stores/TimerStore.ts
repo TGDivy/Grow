@@ -27,6 +27,7 @@ interface timerStoreType extends timerType {
   timerDuration: number;
   setTimerMode: (mode: "stopwatch" | "timer") => void;
   setTimerDuration: (duration: number) => void;
+  setSticker: (sticker: string) => void;
 }
 
 const timerStoreTypeToTimerType = (
@@ -45,6 +46,7 @@ const timerStoreTypeToTimerType = (
     setTimerMode,
     timerDuration,
     setTimerDuration,
+    setSticker,
     ...timerType
   } = timerStoreType;
   return timerType;
@@ -98,6 +100,7 @@ const useTimerStore = create<timerStoreType>()(
           set(() => ({ timerMode: mode })),
         setTimerDuration: (duration: number) =>
           set(() => ({ timerDuration: duration })),
+        setSticker: (sticker: string) => set(() => ({ sticker: sticker })),
       }),
       {
         name: "timer-storage",

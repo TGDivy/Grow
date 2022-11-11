@@ -3,17 +3,17 @@ import useTimerStore from "../Common/Stores/TimerStore";
 import useTaskStore from "../Common/Stores/TaskStore";
 import { Button, Box, Grid } from "@mui/material";
 
-import Tags from "../Tasks/Task/Tags";
+import Sticker from "../Tasks/Task/Sticker";
 
-const AddTags = () => {
+const AddSticker = () => {
   //   const [tags, setTags] = useState<Array<tagsType>>([]);
   const taskKey = useTimerStore((state) => state.taskKey);
-  const setTags = useTimerStore((state) => state.setTags);
-  const tags = useTimerStore((state) => state.tags);
+  const setSticker = useTimerStore((state) => state.setSticker);
+  const sticker = useTimerStore((state) => state.sticker);
 
   useEffect(() => {
     if (taskKey) {
-      setTags(useTaskStore.getState().tasks[taskKey].tags);
+      setSticker(useTaskStore.getState().tasks[taskKey].sticker);
     }
   }, [taskKey]);
 
@@ -26,17 +26,11 @@ const AddTags = () => {
         alignItems: "flex-end",
         // justifyContent: "flex-end",
         justifyContent: "center",
-
-        "& > :not(style)": {
-          mb: 1,
-          mt: -0.5,
-          pb: 0,
-        },
       }}
     >
-      <Tags tags={tags} setTags={setTags} editing timerPage />
+      <Sticker sticker={sticker} setSticker={setSticker} editing timerPage />
     </Box>
   );
 };
 
-export default AddTags;
+export default AddSticker;

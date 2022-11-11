@@ -110,7 +110,7 @@ const Tags: FC<tagsFc> = ({ tags, editing, setTags, timerPage }) => {
           // }}
           sx={{
             marginBottom: 0,
-            maxWidth: "80px",
+            maxWidth: "120px",
             pl: 0,
             pr: 0,
             pt: 0.2,
