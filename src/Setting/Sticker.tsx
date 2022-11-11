@@ -4,28 +4,28 @@ import { Box, Paper, Grid, Typography, Button } from "@mui/material";
 import { TextField, Chip } from "@mui/material";
 import { Add } from "@mui/icons-material";
 
-const Tags = () => {
+const Sticker = () => {
   // Text box for adding new tags
   // And display all the tags
 
-  const tags = useUserStore((state) => state.tags);
-  const setTags = useUserStore((state) => state.setTags);
+  const stickers = useUserStore((state) => state.stickers);
+  const setStickers = useUserStore((state) => state.setStickers);
 
-  const [tag, setTag] = React.useState("");
+  const [sticker, setSticker] = React.useState("");
 
   const handleAddTag = () => {
     // tags are unique, case insensitive and not empty
     if (
-      tag.trim() !== "" &&
-      !tags.map((t) => t.toLowerCase()).includes(tag.toLowerCase())
+      sticker.trim() !== "" &&
+      !stickers.map((t) => t.toLowerCase()).includes(sticker.toLowerCase())
     ) {
-      setTags([...tags, tag]);
-      setTag("");
+      setStickers([...stickers, sticker]);
+      setSticker("");
     }
   };
 
   const handleDeleteTag = (tag: string) => {
-    setTags(tags.filter((t) => t !== tag));
+    setStickers(stickers.filter((t) => t !== tag));
   };
 
   return (
@@ -56,19 +56,19 @@ const Tags = () => {
               textAlign: "left",
             }}
           >
-            Tags
+            Stickers
           </Typography>
         </Grid>
 
         <Grid item xs={4}>
           <TextField
             id="outlined-basic"
-            label="Add new tag"
+            label="Add new sticker"
             variant="outlined"
             size="small"
-            value={tag}
+            value={sticker}
             onChange={(event) => {
-              setTag(event.target.value);
+              setSticker(event.target.value);
             }}
           />
         </Grid>
@@ -79,14 +79,13 @@ const Tags = () => {
         </Grid>
         <Grid item xs={12}>
           <Typography variant="body1" sx={{ textAlign: "left" }}>
-            - Tags are used to categorize your tasks, and understand what type
-            of skills you are developing over time.
+            - Stickers are assigned to your overarching goals.
           </Typography>
           <Typography variant="body1" sx={{ textAlign: "left" }}>
-            - They are meant to represent the type of work you are doing.
+            - They showcase your progress, and are meant to change over time.
           </Typography>
           <Typography variant="body1" sx={{ textAlign: "left" }}>
-            - You can add multiple tags to a single task.
+            - Only one sticker can be assigned to a task, or a timer.
           </Typography>
         </Grid>
       </Grid>
@@ -99,7 +98,7 @@ const Tags = () => {
           justifyContent="flex-start"
           alignItems="center"
         >
-          {tags.map((tag) => (
+          {stickers.map((tag) => (
             <Grid item key={tag}>
               <Chip
                 label={tag}
@@ -116,4 +115,4 @@ const Tags = () => {
   );
 };
 
-export default Tags;
+export default Sticker;

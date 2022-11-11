@@ -66,6 +66,7 @@ const Task: FC<taskFC> = (props) => {
           completed: completed_,
           dateUpdated: new Date(),
           timeSpent: props.timeSpent,
+          sticker: props.sticker,
         },
         props.id
       );
@@ -92,6 +93,7 @@ const Task: FC<taskFC> = (props) => {
           completed: completed_,
           dateUpdated: new Date(),
           timeSpent: props.timeSpent,
+          sticker: props.sticker,
         },
         props.id
       );
@@ -110,6 +112,7 @@ const Task: FC<taskFC> = (props) => {
         completed: completed_,
         dateUpdated: new Date(),
         timeSpent: props.timeSpent,
+        sticker: props.sticker,
       },
       props.id
     );
@@ -130,6 +133,7 @@ const Task: FC<taskFC> = (props) => {
           completed: !completed_,
           dateUpdated: new Date(),
           timeSpent: props.timeSpent,
+          sticker: props.sticker,
         },
         props.id
       );

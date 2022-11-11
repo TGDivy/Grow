@@ -22,6 +22,7 @@ const CreateTask: FC<createTaskFc> = ({ taskListName, id }) => {
     tags: [],
     completed: false,
     timeSpent: 0,
+    sticker: "",
   };
 
   const [open, setOpen] = useState(false);
