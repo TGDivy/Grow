@@ -1,3 +1,13 @@
+export interface userType {
+  created: Date;
+  uid: string;
+  email: string;
+  displayName: string;
+  photoURL: string;
+
+  tags: string[];
+}
+
 export enum tagsType {
   "Engineering",
   "Research",
