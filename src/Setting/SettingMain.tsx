@@ -1,8 +1,6 @@
 import React from "react";
 
-type Props = {};
-
-const SettingMain = (props: Props) => {
+const SettingMain = () => {
   return <div>SettingMain</div>;
 };
 

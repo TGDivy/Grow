@@ -1,27 +1,24 @@
 import React from "react";
-import LoginPage from "./Login/LoginPage";
-import useCurrentUser from "./Common/Contexts/UserContext";
 import BottomNavigationBar from "./BottomNavigationBar";
-import TasksMain from "./Tasks/TasksMain";
-import SeedMain from "./Seed/SeedMain";
-import StatsMain from "./Stats/StatsMain";
-import SoilMain from "./Soil/SoilMain";
+import useCurrentUser from "./Common/Contexts/UserContext";
 import HomeMain from "./Home/Home";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-import AnonymousUser from "./Login/AnonymousUser";
-import AnonToLogin from "./Login/AnonToLogin";
+import LoginPage from "./Login/LoginPage";
+import SeedMain from "./Seed/SeedMain";
+import SoilMain from "./Soil/SoilMain";
+import StatsMain from "./Stats/StatsMain";
+import TasksMain from "./Tasks/TasksMain";
+import SettingMain from "./Setting/SettingMain";
+
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import JournalMain from "./Journal/JournalMain";
-import { useLocation } from "react-router-dom";
+import AnonToLogin from "./Login/AnonToLogin";
+import AnonymousUser from "./Login/AnonymousUser";
+
+import useActivityStore from "./Common/Stores/ActivityStore";
+import useJournalStore from "./Common/Stores/JournalStore";
+import useTaskStore from "./Common/Stores/TaskStore";
 import useTimerRecordsStore from "./Common/Stores/TimerRecordsStore";
 import useWorkoutStore from "./Common/Stores/WorkoutStore";
-import useJournalStore from "./Common/Stores/JournalStore";
-import useActivityStore from "./Common/Stores/ActivityStore";
-import useTaskStore from "./Common/Stores/TaskStore";
 
 const App = () => {
   const { user } = useCurrentUser();
@@ -76,6 +73,10 @@ const App = () => {
         <Route
           path="/"
           element={user ? <HomeMain /> : <Navigate to="/Login" />}
+        />
+        <Route
+          path="/Settings"
+          element={user ? <SettingMain /> : <Navigate to="/Login" />}
         />
         <Route
           path="/Tasks"

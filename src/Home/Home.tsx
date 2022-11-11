@@ -10,6 +10,7 @@ import {
   Terrain,
   TrendingUp,
   ExpandMore,
+  Settings,
 } from "@mui/icons-material";
 
 import {
@@ -95,8 +96,22 @@ const Home = () => {
       <Box
         sx={{
           height: "30vh",
+          position: "relative",
         }}
-      />
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+            p: 2,
+          }}
+        >
+          <Button variant="contained" component={Link} to="/Settings">
+            <Settings />
+          </Button>
+        </Box>
+      </Box>
       <Box
         sx={{
           // height: "90vh",
