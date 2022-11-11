@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import create from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import { tagsType, timerType } from "../Types/Types";
+import { timerType } from "../Types/Types";
 
 import {
   setDoc,
@@ -19,14 +19,15 @@ interface timerStoreType extends timerType {
   stopTimer: (user_id: string, duration: number) => void;
   addTask: (id: string) => void;
   deleteTask: () => void;
-  addTag: (tag: tagsType) => void;
-  deleteTag: (tag: tagsType) => void;
-  setTags: (tags: Array<tagsType>) => void;
+  addTag: (tag: string) => void;
+  deleteTag: (tag: string) => void;
+  setTags: (tags: string[]) => void;
   resetTimer: () => void;
   timerMode: "stopwatch" | "timer";
   timerDuration: number;
   setTimerMode: (mode: "stopwatch" | "timer") => void;
   setTimerDuration: (duration: number) => void;
+  setSticker: (sticker: string) => void;
 }
 
 const timerStoreTypeToTimerType = (
@@ -45,6 +46,7 @@ const timerStoreTypeToTimerType = (
     setTimerMode,
     timerDuration,
     setTimerDuration,
+    setSticker,
     ...timerType
   } = timerStoreType;
   return timerType;
@@ -68,6 +70,7 @@ const useTimerStore = create<timerStoreType>()(
         tags: [],
         timerMode: "stopwatch",
         timerDuration: MAX_STOPWATCH_DURATION,
+        sticker: "",
 
         startTimer: () => set(() => ({ active: true, startTime: new Date() })),
         stopTimer: (user_id: string, duration: number) =>
@@ -88,15 +91,16 @@ const useTimerStore = create<timerStoreType>()(
           })),
         addTask: (id: string) => set((state) => ({ taskKey: id })),
         deleteTask: () => set((state) => ({ taskKey: "" })),
-        addTag: (tag: tagsType) =>
+        addTag: (tag: string) =>
           set((state) => ({ tags: [...state.tags, tag] })),
-        deleteTag: (tag: tagsType) =>
+        deleteTag: (tag: string) =>
           set((state) => ({ tags: state.tags.filter((item) => item !== tag) })),
-        setTags: (tags: Array<tagsType>) => set(() => ({ tags: tags })),
+        setTags: (tags: Array<string>) => set(() => ({ tags: tags })),
         setTimerMode: (mode: "stopwatch" | "timer") =>
           set(() => ({ timerMode: mode })),
         setTimerDuration: (duration: number) =>
           set(() => ({ timerDuration: duration })),
+        setSticker: (sticker: string) => set(() => ({ sticker: sticker })),
       }),
       {
         name: "timer-storage",

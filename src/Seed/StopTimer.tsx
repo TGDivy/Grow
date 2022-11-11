@@ -34,7 +34,9 @@ const StopTimer: FC<Props> = ({ studyTime }) => {
   const handleClose = (end: boolean) => () => {
     if (end) {
       if (sufficientTime) {
-        stopTimer(user.uid, studyTime);
+        if (user) {
+          stopTimer(user.uid, studyTime);
+        }
         updateTimeSpent(taskKey, studyTime);
       } else {
         resetTimer();

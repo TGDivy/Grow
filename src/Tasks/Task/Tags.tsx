@@ -1,17 +1,18 @@
 import React, { FC, useState, MouseEvent } from "react";
 import { Box, Chip, Menu, MenuItem } from "@mui/material";
 import { Add } from "@mui/icons-material";
-import { tagsType } from "../../Common/Types/Types";
+import useUserStore from "../../Common/Stores/User";
 
 interface tagsFc {
-  tags: Array<tagsType>;
-  setTags: (tags: Array<tagsType>) => void;
+  tags: Array<string>;
+  setTags: (tags: Array<string>) => void;
   editing: boolean;
   timerPage?: boolean;
 }
 
 const Tags: FC<tagsFc> = ({ tags, editing, setTags, timerPage }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const possibleTags = useUserStore((state) => state.tags);
 
   const [open, setOpen] = useState(false);
 
@@ -25,11 +26,11 @@ const Tags: FC<tagsFc> = ({ tags, editing, setTags, timerPage }) => {
     setAnchorEl(null);
   };
 
-  const handleAddTag = (tag: tagsType) => {
+  const handleAddTag = (tag: string) => {
     setTags([...tags, tag]);
   };
 
-  const handleDeleteTag = (tagToDelete: tagsType) => {
+  const handleDeleteTag = (tagToDelete: string) => {
     setTags(tags.filter((tag) => tag !== tagToDelete));
   };
   const ITEM_HEIGHT = 48;
@@ -56,16 +57,13 @@ const Tags: FC<tagsFc> = ({ tags, editing, setTags, timerPage }) => {
             },
           }}
         >
-          {Object.values(tagsType)
-            .filter(
-              (tag) =>
-                !tags.includes(tag as tagsType) && typeof tag === "string"
-            )
+          {possibleTags
+            .filter((tag) => !tags.includes(tag) && typeof tag === "string")
             .map((tag) => (
               <MenuItem
                 key={tag}
                 onClick={() => {
-                  handleAddTag(tag as tagsType);
+                  handleAddTag(tag);
                 }}
               >
                 {tag}
@@ -112,7 +110,7 @@ const Tags: FC<tagsFc> = ({ tags, editing, setTags, timerPage }) => {
           // }}
           sx={{
             marginBottom: 0,
-            maxWidth: "80px",
+            maxWidth: "120px",
             pl: 0,
             pr: 0,
             pt: 0.2,

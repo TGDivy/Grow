@@ -168,7 +168,7 @@ const Timer = () => {
       >
         <ZenQuote />
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "center", minHeight: "7vh" }}>
+      <Box sx={{ display: "flex", justifyContent: "center", minHeight: "5vh" }}>
         <StopTimer studyTime={studyTime} />
       </Box>
       <FinishTimer

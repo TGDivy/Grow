@@ -1,12 +1,25 @@
-export enum tagsType {
-  "Engineering",
-  "Research",
-  "Planning",
-  "Study",
-  "Applications",
-  "Chore",
-  "Other",
+export interface userType {
+  created: Date;
+  uid: string;
+  email: string;
+  displayName: string;
+  photoURL: string;
+
+  tags: string[];
+  stickers: string[];
 }
+
+// export enum tagsType {
+//   "Engineering",
+//   "Research",
+//   "Planning",
+//   "Study",
+//   "Applications",
+//   "Chore",
+//   "Other",
+// }
+
+export type tagsType = Array<string>;
 
 export enum priorityType {
   "High",
@@ -44,7 +57,8 @@ export interface taskType {
   priority: boolean;
   completed: boolean;
   subTasks: Array<subtaskType>;
-  tags: Array<tagsType>;
+  tags: Array<string>;
+  sticker: string;
   timeSpent: number;
 }
 
@@ -56,7 +70,8 @@ export interface taskChangeType {
   priority?: boolean;
   completed?: boolean;
   subTasks?: Array<subtaskType>;
-  tags?: Array<tagsType>;
+  tags?: Array<string>;
+  sticker?: string;
 }
 
 export interface tasksListType {
@@ -68,7 +83,8 @@ export interface timerType {
   startTime: Date;
   duration: number;
   taskKey: string;
-  tags: Array<tagsType>;
+  tags: Array<string>;
+  sticker: string;
 }
 
 export interface setRepType {
