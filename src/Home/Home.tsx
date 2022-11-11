@@ -95,7 +95,7 @@ const Home = () => {
     <Container>
       <Box
         sx={{
-          height: "30vh",
+          height: "25vh",
           position: "relative",
         }}
       >
