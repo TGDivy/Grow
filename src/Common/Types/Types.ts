@@ -7,17 +7,10 @@ export interface userType {
 
   tags: string[];
   stickers: string[];
-}
 
-// export enum tagsType {
-//   "Engineering",
-//   "Research",
-//   "Planning",
-//   "Study",
-//   "Applications",
-//   "Chore",
-//   "Other",
-// }
+  tag_habits: Array<{ tag: string; minimum: number }>;
+  sticker_habits: Array<{ sticker: string; minimum: number }>;
+}
 
 export type tagsType = Array<string>;
 
