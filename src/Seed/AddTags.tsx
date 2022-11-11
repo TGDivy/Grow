@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import useTimerStore from "../Common/Stores/TimerStore";
 import useTaskStore from "../Common/Stores/TaskStore";
 import { Button, Box, Grid } from "@mui/material";
-import { tagsType } from "../Common/Types/Types";
 
 import Tags from "../Tasks/Task/Tags";
 
