@@ -260,7 +260,6 @@ const Home = () => {
                     <Tab label="Habits" />
                   </Tabs>
                   {tabs[tab]}
-                  {/* <Goals readonly /> */}
                 </AccordionDetails>
               </Accordion>
             </Fade>
