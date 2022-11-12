@@ -109,6 +109,10 @@ export interface activityTypeDoc {
   activityTypes: string[];
 }
 
+interface BoolHabitTemplate {
+  [key: string]: boolean;
+}
+
 export interface JournalType {
   date: Date;
   title: string;
@@ -124,6 +128,8 @@ export interface JournalType {
   exercised: boolean;
   meals: string[];
   noMB: boolean;
+
+  tagHabits: BoolHabitTemplate;
 }
 
 export interface JournalDicType {

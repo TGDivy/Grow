@@ -61,6 +61,27 @@ export const totalTimeWorked = (timerRecords) => {
   return T;
 };
 
+export const totalTimeWorkedByTagOrSticker = (timerRecords, name) => {
+  const FilterByT = (timerRecord) => {
+    return timerRecord.tags.includes(name);
+  };
+
+  const FilterByS = (timerRecord) => {
+    return timerRecord.sticker === name;
+  };
+
+  const timerRecordsFiltered = timerRecords.filter(
+    (timerRecord) => FilterByT(timerRecord) || FilterByS(timerRecord)
+  );
+
+  const T = Math.floor(
+    timerRecordsFiltered.reduce((acc, timerRecord) => {
+      return acc + timerRecord.duration;
+    }, 0) / 60
+  );
+  return T;
+};
+
 const StatsMain = () => {
   const { user, setUser } = useCurrentUser();
 

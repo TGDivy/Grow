@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import {
   Paper,
   List,
@@ -15,12 +15,17 @@ import {
 } from "@mui/material";
 import { Cancel, LocalDining, TakeoutDining } from "@mui/icons-material";
 
-import { totalTimeWorked, filterTimerRecords } from "../Stats/StatsMain";
+import {
+  totalTimeWorked,
+  totalTimeWorkedByTagOrSticker,
+  filterTimerRecords,
+} from "../Stats/StatsMain";
 import useTimerRecordsStore from "../Common/Stores/TimerRecordsStore";
 import useActivityStore from "../Common/Stores/ActivityStore";
 import useDailyJournalStore from "../Common/Stores/DailyJournalStore";
 import { JournalType } from "../Common/Types/Types";
 import useJournalStore from "../Common/Stores/JournalStore";
+import useUserStore from "../Common/Stores/User";
 
 interface Props {
   readonly?: boolean;
@@ -32,6 +37,8 @@ const Habits: FC<Props> = ({ readonly, document }) => {
   const latestActivityDate = useActivityStore(
     (state) => state.latestActivityDate
   );
+
+  const stickerTagHabits = useUserStore((state) => state.stickerTagHabits);
 
   // Display all habits, and ask if they were completed.
   // the habits are:
@@ -62,7 +69,27 @@ const Habits: FC<Props> = ({ readonly, document }) => {
   // subtract 4 hours to get the time I started working
   today = new Date(today.getTime() - 4 * 60 * 60 * 1000);
 
-  const totalWorkTime = totalTimeWorked(filterTimerRecords(timerRecords, 1, 0));
+  const todayRecords = filterTimerRecords(timerRecords, 1, 0);
+  const totalWorkTime = totalTimeWorked(todayRecords);
+
+  const totalWorkTimeByTagOrSticker = stickerTagHabits.map((habit) => {
+    const timeWorked = totalTimeWorkedByTagOrSticker(todayRecords, habit.name);
+    if (timeWorked * 60 >= habit.minutes) {
+      return { ...habit, completed: true };
+    }
+    return { ...habit, completed: false };
+  });
+  const setTagHabit = useDailyJournalStore((state) => state.setTagHabit);
+
+  useEffect(() => {
+    // convert totalWorkTimeByTagOrSticker to a map
+    const map = new Map<string, boolean>();
+    totalWorkTimeByTagOrSticker.forEach((habit) => {
+      map.set(habit.name, habit.completed);
+    });
+    setTagHabit(map);
+  }, [totalWorkTimeByTagOrSticker]);
+
   const exercisedToday = latestActivityDate
     ? latestActivityDate.getDate() === today.getDate() &&
       latestActivityDate.getMonth() === today.getMonth() &&
@@ -292,6 +319,36 @@ const Habits: FC<Props> = ({ readonly, document }) => {
               <ListItemText primary={noMB ? "Did not MB" : "Did MB"} />
             </ListItemButton>
           </ListItem>
+          <Divider
+            sx={{
+              borderBottomWidth: 3,
+            }}
+          />
+          {totalWorkTimeByTagOrSticker.map((object) => {
+            return (
+              <ListItem
+                secondaryAction={
+                  <Checkbox
+                    edge="end"
+                    checked={object.completed}
+                    tabIndex={-1}
+                    disabled
+                  />
+                }
+                key={object.name}
+                sx={{
+                  backgroundColor: "#ffffff22",
+                }}
+              >
+                <ListItemButton sx={{ width: "100%" }} disabled={readonly}>
+                  <ListItemText
+                    primary={`${object.completed ? "Did" : "Did not do"}
+                    ${object.name} more than ${object.minutes} minutes`}
+                  />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
         </List>
       </Paper>
     </Grow>
