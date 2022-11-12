@@ -19,7 +19,7 @@ export const filterTimerRecords = (
 ) => {
   const DAY = 24 * 60 * 60 * 1000;
 
-  const today = new Date(new Date().getTime() - 4 * 60 * 60 * 1000).setHours(
+  const today = new Date(new Date().getTime() - 5 * 60 * 60 * 1000).setHours(
     0,
     0,
     0,

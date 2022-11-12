@@ -65,8 +65,8 @@ const Habits: FC<Props> = ({ readonly, document }) => {
       today = latest?.date;
     }
   }
-  // subtract 4 hours to get the time I started working
-  today = new Date(today.getTime() - 4 * 60 * 60 * 1000);
+  // subtract 5 hours to get the time I started working
+  today = new Date(today.getTime() - 5 * 60 * 60 * 1000);
 
   const todayRecords = filterTimerRecords(timerRecords, 1, 0);
   const totalWorkTime = totalTimeWorked(todayRecords);
@@ -85,6 +85,9 @@ const Habits: FC<Props> = ({ readonly, document }) => {
 
   useEffect(() => {
     // convert totalWorkTimeByTagOrSticker to a map
+    if (readonly) {
+      return;
+    }
     const map = new Map<string, boolean>();
     totalWorkTimeByTagOrSticker.forEach((habit) => {
       map.set(habit.name, habit.completed);
