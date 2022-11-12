@@ -1,6 +1,6 @@
 import create from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import { JournalType, taskType } from "../Types/Types";
+import { JournalType } from "../Types/Types";
 
 interface JournalStoreType extends JournalType {
   user_id: string;

@@ -1,27 +1,21 @@
 import React from "react";
 import useUserStore from "../Common/Stores/User";
 import {
-  Box,
   Paper,
-  Grid,
   Typography,
   Button,
   Collapse,
   ListItemIcon,
 } from "@mui/material";
-import { TextField, Chip } from "@mui/material";
-import { Add } from "@mui/icons-material";
+import { TextField } from "@mui/material";
 import { Stack } from "@mui/system";
 import {
   List,
   ListItem,
   ListItemText,
   Checkbox,
-  Divider,
   ListItemButton,
   ButtonGroup,
-  Fade,
-  Grow,
 } from "@mui/material";
 import { stickerTagHabitType } from "../Common/Types/Types";
 
@@ -114,6 +108,7 @@ const StickerAndTagGoals = () => {
     );
     // remove the selected property
     const newStickerTagHabitsWithoutSelected = newStickerTagHabits.map(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       ({ selected, ...rest }) => rest
     );
     setStickerTagHabits(newStickerTagHabitsWithoutSelected);

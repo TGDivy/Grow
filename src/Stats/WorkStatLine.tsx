@@ -1,14 +1,6 @@
 import React, { FC } from "react";
 
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  CartesianGrid,
-} from "recharts";
+import { LineChart, Line, YAxis, Tooltip, CartesianGrid } from "recharts";
 import { timerType } from "../Common/Types/Types";
 import { Typography } from "@mui/material";
 import GraphCard from "./GraphCard";
@@ -115,7 +107,7 @@ const WorkStatLine: FC<Props> = ({
     return null;
   }
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload }: any) => {
     if (active) {
       return (
         <div

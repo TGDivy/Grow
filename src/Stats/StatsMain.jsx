@@ -1,13 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Container, Typography, Grid, Divider, Box } from "@mui/material";
-
-import useCurrentUser from "../Common/Contexts/UserContext";
-import { db } from "../Common/Firestore/firebase-config";
-import { onSnapshot, doc } from "firebase/firestore";
 
 import useTimerRecordsStore from "../Common/Stores/TimerRecordsStore";
 
-import { Tab, Tabs, Button, IconButton } from "@mui/material";
+import { Tab, Tabs, Button } from "@mui/material";
 import { ArrowForward, ArrowBack } from "@mui/icons-material";
 
 import WeeklyWorkStat from "./WeeklyWorkStat";
@@ -83,8 +79,6 @@ export const totalTimeWorkedByTagOrSticker = (timerRecords, name) => {
 };
 
 const StatsMain = () => {
-  const { user, setUser } = useCurrentUser();
-
   const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
 
   // const daysBack = -0;
