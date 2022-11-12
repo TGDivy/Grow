@@ -46,6 +46,8 @@ import Mood from "../Journal/Mood";
  * - A link to the statistics page.
  * - A single most important graph of growth.
  */ import Goals from "../Journal/Goals";
+import Habits from "../Journal/Habits";
+import { Tab, Tabs } from "@mui/material";
 
 const Home = () => {
   const inspirationalQuote = {
@@ -89,6 +91,16 @@ const Home = () => {
     places: 1000,
     mood: 2000,
     goals: 3000,
+  };
+
+  const tabs = [<Goals readonly key="0" />, <Habits key="1" />];
+  const [tab, setTab] = React.useState(0);
+
+  const handleTabChange = (
+    event: any,
+    newValue: React.SetStateAction<number>
+  ) => {
+    setTab(newValue);
   };
 
   return (
@@ -236,7 +248,19 @@ const Home = () => {
                     bgcolor: "rgba(255, 255, 255, 0.05)",
                   }}
                 >
-                  <Goals readonly />
+                  <Tabs
+                    value={tab}
+                    onChange={handleTabChange}
+                    indicatorColor="primary"
+                    textColor="primary"
+                    variant="fullWidth"
+                    aria-label="full width tabs example"
+                  >
+                    <Tab label="Goals" />
+                    <Tab label="Habits" />
+                  </Tabs>
+                  {tabs[tab]}
+                  {/* <Goals readonly /> */}
                 </AccordionDetails>
               </Accordion>
             </Fade>
