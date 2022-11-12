@@ -71,7 +71,10 @@ const Habits: FC<Props> = ({ readonly, document }) => {
   const todayRecords = filterTimerRecords(timerRecords, 1, 0);
   const totalWorkTime = totalTimeWorked(todayRecords);
 
-  const totalWorkTimeByTagOrSticker = stickerTagHabits.map((habit) => {
+  const filterStickerTagHabits = stickerTagHabits.filter(
+    (habit) => habit.daysOfWeek[today.getDay()] === "1"
+  );
+  const totalWorkTimeByTagOrSticker = filterStickerTagHabits.map((habit) => {
     const timeWorked = totalTimeWorkedByTagOrSticker(todayRecords, habit.name);
     if (timeWorked * 60 >= habit.minutes) {
       return { ...habit, completed: true };
