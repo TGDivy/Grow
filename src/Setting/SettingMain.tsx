@@ -3,6 +3,7 @@ import { Container, Box, Stack, Typography, Divider } from "@mui/material";
 import Tags from "./Tags";
 import Sticker from "./Sticker";
 import StickerAndTagGoals from "./StickerAndTagGoals";
+import CustomBoolHabits from "./CustomHabits";
 
 const SettingMain = () => {
   return (
@@ -18,6 +19,7 @@ const SettingMain = () => {
         <Sticker />
         <Divider />
         <StickerAndTagGoals />
+        <CustomBoolHabits />
       </Stack>
     </Container>
   );

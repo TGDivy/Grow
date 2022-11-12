@@ -4,6 +4,11 @@ export interface stickerTagHabitType {
   daysOfWeek: string;
 }
 
+export interface customBoolHabitType {
+  name: string;
+  daysOfWeek: string;
+}
+
 export interface userType {
   created: Date;
   uid: string;
@@ -15,6 +20,7 @@ export interface userType {
   stickers: string[];
 
   stickerTagHabits: Array<stickerTagHabitType>;
+  customBoolHabits: Array<customBoolHabitType>;
 }
 
 export type tagsType = Array<string>;

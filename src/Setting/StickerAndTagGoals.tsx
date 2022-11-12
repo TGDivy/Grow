@@ -98,11 +98,34 @@ const StickerAndTagGoals = () => {
   const [changesMade, setChangesMade] = React.useState(false);
 
   React.useEffect(() => {
-    setChangesMade(true);
+    // If value of tagsAndStickers changes, then set changesMade to true
+    // Not if the order of the tags and stickers changes, but if the values of the tags and stickers change
+
+    const newStickerTagHabits = tagsAndStickers
+      .filter((tagOrSticker) => tagOrSticker.selected)
+      .map(({ selected, ...rest }) => rest);
+    if (
+      JSON.stringify(newStickerTagHabits) !== JSON.stringify(stickerTagHabits)
+    ) {
+      setChangesMade(true);
+    }
   }, [tagsAndStickers]);
 
   //update global state when user clicks save
   const handleSave = () => {
+    // reorganize the tags and stickers so that the selected ones are at the top
+    const newTagsAndStickers = [...tagsAndStickers];
+    newTagsAndStickers.sort((a, b) => {
+      if (a.selected === b.selected) {
+        return 0;
+      }
+      if (a.selected) {
+        return -1;
+      }
+      return 1;
+    });
+    setTagsAndStickers(newTagsAndStickers);
+
     const newStickerTagHabits = tagsAndStickers.filter(
       (selectedTagsAndSticker) => selectedTagsAndSticker.selected
     );

@@ -1,6 +1,10 @@
 import create from "zustand";
 import { devtools } from "zustand/middleware";
-import { userType, stickerTagHabitType } from "../Types/Types";
+import {
+  userType,
+  stickerTagHabitType,
+  customBoolHabitType,
+} from "../Types/Types";
 
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../Firestore/firebase-config";
@@ -11,6 +15,7 @@ interface userStoreType extends userType {
   setStickers: (stickers: string[]) => void;
 
   setStickerTagHabits: (stickerTagHabit: Array<stickerTagHabitType>) => void;
+  setCustomBoolHabits: (customBoolHabit: Array<customBoolHabitType>) => void;
 }
 
 const updateTags = async (user_id: string, tags: string[]) => {
@@ -37,6 +42,16 @@ const updateStickerTagHabits = async (
   });
 };
 
+const updateCustomBoolHabits = async (
+  user_id: string,
+  customBoolHabits: Array<customBoolHabitType>
+) => {
+  const userDocRef = doc(db, "users", user_id);
+  await updateDoc(userDocRef, {
+    customBoolHabits: customBoolHabits,
+  });
+};
+
 const useUserStore = create<userStoreType>()(
   devtools(
     (set, get) => ({
@@ -48,6 +63,7 @@ const useUserStore = create<userStoreType>()(
       tags: [],
       stickers: [],
       stickerTagHabits: [],
+      customBoolHabits: [],
       setUser: (user) => set({ ...user }),
       setTags: (tags) => {
         set({ tags: tags });
@@ -60,6 +76,10 @@ const useUserStore = create<userStoreType>()(
       setStickerTagHabits: (stickerTagHabits) => {
         set({ stickerTagHabits: stickerTagHabits });
         updateStickerTagHabits(get().uid, stickerTagHabits);
+      },
+      setCustomBoolHabits: (customBoolHabits) => {
+        set({ customBoolHabits: customBoolHabits });
+        updateCustomBoolHabits(get().uid, customBoolHabits);
       },
     }),
     {
