@@ -133,9 +133,9 @@ export interface JournalType {
   workDone: number;
   exercised: boolean;
   meals: string[];
-  noMB: boolean;
 
   tagHabits: BoolHabitTemplate;
+  customBoolHabits: BoolHabitTemplate;
 }
 
 export interface JournalDicType {

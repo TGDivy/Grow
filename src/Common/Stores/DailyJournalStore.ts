@@ -10,13 +10,13 @@ interface JournalStoreType extends JournalType {
   setActiveStep: (step: number) => void;
   addMood: (mood: string) => void;
   setMeals: (meals: string[]) => void;
-  setNB: (nb: boolean) => void;
   lastMoodUpdated: Date;
   setEntry: (entry: string) => void;
   setTasksForTomorrow: (tasks: Array<string>) => void;
   setNextDayNotes: (notes: string) => void;
   getJournal: () => JournalType;
   setTagHabit: (map: Map<string, boolean>) => void;
+  setCustomBoolHabit: (map: Map<string, boolean>) => void;
 }
 
 const initialState = {
@@ -34,9 +34,9 @@ const initialState = {
   workDone: 0,
   exercised: false,
   meals: [],
-  noMB: false,
 
   tagHabits: {},
+  customBoolHabits: {},
 
   user_id: "",
   activeStep: 0,
@@ -57,7 +57,6 @@ const useDailyJournalStore = create<JournalStoreType>()(
             lastMoodUpdated: new Date(),
           })),
         setMeals: (meals: string[]) => set(() => ({ meals })),
-        setNB: (nb: boolean) => set(() => ({ noMB: nb })),
         setEntry: (entry: string) => set(() => ({ entry })),
         setTasksForTomorrow: (tasks: Array<string>) =>
           set(() => ({ tasksForTomorrow: tasks })),
@@ -75,8 +74,8 @@ const useDailyJournalStore = create<JournalStoreType>()(
             workDone,
             exercised,
             meals,
-            noMB,
             tagHabits,
+            customBoolHabits,
           } = get();
           return {
             date: new Date(),
@@ -89,12 +88,14 @@ const useDailyJournalStore = create<JournalStoreType>()(
             workDone,
             exercised,
             meals,
-            noMB,
             tagHabits,
+            customBoolHabits,
           } as JournalType;
         },
         setTagHabit: (map: Map<string, boolean>) =>
           set(() => ({ tagHabits: Object.fromEntries(map) })),
+        setCustomBoolHabit: (map: Map<string, boolean>) =>
+          set(() => ({ customBoolHabits: Object.fromEntries(map) })),
       }),
       {
         name: "journal-storage",

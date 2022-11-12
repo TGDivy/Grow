@@ -29,7 +29,117 @@ import useUserStore from "../Common/Stores/User";
 interface Props {
   readonly?: boolean;
   document?: JournalType;
+  today?: Date;
 }
+
+const CustomBoolHabitsDisplay = ({ readonly, document, today }: Props) => {
+  if (!today) {
+    return <></>;
+  }
+
+  if (readonly) {
+    const customBoolHabits = document?.customBoolHabits || {};
+    return (
+      <>
+        {Object.entries(customBoolHabits).map(([habit, completed]) => {
+          return (
+            <ListItem
+              secondaryAction={
+                <Checkbox
+                  edge="end"
+                  checked={completed}
+                  tabIndex={-1}
+                  disabled
+                />
+              }
+              key={habit}
+              sx={{
+                backgroundColor: "#ffffff22",
+              }}
+            >
+              <ListItemButton sx={{ width: "100%" }} disabled={readonly}>
+                <ListItemText
+                  primary={`${completed ? "Did - " : "Did not - "} ${habit}`}
+                />
+              </ListItemButton>
+            </ListItem>
+          );
+        })}
+      </>
+    );
+  }
+
+  const customBoolHabitsStore = useUserStore((state) => state.customBoolHabits);
+
+  const filterCustomBoolHabits = customBoolHabitsStore.filter(
+    (habit) => habit.daysOfWeek[today.getDay()] === "1"
+  );
+
+  const customBoolHabits = useDailyJournalStore(
+    (state) => state.customBoolHabits
+  );
+
+  const setCustomBoolHabit = useDailyJournalStore(
+    (state) => state.setCustomBoolHabit
+  );
+
+  useEffect(() => {
+    // if customBoolHabits doesn't have the same habits as filterCustomBoolHabits, then add them
+
+    const map = new Map<string, boolean>();
+    filterCustomBoolHabits.forEach((habit) => {
+      map.set(habit.name, false);
+    });
+    Object.entries(customBoolHabits).forEach(([habit, completed]) => {
+      map.set(habit, completed);
+    });
+
+    setCustomBoolHabit(map);
+  }, []);
+
+  const handleCustomBoolHabitToggle = (name: string) => {
+    // customBoolhabits to map
+    const map = new Map<string, boolean>();
+    Object.entries(customBoolHabits).forEach(([key, value]) => {
+      map.set(key, value);
+    });
+    map.set(name, !map.get(name));
+    setCustomBoolHabit(map);
+  };
+
+  return (
+    <>
+      {Object.entries(customBoolHabits).map(([habit, completed], index) => {
+        return (
+          <ListItem
+            secondaryAction={
+              <Checkbox
+                edge="end"
+                checked={completed}
+                tabIndex={-1}
+                onClick={() => handleCustomBoolHabitToggle(habit)}
+              />
+            }
+            key={habit}
+            sx={{
+              backgroundColor: "#ffffff22",
+            }}
+          >
+            <ListItemButton
+              sx={{ width: "100%" }}
+              disabled={readonly}
+              onClick={() => handleCustomBoolHabitToggle(habit)}
+            >
+              <ListItemText
+                primary={`${completed ? "Did - " : "Did not - "} ${habit}`}
+              />
+            </ListItemButton>
+          </ListItem>
+        );
+      })}
+    </>
+  );
+};
 
 const Habits: FC<Props> = ({ readonly, document }) => {
   const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
@@ -48,12 +158,10 @@ const Habits: FC<Props> = ({ readonly, document }) => {
 
   let today = new Date();
   let meals = useDailyJournalStore((state) => state.meals);
-  let noMB = useDailyJournalStore((state) => state.noMB);
 
   if (readonly) {
     if (document) {
       meals = document.meals;
-      noMB = document.noMB;
       today = document.date;
     } else {
       const documents = useJournalStore((state) => state.documents);
@@ -61,7 +169,6 @@ const Habits: FC<Props> = ({ readonly, document }) => {
         (a, b) => b.date.getTime() - a.date.getTime()
       )[0];
       meals = latest?.meals;
-      noMB = latest?.noMB;
       today = latest?.date;
     }
   }
@@ -102,7 +209,6 @@ const Habits: FC<Props> = ({ readonly, document }) => {
     : false;
 
   const setMeals = useDailyJournalStore((state) => state.setMeals);
-  const setNB = useDailyJournalStore((state) => state.setNB);
 
   const handleMeals = (index: number, meal: string) => () => {
     const newMeals = [...meals];
@@ -158,9 +264,6 @@ const Habits: FC<Props> = ({ readonly, document }) => {
               })}
             </Typography>
           </Divider>
-          {/* <ListItem>
-            <Typography variant="body1">You:</Typography>
-          </ListItem> */}
           <ListItem
             secondaryAction={
               <Checkbox
@@ -302,28 +405,11 @@ const Habits: FC<Props> = ({ readonly, document }) => {
             }}
           />
 
-          <ListItem
-            secondaryAction={
-              <Checkbox
-                edge="end"
-                checked={noMB}
-                tabIndex={-1}
-                onChange={(e) => setNB(e.target.checked)}
-                disabled={readonly}
-              />
-            }
-            sx={{
-              backgroundColor: "#ffffff22",
-            }}
-          >
-            <ListItemButton
-              sx={{ width: "100%" }}
-              onClick={() => setNB(!noMB)}
-              disabled={readonly}
-            >
-              <ListItemText primary={noMB ? "Did not MB" : "Did MB"} />
-            </ListItemButton>
-          </ListItem>
+          <CustomBoolHabitsDisplay
+            today={today}
+            readonly={readonly}
+            document={document}
+          />
           <Divider
             sx={{
               borderBottomWidth: 3,

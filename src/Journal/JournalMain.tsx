@@ -78,7 +78,7 @@ const JournalMain = () => {
     lastDocumentDate.getTime() > Date.now() - 60 * 60 * 18 * 1000;
 
   const timeUntilNextSubmission = new Date(
-    lastDocumentDate.getTime() + 60 * 60 * 16 * 1000
+    lastDocumentDate.getTime() + 60 * 60 * 18 * 1000
   );
 
   if (submittedRecently) {
