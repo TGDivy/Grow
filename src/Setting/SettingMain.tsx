@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Box, Stack, Typography, Divider } from "@mui/material";
 import Tags from "./Tags";
 import Sticker from "./Sticker";
+import StickerAndTagGoals from "./StickerAndTagGoals";
 
 const SettingMain = () => {
   return (
@@ -16,6 +17,7 @@ const SettingMain = () => {
         <Tags />
         <Sticker />
         <Divider />
+        <StickerAndTagGoals />
       </Stack>
     </Container>
   );

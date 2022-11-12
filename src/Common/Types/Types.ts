@@ -1,3 +1,9 @@
+export interface stickerTagHabitType {
+  name: string;
+  minutes: number;
+  daysOfWeek: string;
+}
+
 export interface userType {
   created: Date;
   uid: string;
@@ -8,8 +14,7 @@ export interface userType {
   tags: string[];
   stickers: string[];
 
-  tag_habits: Array<{ tag: string; minimum: number }>;
-  sticker_habits: Array<{ sticker: string; minimum: number }>;
+  stickerTagHabits: Array<stickerTagHabitType>;
 }
 
 export type tagsType = Array<string>;
