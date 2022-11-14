@@ -183,7 +183,7 @@ const Habits: FC<Props> = ({ readonly, document }) => {
   );
   const totalWorkTimeByTagOrSticker = filterStickerTagHabits.map((habit) => {
     const timeWorked = totalTimeWorkedByTagOrSticker(todayRecords, habit.name);
-    if (timeWorked * 60 >= habit.minutes) {
+    if (timeWorked >= habit.minutes) {
       return { ...habit, completed: true };
     }
     return { ...habit, completed: false };
