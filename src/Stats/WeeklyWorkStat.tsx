@@ -33,7 +33,7 @@ const getWeeklyWorkStat = async (timerRecords: timerType[]) => {
   const weeklyWorkStatTemp: weeklyWorkStatType = {};
 
   const weeklyWorkStat = timerRecords.reduce((acc, cur) => {
-    const date = cur.startTime;
+    const date = new Date(cur.startTime.getTime() - 5 * 60 * 60 * 1000);
     const day = date.getDate();
     const month = date.getMonth();
     const dayEntry = `${months[month]} ${day}`;

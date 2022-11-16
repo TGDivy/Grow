@@ -66,7 +66,9 @@ const getWeeklyWorkStat = async (
 
     const weeklyWorkStat = records.reduce((acc, cur) => {
       const date = new Date(
-        cur.startTime.getTime() + diff * 24 * 60 * 60 * 1000
+        cur.startTime.getTime() -
+          5 * 60 * 60 * 1000 +
+          diff * 24 * 60 * 60 * 1000
       );
       const day = date.getDate();
       const month = date.getMonth();
