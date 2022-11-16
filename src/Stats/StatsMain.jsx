@@ -11,6 +11,7 @@ import WorkStatLine from "./WorkStatLine";
 import TagPieStat from "./TagPieStat";
 import TagRadarStat from "./TagRadarStat";
 import StickerPieStat from "./StickerPieStat";
+import Overall from "./Overall";
 
 export const filterTimerRecords = (
   timerRecords,

@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import TasksMain from "../Tasks/TasksMain";
 import Seed from "../Seed/SeedMain";
 import Soil from "../Soil/SoilMain";
+import Overall from "../Stats/Overall";
 import {
   Home as HomeIcon,
   Task,
@@ -91,6 +92,7 @@ const Home = () => {
     places: 1000,
     mood: 2000,
     goals: 3000,
+    overall: 4000,
   };
 
   const tabs = [<Goals readonly key="0" />, <Habits key="1" />];
@@ -107,7 +109,7 @@ const Home = () => {
     <Container>
       <Box
         sx={{
-          height: "25vh",
+          height: "15vh",
           position: "relative",
         }}
       >
@@ -262,6 +264,20 @@ const Home = () => {
                   {tabs[tab]}
                 </AccordionDetails>
               </Accordion>
+            </Fade>
+          </Grid>
+
+          <Grid item xs={12} md={8} sx={{ pt: 0, mt: 0 }}>
+            <Fade
+              in={true}
+              style={{
+                transitionDelay: `${transitionDelays.overall}ms`,
+              }}
+              {...{ timeout: 1000 }}
+            >
+              <div>
+                <Overall />
+              </div>
             </Fade>
           </Grid>
         </Grid>
