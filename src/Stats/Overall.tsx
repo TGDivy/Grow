@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import useTimerRecordsStore from "../Common/Stores/TimerRecordsStore";
 import { filterTimerRecords } from "./StatsMain";
 
@@ -9,11 +9,27 @@ import {
   Tooltip,
   CartesianGrid,
   XAxis,
+  ResponsiveContainer,
 } from "recharts";
 import { JournalDicType, JournalType, timerType } from "../Common/Types/Types";
-import { Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  ClickAwayListener,
+  Collapse,
+  Divider,
+  Grid,
+  IconButton,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import GraphCard from "./GraphCard";
 import useJournalStore from "../Common/Stores/JournalStore";
+import { ArrowBack, ArrowForward, ExpandMore } from "@mui/icons-material";
 
 interface weeklyWorkStatType {
   [key: string]: number;
@@ -89,14 +105,6 @@ const getWeeklyWorkStat = async (
 
   return data;
 };
-
-interface Props {
-  timerRecords: timerType[];
-  previousRecords: timerType[];
-  journalRecords: JournalType[];
-  previousJournalRecords: JournalType[];
-  dayDiff: number;
-}
 
 export const filterJournalRecords = (
   journalRecords: JournalDicType,
@@ -410,17 +418,34 @@ const dataToDailyScore = (data: dataType[], dataJournal: dataTypeJournal[]) => {
   return scoreData;
 };
 
+interface Props {
+  timerRecords: timerType[];
+  previousRecords: timerType[];
+  journalRecords: JournalType[];
+  previousJournalRecords: JournalType[];
+  dayDiff: number;
+  timePeriodLength: number;
+  handleChange: any;
+  handlePeriodBack: any;
+  periodBack: number;
+}
+
 const OverallStats: FC<Props> = ({
   timerRecords,
   previousRecords,
   journalRecords,
   previousJournalRecords,
   dayDiff,
+  timePeriodLength,
+  handleChange,
+  handlePeriodBack,
+  periodBack,
 }) => {
   // const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
 
   const [data, setData] = React.useState<dataType[]>();
   const [dataJournal, setDataJournal] = React.useState<dataTypeJournal[]>();
+  const [expanded, setExpanded] = useState(false);
 
   React.useEffect(() => {
     getWeeklyWorkStat(timerRecords, previousRecords, dayDiff).then((data) => {
@@ -467,58 +492,208 @@ const OverallStats: FC<Props> = ({
     return null;
   };
 
-  return (
-    <GraphCard title="Score (Work + Health + Habits)">
-      <LineChart
-        data={dataToDailyScore(data, dataJournal)}
-        margin={{
-          top: 20,
-          right: 20,
-          left: 20,
-          bottom: 20,
+  const displayPeriod = () => {
+    const DAY = 24 * 60 * 60 * 1000;
+    const current = new Date(Date.now() - periodBack * DAY * timePeriodLength);
+
+    // Display current date in a pretty way
+    return (
+      <Typography
+        variant="body1"
+        sx={{
+          textAlign: "center",
+          alignSelf: "center",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
         }}
       >
-        <CartesianGrid vertical={false} />
+        {current.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        })}
+      </Typography>
+    );
+  };
 
-        {/* <XAxis dataKey="day" angle={-60} interval={0} dy={20} fontSize={14} /> */}
-        <YAxis
-          axisLine={false}
-          width={30}
-          orientation="left"
-          ticks={[0, 20, 40, 60, 80, 100]}
-          //   tickFormatter={(tick) => `${(tick / 60).toFixed(0)}H`}
-          tickLine={false}
-        />
-        <Tooltip content={<CustomTooltip />} />
-        {/* <Legend /> */}
-        <XAxis
-          dataKey="day"
-          angle={-20}
-          interval={0}
-          dy={10}
-          fontSize={14}
-          dx={-5}
+  return (
+    <ClickAwayListener onClickAway={() => setExpanded(false)}>
+      <Card
+        sx={{
+          ":hover": {
+            boxShadow: 20,
+          },
+          backgroundColor: "#00000088",
+          color: "#ffffff",
+        }}
+        onClick={() => setExpanded(true)}
+      >
+        {/* Center the header */}
+        <CardHeader
+          title={
+            <Typography variant="h5" color="primary">
+              Overall Stats
+            </Typography>
+          }
+          action={
+            <IconButton aria-label="settings" onClick={() => setExpanded(true)}>
+              <ExpandMore />
+            </IconButton>
+          }
         />
 
-        <Line
-          type="monotone"
-          dataKey="scorePrev"
-          name="Previous"
-          stroke="#ac9172"
-          strokeOpacity={0.3}
-          strokeWidth={5}
-          dot={false}
-        />
-        <Line
-          type="monotone"
-          dataKey="score"
-          name="Current"
-          stroke="#ac9172"
-          strokeWidth={5}
-          dot={false}
-        />
-      </LineChart>
-    </GraphCard>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            height: "30vh",
+            width: "100%",
+            backgroundColor: "#ffffff00",
+          }}
+        >
+          <ResponsiveContainer>
+            <LineChart
+              data={dataToDailyScore(data, dataJournal)}
+              margin={{
+                top: 20,
+                right: 20,
+                left: 20,
+                bottom: 20,
+              }}
+            >
+              <CartesianGrid vertical={false} />
+
+              <YAxis
+                axisLine={false}
+                width={30}
+                orientation="left"
+                ticks={[20, 40, 60, 80, 100]}
+                tickLine={false}
+                tick={{ fill: "#ffffffbb" }}
+              />
+              <Tooltip content={<CustomTooltip />} />
+              <XAxis
+                dataKey="day"
+                fontSize={14}
+                axisLine={false}
+                tickLine={false}
+                dy={7}
+                dx={-5}
+                tick={{ fill: "#ffffffbb" }}
+              />
+
+              <Line
+                type="monotone"
+                dataKey="scorePrev"
+                name="Previous"
+                stroke="#ac9172"
+                strokeOpacity={0.3}
+                strokeWidth={5}
+                dot={false}
+              />
+              <Line
+                type="monotone"
+                dataKey="score"
+                name="Current"
+                stroke="#ac9172"
+                strokeWidth={5}
+                dot={false}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </Box>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent
+            sx={{
+              //   marginBottom: 0,
+              paddingTop: 0,
+              backgroundColor: "#00000000",
+            }}
+          >
+            <Grid
+              container
+              spacing={2}
+              alignContent="center"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Grid item xs={12} md={6}>
+                <Tabs
+                  value={timePeriodLength}
+                  onChange={handleChange}
+                  textColor="primary"
+                  indicatorColor="primary"
+                  variant="fullWidth"
+                >
+                  <Tab
+                    value={3}
+                    label="3 Day"
+                    sx={{
+                      color: "#ffffffbb",
+                    }}
+                  />
+                  <Tab
+                    value={7}
+                    label="Week"
+                    sx={{
+                      color: "#ffffffbb",
+                    }}
+                  />
+                  <Tab
+                    value={14}
+                    label="Fortnight"
+                    sx={{
+                      color: "#ffffffbb",
+                    }}
+                  />
+                  <Tab
+                    value={30}
+                    label="Month"
+                    sx={{
+                      color: "#ffffffbb",
+                    }}
+                  />
+                </Tabs>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Grid container spacing={2} alignContent="center">
+                  <Grid item xs={3}>
+                    <Button
+                      variant="contained"
+                      fullWidth
+                      onClick={() => handlePeriodBack("backward")}
+                      size="small"
+                    >
+                      <ArrowBack />
+                    </Button>
+                  </Grid>
+                  <Grid item xs={6}>
+                    {displayPeriod()}
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Button
+                      variant="contained"
+                      fullWidth
+                      onClick={() => handlePeriodBack("forward")}
+                      disabled={periodBack === 0}
+                      size="small"
+                    >
+                      <ArrowForward />
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Collapse>
+      </Card>
+    </ClickAwayListener>
   );
 };
 
@@ -526,10 +701,24 @@ const Overall = () => {
   const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
   const journalRecords = useJournalStore((state) => state.documents);
 
-  console.log("journalRecords", journalRecords);
-
   const [periodBack, setPeriodBack] = React.useState(0);
   const [timePeriodLength, setTimePeriodLength] = React.useState(7);
+
+  console.log("journalRecords", journalRecords);
+
+  // Display selected period, and change daysBack to change the period
+  const handlePeriodBack = (direction: string) => {
+    if (direction === "forward" && periodBack > 0) {
+      setPeriodBack(periodBack - 1);
+    } else if (direction === "backward") {
+      setPeriodBack(periodBack + 1);
+    }
+  };
+
+  const handleChange = (event: any, newValue: any) => {
+    setPeriodBack(0);
+    setTimePeriodLength(newValue);
+  };
 
   const selectedPeriod = filterTimerRecords(
     timerRecords,
@@ -562,6 +751,10 @@ const Overall = () => {
       dayDiff={timePeriodLength}
       journalRecords={selectedJournalPeriod}
       previousJournalRecords={previousJournalPeriod}
+      periodBack={periodBack}
+      timePeriodLength={timePeriodLength}
+      handlePeriodBack={handlePeriodBack}
+      handleChange={handleChange}
     />
   );
 };

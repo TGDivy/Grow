@@ -57,9 +57,9 @@ const BottomNavigationBar: FC = () => {
 
   const selfImprovementPlaces = [
     {
-      name: "Workout",
-      icon: <Terrain />,
-      link: "/Soil",
+      name: "Statistics",
+      icon: <TrendingUp />,
+      link: "/Stats",
     },
     {
       name: "Reflect",
