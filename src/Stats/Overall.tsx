@@ -704,8 +704,6 @@ const Overall = () => {
   const [periodBack, setPeriodBack] = React.useState(0);
   const [timePeriodLength, setTimePeriodLength] = React.useState(7);
 
-  console.log("journalRecords", journalRecords);
-
   // Display selected period, and change daysBack to change the period
   const handlePeriodBack = (direction: string) => {
     if (direction === "forward" && periodBack > 0) {
@@ -740,9 +738,6 @@ const Overall = () => {
     timePeriodLength,
     periodBack * timePeriodLength + timePeriodLength
   );
-
-  console.log("selectedJournalPeriod", selectedJournalPeriod);
-  console.log("selectedJournalPeriod", previousJournalPeriod);
 
   return (
     <OverallStats
