@@ -51,9 +51,14 @@ import Habits from "../Journal/Habits";
 import { Tab, Tabs } from "@mui/material";
 
 const Home = () => {
+  // const inspirationalQuote = {
+  //   quote: "It is not the mountain we conquer, but ourselves.",
+  //   author: "Sir Edmund Hillary",
+  // };
   const inspirationalQuote = {
-    quote: "It is not the mountain we conquer, but ourselves.",
-    author: "Sir Edmund Hillary",
+    quote:
+      "And, when you want something, all the universe conspires in helping you to achieve it.",
+    author: "Paulo Coelho",
   };
 
   const places = [
@@ -90,9 +95,9 @@ const Home = () => {
     quote: 0,
     quoteAuthor: 200,
     places: 1000,
-    mood: 2000,
-    goals: 3000,
-    overall: 4000,
+    // mood: 2000,
+    goals: 2000,
+    overall: 3000,
   };
 
   const tabs = [<Goals readonly key="0" />, <Habits key="1" />];
@@ -191,7 +196,7 @@ const Home = () => {
               ))}
             </Stack>
           </Grid>
-          <Grid item xs={12} md={6}>
+          {/* <Grid item xs={12} md={6}>
             <Fade
               in={true}
               style={{
@@ -208,7 +213,7 @@ const Home = () => {
                 <Mood />
               </Box>
             </Fade>
-          </Grid>
+          </Grid> */}
 
           <Grid item xs={12} md={8} sx={{ pb: 0, mb: 0 }}>
             <Fade
