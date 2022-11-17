@@ -17,6 +17,7 @@ interface JournalStoreType extends JournalType {
   getJournal: () => JournalType;
   setTagHabit: (map: Map<string, boolean>) => void;
   setCustomBoolHabit: (map: Map<string, boolean>) => void;
+  setExercised: (excercised: boolean) => void;
 }
 
 const initialState = {
@@ -60,6 +61,8 @@ const useDailyJournalStore = create<JournalStoreType>()(
         setEntry: (entry: string) => set(() => ({ entry })),
         setTasksForTomorrow: (tasks: Array<string>) =>
           set(() => ({ tasksForTomorrow: tasks })),
+        setExercised: (excercised: boolean) =>
+          set(() => ({ exercised: excercised })),
         setNextDayNotes: (notes: string) =>
           set(() => ({ nextDayNotes: notes })),
         getJournal: () => {

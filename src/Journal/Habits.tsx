@@ -158,6 +158,7 @@ const Habits: FC<Props> = ({ readonly, document }) => {
 
   let today = new Date();
   let meals = useDailyJournalStore((state) => state.meals);
+  let exercised = useDailyJournalStore((state) => state.exercised);
 
   if (readonly) {
     if (document) {
@@ -170,6 +171,7 @@ const Habits: FC<Props> = ({ readonly, document }) => {
       )[0];
       meals = latest?.meals;
       today = latest?.date;
+      exercised = latest?.exercised;
     }
   }
   // subtract 5 hours to get the time I started working
@@ -202,13 +204,8 @@ const Habits: FC<Props> = ({ readonly, document }) => {
     setTagHabit(map);
   }, [totalWorkTimeByTagOrSticker]);
 
-  const exercisedToday = latestActivityDate
-    ? latestActivityDate.getDate() === today.getDate() &&
-      latestActivityDate.getMonth() === today.getMonth() &&
-      latestActivityDate.getFullYear() === today.getFullYear()
-    : false;
-
   const setMeals = useDailyJournalStore((state) => state.setMeals);
+  const setExercised = useDailyJournalStore((state) => state.setExercised);
 
   const handleMeals = (index: number, meal: string) => () => {
     const newMeals = [...meals];
@@ -296,18 +293,23 @@ const Habits: FC<Props> = ({ readonly, document }) => {
             secondaryAction={
               <Checkbox
                 edge="end"
-                checked={exercisedToday}
+                checked={exercised}
                 tabIndex={-1}
-                disabled
+                disabled={readonly}
+                onChange={(e) => setExercised(e.target.checked)}
               />
             }
             sx={{
               backgroundColor: "#ffffff22",
             }}
           >
-            <ListItemButton sx={{ width: "100%" }} disabled={readonly}>
+            <ListItemButton
+              sx={{ width: "100%" }}
+              disabled={readonly}
+              onClick={() => setExercised(!exercised)}
+            >
               <ListItemText
-                primary={exercisedToday ? "Exercised" : "Did not exercise"}
+                primary={exercised ? "Exercised" : "Did not exercise"}
               />
             </ListItemButton>
           </ListItem>
