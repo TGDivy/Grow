@@ -35,7 +35,7 @@ export const filterTimerRecords = (
         current.getTime() + DAY
   );
   // Pad weeklyTimerRecords with empty days
-  for (let i = 0; i < timePeriodLength; i++) {
+  for (let i = 0; i < timePeriodLength - 1; i++) {
     const date = new Date(current.getTime() - i * DAY);
 
     filteredTimerRecords.push({
