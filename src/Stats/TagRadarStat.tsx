@@ -1,4 +1,3 @@
-import { isInteger } from "lodash";
 import React, { FC } from "react";
 
 import {
@@ -8,10 +7,10 @@ import {
   PolarAngleAxis,
   PolarRadiusAxis,
   Tooltip,
-  Legend,
 } from "recharts";
 import { tagsType, timerType } from "../Common/Types/Types";
 import GraphCard from "./GraphCard";
+import useUserStore from "../Common/Stores/User";
 
 interface TagStatType {
   [key: string]: number;
@@ -25,16 +24,15 @@ interface dataType {
 
 const getRadarData = async (
   timerRecords: timerType[],
-  previousPeriod: timerType[]
+  previousPeriod: timerType[],
+  entries: Array<string>
 ) => {
   const getTagStat = (timerRecords: timerType[]) => {
     // filter into tags
-    const tagStat: TagStatType = {
-      Engineering: 0,
-      Applications: 0,
-      Study: 0,
-      Planning: 0,
-    };
+    const tagStat: TagStatType = {};
+    entries.forEach((entry) => {
+      tagStat[entry] = 0;
+    });
 
     let total = 0;
 
@@ -90,9 +88,10 @@ const TagRadarStat: FC<Props> = ({ selectedPeriod, previousPeriod }) => {
   // const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
 
   const [data, setData] = React.useState<dataType[]>();
+  const tags = useUserStore((state) => state.tags);
 
   React.useEffect(() => {
-    getRadarData(selectedPeriod, previousPeriod).then((data) => {
+    getRadarData(selectedPeriod, previousPeriod, tags).then((data) => {
       if (data) {
         setData(data);
       }
