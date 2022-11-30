@@ -1,5 +1,12 @@
 import React, { useEffect } from "react";
-import { Box, Grid, IconButton, Stepper, Typography } from "@mui/material";
+import {
+  Box,
+  Divider,
+  Grid,
+  IconButton,
+  Stepper,
+  Typography,
+} from "@mui/material";
 import { Step, StepLabel } from "@mui/material";
 import { Container } from "@mui/material";
 import { Stack } from "@mui/system";
@@ -14,12 +21,15 @@ import All from "./All";
 import useJournalStore from "../Common/Stores/JournalStore";
 import moment from "moment";
 
+import { ViewList, Create } from "@mui/icons-material";
+
 const JournalMain = () => {
   const activeStep = useDailyJournalStore((state) => state.activeStep);
   const setActiveStep = useDailyJournalStore((state) => state.setActiveStep);
   const getLastDocumentDate = useJournalStore(
     (state) => state.getLastDocumentDate
   );
+  const [viewAll, setViewAll] = React.useState(false);
   const resetStore = useDailyJournalStore((state) => state.resetStore);
   const getJournal = useDailyJournalStore((state) => state.getJournal);
   const documents = useJournalStore((state) => state.documents);
@@ -81,10 +91,24 @@ const JournalMain = () => {
     lastDocumentDate.getTime() + 60 * 60 * 18 * 1000
   );
 
-  if (submittedRecently) {
+  if (submittedRecently || viewAll) {
     return (
       <Container>
         <Stack spacing={2} justifyContent="center">
+          <Box
+            sx={{
+              width: "100%",
+              margin: "20px 0 0 0",
+            }}
+          >
+            <Divider textAlign="right">
+              <Button variant="contained" onClick={() => setViewAll(false)}>
+                <Create />
+                &nbsp;New Journal Entry
+              </Button>
+            </Divider>
+          </Box>
+
           <Box
             sx={{
               width: "100%",
@@ -109,6 +133,19 @@ const JournalMain = () => {
   return (
     <Container>
       <Stack spacing={2} alignItems="center" justifyContent="center">
+        <Box
+          sx={{
+            width: "100%",
+            margin: "20px 0 0 0",
+          }}
+        >
+          <Divider textAlign="right">
+            <Button variant="contained" onClick={() => setViewAll(true)}>
+              <ViewList />
+            </Button>
+          </Divider>
+        </Box>
+
         <Box
           sx={{
             width: "100%",

@@ -164,6 +164,7 @@ const Habits: FC<Props> = ({ readonly, document }) => {
     if (document) {
       meals = document.meals;
       today = document.date;
+      console.log("today", today);
     } else {
       const documents = useJournalStore((state) => state.documents);
       const latest = Object.values(documents).sort(
@@ -177,7 +178,12 @@ const Habits: FC<Props> = ({ readonly, document }) => {
   // subtract 5 hours to get the time I started working
   today = new Date(today.getTime() - 5 * 60 * 60 * 1000);
 
-  const todayRecords = filterTimerRecords(timerRecords, 1, 0);
+  // get how many days ago is today compared to now
+  const days = Math.floor(
+    (new Date().getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+  );
+
+  const todayRecords = filterTimerRecords(timerRecords, 1, days);
   const totalWorkTime = totalTimeWorked(todayRecords);
 
   const filterStickerTagHabits = stickerTagHabits.filter(
