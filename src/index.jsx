@@ -6,6 +6,9 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Theme from "./Common/Styling/themes";
 import { BrowserRouter as Router } from "react-router-dom";
+
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
@@ -19,3 +22,5 @@ root.render(
   </Router>
   // </React.StrictMode>
 );
+
+serviceWorkerRegistration.register();
