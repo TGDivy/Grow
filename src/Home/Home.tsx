@@ -56,7 +56,8 @@ const Home = () => {
   //   author: "Sir Edmund Hillary",
   // };
   const inspirationalQuote = {
-    quote: "It is better to be a warrior in a garden than a gardener in a war.",
+    quote:
+      "It is better to be a warrior in a garden, than a gardener in a war.",
     author: "Old Chinese Proverb",
   };
 
