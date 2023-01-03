@@ -56,9 +56,8 @@ const Home = () => {
   //   author: "Sir Edmund Hillary",
   // };
   const inspirationalQuote = {
-    quote:
-      "And, when you want something, all the universe conspires in helping you to achieve it.",
-    author: "Paulo Coelho",
+    quote: "It is better to be a warrior in a garden than a gardener in a war.",
+    author: "Old Chinese Proverb",
   };
 
   const places = [
