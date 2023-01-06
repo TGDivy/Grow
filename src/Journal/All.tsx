@@ -90,19 +90,84 @@ const All: FC<Props> = ({ allEntries }) => {
   };
 
   const ListOfEntries = () => {
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(6);
+    // const items = (
+    //   <Grid container spacing={2}>
+    //     {sortedDocuments.map((document, index) => (
+    //       <Grid item xs={6} md={4} key={index}>
+    //         <ListItem
+    //           sx={{
+    //             backgroundColor: "#ffffff22",
+    //           }}
+    //           key={index}
+    //         >
+    //           <ListItemButton
+    //             sx={{ width: "100%" }}
+    //             onClick={handleClickOpen(index)}
+    //           >
+    //             <ListItemIcon>{`${index} >`}</ListItemIcon>
+    //             <ListItemText
+    //               primary={moment(
+    //                 new Date(document.date.getTime() - 4 * 60 * 60 * 1000)
+    //               ).format("dddd, MMM Do 'YY")}
+    //             />
+    //           </ListItemButton>
+    //         </ListItem>
+    //       </Grid>
+    //     ))}
+    //   </Grid>
+    // );
 
-    const handleChangePage = (event: unknown, newPage: number) => {
-      setPage(newPage);
-    };
+    // rewrite above items to have dividers between each month and year and to have a title for each month and year
+    const grouped = sortedDocuments.reduce((r, a) => {
+      r[moment(a.date).format("MMMM YYYY")] = [
+        ...(r[moment(a.date).format("MMMM YYYY")] || []),
+        a,
+      ];
+      return r;
+    }, {} as { [key: string]: JournalType[] });
 
-    const handleChangeRowsPerPage = (
-      event: React.ChangeEvent<HTMLInputElement>
-    ) => {
-      setRowsPerPage(parseInt(event.target.value, 10));
-      setPage(0);
-    };
+    const items = Object.keys(grouped).map((key, index) => {
+      const month = grouped[key].map((document, index) => (
+        <Grid item xs={12} sm={6} md={4} key={index}>
+          <ListItem
+            sx={{
+              backgroundColor: "#ffffff22",
+            }}
+          >
+            <ListItemButton
+              sx={{ width: "100%" }}
+              onClick={handleClickOpen(index)}
+            >
+              <ListItemIcon>{`${index} >`}</ListItemIcon>
+              <ListItemText
+                primary={moment(
+                  new Date(document.date.getTime() - 4 * 60 * 60 * 1000)
+                ).format("dddd, MMM Do 'YY")}
+              />
+            </ListItemButton>
+          </ListItem>
+        </Grid>
+      ));
+
+      return (
+        <>
+          <Typography
+            sx={{
+              color: "white",
+              fontSize: "1.5rem",
+              fontWeight: "bold",
+              marginTop: "1rem",
+            }}
+          >
+            {key}
+          </Typography>
+          <Divider />
+          <Grid container spacing={2}>
+            {month}
+          </Grid>
+        </>
+      );
+    });
 
     return (
       <>
@@ -110,7 +175,7 @@ const All: FC<Props> = ({ allEntries }) => {
           sx={{
             p: 2,
             display: "flex",
-            flexDirection: "row",
+            flexDirection: "column",
             alignItems: "center",
             width: "100%",
             justifyContent: "space-between",
@@ -119,46 +184,8 @@ const All: FC<Props> = ({ allEntries }) => {
             color: "white",
           }}
         >
-          <Grid container spacing={2}>
-            {sortedDocuments
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((document, index) => (
-                <Grid item xs={6} md={4} key={index}>
-                  <ListItem
-                    sx={{
-                      backgroundColor: "#ffffff22",
-                    }}
-                    key={index}
-                  >
-                    <ListItemButton
-                      sx={{ width: "100%" }}
-                      onClick={handleClickOpen(index)}
-                    >
-                      <ListItemIcon>{`${index} >`}</ListItemIcon>
-                      <ListItemText
-                        primary={moment(
-                          new Date(document.date.getTime() - 4 * 60 * 60 * 1000)
-                        ).format("dddd, MMM Do 'YY")}
-                      />
-                    </ListItemButton>
-                  </ListItem>
-                </Grid>
-              ))}
-          </Grid>
+          {items}
         </Paper>
-        <TablePagination
-          rowsPerPageOptions={[
-            6,
-            12,
-            { label: "All", value: sortedDocuments.length },
-          ]}
-          // component="div"
-          count={sortedDocuments.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
       </>
     );
   };
