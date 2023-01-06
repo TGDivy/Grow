@@ -196,24 +196,6 @@ const Home = () => {
               ))}
             </Stack>
           </Grid>
-          {/* <Grid item xs={12} md={6}>
-            <Fade
-              in={true}
-              style={{
-                transitionDelay: `${transitionDelays.mood}ms`,
-              }}
-              {...{ timeout: 1000 }}
-            >
-              <Box
-                sx={{
-                  height: "100%",
-                  width: "100%",
-                }}
-              >
-                <Mood />
-              </Box>
-            </Fade>
-          </Grid> */}
 
           <Grid item xs={12} md={8} sx={{ pb: 0, mb: 0 }}>
             <Fade
@@ -230,6 +212,7 @@ const Home = () => {
                     boxShadow: 20,
                   },
                 }}
+                defaultExpanded
               >
                 <AccordionSummary
                   expandIcon={<ExpandMore />}
