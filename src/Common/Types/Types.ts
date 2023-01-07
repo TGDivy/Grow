@@ -21,6 +21,8 @@ export interface userType {
 
   stickerTagHabits: Array<stickerTagHabitType>;
   customBoolHabits: Array<customBoolHabitType>;
+
+  tutorials: Array<string>;
 }
 
 export type tagsType = Array<string>;

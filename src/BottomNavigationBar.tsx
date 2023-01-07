@@ -85,6 +85,7 @@ const BottomNavigationBar: FC = () => {
       }}
       elevation={3}
       color="primary"
+      className={`tut-navbar-overview`}
     >
       <Grid container justifyContent="center" alignItems="center">
         <Grid item xs={5} md={2}>
@@ -104,6 +105,7 @@ const BottomNavigationBar: FC = () => {
                         ? "primary.main"
                         : "primary",
                   }}
+                  className={`tut-navbar-${place.name}`}
                 >
                   {place.icon}
                 </IconButton>
