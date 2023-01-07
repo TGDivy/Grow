@@ -24,6 +24,7 @@ import { subtaskType, taskType } from "../../Common/Types/Types";
 
 import useTaskStore from "../../Common/Stores/TaskStore";
 import Sticker from "./Sticker";
+import { useTour } from "@reactour/tour";
 
 interface taskFC extends taskType {
   id: string;
@@ -48,7 +49,7 @@ const Task: FC<taskFC> = (props) => {
   const [tags_, setTags] = useState(props.tags);
   const [sticker_, setSticker] = useState(props.sticker);
   const [completed_, setCompleted] = useState(props.completed);
-
+  const { setIsOpen, isOpen } = useTour();
   const handleEdit = () => {
     setEditing(true);
     setExpanded(true);
@@ -57,6 +58,7 @@ const Task: FC<taskFC> = (props) => {
   const handleSave = () => {
     console.log("Saving...");
     if (props.createNewTask) {
+      if (isOpen) setIsOpen(false);
       addTask(
         {
           taskListName: props.taskListName,
@@ -181,6 +183,7 @@ const Task: FC<taskFC> = (props) => {
         // onDoubleClick={() => {
         //   setEditing(true);
         // }}
+        className="tut-task-card"
       >
         <CardHeader
           title={
@@ -197,7 +200,11 @@ const Task: FC<taskFC> = (props) => {
           action={
             true &&
             ((editing && (
-              <IconButton aria-label="save" onClick={handleSave}>
+              <IconButton
+                aria-label="save"
+                onClick={handleSave}
+                className="tut-task-save"
+              >
                 <Save />
               </IconButton>
             )) || (

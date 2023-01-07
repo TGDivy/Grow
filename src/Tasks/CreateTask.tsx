@@ -1,10 +1,12 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Task from "./Task/Task";
 import { taskType } from "../Common/Types/Types";
 import { v4 as uuid_v4 } from "uuid";
 import Transition from "../Common/Utils/Transitions";
 import { Dialog, Button } from "@mui/material";
 import { Add } from "@mui/icons-material";
+import { useTour } from "@reactour/tour";
+import { createTaskSteps } from "../steps";
 
 interface createTaskFc {
   taskListName: string;
@@ -25,11 +27,24 @@ const CreateTask: FC<createTaskFc> = ({ taskListName, id }) => {
     sticker: "",
   };
 
+  const { setIsOpen, isOpen, setSteps, setCurrentStep, steps } = useTour();
+
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
+    if (isOpen) {
+      setSteps(createTaskSteps);
+      setCurrentStep(0);
+      setIsOpen(true);
+    }
   };
+
+  // useEffect(() => {
+  //   if (steps === createTaskSteps.length - 1 && showPrevNextButtons !) {
+  //     showPrevNextButtons(false);
+  //   }
+  // }, [isOpen, steps]);
 
   const handleClose = () => {
     setOpen(false);
@@ -42,13 +57,14 @@ const CreateTask: FC<createTaskFc> = ({ taskListName, id }) => {
         color="secondary"
         onClick={handleClickOpen}
         fullWidth
+        className="tut-task-create"
       >
         <Add />
         Task
       </Button>
       <Dialog
         open={open}
-        TransitionComponent={Transition}
+        // TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}
         PaperProps={{
@@ -58,13 +74,15 @@ const CreateTask: FC<createTaskFc> = ({ taskListName, id }) => {
           backdropFilter: "blur(10px)",
         }}
       >
-        <Task
-          {...createTask}
-          id={id || uuid_v4()}
-          createNewTask
-          alwaysExpanded
-          handleCreateNewTask={handleClose}
-        />
+        <span className="tut-task-overview">
+          <Task
+            {...createTask}
+            id={id || uuid_v4()}
+            createNewTask
+            alwaysExpanded
+            handleCreateNewTask={handleClose}
+          />
+        </span>
       </Dialog>
     </>
   );

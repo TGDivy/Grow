@@ -23,6 +23,7 @@ const Description: FC<descriptionProps> = ({
   if (editing) {
     return (
       <TextField
+        className="tut-task-description"
         id="standard-multiline-static"
         label="Description"
         variant="standard"

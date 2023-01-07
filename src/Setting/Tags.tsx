@@ -41,6 +41,7 @@ const Tags = () => {
         backgroundColor: "#ffffff88",
         color: "black",
       }}
+      className="tut-settings-tags"
     >
       <Grid
         container
@@ -61,7 +62,12 @@ const Tags = () => {
         </Grid>
 
         <Grid item xs={6}>
-          <Stack direction="row" spacing={1} justifyContent="right">
+          <Stack
+            direction="row"
+            spacing={1}
+            justifyContent="right"
+            className="tut-settings-create-tag"
+          >
             <TextField
               id="outlined-basic"
               label="Add new tag"
@@ -99,6 +105,7 @@ const Tags = () => {
           // keep the tags left aligned
           justifyContent="flex-start"
           alignItems="center"
+          className="tut-settings-created-tags"
         >
           {tags.map((tag) => (
             <Grid item key={tag}>

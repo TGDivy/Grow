@@ -1,5 +1,5 @@
 import React, { FC, useState, MouseEvent } from "react";
-import { Box, Chip, Menu, MenuItem } from "@mui/material";
+import { Box, Chip, Menu, MenuItem, Typography } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import useUserStore from "../../Common/Stores/User";
 
@@ -54,6 +54,7 @@ const Sticker: FC<tagsFc> = ({ sticker, editing, setSticker, timerPage }) => {
             style: {
               maxHeight: ITEM_HEIGHT * 6,
               width: "15ch",
+              minWidth: "max-content",
             },
           }}
         >
@@ -69,6 +70,19 @@ const Sticker: FC<tagsFc> = ({ sticker, editing, setSticker, timerPage }) => {
                 {_sticker}
               </MenuItem>
             ))}
+          {possibleStickers.length === 0 && (
+            <MenuItem
+              key="no-stickers"
+              onClick={() => {
+                handleSetSticker("");
+              }}
+              disabled
+            >
+              <Typography variant="body2" color="textSecondary">
+                Create a sticker in settings
+              </Typography>
+            </MenuItem>
+          )}
         </Menu>
 
         <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: 1 }}>
@@ -92,6 +106,7 @@ const Sticker: FC<tagsFc> = ({ sticker, editing, setSticker, timerPage }) => {
                 whiteSpace: "nowrap",
               },
             }}
+            className="tut-task-sticker"
           />
         </Box>
       </>

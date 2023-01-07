@@ -63,6 +63,7 @@ const SubTaskList: FC<SubTaskListProps> = ({
           marginTop: 0,
           color: "primary.main",
         }}
+        className="tut-task-subtasks"
       >
         <TransitionGroup>
           {subTasks.map((subTask, index) => (

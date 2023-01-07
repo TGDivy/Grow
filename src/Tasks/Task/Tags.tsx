@@ -78,6 +78,7 @@ const Tags: FC<tagsFc> = ({ tags, editing, setTags, timerPage }) => {
             onClick={handleClickOpen}
             size="small"
             label="Tag"
+            className="tut-task-tag"
           />
 
           {tags.map((tag) => (

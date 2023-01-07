@@ -27,8 +27,10 @@ const Title: FC<titleFc> = ({
           sx={{ padding: "0px 0px 0px 0px" }}
           checkedIcon={<PriorityHigh fontSize="medium" color="error" />}
           icon={<PriorityHigh fontSize="medium" />}
+          className="tut-task-priority"
         />
         <TextField
+          className="tut-task-title"
           id="outlined-basic"
           label="Title"
           variant="outlined"

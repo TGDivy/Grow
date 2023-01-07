@@ -13,6 +13,7 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 import _ from "lodash";
+import CreateTask from "../Tasks/CreateTask";
 
 const TimerTask = () => {
   const active = useTimerStore((state) => state.active);
@@ -49,7 +50,13 @@ const TimerTask = () => {
             {tasks[key].title}
           </MenuItem>
         ))}
+        {Object.keys(completedTasks).length === 0 && (
+          <MenuItem value="" disabled>
+            No tasks to add
+          </MenuItem>
+        )}
       </Select>
+      <CreateTask taskListName={"Tasks"} />
     </FormControl>
   );
 
@@ -87,7 +94,7 @@ const TimerTask = () => {
   return (
     <>
       <Grid item xs={8}>
-        <Box>{TaskOrAdd()}</Box>
+        <Box>{TaskOrAdd()} </Box>
       </Grid>
     </>
   );
