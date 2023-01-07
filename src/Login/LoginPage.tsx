@@ -99,8 +99,9 @@ const LoginPage = () => {
           onClick={guestLogin}
           component={Link}
           to="/"
+          disabled
         >
-          Try as Guest
+          Try as Guest (Max guest limit reached)
         </Button>
       </Stack>
       <Box
