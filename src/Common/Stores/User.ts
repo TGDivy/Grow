@@ -16,6 +16,8 @@ interface userStoreType extends userType {
 
   setStickerTagHabits: (stickerTagHabit: Array<stickerTagHabitType>) => void;
   setCustomBoolHabits: (customBoolHabit: Array<customBoolHabitType>) => void;
+
+  setTutorials: (tutorials: Array<string>) => void;
 }
 
 const updateTags = async (user_id: string, tags: string[]) => {
@@ -52,6 +54,13 @@ const updateCustomBoolHabits = async (
   });
 };
 
+const updateTutorials = async (user_id: string, tutorials: Array<string>) => {
+  const userDocRef = doc(db, "users", user_id);
+  await updateDoc(userDocRef, {
+    tutorials: tutorials,
+  });
+};
+
 const useUserStore = create<userStoreType>()(
   devtools(
     (set, get) => ({
@@ -64,6 +73,7 @@ const useUserStore = create<userStoreType>()(
       stickers: [],
       stickerTagHabits: [],
       customBoolHabits: [],
+      tutorials: [],
       setUser: (user) => set({ ...user }),
       setTags: (tags) => {
         set({ tags: tags });
@@ -80,6 +90,10 @@ const useUserStore = create<userStoreType>()(
       setCustomBoolHabits: (customBoolHabits) => {
         set({ customBoolHabits: customBoolHabits });
         updateCustomBoolHabits(get().uid, customBoolHabits);
+      },
+      setTutorials: (tutorials) => {
+        set({ tutorials: tutorials });
+        updateTutorials(get().uid, tutorials);
       },
     }),
     {

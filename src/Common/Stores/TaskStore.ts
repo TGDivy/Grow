@@ -178,7 +178,7 @@ const useTaskStore = create<taskListStoreType>()(
       {
         name: "task-list-storage",
 
-        deserialize: (state) => {
+        deserialize: (state: string) => {
           const newState = JSON.parse(state);
           for (const key in newState.state.tasks) {
             newState.state.tasks[key].dateUpdated = new Date(
