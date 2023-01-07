@@ -95,6 +95,7 @@ const CustomBoolHabits = () => {
         backgroundColor: "#ffffff88",
         color: "black",
       }}
+      className="tut-settings-create-habit"
     >
       <Stack
         direction="row"

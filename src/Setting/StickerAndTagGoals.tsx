@@ -188,7 +188,10 @@ const StickerAndTagGoals = () => {
               justifyContent: "space-between",
             }}
           >
-            <ListItemButton onClick={() => handleTagOrStickerClick(index)}>
+            <ListItemButton
+              onClick={() => handleTagOrStickerClick(index)}
+              className={index === 0 ? "tut-settings-create-tag-habit" : ""}
+            >
               <ListItemIcon>
                 <Checkbox
                   edge="start"
@@ -205,6 +208,9 @@ const StickerAndTagGoals = () => {
                   variant="text"
                   aria-label="text button group"
                   sx={{ display: tagOrSticker.selected ? "flex" : "none" }}
+                  className={
+                    index === 0 ? "tut-settings-create-tag-habit-day" : ""
+                  }
                 >
                   {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
                     (day, dayIndex) => (
@@ -245,6 +251,9 @@ const StickerAndTagGoals = () => {
                   sx={{
                     maxWidth: "90px",
                   }}
+                  className={
+                    index === 0 ? "tut-settings-create-tag-habit-duration" : ""
+                  }
                 />
               </Stack>
             </Collapse>

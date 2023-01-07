@@ -42,6 +42,7 @@ const Sticker = () => {
         backgroundColor: "#ffffff88",
         color: "black",
       }}
+      className="tut-settings-stickers"
     >
       <Grid
         container
@@ -62,7 +63,12 @@ const Sticker = () => {
         </Grid>
 
         <Grid item xs={6}>
-          <Stack direction="row" spacing={1} justifyContent="right">
+          <Stack
+            direction="row"
+            spacing={1}
+            justifyContent="right"
+            className="tut-settings-create-sticker"
+          >
             <TextField
               id="outlined-basic"
               label="Add new sticker"

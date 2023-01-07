@@ -532,6 +532,7 @@ const OverallStats: FC<Props> = ({
           color: "#ffffff",
         }}
         onClick={() => setExpanded(true)}
+        className="tut-home-progress"
       >
         {/* Center the header */}
         <CardHeader
