@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import TasksMain from "../Tasks/TasksMain";
 import Seed from "../Seed/SeedMain";
@@ -32,6 +32,7 @@ import { Box } from "@mui/system";
 import { Button, Drawer } from "@mui/material";
 import BottomNavigationBar from "../BottomNavigationBar";
 import Mood from "../Journal/Mood";
+import { Help } from "@mui/icons-material";
 /**
  * A simple, elegant and inspiration home page for the app.
  * Allow easy access to the main features of the app.
@@ -49,6 +50,9 @@ import Mood from "../Journal/Mood";
  */ import Goals from "../Journal/Goals";
 import Habits from "../Journal/Habits";
 import { Tab, Tabs } from "@mui/material";
+import { StepType, useTour } from "@reactour/tour";
+import { homeSteps } from "../steps";
+import useUserStore from "../Common/Stores/User";
 
 const Home = () => {
   // const inspirationalQuote = {
@@ -73,7 +77,7 @@ const Home = () => {
       link: "/Seed",
     },
     {
-      name: "Workout",
+      name: "Workout (soon)",
       icon: <Terrain />,
       link: "/Soil",
     },
@@ -88,6 +92,23 @@ const Home = () => {
       link: "/Reflect",
     },
   ];
+
+  const tutorials = useUserStore((state) => state.tutorials);
+  const setTutorials = useUserStore((state) => state.setTutorials);
+
+  const { setIsOpen, isOpen, setSteps, setCurrentStep } = useTour();
+
+  const handleHelp = () => {
+    setSteps(homeSteps);
+    setCurrentStep(0);
+    setIsOpen(true);
+    setTutorials([...tutorials, "home"]);
+  };
+
+  useEffect(() => {
+    if (tutorials.includes("home")) return;
+    handleHelp();
+  }, []);
 
   // Add transitions to the home page.
 
@@ -126,7 +147,15 @@ const Home = () => {
             p: 2,
           }}
         >
-          <Button variant="contained" component={Link} to="/Settings">
+          <Button onClick={handleHelp} size="large" className="tut-home-help">
+            <Help fontSize="large" />
+          </Button>
+          <Button
+            variant="contained"
+            component={Link}
+            to="/Settings"
+            className="tut-home-settings"
+          >
             <Settings />
           </Button>
         </Box>
@@ -171,6 +200,7 @@ const Home = () => {
               direction={{ xs: "column", sm: "row" }}
               spacing={2}
               justifyContent="center"
+              className="tut-home-places"
             >
               {places.map((place, index) => (
                 <Zoom
@@ -189,6 +219,10 @@ const Home = () => {
                     component={Link}
                     to={place.link}
                     key={place.name}
+                    disabled={
+                      isOpen === true ||
+                      place.name.toLowerCase().includes("soon")
+                    }
                   >
                     {place.name}
                   </Button>
@@ -212,7 +246,6 @@ const Home = () => {
                     boxShadow: 20,
                   },
                 }}
-                defaultExpanded
               >
                 <AccordionSummary
                   expandIcon={<ExpandMore />}
@@ -227,6 +260,7 @@ const Home = () => {
                       flexGrow: 0,
                     },
                   }}
+                  className="tut-home-brief"
                 >
                   <Typography variant="h6" color="primary">
                     {"Today's Brief"}
@@ -246,8 +280,8 @@ const Home = () => {
                     variant="fullWidth"
                     aria-label="full width tabs example"
                   >
-                    <Tab label="Goals" />
-                    <Tab label="Habits" />
+                    <Tab label="Goals" className="tut-home-goals" />
+                    <Tab label="Habits" className="tut-home-habits" />
                   </Tabs>
                   {tabs[tab]}
                 </AccordionDetails>
