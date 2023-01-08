@@ -73,6 +73,7 @@ const CreateTask: FC<createTaskFc> = ({ taskListName, id }) => {
         sx={{
           backdropFilter: "blur(10px)",
         }}
+        fullWidth
       >
         <span className="tut-task-overview">
           <Task
