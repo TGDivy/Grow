@@ -24,7 +24,7 @@ If you find any bugs or have any suggestions, please open an issue on the [GitHu
 
 ## Home
 
-<video src="https://user-images.githubusercontent.com/42085970/211224575-fb15b8b7-fd3a-4447-b7c8-482be64aeacf.mp4" controls="controls" style="max-width: 1000px;"></video>
+<video src="https://user-images.githubusercontent.com/42085970/211224890-1fd5cd54-c4e0-410f-9343-ffde39405da7.mp4" controls="controls" style="max-width: 1000px;"></video>
 
 ## Tasks
 
