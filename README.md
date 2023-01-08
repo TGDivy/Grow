@@ -16,7 +16,9 @@ https://user-images.githubusercontent.com/42085970/211222189-f5189291-c08d-41a5-
 
 Overview             |  Create a New Task
 :-------------------------:|:-------------------------:
-https://user-images.githubusercontent.com/42085970/211222198-f8f9a074-bf11-4798-ac68-e4c6266be291.mp4  |  https://user-images.githubusercontent.com/42085970/211222215-e77e68c4-941a-458d-97d6-4e1dd385eccc.mp4
+<video src="https://user-images.githubusercontent.com/42085970/211222198-f8f9a074-bf11-4798-ac68-e4c6266be291.mp4" controls="controls" style="max-width: 730px;">
+</video>  |  <video src="https://user-images.githubusercontent.com/42085970/211222215-e77e68c4-941a-458d-97d6-4e1dd385eccc.mp4" controls="controls" style="max-width: 730px;">
+</video>
 
 ## Timer
 
