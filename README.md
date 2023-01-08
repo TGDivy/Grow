@@ -6,7 +6,7 @@ For example, let's say I need to study for a CS exam. I can create a task for it
 
 At the end of the day, the journal feature helps me reflect on my habits (like eating and exercise) and plan for the next day. And the best part is that the tasks I created earlier will already be there, so I can jump right into them the next morning.
 
-Grow is still a work in progress, but I'm really enjoying it so far and thought you might too. Check it out at https://grow.divyb.xyz/Seed and let me know what you think!
+Grow is still a work in progress, but I'm really enjoying it so far and thought you might too. Check it out at https://grow.divyb.xyz and let me know what you think!
 
 ## Home
 
@@ -14,33 +14,22 @@ https://user-images.githubusercontent.com/42085970/211222189-f5189291-c08d-41a5-
 
 ## Tasks
 
-### Overview
-
-https://user-images.githubusercontent.com/42085970/211222198-f8f9a074-bf11-4798-ac68-e4c6266be291.mp4
-
-### Create a Task
-
-https://user-images.githubusercontent.com/42085970/211222215-e77e68c4-941a-458d-97d6-4e1dd385eccc.mp4
-
-### Launch Timer Directly for a task
-
-https://user-images.githubusercontent.com/42085970/211222246-082e6a95-4065-49f5-95d9-8652f4ace4c6.mp4
-
+Overview             |  Create a New Task
+:-------------------------:|:-------------------------:
+https://user-images.githubusercontent.com/42085970/211222198-f8f9a074-bf11-4798-ac68-e4c6266be291.mp4  |  https://user-images.githubusercontent.com/42085970/211222215-e77e68c4-941a-458d-97d6-4e1dd385eccc.mp4
 
 ## Timer
 
-https://user-images.githubusercontent.com/42085970/211222262-c2e32a1b-cf83-4514-b020-e7866fecbaa8.mp4
+Overview             |  Integrate Tasks with Timer
+:-------------------------:|:-------------------------:
+https://user-images.githubusercontent.com/42085970/211222262-c2e32a1b-cf83-4514-b020-e7866fecbaa8.mp4  |  https://user-images.githubusercontent.com/42085970/211222246-082e6a95-4065-49f5-95d9-8652f4ace4c6.mp4
+
+## Journal
+
+Filling a Journal             |  Visiting Past Journal Entries
+:-------------------------:|:-------------------------:
+https://user-images.githubusercontent.com/42085970/211222297-7a765fd1-2cd4-49d7-ac4c-54572d19f26a.mp4  |  https://user-images.githubusercontent.com/42085970/211222314-1841482b-e932-4a2c-b347-e0fbc427ddac.mp4
 
 ## Statistics
 
 https://user-images.githubusercontent.com/42085970/211222282-5bf183f4-5ef0-4c05-bf9e-6cb5c095d24b.mp4
-
-## Journal
-
-### Filling a Journal
-
-https://user-images.githubusercontent.com/42085970/211222297-7a765fd1-2cd4-49d7-ac4c-54572d19f26a.mp4
-
-### Visiting Past Journal Entries
-
-https://user-images.githubusercontent.com/42085970/211222314-1841482b-e932-4a2c-b347-e0fbc427ddac.mp4
