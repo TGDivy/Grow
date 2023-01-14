@@ -20,6 +20,8 @@ import { Stack } from "@mui/system";
 const LoginPage = () => {
   const signInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
+    // add calendar scope
+    provider.addScope("https://www.googleapis.com/auth/calendar.events");
     signInWithPopup(auth, provider)
       .then(() => {
         console.log("Google Login");
