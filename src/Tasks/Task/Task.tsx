@@ -25,6 +25,7 @@ import { subtaskType, taskType } from "../../Common/Types/Types";
 import useTaskStore from "../../Common/Stores/TaskStore";
 import Sticker from "./Sticker";
 import { useTour } from "@reactour/tour";
+import DueDate from "./DueDate";
 
 interface taskFC extends taskType {
   id: string;
@@ -49,6 +50,7 @@ const Task: FC<taskFC> = (props) => {
   const [tags_, setTags] = useState(props.tags);
   const [sticker_, setSticker] = useState(props.sticker);
   const [completed_, setCompleted] = useState(props.completed);
+  const [dueDate_, setDueDate] = useState<Date | null>(props.dueDate);
   const { setIsOpen, isOpen } = useTour();
   const handleEdit = () => {
     setEditing(true);
@@ -71,6 +73,7 @@ const Task: FC<taskFC> = (props) => {
           dateUpdated: new Date(),
           timeSpent: props.timeSpent,
           sticker: sticker_,
+          dueDate: dueDate_,
         },
         props.id
       );
@@ -98,6 +101,7 @@ const Task: FC<taskFC> = (props) => {
           dateUpdated: new Date(),
           timeSpent: props.timeSpent,
           sticker: sticker_,
+          dueDate: dueDate_,
         },
         props.id
       );
@@ -117,6 +121,7 @@ const Task: FC<taskFC> = (props) => {
         dateUpdated: new Date(),
         timeSpent: props.timeSpent,
         sticker: sticker_,
+        dueDate: dueDate_,
       },
       props.id
     );
@@ -138,6 +143,7 @@ const Task: FC<taskFC> = (props) => {
           dateUpdated: new Date(),
           timeSpent: props.timeSpent,
           sticker: sticker_,
+          dueDate: dueDate_,
         },
         props.id
       );
@@ -153,7 +159,6 @@ const Task: FC<taskFC> = (props) => {
   };
 
   const backgroundColor = !props.createNewTask ? "#00000088" : "#adc2d985";
-
   return (
     <ClickAwayListener
       onClickAway={() => {
@@ -215,13 +220,30 @@ const Task: FC<taskFC> = (props) => {
           }
         />
 
-        <CardContent sx={{ padding: "5px 20px 5px 20px" }}>
+        <CardContent
+          sx={{ padding: "5px 20px 5px 20px", position: "relative" }}
+        >
+          {editing && (
+            <Box
+              sx={{
+                right: "0px",
+                top: "0px",
+              }}
+            >
+              <DueDate
+                dueDate={dueDate_}
+                setDueDate={setDueDate}
+                editing={editing}
+              />
+            </Box>
+          )}
           <Divider
             textAlign="left"
             sx={{
               alignItems: "center",
               justifyContent: "center",
-
+              flexDirection: "row",
+              position: "relative",
               "&.MuiDivider-root": {
                 color: "primary.main",
                 py: 1,
@@ -239,12 +261,41 @@ const Task: FC<taskFC> = (props) => {
               },
             }}
           >
-            {(editing || sticker_) && (
-              <Sticker
-                sticker={sticker_}
-                setSticker={setSticker}
-                editing={editing}
-              />
+            {(editing || sticker_ || dueDate_) && (
+              <>
+                <Sticker
+                  sticker={sticker_}
+                  setSticker={setSticker}
+                  editing={editing}
+                />
+                {!editing &&
+                  dueDate_ &&
+                  (!sticker_ ? (
+                    <DueDate
+                      dueDate={dueDate_}
+                      setDueDate={setDueDate}
+                      editing={editing}
+                      taskId={props.id}
+                    />
+                  ) : (
+                    dueDate_ && (
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          right: "0px",
+                          top: "0px",
+                        }}
+                      >
+                        <DueDate
+                          dueDate={dueDate_}
+                          setDueDate={setDueDate}
+                          editing={editing}
+                          taskId={props.id}
+                        />
+                      </Box>
+                    )
+                  ))}
+              </>
             )}
           </Divider>
         </CardContent>

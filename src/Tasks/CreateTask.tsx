@@ -36,6 +36,7 @@ const CreateTask: FC<createTaskFc> = ({
     completed: false,
     timeSpent: 0,
     sticker: sticker || "",
+    dueDate: null,
   };
 
   const { setIsOpen, isOpen, setSteps, setCurrentStep, steps } = useTour();

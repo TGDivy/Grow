@@ -60,6 +60,7 @@ export interface taskType {
   title: string;
   description: string;
   dateUpdated: Date;
+  dueDate: Date | null;
   priority: boolean;
   completed: boolean;
   subTasks: Array<subtaskType>;
