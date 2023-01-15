@@ -28,6 +28,7 @@ import {
   Typography,
   Zoom,
 } from "@mui/material";
+import Events from "./Events";
 import { Box } from "@mui/system";
 import { Button, Drawer } from "@mui/material";
 import BottomNavigationBar from "../BottomNavigationBar";
@@ -53,6 +54,7 @@ import { Tab, Tabs } from "@mui/material";
 import { StepType, useTour } from "@reactour/tour";
 import { homeSteps } from "../steps";
 import useUserStore from "../Common/Stores/User";
+import ProfileLogo from "./ProfileLogo";
 
 const Home = () => {
   // const inspirationalQuote = {
@@ -116,9 +118,9 @@ const Home = () => {
     quote: 0,
     quoteAuthor: 200,
     places: 1000,
-    // mood: 2000,
     goals: 2000,
-    overall: 3000,
+    schedule: 3000,
+    overall: 4000,
   };
 
   const tabs = [<Goals readonly key="0" />, <Habits key="1" />];
@@ -158,6 +160,20 @@ const Home = () => {
           >
             <Settings />
           </Button>
+        </Box>
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            p: 2,
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 2,
+          }}
+        >
+          <ProfileLogo />
         </Box>
       </Box>
       <Box
@@ -286,6 +302,20 @@ const Home = () => {
                   {tabs[tab]}
                 </AccordionDetails>
               </Accordion>
+            </Fade>
+          </Grid>
+
+          <Grid item xs={12} md={8} sx={{ pt: 0, mt: 0 }}>
+            <Fade
+              in={true}
+              style={{
+                transitionDelay: `${transitionDelays.schedule}ms`,
+              }}
+              {...{ timeout: 1000 }}
+            >
+              <div>
+                <Events />
+              </div>
             </Fade>
           </Grid>
 
