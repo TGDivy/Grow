@@ -106,7 +106,62 @@ export const createTaskEvent = (id: string, task: taskType) => {
         window.open(response.result.htmlLink);
       })
       .catch((error) => {
-        console.log(error);
+        updateTaskEvent(id, task);
+      });
+  });
+};
+
+export const updateTaskEvent = (id: string, task: taskType) => {
+  executeGAPI(() => {
+    // due date is start date, it can be null, if so cancel event creation
+    if (!task.dueDate) {
+      return;
+    }
+    // if sticker is present, add it to title
+    const evenTitle = task.sticker
+      ? `[${task.sticker}] ${task.title}`
+      : task.title;
+
+    // subtasks, and tags are present, add them to description
+    const eventDescription = `${task.tags} ${task.description} ${task.subTasks} `;
+    // remove dashes from id
+    const even_id = id.replace(/-/g, "");
+    const event = {
+      id: even_id,
+      summary: evenTitle,
+      description: eventDescription,
+      start: {
+        dateTime: task.dueDate.toISOString(),
+        // get local time zone
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      },
+      // end date is 1 hour after start date
+      end: {
+        dateTime: new Date(
+          task.dueDate.getTime() + 60 * 60 * 1000
+        ).toISOString(),
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      },
+      reminders: {
+        useDefault: false,
+        overrides: [
+          { method: "email", minutes: 24 * 60 },
+          { method: "popup", minutes: 10 },
+        ],
+      },
+    };
+
+    window.gapi.client.calendar.events
+      .update({
+        calendarId: "primary",
+        eventId: even_id,
+        resource: event,
+      })
+      .then((response) => {
+        window.open(response.result.htmlLink);
+      })
+      .catch((error) => {
+        console.log("Update fail", error);
       });
   });
 };

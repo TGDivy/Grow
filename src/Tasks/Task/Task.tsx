@@ -26,6 +26,7 @@ import useTaskStore from "../../Common/Stores/TaskStore";
 import Sticker from "./Sticker";
 import { useTour } from "@reactour/tour";
 import DueDate from "./DueDate";
+import CreateEvent from "./CreateEvent";
 
 interface taskFC extends taskType {
   id: string;
@@ -177,8 +178,7 @@ const Task: FC<taskFC> = (props) => {
           color: "primary.main",
           width: "800px",
           maxWidth: "100%",
-
-          // backgroundColor: backgroundColor,
+          position: "relative",
         }}
         onClick={() => {
           if (!expanded) {
@@ -275,7 +275,6 @@ const Task: FC<taskFC> = (props) => {
                       dueDate={dueDate_}
                       setDueDate={setDueDate}
                       editing={editing}
-                      taskId={props.id}
                     />
                   ) : (
                     dueDate_ && (
@@ -290,7 +289,6 @@ const Task: FC<taskFC> = (props) => {
                           dueDate={dueDate_}
                           setDueDate={setDueDate}
                           editing={editing}
-                          taskId={props.id}
                         />
                       </Box>
                     )
@@ -322,8 +320,10 @@ const Task: FC<taskFC> = (props) => {
                     }}
                   />
                 )}
+                {!completed_ && <CreateEvent taskId={props.id} />}
               </Box>
             </Grid>
+
             <Grid item xs={6}>
               {props.startTimerButton && !editing && (
                 <StartTimer id={props.id} timeSpent={props.timeSpent} />

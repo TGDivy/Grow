@@ -82,6 +82,9 @@ const Events = () => {
           <Typography variant="h6" color="primary">
             {"Schedule"}
           </Typography>
+          <Typography variant="caption" color="primary">
+            {"(Pending Google Review)"}
+          </Typography>
         </AccordionSummary>
         <AccordionDetails
           sx={{

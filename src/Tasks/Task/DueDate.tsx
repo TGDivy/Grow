@@ -10,9 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import moment from "moment";
-import { createTaskEvent } from "../../Common/GAPI/Calendar";
-import { IconButton } from "@mui/material";
-import { Add } from "@mui/icons-material";
+
 import { Stack } from "@mui/system";
 import useTaskStore from "../../Common/Stores/TaskStore";
 
@@ -20,21 +18,12 @@ interface dueDateProps {
   dueDate: Date | null;
   editing: boolean;
   setDueDate: (date: Date | null) => void;
-  taskId?: string;
 }
 
-const DueDate: FC<dueDateProps> = ({
-  dueDate,
-  editing,
-  setDueDate,
-  taskId,
-}) => {
+const DueDate: FC<dueDateProps> = ({ dueDate, editing, setDueDate }) => {
   const handleDueDateChange = (date: Date | null) => {
     setDueDate(new Date(date || new Date()));
   };
-
-  const tasks = useTaskStore((state) => state.tasks);
-  const task = taskId ? tasks[taskId] : null;
 
   if (editing) {
     return (
@@ -64,7 +53,7 @@ const DueDate: FC<dueDateProps> = ({
       </LocalizationProvider>
     );
   }
-  if (!dueDate || !taskId || !task) return null;
+  if (!dueDate) return null;
   return (
     <Stack direction="row" spacing={1}>
       <Typography
@@ -75,15 +64,6 @@ const DueDate: FC<dueDateProps> = ({
       >
         {moment(dueDate).format("ddd, MMM Do")}
       </Typography>
-      {/* <Button
-        color="primary"
-        onClick={() => {
-          createTaskEvent(taskId, task);
-        }}
-        size="small"
-      >
-         <Add />
-      </Button> */}
     </Stack>
   );
 };
