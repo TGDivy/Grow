@@ -167,6 +167,9 @@ const useTaskStore = create<taskListStoreType>()(
                 console.log(`${doc.id} => ${doc.data()}`);
                 const task = doc.data() as taskType;
                 task.dateUpdated = doc.data().dateUpdated.toDate();
+                task.dueDate = doc.data().dueDate
+                  ? doc.data().dueDate.toDate()
+                  : null;
                 get().addTask(task, doc.id, true);
               });
             })
@@ -184,6 +187,10 @@ const useTaskStore = create<taskListStoreType>()(
             newState.state.tasks[key].dateUpdated = new Date(
               newState.state.tasks[key].dateUpdated
             );
+            // can be null
+            const possibleDueDate = newState.state.tasks[key].dueDate;
+            newState.state.tasks[key].dueDate =
+              possibleDueDate == null ? null : new Date(possibleDueDate);
           }
           return newState;
         },

@@ -13,7 +13,7 @@ const AddTags = () => {
 
   useEffect(() => {
     if (taskKey) {
-      setTags(useTaskStore.getState().tasks[taskKey].tags);
+      setTags(useTaskStore.getState().tasks[taskKey]?.tags);
     }
   }, [taskKey]);
 

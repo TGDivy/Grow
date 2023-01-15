@@ -56,7 +56,7 @@ const Event: FC<Props> = ({ event }) => {
       {
         title: event.summary,
         description: event.description,
-
+        dueDate: new Date(event.start.dateTime),
         taskListName: "Tasks",
         priority: false,
         subTasks: [],
@@ -70,10 +70,18 @@ const Event: FC<Props> = ({ event }) => {
     );
   };
 
-  const task = tasks[event.id];
+  let id = event.id;
+
+  let task = tasks[id];
+  if (!task) {
+    // add dashes to event id to make it a valid task id
+    // add them after 8, 12, 16, and 20 characters
+    id = event.id.replace(/(.{8})(.{4})(.{4})(.{4})(.{12})/, "$1-$2-$3-$4-$5");
+    task = tasks[id];
+  }
 
   const add_or_play = task ? (
-    <StartTimer id={event.id} timeSpent={task.timeSpent} />
+    <StartTimer id={id} timeSpent={task.timeSpent} />
   ) : (
     <IconButton
       aria-label="create task"
