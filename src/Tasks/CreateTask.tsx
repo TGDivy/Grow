@@ -11,20 +11,32 @@ import { createTaskSteps } from "../steps";
 interface createTaskFc {
   taskListName: string;
   id?: string;
+  description?: string;
+  title?: string;
+  noName?: boolean;
+  sticker?: string;
 }
 
-const CreateTask: FC<createTaskFc> = ({ taskListName, id }) => {
+const CreateTask: FC<createTaskFc> = ({
+  taskListName,
+  id,
+  description,
+  title,
+  sticker,
+  noName = false,
+}) => {
   const createTask: taskType = {
     taskListName,
-    title: "Create Task",
-    description: "",
+    title: title || "Create task",
+    description: description || "",
     dateUpdated: new Date(),
     priority: false,
     subTasks: [],
     tags: [],
     completed: false,
     timeSpent: 0,
-    sticker: "",
+    sticker: sticker || "",
+    dueDate: null,
   };
 
   const { setIsOpen, isOpen, setSteps, setCurrentStep, steps } = useTour();
@@ -60,7 +72,7 @@ const CreateTask: FC<createTaskFc> = ({ taskListName, id }) => {
         className="tut-task-create"
       >
         <Add />
-        Task
+        {noName ? "" : "Task"}
       </Button>
       <Dialog
         open={open}

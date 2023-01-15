@@ -3,6 +3,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   signInAnonymously,
+  OAuthCredential,
 } from "firebase/auth";
 import {
   Box,
@@ -20,9 +21,15 @@ import { Stack } from "@mui/system";
 const LoginPage = () => {
   const signInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
+
     signInWithPopup(auth, provider)
-      .then(() => {
-        console.log("Google Login");
+      .then((result) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken;
+        const user = result.user;
+
+        console.log(token);
+        console.log(user);
       })
       .catch((error) => {
         console.log(error);
@@ -104,6 +111,7 @@ const LoginPage = () => {
           Try as Guest (Max guest limit reached)
         </Button>
       </Stack>
+
       <Box
         sx={{
           position: "fixed",

@@ -30,23 +30,27 @@ export const CurrentUserProvider = ({ children }: any) => {
   );
   const setUserStore = useUserStore((state) => state.setUser);
 
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, (user: any) => {
     if (user && !once) {
       console.log("auth state changed", user);
-      addUser(user)
-        .then((userData) => {
-          setUser(userData as userType);
-          setUserID(userData.uid);
-          setWorkoutUserID(userData.uid);
-          setActivityUserID(userData.uid);
-          setJournalUserID(userData.uid);
-          setTimerRecordsUserID(userData.uid);
-          setUserStore(userData as userType);
-          setOnce(true);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      addUser(user).then((userData) => {
+        setUser(userData as userType);
+        setUserID(userData.uid);
+        setWorkoutUserID(userData.uid);
+        setActivityUserID(userData.uid);
+        setJournalUserID(userData.uid);
+        setTimerRecordsUserID(userData.uid);
+        setUserStore(userData as userType);
+        setOnce(true);
+      });
+    } else if (!user && !once) {
+      setUser(null);
+      setUserID("");
+      setWorkoutUserID("");
+      setActivityUserID("");
+      setJournalUserID("");
+      setTimerRecordsUserID("");
+      setOnce(false);
     }
   });
 

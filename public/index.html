@@ -35,6 +35,18 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Grow</title>
+    <script
+      async
+      defer
+      src="https://apis.google.com/js/api.js"
+      onload="gapiLoad()"
+    ></script>
+    <script
+      async
+      defer
+      src="https://accounts.google.com/gsi/client"
+      onload="gisInit()"
+    ></script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -49,5 +61,53 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <!-- <button id="showEventsBtn" onclick="showEvents();">Show Calendar</button> -->
+    <!-- <button id="revokeBtn" onclick="revokeToken();">Revoke access token</button> -->
+    <script>
+      let tokenClient;
+      let gapiInited;
+      let gisInited;
+
+      function gapiLoad() {
+        gapi.load("client", gapiInit);
+      }
+
+      function gapiInit() {
+        gapi.client
+          .init({
+            // NOTE: OAuth2 'scope' and 'client_id' parameters have moved to initTokenClient().
+          })
+          .then(function () {
+            // Load the Calendar API discovery document.
+            gapi.client.load(
+              "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"
+            );
+            gapiInited = true;
+          });
+      }
+
+      function gisInit() {
+        tokenClient = google.accounts.oauth2.initTokenClient({
+          client_id:
+            "975488037850-u3o3eu8r5cliobugd2m5v1ls6c43h2nh.apps.googleusercontent.com",
+          scope:
+            "https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/calendar.events",
+          callback: "", // defined at request time
+        });
+        window.tokenClient = tokenClient;
+        gisInited = true;
+      }
+
+      function revokeToken() {
+        let cred = gapi.client.getToken();
+        if (cred !== null) {
+          google.accounts.oauth2.revoke(cred.access_token, () => {
+            console.log("Revoked: " + cred.access_token);
+          });
+          gapi.client.setToken("");
+          document.getElementById("showEventsBtn").innerText = "Show Calendar";
+        }
+      }
+    </script>
   </body>
 </html>

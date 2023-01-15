@@ -13,7 +13,7 @@ const AddSticker = () => {
 
   useEffect(() => {
     if (taskKey) {
-      setSticker(useTaskStore.getState().tasks[taskKey].sticker);
+      setSticker(useTaskStore.getState().tasks[taskKey]?.sticker);
     }
   }, [taskKey]);
 
