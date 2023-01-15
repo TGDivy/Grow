@@ -21,13 +21,6 @@ import { Stack } from "@mui/system";
 const LoginPage = () => {
   const signInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
-    // add calendar scope
-    provider.addScope("https://www.googleapis.com/auth/calendar.events");
-    provider.addScope("https://www.googleapis.com/auth/calendar.readonly");
-    provider.addScope("https://www.googleapis.com/auth/calendar");
-    provider.addScope(
-      "https://www.googleapis.com/auth/calendar.events.readonly"
-    );
 
     signInWithPopup(auth, provider)
       .then((result) => {
@@ -37,7 +30,6 @@ const LoginPage = () => {
 
         console.log(token);
         console.log(user);
-        window.token = token || null;
       })
       .catch((error) => {
         console.log(error);
