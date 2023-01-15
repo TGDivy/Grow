@@ -75,6 +75,10 @@ const App = () => {
           element={user ? <HomeMain /> : <Navigate to="/Login" />}
         />
         <Route
+          path="*"
+          element={user ? <HomeMain /> : <Navigate to="/Login" />}
+        />
+        <Route
           path="/Settings"
           element={user ? <SettingMain /> : <Navigate to="/Login" />}
         />
