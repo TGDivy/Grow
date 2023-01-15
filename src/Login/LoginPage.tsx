@@ -3,6 +3,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   signInAnonymously,
+  OAuthCredential,
 } from "firebase/auth";
 import {
   Box,
@@ -22,9 +23,21 @@ const LoginPage = () => {
     const provider = new GoogleAuthProvider();
     // add calendar scope
     provider.addScope("https://www.googleapis.com/auth/calendar.events");
+    provider.addScope("https://www.googleapis.com/auth/calendar.readonly");
+    provider.addScope("https://www.googleapis.com/auth/calendar");
+    provider.addScope(
+      "https://www.googleapis.com/auth/calendar.events.readonly"
+    );
+
     signInWithPopup(auth, provider)
-      .then(() => {
-        console.log("Google Login");
+      .then((result) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken;
+        const user = result.user;
+
+        console.log(token);
+        console.log(user);
+        window.token = token || null;
       })
       .catch((error) => {
         console.log(error);
@@ -106,6 +119,7 @@ const LoginPage = () => {
           Try as Guest (Max guest limit reached)
         </Button>
       </Stack>
+
       <Box
         sx={{
           position: "fixed",
