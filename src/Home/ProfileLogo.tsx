@@ -7,7 +7,7 @@ import useCurrentUser from "../Common/Contexts/UserContext";
 const ProfileLogo = () => {
   const { user } = useCurrentUser();
 
-  const userName = user?.displayName || "Guest";
+  const userName = user?.displayName || user?.email || "Guest User";
 
   const handleLogout = () => {
     const auth = getAuth();
@@ -23,7 +23,7 @@ const ProfileLogo = () => {
   if (user) {
     return (
       <>
-        <Avatar alt={userName} />
+        <Avatar>{userName.slice(0, 2).toUpperCase()}</Avatar>
         <Button onClick={() => handleLogout()} variant="contained">
           <Logout />
         </Button>
