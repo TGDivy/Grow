@@ -57,19 +57,53 @@ export const createSampleEvent = () => {
   });
 };
 
+// we want to add subtasks, tags, and description to event description
+// we want to add/ replace sticker to event title
+
+const getEventDescription = (task: taskType) => {
+  // subtasks, and tags are present, add them to description
+  // subtask is an array of subtask objects, with a title and a boolean
+  // we want to add the title of the subtask, and a checkmark if it is completed
+  // we want to add the tags to the description
+
+  const subTasks = task.subTasks
+    ? task.subTasks.map((subtask) => {
+        return subtask.completed
+          ? `✅ ${subtask.title}\n`
+          : `❌ ${subtask.title}\n`;
+      })
+    : [];
+
+  const tags = task.tags ? task.tags : [];
+
+  const description = [...tags, ...subTasks, task.description].join("\n");
+
+  return description;
+};
+
+const getEventTitle = (task: taskType) => {
+  // if sticker is present, add it to title
+  // the title might already have a sticker, so we want to replace it
+  // if there is no sticker, we just want to add it to the title
+
+  const sticker = task.sticker ? task.sticker : "";
+  const title = task.title ? task.title : "";
+
+  const eventTitle = title.includes("[")
+    ? title.replace(/\[.*\]/, sticker)
+    : `[${sticker}] ${title}`;
+
+  return eventTitle;
+};
+
 export const createTaskEvent = (id: string, task: taskType) => {
   executeGAPI(() => {
     // due date is start date, it can be null, if so cancel event creation
     if (!task.dueDate) {
       return;
     }
-    // if sticker is present, add it to title
-    const evenTitle = task.sticker
-      ? `[${task.sticker}] ${task.title}`
-      : task.title;
-
-    // subtasks, and tags are present, add them to description
-    const eventDescription = `${task.tags} ${task.description} ${task.subTasks} `;
+    const evenTitle = getEventTitle(task);
+    const eventDescription = getEventDescription(task);
     // remove dashes from id
     const even_id = id.replace(/-/g, "");
     const event = {
@@ -117,13 +151,8 @@ export const updateTaskEvent = (id: string, task: taskType) => {
     if (!task.dueDate) {
       return;
     }
-    // if sticker is present, add it to title
-    const evenTitle = task.sticker
-      ? `[${task.sticker}] ${task.title}`
-      : task.title;
-
-    // subtasks, and tags are present, add them to description
-    const eventDescription = `${task.tags} ${task.description} ${task.subTasks} `;
+    const evenTitle = getEventTitle(task);
+    const eventDescription = getEventDescription(task);
     // remove dashes from id
     const even_id = id.replace(/-/g, "");
     const event = {
