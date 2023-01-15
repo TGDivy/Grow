@@ -90,7 +90,8 @@
         tokenClient = google.accounts.oauth2.initTokenClient({
           client_id:
             "975488037850-u3o3eu8r5cliobugd2m5v1ls6c43h2nh.apps.googleusercontent.com",
-          scope: "https://www.googleapis.com/auth/calendar.readonly",
+          scope:
+            "https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/calendar.events",
           callback: "", // defined at request time
         });
         window.tokenClient = tokenClient;
