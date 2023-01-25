@@ -11,7 +11,7 @@ import WorkStatLine from "./WorkStatLine";
 import TagPieStat from "./TagPieStat";
 import TagRadarStat from "./TagRadarStat";
 import StickerPieStat from "./StickerPieStat";
-import { filterTimerRecords, totalTimeWorked } from "./Utils/utils";
+import { filterTimerRecords, totalTimeWorked } from "./Utils/recordUtils";
 
 const StatsMain = () => {
   const timerRecords = useTimerRecordsStore((state) => state.timerRecords);

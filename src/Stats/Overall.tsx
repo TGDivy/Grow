@@ -35,7 +35,7 @@ import {
   getWeeklyWorkStat,
   filterJournalRecords,
 } from "./Utils/overall";
-import { filterTimerRecords } from "./Utils/utils";
+import { filterTimerRecords } from "./Utils/recordUtils";
 
 interface Props {
   timerRecords: timerType[];

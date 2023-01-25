@@ -18,7 +18,7 @@ import {
   totalTimeWorked,
   totalTimeWorkedByTagOrSticker,
   filterTimerRecords,
-} from "../Stats/Utils/utils";
+} from "../Stats/Utils/recordUtils";
 import useTimerRecordsStore from "../Common/Stores/TimerRecordsStore";
 import useActivityStore from "../Common/Stores/ActivityStore";
 import useDailyJournalStore from "../Common/Stores/DailyJournalStore";
