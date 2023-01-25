@@ -11,74 +11,7 @@ import WorkStatLine from "./WorkStatLine";
 import TagPieStat from "./TagPieStat";
 import TagRadarStat from "./TagRadarStat";
 import StickerPieStat from "./StickerPieStat";
-import Overall from "./Overall";
-
-export const filterTimerRecords = (
-  timerRecords,
-  timePeriodLength,
-  daysBack
-) => {
-  const DAY = 24 * 60 * 60 * 1000;
-
-  const today = new Date(new Date().getTime() - 5 * 60 * 60 * 1000).setHours(
-    0,
-    0,
-    0,
-    0
-  );
-  const current = new Date(today - daysBack * DAY);
-  const filteredTimerRecords = timerRecords.filter(
-    (timerRecord) =>
-      timerRecord.startTime.getTime() - 5 * 60 * 60 * 1000 >
-        current.getTime() - (timePeriodLength - 1) * DAY &&
-      timerRecord.startTime.getTime() - 5 * 60 * 60 * 1000 <
-        current.getTime() + DAY
-  );
-  // Pad weeklyTimerRecords with empty days
-  for (let i = 0; i < timePeriodLength - 1; i++) {
-    const date = new Date(current.getTime() - i * DAY);
-
-    filteredTimerRecords.push({
-      startTime: date,
-      duration: 0,
-      tags: [],
-      description: "",
-      taskKey: "",
-    });
-  }
-
-  return filteredTimerRecords;
-};
-
-export const totalTimeWorked = (timerRecords) => {
-  const T = Math.floor(
-    timerRecords.reduce((acc, timerRecord) => {
-      return acc + timerRecord.duration;
-    }, 0) / 60
-  );
-  return T;
-};
-
-export const totalTimeWorkedByTagOrSticker = (timerRecords, name) => {
-  const FilterByT = (timerRecord) => {
-    return timerRecord.tags.includes(name);
-  };
-
-  const FilterByS = (timerRecord) => {
-    return timerRecord.sticker === name;
-  };
-
-  const timerRecordsFiltered = timerRecords.filter(
-    (timerRecord) => FilterByT(timerRecord) || FilterByS(timerRecord)
-  );
-
-  const T = Math.floor(
-    timerRecordsFiltered.reduce((acc, timerRecord) => {
-      return acc + timerRecord.duration;
-    }, 0) / 60
-  );
-  return T;
-};
+import { filterTimerRecords, totalTimeWorked } from "./Utils/utils";
 
 const StatsMain = () => {
   const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
