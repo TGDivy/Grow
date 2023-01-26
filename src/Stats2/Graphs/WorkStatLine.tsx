@@ -17,7 +17,7 @@ import {
   periodYAxisLabelFunction,
   getXAxisTicks,
 } from "../Utils/graph";
-import { CustomTooltipWrapper } from "../Utils/Tooltip";
+import { CustomTooltipWrapper } from "../Utils/Shapes";
 
 type Props = {
   timerRecords: timerType[];

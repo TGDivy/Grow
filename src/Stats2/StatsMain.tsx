@@ -11,6 +11,7 @@ import {
 } from "./Utils/utils";
 import WorkStatBar from "./Graphs/WorkStatBar";
 import WorkStatLine from "./Graphs/WorkStatLine";
+import TagPieStat from "./Graphs/PieStat";
 
 const StatsMain = () => {
   const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
@@ -134,6 +135,15 @@ const StatsMain = () => {
               period={period}
               date={lastDay}
               date2={lastDay2}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TagPieStat timerRecords={selectedTimerRecords} filterOn="Tags" />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TagPieStat
+              timerRecords={selectedTimerRecords}
+              filterOn="Stickers"
             />
           </Grid>
         </Grid>

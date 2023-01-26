@@ -10,7 +10,7 @@ import {
   periodYAxisLabelFunction,
   getXAxisTicks,
 } from "../Utils/graph";
-import { CustomTooltipWrapper } from "../Utils/Tooltip";
+import { CustomTooltipWrapper } from "../Utils/Shapes";
 
 interface Props {
   timerRecords: timerType[];

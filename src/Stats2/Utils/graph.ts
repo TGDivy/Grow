@@ -89,7 +89,7 @@ export const customTooltipTitle = {
   [timePeriod.year]: "",
 };
 
-interface dicType {
+export interface dicType {
   [key: string]: number;
 }
 

@@ -15,11 +15,16 @@ const GraphCard: FC<Props> = (props) => {
         ":hover": {
           boxShadow: 20,
         },
+        backgroundColor: "#00000088",
+        color: "primary.main",
+        width: "800px",
+        maxWidth: "100%",
+        position: "relative",
       }}
     >
       <CardHeader
         title={
-          <Typography variant="h6" color="text.primary" align="center">
+          <Typography variant="h6" color="primary.main" align="center">
             {props.title}
           </Typography>
         }
@@ -33,7 +38,6 @@ const GraphCard: FC<Props> = (props) => {
           flexWrap: "wrap",
           height: "30vh",
           width: "100%",
-          backgroundColor: "#ffffffff",
         }}
       >
         <ResponsiveContainer>{props.children}</ResponsiveContainer>
