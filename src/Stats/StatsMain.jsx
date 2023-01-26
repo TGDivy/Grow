@@ -15,8 +15,6 @@ import { filterTimerRecords, totalTimeWorked } from "./Utils/recordUtils";
 
 const StatsMain = () => {
   const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
-
-  // const daysBack = -0;
   const [periodBack, setPeriodBack] = React.useState(0);
   const [timePeriodLength, setTimePeriodLength] = React.useState(7);
 
