@@ -10,20 +10,21 @@ import { dataType } from "../Utils/graph";
 interface Props {
   timerRecords: timerType[];
   filterOn: "Tags" | "Stickers";
+  values: string[];
 }
 
-const TagPieStat: FC<Props> = ({ timerRecords, filterOn }) => {
+const TagPieStat: FC<Props> = ({ timerRecords, filterOn, values }) => {
   const [data, setData] = React.useState<dataType[]>();
 
   React.useEffect(() => {
     if (filterOn === "Tags") {
-      getTagPieData(timerRecords).then((data) => {
+      getTagPieData(timerRecords, values).then((data) => {
         if (data) {
           setData(data);
         }
       });
     } else if (filterOn === "Stickers") {
-      getStickerPieData(timerRecords).then((data) => {
+      getStickerPieData(timerRecords, values).then((data) => {
         if (data) {
           setData(data);
         }

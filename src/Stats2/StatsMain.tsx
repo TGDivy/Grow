@@ -12,9 +12,12 @@ import {
 import WorkStatBar from "./Graphs/WorkStatBar";
 import WorkStatLine from "./Graphs/WorkStatLine";
 import TagPieStat from "./Graphs/PieStat";
+import useUserStore from "../Common/Stores/User";
 
 const StatsMain = () => {
   const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
+  const possibleTags = useUserStore((state) => state.tags);
+  const possibleStickers = useUserStore((state) => state.stickers);
   const [periodBack, setPeriodBack] = React.useState(0);
   const [period, setPeriod] = React.useState<timePeriod>(timePeriod.day);
 
@@ -160,12 +163,17 @@ const StatsMain = () => {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <TagPieStat timerRecords={selectedTimerRecords} filterOn="Tags" />
+              <TagPieStat
+                timerRecords={selectedTimerRecords}
+                filterOn="Tags"
+                values={possibleTags}
+              />
             </Grid>
             <Grid item xs={12} md={6}>
               <TagPieStat
                 timerRecords={selectedTimerRecords}
                 filterOn="Stickers"
+                values={possibleStickers}
               />
             </Grid>
           </Grid>
