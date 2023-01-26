@@ -133,7 +133,7 @@ const WorkStatLine: FC<Props> = ({
 
     return null;
   };
-
+  const ticks = [0, 120, 240, 360, 480, 600, 720];
   return (
     <GraphCard title="Weekly Work">
       <LineChart
@@ -152,7 +152,9 @@ const WorkStatLine: FC<Props> = ({
           axisLine={false}
           width={30}
           orientation="left"
+          allowDataOverflow={false}
           tickCount={6}
+          ticks={ticks}
           tickFormatter={(tick) => `${(tick / 60).toFixed(0)}H`}
           tickLine={false}
         />

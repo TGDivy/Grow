@@ -10,7 +10,7 @@ import {
   DialogContentText,
   Typography,
 } from "@mui/material";
-import { Add, Close } from "@mui/icons-material";
+import { Add, Close, Check } from "@mui/icons-material";
 
 type Props = {
   taskId: string;
@@ -24,19 +24,42 @@ const CreateEvent = ({ taskId }: Props) => {
   // if no due date, ask the user to set one pop up a dialog to set a due date
   const [open, setOpen] = React.useState(false);
 
+  const [eventCreated, setEventCreated] = React.useState(false);
+
   const handleCreateEvent = () => {
     if (dueDate && task) {
-      createTaskEvent(taskId, task);
+      createTaskEvent(taskId, task, setEventCreated);
     } else {
       setOpen(true);
     }
   };
 
+  // Transition button to checkmark and change color to green when event is created for feedback
+
+  React.useEffect(() => {
+    if (eventCreated) {
+      setTimeout(() => {
+        setEventCreated(false);
+      }, 2000);
+    }
+  }, [eventCreated]);
+
+  const button = eventCreated ? (
+    <Button color="success">
+      <Check />
+    </Button>
+  ) : (
+    <Button onClick={handleCreateEvent}>
+      <Add />
+    </Button>
+  );
+
   return (
     <>
-      <Button onClick={handleCreateEvent}>
+      {button}
+      {/* <Button onClick={handleCreateEvent}>
         <Add />
-      </Button>
+      </Button> */}
       <Dialog open={open}>
         <DialogContent>
           <DialogContentText>

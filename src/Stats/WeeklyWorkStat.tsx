@@ -107,6 +107,8 @@ const WeeklyWorkStat: FC<Props> = ({ timerRecords }) => {
     return null;
   };
 
+  const ticks = [0, 120, 240, 360, 480, 600, 720];
+
   return (
     <GraphCard title="Weekly Work">
       <BarChart
@@ -125,10 +127,10 @@ const WeeklyWorkStat: FC<Props> = ({ timerRecords }) => {
           axisLine={false}
           width={30}
           orientation="left"
-          tickCount={6}
+          // tickCount={6}
           tickFormatter={(tick) => `${(tick / 60).toFixed(0)}H`}
           tickLine={false}
-          // ticks={ticks}
+          ticks={ticks}
         />
         <Tooltip content={<CustomTooltip />} />
         {/* <Legend /> */}

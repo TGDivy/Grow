@@ -147,9 +147,18 @@ const Home = () => {
             top: 0,
             right: 0,
             p: 2,
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 2,
           }}
         >
-          <Button onClick={handleHelp} size="large" className="tut-home-help">
+          <Button
+            onClick={handleHelp}
+            size="large"
+            className="tut-home-help"
+            sx={{ p: 0 }}
+          >
             <Help fontSize="large" />
           </Button>
           <Button
@@ -178,7 +187,6 @@ const Home = () => {
       </Box>
       <Box
         sx={{
-          // height: "90vh",
           width: "100%",
           alignContent: "center",
           justifyContent: "center",
