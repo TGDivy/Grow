@@ -1,11 +1,10 @@
 import React, { FC } from "react";
-import { Box, Grid, Grow, Stack, Zoom } from "@mui/material";
+import { Box, Grid, Grow, Stack, Collapse } from "@mui/material";
 import Task from "./Task/Task";
 import CreateTask from "./CreateTask";
-
+import { Chip } from "@mui/material";
 import useTaskStore from "../Common/Stores/TaskStore";
 import _ from "lodash";
-
 import { db } from "../Common/Firestore/firebase-config";
 import {
   Accordion,
@@ -14,31 +13,70 @@ import {
   AccordionDetails,
 } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
+import useUserStore from "../Common/Stores/User";
+import { TransitionGroup } from "react-transition-group";
 
 interface tasksListFC {
   taskListName: string;
 }
 
+const filterTasksByTag = async (tag: string, tasksArray: [string, any][]) => {
+  return tasksArray.filter(([id, task]) => {
+    if (tag) {
+      return task.tags.includes(tag);
+    } else {
+      return true;
+    }
+  });
+};
+
 const TasksList: FC<tasksListFC> = ({ taskListName }) => {
   const tasks = useTaskStore((state) => state.tasks);
-  const [tasksArray, completedArray] = _.flow(
-    Object.entries,
-    (arr) => arr.filter(([, task]) => task.taskListName === taskListName),
-    (arr) => arr.reverse(),
-    (arr) => _.partition(arr, ([, task]) => !task.completed)
-    // (arr) => _.partition(arr, ([, task]) => task.completed)
-  )(tasks);
+  const possibleTags = useUserStore((state) => state.tags);
+  const [filter, setFilter] = React.useState<string>("");
 
-  const displayTasks = tasksArray.map(([id, task], index) => (
+  const [tasksArray, setTasksArray] = React.useState<[string, any][]>([]);
+  const [completedArray, setCompletedArray] = React.useState<[string, any][]>(
+    []
+  );
+  const [filtered, setFiltered] = React.useState<[string, any][]>([]);
+  const [filteredCompletedArray, setFilteredCompletedArray] = React.useState<
+    [string, any][]
+  >([]);
+
+  React.useEffect(() => {
+    const [tasksArray_, completedArray_] = _.flow(
+      Object.entries,
+      (arr) => arr.filter(([, task]) => task.taskListName === taskListName),
+      (arr) => arr.reverse(),
+      (arr) => arr.slice(0, 40),
+      (arr) => _.partition(arr, ([, task]) => !task.completed)
+    )(tasks);
+
+    setTasksArray(tasksArray_);
+    setCompletedArray(completedArray_);
+  }, [tasks, taskListName]);
+
+  React.useEffect(() => {
+    filterTasksByTag(filter, tasksArray).then((filtered) => {
+      filterTasksByTag(filter, completedArray).then((filtered2) => {
+        setFilteredCompletedArray(filtered2);
+        setFiltered(filtered);
+      });
+    });
+  }, [filter, tasksArray, completedArray]);
+
+  const handleDeleteTag = () => {
+    setFilter("");
+  };
+
+  const handleAddTag = (tag: string) => {
+    setFilter(tag);
+  };
+
+  const displayTasks = filtered.map(([id, task], index) => (
     <Grid item xs={12} sm={6} md={4} lg={4} key={id}>
-      <Grow
-        in={true}
-        // timeout={1000}
-        style={{ transformOrigin: "0 0 0" }}
-        {...{ timeout: 800 + index * 150 }}
-        // timeout={400}
-        // style={{ transitionDelay: `${index * 200}ms` }}
-      >
+      <Grow in={true} timeout={600 + index * 200}>
         <Box>
           <Task {...task} id={id} createNewTask={false} startTimerButton />
         </Box>
@@ -46,24 +84,65 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
     </Grid>
   ));
 
-  const completedTasks = completedArray.map(([id, task]) => (
+  const completedTasks = filteredCompletedArray.map(([id, task]) => (
     <Grid item xs={12} sm={6} md={4} lg={4} key={id}>
       <Task {...task} id={id} createNewTask={false} startTimerButton />
     </Grid>
   ));
 
+  // Filter chips for tags. Transition the chips using Collapse component, when chip is selected, hide other chips. When chip is deselected, show all chips.
+  const filterChips = (
+    <TransitionGroup>
+      <Stack direction="row" spacing={1}>
+        {filter && (
+          <Collapse in={true} orientation="horizontal" timeout={200}>
+            <Chip
+              label={filter}
+              onDelete={handleDeleteTag}
+              sx={{
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                color: "white",
+              }}
+            />
+          </Collapse>
+        )}
+
+        {possibleTags.map((tag, index) => (
+          <Collapse
+            key={tag}
+            in={filter ? false : true}
+            orientation="horizontal"
+            timeout={index * 200}
+          >
+            <Chip
+              label={tag}
+              sx={{
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                color: "white",
+              }}
+              onClick={() => handleAddTag(tag)}
+            />
+          </Collapse>
+        ))}
+      </Stack>
+    </TransitionGroup>
+  );
+
   return (
     <Stack direction="column" spacing={3}>
       <CreateTask taskListName={taskListName} />
+      {filterChips}
       <Box
         sx={{
           p: 2,
           backgroundColor: "rgba(0, 0, 0, 0.3)",
         }}
       >
-        <Grid container spacing={2}>
-          {displayTasks}
-        </Grid>
+        <TransitionGroup>
+          <Grid container spacing={2}>
+            {displayTasks}
+          </Grid>
+        </TransitionGroup>
       </Box>
       {completedTasks.length > 0 && (
         <Accordion
