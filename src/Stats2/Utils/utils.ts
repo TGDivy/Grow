@@ -63,12 +63,16 @@ export const getDay = (date: Date) => {
   const firstDay = new Date(
     date.getFullYear(),
     date.getMonth(),
-    date.getDate()
+    date.getDate() - 1,
+    22,
+    0
   );
   const lastDay = new Date(
     date.getFullYear(),
     date.getMonth(),
-    date.getDate() + 1
+    date.getDate(),
+    23,
+    59
   );
   return { firstDay, lastDay };
 };
@@ -98,9 +102,8 @@ export const getTimerRecordsBetween = (
 ) => {
   const filteredTimerRecords = timerRecords.filter(
     (timerRecord) =>
-      timerRecord.startTime.getTime() - 5 * 60 * 60 * 1000 >
-        startDate.getTime() &&
-      timerRecord.startTime.getTime() - 5 * 60 * 60 * 1000 < endDate.getTime()
+      timerRecord.startTime.getTime() > startDate.getTime() &&
+      timerRecord.startTime.getTime() < endDate.getTime()
   );
 
   if (pad) {
@@ -116,7 +119,7 @@ export const getTimerRecordsBetween = (
     if (pad === timePeriod.day) {
       // pad each hour from startdate to enddate
       for (let i = 0; i < 24; i++) {
-        const newDate = new Date(startDate);
+        const newDate = new Date(endDate);
         newDate.setHours(i);
         const newRecord = { ...emptyRecord, startTime: newDate };
         filteredTimerRecords.push(newRecord);
@@ -212,9 +215,9 @@ export const getPeriodName = (
   // For year, return: Year
   switch (period) {
     case timePeriod.day:
-      return `${startDate.toLocaleString("default", {
+      return `${endDate.toLocaleString("default", {
         month: "short",
-      })} ${startDate.getDate()}, ${startDate.getFullYear()}`;
+      })} ${endDate.getDate()}, ${endDate.getFullYear()}`;
     case timePeriod.week:
       return `${startDate.toLocaleString("default", {
         month: "short",

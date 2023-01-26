@@ -16,13 +16,14 @@ import {
 interface Props {
   timerRecords: timerType[];
   period: timePeriod;
+  date?: Date;
 }
 
-const WorkStatBar: FC<Props> = ({ timerRecords, period }) => {
+const WorkStatBar: FC<Props> = ({ timerRecords, period, date }) => {
   const [data, setData] = React.useState<dataType[]>();
 
   React.useEffect(() => {
-    getTimePeriods(timerRecords, period).then((data) => {
+    getTimePeriods(timerRecords, period, date).then((data) => {
       if (data) {
         console.log(data);
         setData(data);

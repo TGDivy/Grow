@@ -110,7 +110,11 @@ const StatsMain = () => {
             </Grid>
           </Grid>
           <Grid item xs={12} md={6}>
-            <WorkStatBar timerRecords={selectedTimerRecords} period={period} />
+            <WorkStatBar
+              timerRecords={selectedTimerRecords}
+              period={period}
+              date={lastDay}
+            />
           </Grid>
         </Grid>
       </Container>

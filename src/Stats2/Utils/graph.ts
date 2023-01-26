@@ -16,7 +16,8 @@ export interface dataType {
  */
 export const getTimePeriods = async (
   timerRecords: timerType[],
-  period: timePeriod
+  period: timePeriod,
+  date?: Date
 ) => {
   // If dataType is day then the time period is 24 hours
   // So we want to get the total time worked in each hour
@@ -27,7 +28,7 @@ export const getTimePeriods = async (
 
   switch (period) {
     case timePeriod.day:
-      return await getHours(timerRecords);
+      return await getHours(timerRecords, date);
     case timePeriod.week:
       return await getDays(timerRecords);
     case timePeriod.month:
@@ -97,55 +98,100 @@ interface dicType {
  * @param timerRecords: timerType[]
  * @returns dataType[]
  */
-const getHours = async (timerRecords: timerType[]) => {
+const getHours = async (timerRecords: timerType[], date?: Date) => {
   const hoursDic: dicType = {};
+  const forDate = date ? date : timerRecords[0].startTime;
 
   // Get the total time worked in each hour
   for (const timerRecord of timerRecords) {
     // a timer record can span multiple hours
     // we have the start time and the duration
     // so we can figure each hour that the timer record spans and only add the duration worked in that hour
+    // it can also belong to a different day, but we only want to add the duration worked in that hour for the given day
     const startTime = timerRecord.startTime;
     const duration = timerRecord.duration;
 
-    // Get the hour that the timer record started
-    const startHour = startTime.getHours();
+    // if the timer record is for a different day, then we only want to add the duration worked in that hour for the given day
+    if (moment(startTime).isSame(forDate, "day")) {
+      // Get the hour that the timer record started
+      const startHour = startTime.getHours();
 
-    // Get the hour that the timer record ended
-    const endHour = new Date(startTime.getTime() + duration * 1000).getHours();
+      // Get the hour that the timer record ended
+      let endHour = new Date(startTime.getTime() + duration * 1000).getHours();
 
-    // If the timer record spans multiple hours
-    if (startHour !== endHour) {
-      // Add the duration worked in the first hour
-      if (hoursDic[startHour]) {
-        hoursDic[startHour] += 60 * 60 - startTime.getMinutes() * 60;
-      } else {
-        hoursDic[startHour] = 60 * 60 - startTime.getMinutes() * 60;
-      }
-
-      // Add the duration worked in the last hour
-      if (hoursDic[endHour]) {
-        hoursDic[endHour] +=
-          new Date(startTime.getTime() + duration * 1000).getMinutes() * 60;
-      } else {
-        hoursDic[endHour] =
-          new Date(startTime.getTime() + duration * 1000).getMinutes() * 60;
-      }
-
-      // Add the duration worked in the hours in between
-      for (let i = startHour + 1; i < endHour; i++) {
-        if (hoursDic[i]) {
-          hoursDic[i] += 60 * 60;
+      // If the timer record spans multiple hours
+      if (startHour !== endHour) {
+        // Add the duration worked in the first hour
+        if (hoursDic[startHour]) {
+          hoursDic[startHour] += 60 * 60 - startTime.getMinutes() * 60;
         } else {
-          hoursDic[i] = 60 * 60;
+          hoursDic[startHour] = 60 * 60 - startTime.getMinutes() * 60;
+        }
+
+        // Add the duration worked in the last hour if it is the same day
+        if (endHour >= startHour) {
+          if (hoursDic[endHour]) {
+            hoursDic[endHour] +=
+              new Date(startTime.getTime() + duration * 1000).getMinutes() * 60;
+          } else {
+            hoursDic[endHour] =
+              new Date(startTime.getTime() + duration * 1000).getMinutes() * 60;
+          }
+        }
+
+        if (endHour < startHour) {
+          endHour += 24;
+        }
+
+        // Add the duration worked in the hours in between
+        for (let i = startHour + 1; i < endHour; i++) {
+          if (hoursDic[i]) {
+            hoursDic[i] += 60 * 60;
+          } else {
+            hoursDic[i] = 60 * 60;
+          }
+        }
+      } else {
+        // If the timer record does not span multiple hours
+        if (hoursDic[startHour]) {
+          hoursDic[startHour] += duration;
+        } else {
+          hoursDic[startHour] = duration;
         }
       }
-    } else {
-      // If the timer record does not span multiple hours
-      if (hoursDic[startHour]) {
-        hoursDic[startHour] += duration;
-      } else {
-        hoursDic[startHour] = duration;
+    } else if (moment(startTime).isBefore(forDate, "day")) {
+      // If the timer record is for a day before the given day
+      // then we only want to add the duration worked in that hour for the given day
+      const startHour = startTime.getHours();
+      let endHour = new Date(startTime.getTime() + duration * 1000).getHours();
+
+      // If the timer record spans multiple hours
+      if (startHour !== endHour) {
+        // Add the duration worked in the last hour if it is the same day
+        if (endHour < startHour) {
+          if (hoursDic[endHour]) {
+            hoursDic[endHour] +=
+              new Date(startTime.getTime() + duration * 1000).getMinutes() * 60;
+          } else {
+            hoursDic[endHour] =
+              new Date(startTime.getTime() + duration * 1000).getMinutes() * 60;
+          }
+        }
+
+        if (endHour < startHour) {
+          endHour += 24;
+        }
+
+        // Add the duration worked in the hours in between
+        for (let i = startHour + 1; i < endHour; i++) {
+          if (i >= 24) {
+            if (hoursDic[i - 24]) {
+              hoursDic[i - 24] += 60 * 60;
+            } else {
+              hoursDic[i - 24] = 60 * 60;
+            }
+          }
+        }
       }
     }
   }
