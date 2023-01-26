@@ -68,18 +68,27 @@ export const renderActiveShape = (props: any) => {
   const cos = Math.cos(-RADIAN * midAngle);
   const sx = cx + (outerRadius + 10) * cos;
   const sy = cy + (outerRadius + 10) * sin;
-  const mx = cx + (outerRadius + 20) * cos;
-  const my = cy + (outerRadius + 20) * sin;
-  const ex = mx + (cos >= 0 ? 1 : -1) * 20 * Math.abs(sin);
-  const ey = my - sin * 10;
+
+  const leftX = cx - outerRadius - 5;
+  const rightX = cx + outerRadius + 5;
+  const ex = cos >= 0 ? rightX : leftX;
+  const topY = cy - outerRadius - 10;
+  const bottomY = cy + outerRadius + 10;
+  const ey = sin >= 0 ? bottomY : topY;
   const fill = "#ac9172";
+  const mx = ((ex + sx) / 2) * 0.95;
+  const my = ((ey + sy) / 2) * 1.05;
   const textAnchor = cos >= 0 ? "start" : "end";
+  // console.log(cx, cy);
+
+  // use outerRadius to find the top left corner of the pie chart
+
   return (
     <g>
       <text
         x={cx}
         y={cy}
-        dy={8}
+        dy={0}
         textAnchor="middle"
         fill={"#ac9172"}
         fontSize={20}
@@ -87,6 +96,13 @@ export const renderActiveShape = (props: any) => {
       >
         {payload.label}
       </text>
+      <text x={cx} y={cy} textAnchor="middle" fill="#fff" dy={30}>
+        {Math.floor(payload.time / 60 / 60)}h{" "}
+        {Math.floor((payload.time / 60) % 60)}m
+      </text>
+      {/* <text x={cx} y={cy} textAnchor="middle" fill="#999" dy={-2}>
+        {`(${(percent * 100).toFixed(0)}%)`}
+      </text> */}
       <Sector
         cx={cx}
         cy={cy}
@@ -111,18 +127,10 @@ export const renderActiveShape = (props: any) => {
         fill="none"
       />
       <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
+
       <text
         x={ex + (cos >= 0 ? 1 : -1) * 8}
         y={ey}
-        textAnchor={textAnchor}
-        fill="#fff"
-      >
-        {Math.floor(payload.time / 60 / 60)}h{" "}
-        {Math.floor((payload.time / 60) % 60)}m
-      </text>
-      <text
-        x={ex + (cos >= 0 ? 1 : -1) * 8}
-        y={ey + 18}
         textAnchor={textAnchor}
         fill="#999"
       >

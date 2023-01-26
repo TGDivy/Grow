@@ -95,12 +95,12 @@ const App = () => {
           path="/Soil"
           element={user ? <SoilMain /> : <Navigate to="/Login" />}
         />
-        <Route
+        {/* <Route
           path="/Stats"
           element={user ? <StatsMain /> : <Navigate to="/Login" />}
-        />
+        /> */}
         <Route
-          path="/Stats2"
+          path="/Stats"
           element={user ? <StatsMain2 /> : <Navigate to="/Login" />}
         />
         <Route
