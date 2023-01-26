@@ -32,14 +32,22 @@ const StatsMain = () => {
     }
   };
 
-  console.log("period", period);
-  console.log("periodBack", periodBack);
-
   const { firstDay, lastDay } = getStartAndEndDate(period, periodBack);
   const selectedTimerRecords = getTimerRecordsBetween(
     timerRecords,
     firstDay,
     lastDay,
+    period
+  );
+
+  const { firstDay: firstDay2, lastDay: lastDay2 } = getStartAndEndDate(
+    period,
+    periodBack + 1
+  );
+  const selectedTimerRecords2 = getTimerRecordsBetween(
+    timerRecords,
+    firstDay2,
+    lastDay2,
     period
   );
 
@@ -112,8 +120,10 @@ const StatsMain = () => {
           <Grid item xs={12} md={6}>
             <WorkStatBar
               timerRecords={selectedTimerRecords}
+              selectedTimerRecords2={selectedTimerRecords2}
               period={period}
               date={lastDay}
+              date2={lastDay2}
             />
           </Grid>
         </Grid>
