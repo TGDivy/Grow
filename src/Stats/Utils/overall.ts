@@ -393,5 +393,10 @@ export const dataToDailyScore = (
     }
   });
 
+  // subtract scorePrev from score
+  scoreData.forEach((entry) => {
+    entry.scorePrev -= entry.score;
+  });
+
   return scoreData;
 };

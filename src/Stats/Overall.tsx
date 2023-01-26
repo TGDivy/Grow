@@ -9,6 +9,8 @@ import {
   CartesianGrid,
   XAxis,
   ResponsiveContainer,
+  BarChart,
+  Bar,
 } from "recharts";
 import { JournalType, timerType } from "../Common/Types/Types";
 import {
@@ -19,8 +21,10 @@ import {
   CardHeader,
   ClickAwayListener,
   Collapse,
+  Divider,
   Grid,
   IconButton,
+  Paper,
   Tab,
   Tabs,
   Typography,
@@ -88,23 +92,47 @@ const OverallStats: FC<Props> = ({
     return null;
   }
 
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({ active, payload, label }: any) => {
     if (active) {
+      const score = Math.floor(payload[0].value);
+      const scorePrev = Math.floor(payload[1].value) + score;
       return (
-        <div
-          style={{
+        <Paper
+          sx={{
+            padding: "10px",
             backgroundColor: "#ffffff",
-            padding: "0px 10px",
-            border: "2px solid #bbbbbb",
+            border: "2px solid #aaaaaa",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
           }}
         >
-          <Typography variant="h6" color="text.primary">
-            {`${Math.floor(payload[1].value)}`}
+          <Typography variant="body1" color="text.primary">
+            {label}
           </Typography>
-          <Typography variant="body2" color="text.primary">
-            {`Previous ${Math.floor(payload[0].value)}`}
+          <Divider
+            orientation="vertical"
+            flexItem
+            sx={{
+              margin: "0px 10px",
+              borderRight: "2px solid #aaaaaa",
+            }}
+          />
+          <Typography variant="body1" color="text.primary">
+            Score: {`${score}`.padStart(2, "0")}
           </Typography>
-        </div>
+          <Divider
+            orientation="vertical"
+            flexItem
+            sx={{
+              margin: "0px 10px",
+              borderRight: "2px solid #aaaaaa",
+            }}
+          />
+          <Typography variant="body1" color="text.primary">
+            Prev: {`${scorePrev}`.padStart(2, "0")}
+          </Typography>
+        </Paper>
       );
     }
 
@@ -154,7 +182,7 @@ const OverallStats: FC<Props> = ({
         {/* Center the header */}
         <CardHeader
           title={
-            <Typography variant="h5" color="primary">
+            <Typography variant="h6" color="primary" align="center">
               Overall Stats
             </Typography>
           }
@@ -174,11 +202,10 @@ const OverallStats: FC<Props> = ({
             flexWrap: "wrap",
             height: "30vh",
             width: "100%",
-            backgroundColor: "#ffffff00",
           }}
         >
           <ResponsiveContainer>
-            <LineChart
+            <BarChart
               data={dataToDailyScore(data, dataJournal)}
               margin={{
                 top: 20,
@@ -208,24 +235,9 @@ const OverallStats: FC<Props> = ({
                 tick={{ fill: "#ffffffbb" }}
               />
 
-              <Line
-                type="monotone"
-                dataKey="scorePrev"
-                name="Previous"
-                stroke="#ac9172"
-                strokeOpacity={0.3}
-                strokeWidth={5}
-                dot={false}
-              />
-              <Line
-                type="monotone"
-                dataKey="score"
-                name="Current"
-                stroke="#ac9172"
-                strokeWidth={5}
-                dot={false}
-              />
-            </LineChart>
+              <Bar fill="#ac9172" stackId="aa" dataKey="score" />
+              <Bar dataKey="scorePrev" fill="#ac917233" stackId="aa" />
+            </BarChart>
           </ResponsiveContainer>
         </Box>
         <Collapse in={expanded} timeout="auto" unmountOnExit>

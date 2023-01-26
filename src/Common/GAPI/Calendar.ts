@@ -96,7 +96,11 @@ const getEventTitle = (task: taskType) => {
   return eventTitle;
 };
 
-export const createTaskEvent = (id: string, task: taskType) => {
+export const createTaskEvent = (
+  id: string,
+  task: taskType,
+  setEventCreated: (eventCreated: boolean) => void
+) => {
   executeGAPI(() => {
     // due date is start date, it can be null, if so cancel event creation
     if (!task.dueDate) {
@@ -137,15 +141,19 @@ export const createTaskEvent = (id: string, task: taskType) => {
         resource: event,
       })
       .then((response) => {
-        window.open(response.result.htmlLink);
+        setEventCreated(true);
       })
       .catch((error) => {
-        updateTaskEvent(id, task);
+        updateTaskEvent(id, task, setEventCreated);
       });
   });
 };
 
-export const updateTaskEvent = (id: string, task: taskType) => {
+export const updateTaskEvent = (
+  id: string,
+  task: taskType,
+  setEventCreated: (eventCreated: boolean) => void
+) => {
   executeGAPI(() => {
     // due date is start date, it can be null, if so cancel event creation
     if (!task.dueDate) {
@@ -187,7 +195,7 @@ export const updateTaskEvent = (id: string, task: taskType) => {
         resource: event,
       })
       .then((response) => {
-        window.open(response.result.htmlLink);
+        setEventCreated(true);
       })
       .catch((error) => {
         console.log("Update fail", error);
