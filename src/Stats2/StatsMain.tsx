@@ -10,6 +10,7 @@ import {
   getTimerRecordsBetween,
 } from "./Utils/utils";
 import WorkStatBar from "./Graphs/WorkStatBar";
+import WorkStatLine from "./Graphs/WorkStatLine";
 
 const StatsMain = () => {
   const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
@@ -119,6 +120,15 @@ const StatsMain = () => {
           </Grid>
           <Grid item xs={12} md={6}>
             <WorkStatBar
+              timerRecords={selectedTimerRecords}
+              selectedTimerRecords2={selectedTimerRecords2}
+              period={period}
+              date={lastDay}
+              date2={lastDay2}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <WorkStatLine
               timerRecords={selectedTimerRecords}
               selectedTimerRecords2={selectedTimerRecords2}
               period={period}
