@@ -2,11 +2,13 @@ import { executeGAPI, EventType } from "./Utils";
 import { taskType } from "../Types/Types";
 
 export const getFutureEvents = (setEvents: (events: EventType[]) => void) => {
+  const fetchFrom = new Date();
+  fetchFrom.setHours(0,0,0,0)
   executeGAPI(() => {
     window.gapi.client.calendar.events
       .list({
         calendarId: "primary",
-        timeMin: new Date().toISOString(),
+        timeMin: fetchFrom.toISOString(),
         showDeleted: false,
         singleEvents: true,
         maxResults: 10,
