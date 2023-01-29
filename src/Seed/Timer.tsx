@@ -5,16 +5,12 @@ import {
   Typography,
   Switch,
   Slider,
-  styled,
-  duration,
   Card,
-  CardHeader,
   CardActions,
   CircularProgress,
 } from "@mui/material";
 import useTimerStore from "../Common/Stores/TimerStore";
 
-import ZenQuote from "./ZenQuote";
 import StopTimer from "./StopTimer";
 import FinishTimer from "./FinishTimer";
 import { MAX_STOPWATCH_DURATION } from "../Common/constants";
@@ -217,7 +213,7 @@ const Timer = () => {
           onMouseUp={() => setMouseDown(false)}
           onTouchStart={
             timerMode === "timer"
-              ? (event) => {
+              ? () => {
                   setMouseDown(true);
                 }
               : undefined

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import useTimerStore from "../Common/Stores/TimerStore";
 import useTaskStore from "../Common/Stores/TaskStore";
-import { Button, Box, Grid, Paper, Card } from "@mui/material";
+import { Button, Box, Card } from "@mui/material";
 import Task from "../Tasks/Task/Task";
 import { taskType } from "../Common/Types/Types";
 import {

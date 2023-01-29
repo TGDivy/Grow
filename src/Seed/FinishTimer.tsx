@@ -12,7 +12,6 @@ import useTimerStore from "../Common/Stores/TimerStore";
 import useCurrentUser from "../Common/Contexts/UserContext";
 import Confetti from "react-confetti";
 import useWindowSize from "../Common/useWindowSize";
-import { MAX_STOPWATCH_DURATION } from "../Common/constants";
 import useTaskStore from "../Common/Stores/TaskStore";
 
 type Props = {

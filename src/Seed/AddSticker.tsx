@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import useTimerStore from "../Common/Stores/TimerStore";
 import useTaskStore from "../Common/Stores/TaskStore";
-import { Button, Box, Grid } from "@mui/material";
+import { Box } from "@mui/material";
 
 import Sticker from "../Tasks/Task/Sticker";
 

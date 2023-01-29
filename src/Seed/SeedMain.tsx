@@ -13,14 +13,9 @@ import Timer from "./Timer";
 import TimerTask from "./AddTask";
 import AddTags from "./AddTags";
 import AddSticker from "./AddSticker";
-import { Masonry } from "@mui/lab";
-import useTimerStore from "../Common/Stores/TimerStore";
 import ZenQuote from "./ZenQuote";
 
 const SeedMain = () => {
-  // Occupy full page
-  const taskKey = useTimerStore((state) => state.taskKey);
-
   const StickerAndTags = () => {
     return (
       <Card
