@@ -1,6 +1,6 @@
 import React from "react";
 import useDailyStore from "../Common/Stores/DailyStore";
-import { Typography } from "@mui/material";
+import { Card, Typography } from "@mui/material";
 
 const timeElapsed = (startTime: Date) => {
   return Math.ceil((new Date().getTime() - startTime.getTime()) / 1000);
@@ -15,9 +15,25 @@ const ZenQuote = () => {
     setQuote();
   }
   return (
-    <Typography variant="body2" align="center">
-      {quote} - {author}
-    </Typography>
+    <Card
+      sx={{
+        ":hover": {
+          boxShadow: 20,
+        },
+        backgroundColor: "#00000088",
+        color: "primary.main",
+        position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "1rem",
+      }}
+    >
+      <Typography variant="body2" align="center">
+        {quote} - {author}
+      </Typography>
+    </Card>
   );
 };
 

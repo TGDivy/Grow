@@ -23,12 +23,12 @@ const formatTime = (time: number) => {
 const StartTimer: FC<startTimerProps> = ({ id, timeSpent }) => {
   const active = useTimerStore((state) => state.active);
   const navigate = useNavigate();
-  const startTimer = useTimerStore((state) => state.startTimer);
+  // const startTimer = useTimerStore((state) => state.startTimer);
   const addTask = useTimerStore((state) => state.addTask);
 
   const handleStart = () => {
     if (!active) {
-      startTimer();
+      // startTimer();
       addTask(id);
       navigate("/Seed");
     }

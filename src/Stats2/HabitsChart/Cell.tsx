@@ -36,7 +36,7 @@ const Cell = ({ props }: Props) => {
           width: CELL_SIZE,
           height: CELL_SIZE + 5,
           minHeight: CELL_SIZE + 5,
-          minWidth: CELL_SIZE,
+          minWidth: CELL_SIZE - 3,
           backgroundColor: "transparent",
         }}
       />
@@ -55,7 +55,7 @@ const Cell = ({ props }: Props) => {
           width: CELL_SIZE,
           height: CELL_SIZE + 5,
           minHeight: CELL_SIZE + 5,
-          minWidth: CELL_SIZE,
+          minWidth: CELL_SIZE - 3,
           backgroundColor: backgroundColor,
           display: "flex",
           justifyContent: "center",
