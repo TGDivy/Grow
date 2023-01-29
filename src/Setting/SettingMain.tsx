@@ -19,7 +19,7 @@ import { Help } from "@mui/icons-material";
 const SettingMain = () => {
   const tutorials = useUserStore((state) => state.tutorials);
   const setTutorials = useUserStore((state) => state.setTutorials);
-  const { setIsOpen, isOpen, setSteps, setCurrentStep } = useTour();
+  const { setIsOpen, setSteps, setCurrentStep } = useTour();
   const handleHelp = () => {
     setSteps(settingsSteps);
     setCurrentStep(0);

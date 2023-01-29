@@ -103,7 +103,7 @@ const StickerAndTagGoals = () => {
 
     const newStickerTagHabits = tagsAndStickers
       .filter((tagOrSticker) => tagOrSticker.selected)
-      .map(({ selected, ...rest }) => rest);
+      .map(({ ...rest }) => rest);
     if (
       JSON.stringify(newStickerTagHabits) !== JSON.stringify(stickerTagHabits)
     ) {
