@@ -63,7 +63,7 @@ const createYearGrid = (year: number) => {
   for (let i = 0; i < 7; i++) {
     grid.push([]);
   }
-  const contentDays = "SMTWTFS"; // each letter is a cell
+  const contentDays = " M W F"; // each letter is a cell
   for (let i = 0; i < 7; i++) {
     grid[i].push({
       habit: null,
@@ -75,6 +75,13 @@ const createYearGrid = (year: number) => {
   const yearStart = moment(`${year}-01-01`);
   const yearEnd = moment(`${year + 1}-01-01`);
 
+  // pad the first row with empty cells
+  if (yearStart.day() !== 0) {
+    for (let i = 0; i < yearStart.day(); i++) {
+      grid[i].push(null);
+    }
+  }
+
   for (let day = yearStart; day.isBefore(yearEnd); day.add(1, "day")) {
     const obj = {
       habit: null,
@@ -84,26 +91,34 @@ const createYearGrid = (year: number) => {
     grid[day.day()].push(obj);
   }
 
-  // pad the last row with empty cells
-  if (yearEnd.day() !== 6) {
-    for (let i = yearEnd.day(); i < 6; i++) {
-      grid[grid.length - 1].push(null);
-    }
-  }
-
   // append empty row
   grid.push([]);
-  const content = "  Jan Feb  Mar Apr May  Jun Jul Aug  Sep Oct Nov Dec"; // each letter is a cell
-  for (let i = 0; i < content.length; i++) {
-    if (content[i] === " ") {
-      grid[7].push(null);
-      continue;
-    }
+  const monthLabels = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  for (let j = 0; j < 2; j++) {
+    grid[7].push(null);
+  }
+  for (let i = 0; i < 12; i++) {
     grid[7].push({
       habit: null,
-      cellContent: content[i],
+      cellContent: monthLabels[i],
       date: null,
     });
+    for (let j = 0; j < 3 + (i % 2); j++) {
+      grid[7].push(null);
+    }
   }
 
   return grid;
@@ -320,16 +335,28 @@ const HabitsChart = () => {
                 // make scrollbar visible and customize it
                 // make the insider a darker transparent color
                 // and a smooth round edge finish
+                // make the scrollbar shorter
+
                 "&::-webkit-scrollbar": {
-                  width: "0.5em",
-                },
-                "&::-webkit-scrollbar-track": {
-                  backgroundColor: "rgba(0,0,0,.1)",
-                  borderRadius: "0.5em",
+                  height: "0.5em",
+                  width: "100%",
                 },
                 "&::-webkit-scrollbar-thumb": {
-                  backgroundColor: "rgba(0,0,0,.4)",
-                  borderRadius: "0.5em",
+                  backgroundColor: "#00000088",
+                  borderRadius: "20px",
+                  border: "0.5px solid #00000000",
+
+                  // make the scroll bar 20% of the scroll area
+                  // and the rest of the scroll area is the
+                  // background color
+                  backgroundClip: "padding-box",
+
+                  // make the scrollbar a bit transparent
+                  // so that the background color can be seen
+                  // through it
+                  opacity: 0.5,
+
+                  // make the scrollbar a bit transparent
                 },
               }}
               p={2}
