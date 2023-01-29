@@ -13,6 +13,8 @@ import WorkStatBar from "./Graphs/WorkStatBar";
 import WorkStatLine from "./Graphs/WorkStatLine";
 import TagPieStat from "./Graphs/PieStat";
 import useUserStore from "../Common/Stores/User";
+import HabitsChart from "./HabitsChart/HabitsChart";
+import { Stack } from "@mui/system";
 
 const StatsMain = () => {
   const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
@@ -64,120 +66,130 @@ const StatsMain = () => {
             <Typography variant="h3">Stats</Typography>
           </Box>
         </Divider>
-        <Box
-          sx={{
-            p: 2,
-            backgroundColor: "rgba(0, 0, 0, 0.3)",
-          }}
-        >
-          <Grid
-            container
-            spacing={2}
-            alignContent="center"
-            justifyContent="center"
-            alignItems="center"
+        <Stack spacing={2}>
+          <Box
+            sx={{
+              p: 2,
+              backgroundColor: "rgba(0, 0, 0, 0.3)",
+            }}
           >
-            <Grid item xs={12} md={8}>
-              <Tabs
-                value={period}
-                onChange={handlePeriodChange}
-                textColor="primary"
-                indicatorColor="primary"
-                // change the font size of text in the tab when selected
-                sx={{
-                  "& .MuiTab-textColorPrimary.Mui-selected": {
-                    fontSize: "1.4rem",
-                  },
-                }}
-              >
-                <Tab label="Day" value={timePeriod.day} />
-                <Tab label="Week" value={timePeriod.week} />
-                <Tab label="Month" value={timePeriod.month} />
-                <Tab label="Quarter" value={timePeriod.quarter} />
-                <Tab label="Year" value={timePeriod.year} />
-              </Tabs>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <Grid container spacing={2}>
-                <Grid item xs={3}>
-                  <Button
-                    variant="contained"
-                    fullWidth
-                    onClick={() => handlePeriodBackClick("back")}
-                  >
-                    <ArrowBack />
-                  </Button>
-                </Grid>
-                <Grid item xs={6}>
-                  <Box
-                    textAlign="center"
-                    alignItems="center"
-                    justifyContent="center"
-                    display="flex"
-                    sx={{
-                      width: "100%",
-                      height: "100%",
-                    }}
-                  >
-                    <Typography
-                      variant="h5"
-                      align="center"
-                      color="primary"
-                      noWrap
-                      justifyItems="center"
-                      alignItems="center"
+            <Grid
+              container
+              spacing={2}
+              alignContent="center"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Grid item xs={12} md={8}>
+                <Tabs
+                  value={period}
+                  onChange={handlePeriodChange}
+                  textColor="primary"
+                  indicatorColor="primary"
+                  // change the font size of text in the tab when selected
+                  sx={{
+                    "& .MuiTab-textColorPrimary.Mui-selected": {
+                      fontSize: "1.4rem",
+                    },
+                  }}
+                >
+                  <Tab label="Day" value={timePeriod.day} />
+                  <Tab label="Week" value={timePeriod.week} />
+                  <Tab label="Month" value={timePeriod.month} />
+                  <Tab label="Quarter" value={timePeriod.quarter} />
+                  <Tab label="Year" value={timePeriod.year} />
+                </Tabs>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Grid container spacing={2}>
+                  <Grid item xs={3}>
+                    <Button
+                      variant="contained"
+                      fullWidth
+                      onClick={() => handlePeriodBackClick("back")}
                     >
-                      {getPeriodName(firstDay, lastDay, period)}
-                    </Typography>
-                  </Box>
-                </Grid>
+                      <ArrowBack />
+                    </Button>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Box
+                      textAlign="center"
+                      alignItems="center"
+                      justifyContent="center"
+                      display="flex"
+                      sx={{
+                        width: "100%",
+                        height: "100%",
+                      }}
+                    >
+                      <Typography
+                        variant="h5"
+                        align="center"
+                        color="primary"
+                        noWrap
+                        justifyItems="center"
+                        alignItems="center"
+                      >
+                        {getPeriodName(firstDay, lastDay, period)}
+                      </Typography>
+                    </Box>
+                  </Grid>
 
-                <Grid item xs={3}>
-                  <Button
-                    variant="contained"
-                    fullWidth
-                    onClick={() => handlePeriodBackClick("forward")}
-                    disabled={periodBack === 0}
-                  >
-                    <ArrowForward />
-                  </Button>
+                  <Grid item xs={3}>
+                    <Button
+                      variant="contained"
+                      fullWidth
+                      onClick={() => handlePeriodBackClick("forward")}
+                      disabled={periodBack === 0}
+                    >
+                      <ArrowForward />
+                    </Button>
+                  </Grid>
                 </Grid>
               </Grid>
+              <Grid item xs={12} md={6}>
+                <WorkStatBar
+                  timerRecords={selectedTimerRecords}
+                  selectedTimerRecords2={selectedTimerRecords2}
+                  period={period}
+                  date={lastDay}
+                  date2={lastDay2}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <WorkStatLine
+                  timerRecords={selectedTimerRecords}
+                  selectedTimerRecords2={selectedTimerRecords2}
+                  period={period}
+                  date={lastDay}
+                  date2={lastDay2}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TagPieStat
+                  timerRecords={selectedTimerRecords}
+                  filterOn="Tags"
+                  values={possibleTags}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TagPieStat
+                  timerRecords={selectedTimerRecords}
+                  filterOn="Stickers"
+                  values={possibleStickers}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12} md={6}>
-              <WorkStatBar
-                timerRecords={selectedTimerRecords}
-                selectedTimerRecords2={selectedTimerRecords2}
-                period={period}
-                date={lastDay}
-                date2={lastDay2}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <WorkStatLine
-                timerRecords={selectedTimerRecords}
-                selectedTimerRecords2={selectedTimerRecords2}
-                period={period}
-                date={lastDay}
-                date2={lastDay2}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TagPieStat
-                timerRecords={selectedTimerRecords}
-                filterOn="Tags"
-                values={possibleTags}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TagPieStat
-                timerRecords={selectedTimerRecords}
-                filterOn="Stickers"
-                values={possibleStickers}
-              />
-            </Grid>
-          </Grid>
-        </Box>
+          </Box>
+          <Box
+            sx={{
+              p: 2,
+              backgroundColor: "rgba(0, 0, 0, 0.3)",
+            }}
+          >
+            <HabitsChart />
+          </Box>
+        </Stack>
       </Container>
     </>
   );
