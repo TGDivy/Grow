@@ -1,12 +1,10 @@
 import React from "react";
 import useDailyJournalStore from "../Common/Stores/DailyJournalStore";
-import { Stack, Button, Grid, Typography, Paper, Grow } from "@mui/material";
+import { Typography, Paper, Grow } from "@mui/material";
 import EmotionIcons from "../Common/EmotionIcons/EmotionIcons";
 import { Box } from "@mui/system";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-
-// props
 
 const Mood = () => {
   const moods = useDailyJournalStore((state) => state.mood);

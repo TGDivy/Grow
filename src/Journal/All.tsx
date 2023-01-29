@@ -4,31 +4,24 @@ import React, { FC } from "react";
 import Goals from "./Goals";
 import Habits from "./Habits";
 import Reflect from "./Reflect";
-import Mood from "./Mood";
 import {
-  Box,
-  Checkbox,
-  Container,
   Divider,
   Grid,
-  List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   Paper,
   Stack,
-  TablePagination,
   Theme,
   Typography,
   useMediaQuery,
 } from "@mui/material";
 import { JournalType } from "../Common/Types/Types";
 import useJournalStore from "../Common/Stores/JournalStore";
-import { maxWidth } from "@mui/system";
 
 import Button from "@mui/material/Button";
-import Dialog, { DialogProps } from "@mui/material/Dialog";
+import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
@@ -90,34 +83,6 @@ const All: FC<Props> = ({ allEntries }) => {
   };
 
   const ListOfEntries = () => {
-    // const items = (
-    //   <Grid container spacing={2}>
-    //     {sortedDocuments.map((document, index) => (
-    //       <Grid item xs={6} md={4} key={index}>
-    //         <ListItem
-    //           sx={{
-    //             backgroundColor: "#ffffff22",
-    //           }}
-    //           key={index}
-    //         >
-    //           <ListItemButton
-    //             sx={{ width: "100%" }}
-    //             onClick={handleClickOpen(index)}
-    //           >
-    //             <ListItemIcon>{`${index} >`}</ListItemIcon>
-    //             <ListItemText
-    //               primary={moment(
-    //                 new Date(document.date.getTime() - 4 * 60 * 60 * 1000)
-    //               ).format("dddd, MMM Do 'YY")}
-    //             />
-    //           </ListItemButton>
-    //         </ListItem>
-    //       </Grid>
-    //     ))}
-    //   </Grid>
-    // );
-
-    // rewrite above items to have dividers between each month and year and to have a title for each month and year
     const grouped = sortedDocuments.reduce((r, a) => {
       r[moment(a.date).format("MMMM YYYY")] = [
         ...(r[moment(a.date).format("MMMM YYYY")] || []),
@@ -126,7 +91,7 @@ const All: FC<Props> = ({ allEntries }) => {
       return r;
     }, {} as { [key: string]: JournalType[] });
 
-    const items = Object.keys(grouped).map((key, index) => {
+    const items = Object.keys(grouped).map((key) => {
       const month = grouped[key].map((document, index) => (
         <Grid item xs={12} sm={6} md={4} key={index}>
           <ListItem

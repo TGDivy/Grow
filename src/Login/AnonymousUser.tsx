@@ -1,8 +1,7 @@
 import React from "react";
-import { Box, Button, IconButton, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { Warning } from "@mui/icons-material";
 import useCurrentUser from "../Common/Contexts/UserContext";
-import LoginPage from "./LoginPage";
 import { Link, useLocation } from "react-router-dom";
 
 const AnonymousUser = () => {

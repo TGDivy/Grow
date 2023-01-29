@@ -1,13 +1,6 @@
 import React from "react";
 import { GoogleAuthProvider, linkWithPopup, User } from "firebase/auth";
-import {
-  Box,
-  Button,
-  Container,
-  Divider,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Container, Divider, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
 import { auth } from "../Common/Firestore/firebase-config";
@@ -17,7 +10,7 @@ const AnonToLogin = () => {
   const signInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
     linkWithPopup(auth.currentUser as User, provider)
-      .then((result) => {
+      .then(() => {
         console.log("Linked with Google");
       })
       .catch((error) => {

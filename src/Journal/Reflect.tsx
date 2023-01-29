@@ -1,5 +1,5 @@
-import React, { FC, useEffect } from "react";
-import { Box, Grow, Slide } from "@mui/material";
+import React, { FC } from "react";
+import { Box, Grow } from "@mui/material";
 import useDailyJournalStore from "../Common/Stores/DailyJournalStore";
 import RTE from "./RTE/RTE";
 import { JournalType } from "../Common/Types/Types";
