@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import useTimerStore from "../Common/Stores/TimerStore";
 import useTaskStore from "../Common/Stores/TaskStore";
-import { Button, Box, Grid } from "@mui/material";
+import { Button, Box, Grid, Paper, Card } from "@mui/material";
 import Task from "../Tasks/Task/Task";
 import { taskType } from "../Common/Types/Types";
 import {
@@ -39,25 +39,44 @@ const TimerTask = () => {
 
   // Get tasks by title
   const tasksToAdd = (
-    <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-      <InputLabel>Select Task</InputLabel>
-      <Select
-        onChange={(event: SelectChangeEvent) => addTask(event.target.value)}
-        defaultValue=""
-      >
-        {Object.keys(completedTasks).map((key) => (
-          <MenuItem value={key} key={key}>
-            {tasks[key].title}
-          </MenuItem>
-        ))}
-        {Object.keys(completedTasks).length === 0 && (
-          <MenuItem value="" disabled>
-            No tasks to add
-          </MenuItem>
-        )}
-      </Select>
-      <CreateTask taskListName={"Tasks"} />
-    </FormControl>
+    <Card
+      sx={{
+        ":hover": {
+          boxShadow: 20,
+        },
+        backgroundColor: "#00000088",
+        color: "primary.main",
+        width: "800px",
+        maxWidth: "100%",
+        minHeight: "200px",
+        position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        margin: "auto",
+      }}
+    >
+      <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+        <InputLabel color="primary">Select Task</InputLabel>
+        <Select
+          onChange={(event: SelectChangeEvent) => addTask(event.target.value)}
+          defaultValue=""
+        >
+          {Object.keys(completedTasks).map((key) => (
+            <MenuItem value={key} key={key}>
+              {tasks[key].title}
+            </MenuItem>
+          ))}
+          {Object.keys(completedTasks).length === 0 && (
+            <MenuItem value="" disabled>
+              No tasks to add
+            </MenuItem>
+          )}
+        </Select>
+        <CreateTask taskListName={"Tasks"} />
+      </FormControl>
+    </Card>
   );
 
   const TaskOrAdd = () => {
@@ -66,7 +85,7 @@ const TimerTask = () => {
         <>
           <Task {...task} id={taskKey} createNewTask={false} alwaysExpanded />
 
-          <Box sx={{ display: "flex", justifyContent: "right" }}>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
             {taskKey && !active && (
               <Button onClick={deleteTask} variant="contained">
                 Remove Task
@@ -76,28 +95,11 @@ const TimerTask = () => {
         </>
       );
     } else {
-      return (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "end",
-            height: "inherit",
-          }}
-        >
-          {tasksToAdd}
-        </Box>
-      );
+      return <>{tasksToAdd}</>;
     }
   };
 
-  return (
-    <>
-      <Grid item xs={8}>
-        <Box>{TaskOrAdd()} </Box>
-      </Grid>
-    </>
-  );
+  return <>{TaskOrAdd()}</>;
 };
 
 export default TimerTask;

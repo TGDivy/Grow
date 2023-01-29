@@ -39,8 +39,10 @@ const getLatestJournalRecords = async (
     const querySnapshot = await getDocs(q);
     return querySnapshot;
   }
-  const latestRecordTime =
-    documents[Object.keys(documents)[Object.keys(documents).length - 1]].date;
+  const latestRecordTime = Object.values(documents).reduce((a, b) =>
+    a.date > b.date ? a : b
+  ).date;
+  console.log(latestRecordTime);
   const q = query(collectionRef, where("date", ">", latestRecordTime));
   const querySnapshot = await getDocs(q);
 

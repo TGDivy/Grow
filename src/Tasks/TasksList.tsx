@@ -132,22 +132,24 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
     <Stack direction="column" spacing={3}>
       <CreateTask taskListName={taskListName} />
       {filterChips}
-      <Box
-        sx={{
-          p: 2,
-          backgroundColor: "rgba(0, 0, 0, 0.3)",
-        }}
-      >
-        <TransitionGroup>
-          <Grid container spacing={2}>
-            {displayTasks}
-          </Grid>
-        </TransitionGroup>
-      </Box>
+      {filtered.length !== 0 && (
+        <Box
+          sx={{
+            p: 2,
+            backgroundColor: "rgba(0, 0, 0, 0.3)",
+          }}
+        >
+          <TransitionGroup>
+            <Grid container spacing={2}>
+              {displayTasks}
+            </Grid>
+          </TransitionGroup>
+        </Box>
+      )}
       {completedTasks.length > 0 && (
         <Accordion
           sx={{
-            backgroundColor: "rgba(0, 0, 0, 0.1)",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
           }}
         >
           <AccordionSummary
