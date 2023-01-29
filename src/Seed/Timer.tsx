@@ -75,6 +75,7 @@ const Timer = () => {
     event: React.TouchEvent | React.MouseEvent,
     bypass = false
   ) => {
+    event.preventDefault();
     if (timerMode === "timer" && (mouseDown || bypass) && !active) {
       let x = 0,
         y = 0;
@@ -110,6 +111,7 @@ const Timer = () => {
 
       setTimerDuration(Math.round(percent * MAX_STOPWATCH_DURATION));
     }
+    // This solution cause the page to scroll when the user is trying to change the timer duration
   };
 
   return (
@@ -197,6 +199,7 @@ const Timer = () => {
             paddingBottom: "0.5rem",
             width: "100%",
             position: "relative",
+            touchAction: "none",
             "&:hover": {
               "& .MuiCircularProgress-root": {},
             },
@@ -230,6 +233,7 @@ const Timer = () => {
               position: "absolute",
             }}
           />
+          {/* Add a dot at the end of the bar! */}
           <CircularProgress
             variant="determinate"
             value={
@@ -239,8 +243,15 @@ const Timer = () => {
             }
             size={225}
             sx={{
-              cursor: "pointer",
               color: active || timerMode === "stopwatch" ? "#ffffff88" : "grey",
+
+              "& .MuiCircularProgress-circle": {
+                transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
+                strokeLinecap: "round",
+
+                // Make bar stand out an svg circle
+                transformOrigin: "center",
+              },
             }}
           />
           <Box

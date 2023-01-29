@@ -21,17 +21,10 @@ const AddTags = () => {
     <Box
       sx={{
         display: "flex",
-        flexDirection: "row",
-        flexWrap: "wrap",
-        alignItems: "flex-end",
-        // justifyContent: "flex-end",
+        flexDirection: "column",
+        // flexWrap: "wrap",
+        alignItems: "flex-start",
         justifyContent: "center",
-
-        "& > :not(style)": {
-          mb: 1,
-          mt: -0.5,
-          pb: 0,
-        },
       }}
     >
       <Tags tags={tags} setTags={setTags} editing timerPage />
