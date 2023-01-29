@@ -10,7 +10,7 @@ interface tagsFc {
   timerPage?: boolean;
 }
 
-const Tags: FC<tagsFc> = ({ tags, editing, setTags, timerPage }) => {
+const Tags: FC<tagsFc> = ({ tags, editing, setTags }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const possibleTags = useUserStore((state) => state.tags);
 

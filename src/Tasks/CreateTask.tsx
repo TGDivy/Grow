@@ -1,8 +1,7 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import Task from "./Task/Task";
 import { taskType } from "../Common/Types/Types";
 import { v4 as uuid_v4 } from "uuid";
-import Transition from "../Common/Utils/Transitions";
 import { Dialog, Button } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import { useTour } from "@reactour/tour";
@@ -39,7 +38,7 @@ const CreateTask: FC<createTaskFc> = ({
     dueDate: null,
   };
 
-  const { setIsOpen, isOpen, setSteps, setCurrentStep, steps } = useTour();
+  const { setIsOpen, isOpen, setSteps, setCurrentStep } = useTour();
 
   const [open, setOpen] = useState(false);
 
