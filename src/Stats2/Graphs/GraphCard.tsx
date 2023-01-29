@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 
 import { ResponsiveContainer } from "recharts";
-import { Card, Box, CardContent, Typography, CardHeader } from "@mui/material";
+import { Card, Box, Typography, CardHeader } from "@mui/material";
 
 interface Props {
   children: React.ReactElement;
