@@ -4,7 +4,6 @@ import useTimerStore from "../Common/Stores/TimerStore";
 import { Button, Container, Grid } from "@mui/material";
 
 const StartTimer = () => {
-  const active = useTimerStore((state) => state.active);
   const startTimer = useTimerStore((state) => state.startTimer);
 
   return (

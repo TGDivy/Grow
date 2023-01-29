@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Container,
-  Divider,
-  Typography,
-  IconButton,
-  Button,
-} from "@mui/material";
-import SelectToDoList from "./SelectToDoList";
+import { Box, Container, Divider, Typography, Button } from "@mui/material";
 import TasksList from "./TasksList";
 import { taskSteps } from "../steps";
 import { useTour } from "@reactour/tour";
@@ -16,8 +8,8 @@ import useTaskStore from "../Common/Stores/TaskStore";
 import useUserStore from "../Common/Stores/User";
 
 const TasksMain = () => {
-  const [taskListName, setList] = useState("Tasks");
-  const { setIsOpen, isOpen, setSteps, setCurrentStep } = useTour();
+  const [taskListName] = useState("Tasks");
+  const { setIsOpen, setSteps, setCurrentStep } = useTour();
   const tasks = useTaskStore((state) => state.tasks);
   const tutorials = useUserStore((state) => state.tutorials);
   const setTutorials = useUserStore((state) => state.setTutorials);

@@ -3,16 +3,8 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   signInAnonymously,
-  OAuthCredential,
 } from "firebase/auth";
-import {
-  Box,
-  Button,
-  Container,
-  Divider,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Container, Divider, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
 import { auth } from "../Common/Firestore/firebase-config";

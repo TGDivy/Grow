@@ -143,9 +143,6 @@ const CustomBoolHabitsDisplay = ({ readonly, document, today }: Props) => {
 
 const Habits: FC<Props> = ({ readonly, document }) => {
   const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
-  const latestActivityDate = useActivityStore(
-    (state) => state.latestActivityDate
-  );
 
   const stickerTagHabits = useUserStore((state) => state.stickerTagHabits);
 

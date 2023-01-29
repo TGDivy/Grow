@@ -5,7 +5,6 @@ import CreateTask from "./CreateTask";
 import { Chip } from "@mui/material";
 import useTaskStore from "../Common/Stores/TaskStore";
 import _ from "lodash";
-import { db } from "../Common/Firestore/firebase-config";
 import {
   Accordion,
   AccordionSummary,
@@ -15,13 +14,16 @@ import {
 import { ExpandMore } from "@mui/icons-material";
 import useUserStore from "../Common/Stores/User";
 import { TransitionGroup } from "react-transition-group";
-
+import { taskType } from "../Common/Types/Types";
 interface tasksListFC {
   taskListName: string;
 }
 
-const filterTasksByTag = async (tag: string, tasksArray: [string, any][]) => {
-  return tasksArray.filter(([id, task]) => {
+const filterTasksByTag = async (
+  tag: string,
+  tasksArray: [string, taskType][]
+) => {
+  return tasksArray.filter(([, task]) => {
     if (tag) {
       return task.tags.includes(tag);
     } else {
@@ -35,13 +37,13 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
   const possibleTags = useUserStore((state) => state.tags);
   const [filter, setFilter] = React.useState<string>("");
 
-  const [tasksArray, setTasksArray] = React.useState<[string, any][]>([]);
-  const [completedArray, setCompletedArray] = React.useState<[string, any][]>(
-    []
-  );
-  const [filtered, setFiltered] = React.useState<[string, any][]>([]);
+  const [tasksArray, setTasksArray] = React.useState<[string, taskType][]>([]);
+  const [completedArray, setCompletedArray] = React.useState<
+    [string, taskType][]
+  >([]);
+  const [filtered, setFiltered] = React.useState<[string, taskType][]>([]);
   const [filteredCompletedArray, setFilteredCompletedArray] = React.useState<
-    [string, any][]
+    [string, taskType][]
   >([]);
 
   React.useEffect(() => {
