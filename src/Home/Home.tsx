@@ -1,11 +1,7 @@
 import React, { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import TasksMain from "../Tasks/TasksMain";
-import Seed from "../Seed/SeedMain";
-import Soil from "../Soil/SoilMain";
+import { Link } from "react-router-dom";
 import Overall from "../Stats/Overall";
 import {
-  Home as HomeIcon,
   Task,
   Nature,
   Terrain,
@@ -19,20 +15,16 @@ import {
   AccordionDetails,
   AccordionSummary,
   Container,
-  Divider,
   Fade,
   Grid,
   Grow,
-  Slide,
   Stack,
   Typography,
   Zoom,
 } from "@mui/material";
 import Events from "./Events";
 import { Box } from "@mui/system";
-import { Button, Drawer } from "@mui/material";
-import BottomNavigationBar from "../BottomNavigationBar";
-import Mood from "../Journal/Mood";
+import { Button } from "@mui/material";
 import { Help } from "@mui/icons-material";
 /**
  * A simple, elegant and inspiration home page for the app.
@@ -51,7 +43,7 @@ import { Help } from "@mui/icons-material";
  */ import Goals from "../Journal/Goals";
 import Habits from "../Journal/Habits";
 import { Tab, Tabs } from "@mui/material";
-import { StepType, useTour } from "@reactour/tour";
+import { useTour } from "@reactour/tour";
 import { homeSteps } from "../steps";
 import useUserStore from "../Common/Stores/User";
 import ProfileLogo from "./ProfileLogo";
@@ -62,9 +54,8 @@ const Home = () => {
   //   author: "Sir Edmund Hillary",
   // };
   const inspirationalQuote = {
-    quote:
-      "It is better to be a warrior in a garden, than a gardener in a war.",
-    author: "Old Chinese Proverb",
+    quote: "Not all those who wander are lost.",
+    author: "Bilbo Baggins",
   };
 
   const places = [

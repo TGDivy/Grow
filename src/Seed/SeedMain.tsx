@@ -25,17 +25,17 @@ const SeedMain = () => {
           },
           backgroundColor: "#00000088",
           color: "primary.main",
-          position: "relative",
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          padding: "1rem",
-          alignItems: "space-between",
-          flexWrap: "wrap",
+          p: 2,
         }}
       >
-        <AddTags />
-        <AddSticker />
+        <Grid container spacing={2} alignItems="center" justifyContent="center">
+          <Grid item xs={8}>
+            <AddTags />
+          </Grid>
+          <Grid item xs={4}>
+            <AddSticker />
+          </Grid>
+        </Grid>
       </Card>
     );
   };
@@ -59,6 +59,7 @@ const SeedMain = () => {
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
+              gap: "1rem",
             }}
           >
             <TimerTask />

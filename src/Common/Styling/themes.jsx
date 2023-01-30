@@ -108,7 +108,11 @@ const Theme = createTheme({
     },
   },
   typography: {
-    fontFamily: "Fuzzy Bubbles",
+    fontFamily: "Montserrat, sans-serif",
+    // fontFamily: "Merriweather, serif",
+    // fontFamilySecondary: "Merriweather, serif",
+
+    fontVariantNumeric: "tabular-nums",
   },
 });
 
