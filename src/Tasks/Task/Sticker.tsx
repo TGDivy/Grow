@@ -118,7 +118,7 @@ const Sticker: FC<tagsFc> = ({ sticker, editing, setSticker, timerPage }) => {
   return (
     <Chip
       label={sticker}
-      color="primary"
+      color="secondary"
       size="small"
       variant="filled"
       sx={{

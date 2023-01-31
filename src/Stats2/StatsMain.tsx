@@ -15,6 +15,7 @@ import TagPieStat from "./Graphs/PieStat";
 import useUserStore from "../Common/Stores/User";
 import HabitsChart from "./HabitsChart/HabitsChart";
 import { Stack } from "@mui/system";
+import PageTitle from "../Common/Utils/PageTitle";
 
 const StatsMain = () => {
   const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
@@ -40,6 +41,7 @@ const StatsMain = () => {
   };
 
   const { firstDay, lastDay } = getStartAndEndDate(period, periodBack);
+  console.log(firstDay, lastDay);
   const selectedTimerRecords = getTimerRecordsBetween(
     timerRecords,
     firstDay,
@@ -61,11 +63,8 @@ const StatsMain = () => {
   return (
     <>
       <Container>
-        <Divider textAlign="left">
-          <Box pb={2} pt={2}>
-            <Typography variant="h3">Stats</Typography>
-          </Box>
-        </Divider>
+        <PageTitle title="Stats" />
+
         <Stack spacing={2}>
           <Box
             sx={{

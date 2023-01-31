@@ -65,7 +65,7 @@ const CreateTask: FC<createTaskFc> = ({
     <>
       <Button
         variant="contained"
-        color="secondary"
+        color="primary"
         onClick={handleClickOpen}
         fullWidth
         className="tut-task-create"

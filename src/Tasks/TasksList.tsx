@@ -132,8 +132,14 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
 
   return (
     <Stack direction="column" spacing={3}>
-      <CreateTask taskListName={taskListName} />
-      {filterChips}
+      <Grid container spacing={2} justifyContent="space-between">
+        <Grid item xs={10}>
+          {filterChips}
+        </Grid>
+        <Grid item>
+          <CreateTask taskListName={taskListName} />
+        </Grid>
+      </Grid>
       {filtered.length !== 0 && (
         <Box
           sx={{

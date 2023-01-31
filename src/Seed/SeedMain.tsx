@@ -14,6 +14,7 @@ import TimerTask from "./AddTask";
 import AddTags from "./AddTags";
 import AddSticker from "./AddSticker";
 import ZenQuote from "./ZenQuote";
+import PageTitle from "../Common/Utils/PageTitle";
 
 const SeedMain = () => {
   const StickerAndTags = () => {
@@ -71,36 +72,7 @@ const SeedMain = () => {
 
   return (
     <Container>
-      <Divider
-        textAlign="left"
-        sx={{
-          "&.MuiDivider-root": {
-            pb: 1,
-            "&::before": {
-              borderTopWidth: 3,
-              borderTopStyle: "solid",
-              borderTopColor: "#00000088",
-            },
-            "&::after": {
-              borderTopWidth: 3,
-              borderTopStyle: "solid",
-              borderTopColor: "#00000088",
-            },
-          },
-        }}
-      >
-        <Box
-          pt={2}
-          mb={1}
-          alignItems={"center"}
-          display={"flex"}
-          justifyContent={"center"}
-        >
-          <Typography variant="h4" align="center">
-            Timer
-          </Typography>
-        </Box>
-      </Divider>
+      <PageTitle title="Timer" />
       <Box
         sx={{
           p: 2,

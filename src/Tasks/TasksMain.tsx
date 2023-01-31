@@ -6,6 +6,7 @@ import { useTour } from "@reactour/tour";
 import { Help } from "@mui/icons-material";
 import useTaskStore from "../Common/Stores/TaskStore";
 import useUserStore from "../Common/Stores/User";
+import PageTitle from "../Common/Utils/PageTitle";
 
 const TasksMain = () => {
   const [taskListName] = useState("Tasks");
@@ -33,16 +34,12 @@ const TasksMain = () => {
 
   return (
     <Container sx={{ position: "relative" }}>
-      <Divider textAlign="left">
-        <Box pb={2} pt={2}>
-          <Typography variant="h3">{taskListName}</Typography>
-        </Box>
-        <Box position="absolute" p={2} top={0} right={10} zIndex={10}>
-          <Button onClick={handleHelp} size="large">
-            <Help fontSize="large" />
-          </Button>
-        </Box>
-      </Divider>
+      <PageTitle title={taskListName} />
+      <Box position="absolute" p={2} top={0} right={10} zIndex={10}>
+        <Button onClick={handleHelp} size="large">
+          <Help fontSize="large" />
+        </Button>
+      </Box>
       <TasksList taskListName={taskListName} />
     </Container>
   );
