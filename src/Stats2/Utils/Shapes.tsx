@@ -10,6 +10,10 @@ export const CustomTooltipWrapper = (period: timePeriod) => {
       const hours = Math.floor(payload[0].value / 3600);
       const minutes = Math.floor((payload[0].value % 3600) / 60);
       const title = customTooltipTitle[period as timePeriod];
+      const hours2 = Math.floor((payload[1].value + payload[0].value) / 3600);
+      const minutes2 = Math.floor(
+        ((payload[1].value + payload[0].value) % 3600) / 60
+      );
       return (
         <Paper
           sx={{
@@ -37,6 +41,20 @@ export const CustomTooltipWrapper = (period: timePeriod) => {
             {hours ? hours + "H " : ""}
             {minutes ? minutes + "M" : ""}
             {hours === 0 && minutes === 0 ? "0M" : ""}
+          </Typography>
+          <Divider
+            orientation="vertical"
+            flexItem
+            sx={{
+              margin: "0px 10px",
+              // right border black
+              borderRight: "2px solid #aaaaaa",
+            }}
+          />
+          <Typography variant="body1" color="text.primary">
+            {hours2 ? hours2 + "H " : ""}
+            {minutes2 ? minutes2 + "M" : ""}
+            {hours2 === 0 && minutes2 === 0 ? "0M" : ""}
           </Typography>
         </Paper>
       );

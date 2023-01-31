@@ -5,11 +5,20 @@ import { timerType } from "../../Common/Types/Types";
  * @param date: Date
  * @returns { firstDay, lastDay} : {Date, Date}
  */
+// export const getWeek = (date: Date) => {
+//   const day = date.getDay();
+//   const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+//   const firstDay = new Date(date.setDate(diff)); // Monday
+//   const lastDay = new Date(date.setDate(diff + 6)); // Sunday
+//   return { firstDay, lastDay };
+// };
+
+// same as getWeek but with a different start day, Sunday
 export const getWeek = (date: Date) => {
-  const day = date.getDay();
-  const diff = date.getDate() - day + (day === 0 ? -6 : 1);
-  const firstDay = new Date(date.setDate(diff)); // Monday
-  const lastDay = new Date(date.setDate(diff + 6)); // Sunday
+  const day = date.getDay(); // 0 = Sunday, 1 = Monday, etc.
+  const diff = date.getDate() - day;
+  const firstDay = new Date(date.setDate(diff)); // Sunday
+  const lastDay = new Date(date.setDate(diff + 7)); // Saturday
   return { firstDay, lastDay };
 };
 
