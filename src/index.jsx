@@ -2,9 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { CurrentUserProvider } from "./Common/Contexts/UserContext";
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import Theme from "./Common/Styling/themes";
 import { BrowserRouter as Router } from "react-router-dom";
 import { TourProvider } from "@reactour/tour";
 import { closeBtn } from "./steps";
@@ -28,10 +25,7 @@ root.render(
       components={{ Close: closeBtn }}
     >
       <CurrentUserProvider>
-        <ThemeProvider theme={Theme}>
-          <CssBaseline />
-          <App />
-        </ThemeProvider>
+        <App />
       </CurrentUserProvider>
     </TourProvider>
   </Router>

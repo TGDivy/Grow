@@ -23,6 +23,7 @@ import CodeHighlightPlugin from "./Plugins/CodeHighlightPlugin";
 import ListMaxIndentLevelPlugin from "./Plugins/ListMaxIndentLevelPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { HorizontalRuleNode } from "@lexical/react/LexicalHorizontalRuleNode";
+import useThemeStore from "../../Common/Stores/ThemeStore";
 
 interface props {
   text: string;
@@ -65,6 +66,7 @@ const RTE: FC<props> = ({
     theme: exampleTheme,
     // Any custom nodes go here
   };
+  const colors = useThemeStore((state) => state.colors);
 
   const onChange = (editorState: any) => {
     setText(JSON.stringify(editorState));
@@ -89,7 +91,7 @@ const RTE: FC<props> = ({
           <AutoLinkPlugin matchers={[]} />
           <ListMaxIndentLevelPlugin maxDepth={7} />
           <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
-          <AddHelloWorldPlugin textToAdd={textToAdd} />
+          <AddHelloWorldPlugin textToAdd={textToAdd} color={colors.primary} />
           <OnChangePlugin onChange={onChange} ignoreSelectionChange />
         </div>
       </div>

@@ -11,6 +11,7 @@ import {
   getXAxisTicks,
 } from "../Utils/graph";
 import { CustomTooltipWrapper } from "../Utils/Shapes";
+import useThemeStore from "../../Common/Stores/ThemeStore";
 
 interface Props {
   timerRecords: timerType[];
@@ -29,6 +30,7 @@ const WorkStatBar: FC<Props> = ({
 }) => {
   const [data, setData] = React.useState<dataType[]>();
   const [previousData, setPreviousData] = React.useState<dataType[]>(); // for comparison
+  const colors = useThemeStore((state) => state.colors);
 
   React.useEffect(() => {
     getTimePeriods(timerRecords, period, date).then((data) => {
@@ -96,8 +98,8 @@ const WorkStatBar: FC<Props> = ({
           domain={[0, "auto"]}
         />
         <Tooltip content={<CustomTooltip />} />
-        <Bar dataKey="time" fill="#ac9172" stackId="aa" />
-        <Bar dataKey="previousTime" fill="#ac917233" stackId="aa" />
+        <Bar dataKey="time" fill={colors.primary} stackId="aa" />
+        <Bar dataKey="previousTime" fill={`${colors.primary}33`} stackId="aa" />
       </BarChart>
     </GraphCard>
   );

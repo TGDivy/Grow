@@ -4,6 +4,7 @@ import useTimerRecordsStore from "../Common/Stores/TimerRecordsStore";
 import { PieChart, Pie, Sector } from "recharts";
 import { timerType } from "../Common/Types/Types";
 import GraphCard from "./GraphCard";
+import useThemeStore from "../Common/Stores/ThemeStore";
 
 interface TagStatType {
   [key: string]: number;
@@ -126,7 +127,7 @@ interface Props {
 }
 
 const TagPieStat: FC<Props> = ({ timerRecords }) => {
-  // const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
+  const colors = useThemeStore((state) => state.colors);
 
   const [data, setData] = React.useState<dataType[]>();
 
@@ -160,7 +161,7 @@ const TagPieStat: FC<Props> = ({ timerRecords }) => {
           cy="50%"
           innerRadius="60%"
           outerRadius="80%"
-          fill="#ac9172"
+          fill={colors.primary}
           activeIndex={activeIndex}
           activeShape={renderActiveShape}
           // label={renderActiveShape}

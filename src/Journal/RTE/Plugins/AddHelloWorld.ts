@@ -7,6 +7,7 @@ import { $createHorizontalRuleNode } from "@lexical/react/LexicalHorizontalRuleN
 
 interface props {
   textToAdd?: string;
+  color?: string;
 }
 
 export function $insertNodesBack(
@@ -17,7 +18,7 @@ export function $insertNodesBack(
   return selection.insertNodes(nodes, selectStart);
 }
 
-export default function AddHelloWorldPlugin({ textToAdd }: props) {
+export default function AddHelloWorldPlugin({ textToAdd, color }: props) {
   const [editor] = useLexicalComposerContext();
   useEffect(() => {
     if (textToAdd) {
@@ -29,7 +30,7 @@ export default function AddHelloWorldPlugin({ textToAdd }: props) {
           const headingNode = $createHeadingNode("h1");
           const textNode = $createTextNode(textToAdd);
           textNode.setMode("token");
-          textNode.setStyle("color: #ac9172");
+          textNode.setStyle("color: " + color);
           headingNode.append(textNode);
 
           if (text !== "") {

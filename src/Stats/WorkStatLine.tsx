@@ -4,6 +4,7 @@ import { LineChart, Line, YAxis, Tooltip, CartesianGrid } from "recharts";
 import { timerType } from "../Common/Types/Types";
 import { Typography } from "@mui/material";
 import GraphCard from "./GraphCard";
+import useThemeStore from "../Common/Stores/ThemeStore";
 
 interface weeklyWorkStatType {
   [key: string]: number;
@@ -93,7 +94,7 @@ const WorkStatLine: FC<Props> = ({
   previousRecords,
   dayDiff,
 }) => {
-  // const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
+  const colors = useThemeStore((state) => state.colors);
 
   const [data, setData] = React.useState<dataType[]>();
 
@@ -164,7 +165,7 @@ const WorkStatLine: FC<Props> = ({
           type="monotone"
           dataKey="timePrev"
           name="Previous"
-          stroke="#ac9172"
+          stroke={colors.primary}
           strokeOpacity={0.3}
           strokeWidth={5}
           dot={false}
@@ -173,7 +174,7 @@ const WorkStatLine: FC<Props> = ({
           type="monotone"
           dataKey="time"
           name="Current"
-          stroke="#ac9172"
+          stroke={colors.primary}
           strokeWidth={5}
           dot={false}
         />

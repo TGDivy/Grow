@@ -20,6 +20,11 @@ import useTaskStore from "./Common/Stores/TaskStore";
 import useTimerRecordsStore from "./Common/Stores/TimerRecordsStore";
 import useWorkoutStore from "./Common/Stores/WorkoutStore";
 
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import getTheme from "./Common/Styling/themes";
+import useThemeStore from "./Common/Stores/ThemeStore";
+
 const App = () => {
   const { user } = useCurrentUser();
   const [initialPath, setInitialPath] = React.useState("/");
@@ -106,14 +111,36 @@ const App = () => {
     );
   };
 
+  const SDark = "rgb(112 42 48)";
+  const SLight = "#81a3cc";
+  const S = "#146e95";
+  const SText = "#ffffff";
+
+  const P = "#ac9172";
+  const PDark = "#7c6446";
+  const PLight = "#dec1a1";
+  const PText = "#000000";
+
+  const Error = "#B00020";
+
+  const colors = useThemeStore((state) => state.colors);
+  const setThemeByName = useThemeStore((state) => state.setThemeByName);
+
+  React.useEffect(() => {
+    setThemeByName("blue");
+  }, []);
+
+  console.log("colors", colors);
+
   return (
-    <>
+    <ThemeProvider theme={getTheme(colors)}>
+      <CssBaseline />
       <div style={{ marginBottom: 80 }}>
         <Routes>{routes()}</Routes>
       </div>
       <BottomNavigationBar />
       <AnonymousUser />
-    </>
+    </ThemeProvider>
   );
 };
 

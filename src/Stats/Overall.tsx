@@ -40,6 +40,7 @@ import {
   filterJournalRecords,
 } from "./Utils/overall";
 import { filterTimerRecords } from "./Utils/recordUtils";
+import useThemeStore from "../Common/Stores/ThemeStore";
 
 interface Props {
   timerRecords: timerType[];
@@ -69,6 +70,7 @@ const OverallStats: FC<Props> = ({
   const [data, setData] = React.useState<dataType[]>();
   const [dataJournal, setDataJournal] = React.useState<dataTypeJournal[]>();
   const [expanded, setExpanded] = useState(false);
+  const colors = useThemeStore((state) => state.colors);
 
   React.useEffect(() => {
     getWeeklyWorkStat(timerRecords, previousRecords, dayDiff).then((data) => {
@@ -235,8 +237,12 @@ const OverallStats: FC<Props> = ({
                 tick={{ fill: "#ffffffbb" }}
               />
 
-              <Bar fill="#ac9172" stackId="aa" dataKey="score" />
-              <Bar dataKey="scorePrev" fill="#ac917233" stackId="aa" />
+              <Bar fill={colors.primary} stackId="aa" dataKey="score" />
+              <Bar
+                dataKey="scorePrev"
+                fill={`${colors.primary}33`}
+                stackId="aa"
+              />
             </BarChart>
           </ResponsiveContainer>
         </Box>

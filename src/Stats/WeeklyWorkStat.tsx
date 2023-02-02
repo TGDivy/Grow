@@ -4,6 +4,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 import { timerType } from "../Common/Types/Types";
 import { Typography } from "@mui/material";
 import GraphCard from "./GraphCard";
+import useThemeStore from "../Common/Stores/ThemeStore";
 
 interface weeklyWorkStatType {
   [key: string]: number;
@@ -73,6 +74,7 @@ const WeeklyWorkStat: FC<Props> = ({ timerRecords }) => {
   // const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
 
   const [data, setData] = React.useState<dataType[]>();
+  const colors = useThemeStore((state) => state.colors);
 
   React.useEffect(() => {
     getWeeklyWorkStat(timerRecords).then((data) => {
@@ -127,14 +129,12 @@ const WeeklyWorkStat: FC<Props> = ({ timerRecords }) => {
           axisLine={false}
           width={30}
           orientation="left"
-          // tickCount={6}
           tickFormatter={(tick) => `${(tick / 60).toFixed(0)}H`}
           tickLine={false}
           ticks={ticks}
         />
         <Tooltip content={<CustomTooltip />} />
-        {/* <Legend /> */}
-        <Bar dataKey="time" fill="#ac9172" />
+        <Bar dataKey="time" fill={colors.primary} />
       </BarChart>
     </GraphCard>
   );
