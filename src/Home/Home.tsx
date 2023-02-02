@@ -47,6 +47,7 @@ import { useTour } from "@reactour/tour";
 import { homeSteps } from "../steps";
 import useUserStore from "../Common/Stores/User";
 import ProfileLogo from "./ProfileLogo";
+import StyledAccordion from "../Common/ReusableComponents/StyledAccordion";
 
 const Home = () => {
   // const inspirationalQuote = {
@@ -254,39 +255,8 @@ const Home = () => {
               }}
               {...{ timeout: 1000 }}
             >
-              <Accordion
-                sx={{
-                  backgroundColor: "rgba(0, 0, 0, 0.5)",
-                  ":hover": {
-                    boxShadow: 20,
-                  },
-                }}
-              >
-                <AccordionSummary
-                  expandIcon={<ExpandMore />}
-                  aria-controls="panel1a-content"
-                  id="panel1a-header"
-                  sx={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 1,
-                    // flexDirection: "row-reverse",
-                    " .MuiAccordionSummary-content": {
-                      flexGrow: 0,
-                    },
-                  }}
-                  className="tut-home-brief"
-                >
-                  <Typography variant="h6" color="primary">
-                    {"Today's Brief"}
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails
-                  sx={{
-                    pt: 2,
-                    bgcolor: "rgba(255, 255, 255, 0.05)",
-                  }}
-                >
+              <div>
+                <StyledAccordion title="Today's Brief">
                   <Tabs
                     value={tab}
                     onChange={handleTabChange}
@@ -299,8 +269,8 @@ const Home = () => {
                     <Tab label="Habits" className="tut-home-habits" />
                   </Tabs>
                   {tabs[tab]}
-                </AccordionDetails>
-              </Accordion>
+                </StyledAccordion>
+              </div>
             </Fade>
           </Grid>
 

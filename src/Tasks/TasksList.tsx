@@ -15,6 +15,7 @@ import { ExpandMore } from "@mui/icons-material";
 import useUserStore from "../Common/Stores/User";
 import { TransitionGroup } from "react-transition-group";
 import { taskType } from "../Common/Types/Types";
+import StyledAccordion from "../Common/ReusableComponents/StyledAccordion";
 interface tasksListFC {
   taskListName: string;
 }
@@ -155,24 +156,11 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
         </Box>
       )}
       {completedTasks.length > 0 && (
-        <Accordion
-          sx={{
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-          }}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMore />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography variant="h6">Completed</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Grid container spacing={2}>
-              {completedTasks}
-            </Grid>
-          </AccordionDetails>
-        </Accordion>
+        <StyledAccordion title="Completed">
+          <Grid container spacing={2}>
+            {completedTasks}
+          </Grid>
+        </StyledAccordion>
       )}
     </Stack>
   );

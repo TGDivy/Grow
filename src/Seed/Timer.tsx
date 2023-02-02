@@ -36,12 +36,14 @@ const formatTime = (time_: number, mode: string, duration: number) => {
 
 const Timer = () => {
   const startTime = useTimerStore((state) => state.startTime);
-  const [studyTime, setStudyTime] = useState<number>(timeElapsed(startTime));
   const active = useTimerStore((state) => state.active);
+  const timerDuration = useTimerStore((state) => state.timerDuration);
+  const [studyTime, setStudyTime] = useState<number>(
+    active ? timeElapsed(startTime) : timerDuration
+  );
 
   const timerMode = useTimerStore((state) => state.timerMode);
   const setTimerMode = useTimerStore((state) => state.setTimerMode);
-  const timerDuration = useTimerStore((state) => state.timerDuration);
   const setTimerDuration = useTimerStore((state) => state.setTimerDuration);
 
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
@@ -113,6 +115,15 @@ const Timer = () => {
     }
     // This solution cause the page to scroll when the user is trying to change the timer duration
   };
+
+  console.log(
+    "timerDuration",
+    timerDuration,
+    "timerMode",
+    timerMode,
+    "studyTime",
+    studyTime
+  );
 
   return (
     <>
