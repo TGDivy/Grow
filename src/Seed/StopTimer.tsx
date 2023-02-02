@@ -12,7 +12,7 @@ import useTimerStore from "../Common/Stores/TimerStore";
 import useCurrentUser from "../Common/Contexts/UserContext";
 import { MIN_STOPWATCH_DURATION } from "../Common/constants";
 import useTaskStore from "../Common/Stores/TaskStore";
-import Transition from "../Common/Utils/Transitions";
+import Transition from "../Common/ReusableComponents/Transitions";
 
 type Props = {
   studyTime: number;

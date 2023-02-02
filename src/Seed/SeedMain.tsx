@@ -14,7 +14,7 @@ import TimerTask from "./AddTask";
 import AddTags from "./AddTags";
 import AddSticker from "./AddSticker";
 import ZenQuote from "./ZenQuote";
-import PageTitle from "../Common/Utils/PageTitle";
+import PageTitle from "../Common/ReusableComponents/PageTitle";
 
 const SeedMain = () => {
   const StickerAndTags = () => {

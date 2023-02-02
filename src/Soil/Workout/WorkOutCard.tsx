@@ -37,7 +37,7 @@ import {
 } from "@mui/material";
 
 import { Close, Add, Remove, Delete } from "@mui/icons-material";
-import Transition from "../../Common/Utils/Transitions";
+import Transition from "../../Common/ReusableComponents/Transitions";
 import { Box } from "@mui/system";
 
 interface Props {

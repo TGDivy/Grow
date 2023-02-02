@@ -6,7 +6,7 @@ import { useTour } from "@reactour/tour";
 import { Help } from "@mui/icons-material";
 import useTaskStore from "../Common/Stores/TaskStore";
 import useUserStore from "../Common/Stores/User";
-import PageTitle from "../Common/Utils/PageTitle";
+import PageTitle from "../Common/ReusableComponents/PageTitle";
 
 const TasksMain = () => {
   const [taskListName] = useState("Tasks");

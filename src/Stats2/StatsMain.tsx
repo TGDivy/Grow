@@ -15,7 +15,7 @@ import TagPieStat from "./Graphs/PieStat";
 import useUserStore from "../Common/Stores/User";
 import HabitsChart from "./HabitsChart/HabitsChart";
 import { Stack } from "@mui/system";
-import PageTitle from "../Common/Utils/PageTitle";
+import PageTitle from "../Common/ReusableComponents/PageTitle";
 
 const StatsMain = () => {
   const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
