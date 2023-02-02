@@ -27,6 +27,7 @@ import Sticker from "./Sticker";
 import { useTour } from "@reactour/tour";
 import DueDate from "./DueDate";
 import CreateEvent from "./CreateEvent";
+import StyledCard from "../../Common/ReusableComponents/StyledCard";
 
 interface taskFC extends taskType {
   id: string;
@@ -159,35 +160,20 @@ const Task: FC<taskFC> = (props) => {
     }
   };
 
-  const backgroundColor = !props.createNewTask ? "#00000088" : "#adc2d985";
   return (
     <ClickAwayListener
       onClickAway={() => {
-        // if (!props.alwaysExpanded) setExpanded(false);
         if (!props.createNewTask) {
           setEditing(false);
         }
       }}
     >
-      <Card
-        sx={{
-          ":hover": {
-            boxShadow: 20,
-          },
-          backgroundColor: backgroundColor,
-          color: "primary.main",
-          width: "800px",
-          maxWidth: "100%",
-          position: "relative",
-        }}
+      <StyledCard
         onClick={() => {
           if (!expanded) {
             setExpanded(true);
           }
         }}
-        // onDoubleClick={() => {
-        //   setEditing(true);
-        // }}
         className="tut-task-card"
       >
         <CardHeader
@@ -390,7 +376,7 @@ const Task: FC<taskFC> = (props) => {
             </Box>
           </CardContent>
         </Collapse>
-      </Card>
+      </StyledCard>
     </ClickAwayListener>
   );
 };

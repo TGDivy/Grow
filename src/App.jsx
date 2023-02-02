@@ -4,7 +4,6 @@ import useCurrentUser from "./Common/Contexts/UserContext";
 import HomeMain from "./Home/Home";
 import LoginPage from "./Login/LoginPage";
 import SeedMain from "./Seed/SeedMain";
-import SoilMain from "./Soil/SoilMain";
 import StatsMain from "./Stats2/StatsMain";
 import TasksMain from "./Tasks/TasksMain";
 import SettingMain from "./Setting/SettingMain";
@@ -96,10 +95,6 @@ const App = () => {
           element={user ? <SeedMain /> : <Navigate to="/Login" />}
         />
         <Route
-          path="/Soil"
-          element={user ? <SoilMain /> : <Navigate to="/Login" />}
-        />
-        <Route
           path="/Stats"
           element={user ? <StatsMain /> : <Navigate to="/Login" />}
         />
@@ -110,18 +105,6 @@ const App = () => {
       </>
     );
   };
-
-  const SDark = "rgb(112 42 48)";
-  const SLight = "#81a3cc";
-  const S = "#146e95";
-  const SText = "#ffffff";
-
-  const P = "#ac9172";
-  const PDark = "#7c6446";
-  const PLight = "#dec1a1";
-  const PText = "#000000";
-
-  const Error = "#B00020";
 
   const colors = useThemeStore((state) => state.colors);
   const setThemeByName = useThemeStore((state) => state.setThemeByName);

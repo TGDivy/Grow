@@ -20,6 +20,7 @@ import Title from "../Tasks/Task/Title";
 import useUserStore from "../Common/Stores/User";
 import useTaskStore from "../Common/Stores/TaskStore";
 import StartTimer from "../Tasks/Task/StartTimer";
+import StyledCard from "../Common/ReusableComponents/StyledCard";
 
 interface Props {
   event: EventType;
@@ -83,26 +84,13 @@ const Event: FC<Props> = ({ event }) => {
   const add_or_play = task ? (
     <StartTimer id={id} timeSpent={task.timeSpent} />
   ) : (
-    <IconButton
-      aria-label="create task"
-      onClick={createTask}
-      sx={{ color: "primary.main" }}
-    >
+    <IconButton aria-label="create task" onClick={createTask}>
       <Add />
     </IconButton>
   );
 
   return (
-    <Card
-      sx={{
-        ":hover": {
-          boxShadow: 20,
-        },
-        backgroundColor: "#00000088",
-        color: "primary.main",
-        width: "800px",
-        maxWidth: "100%",
-      }}
+    <StyledCard
       onClick={() => {
         if (!expanded) {
           setExpanded(true);
@@ -184,7 +172,7 @@ const Event: FC<Props> = ({ event }) => {
           </Box>
         </CardContent>
       </Collapse>
-    </Card>
+    </StyledCard>
   );
 };
 

@@ -1,7 +1,8 @@
 import React, { FC } from "react";
 
 import { ResponsiveContainer } from "recharts";
-import { Card, Box, CardContent, Typography, CardHeader } from "@mui/material";
+import { Box, Typography, CardHeader } from "@mui/material";
+import StyledCard from "../Common/ReusableComponents/StyledCard";
 
 interface Props {
   children: React.ReactElement;
@@ -10,13 +11,7 @@ interface Props {
 
 const GraphCard: FC<Props> = (props) => {
   return (
-    <Card
-      sx={{
-        ":hover": {
-          boxShadow: 20,
-        },
-      }}
-    >
+    <StyledCard>
       <CardHeader
         title={
           <Typography variant="h5" color="text.primary">
@@ -24,7 +19,6 @@ const GraphCard: FC<Props> = (props) => {
           </Typography>
         }
       />
-      {/* <CardContent> */}
       <Box
         sx={{
           display: "flex",
@@ -39,8 +33,7 @@ const GraphCard: FC<Props> = (props) => {
       >
         <ResponsiveContainer>{props.children}</ResponsiveContainer>
       </Box>
-      {/* </CardContent> */}
-    </Card>
+    </StyledCard>
   );
 };
 

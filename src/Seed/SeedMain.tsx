@@ -15,17 +15,13 @@ import AddTags from "./AddTags";
 import AddSticker from "./AddSticker";
 import ZenQuote from "./ZenQuote";
 import PageTitle from "../Common/ReusableComponents/PageTitle";
+import StyledCard from "../Common/ReusableComponents/StyledCard";
 
 const SeedMain = () => {
   const StickerAndTags = () => {
     return (
-      <Card
+      <StyledCard
         sx={{
-          ":hover": {
-            boxShadow: 20,
-          },
-          backgroundColor: "#00000088",
-          color: "primary.main",
           p: 2,
         }}
       >
@@ -37,7 +33,7 @@ const SeedMain = () => {
             <AddSticker />
           </Grid>
         </Grid>
-      </Card>
+      </StyledCard>
     );
   };
 

@@ -18,6 +18,7 @@ import moment from "moment";
 import { cellProps } from "./Cell";
 import { LinearProgress } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import StyledCard from "../../Common/ReusableComponents/StyledCard";
 
 interface habitDate {
   [key: string]: boolean | undefined;
@@ -183,7 +184,7 @@ const HabitsChart = () => {
     Object.keys(newData).length === 0
   ) {
     return (
-      <Card>
+      <StyledCard>
         <CardHeader
           title={
             <Typography
@@ -200,7 +201,7 @@ const HabitsChart = () => {
           }
         />
         <LinearProgress />
-      </Card>
+      </StyledCard>
     );
   }
 

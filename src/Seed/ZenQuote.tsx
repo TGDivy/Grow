@@ -1,6 +1,7 @@
 import React from "react";
 import useDailyStore from "../Common/Stores/DailyStore";
 import { Card, Typography } from "@mui/material";
+import StyledCard from "../Common/ReusableComponents/StyledCard";
 
 const timeElapsed = (startTime: Date) => {
   return Math.ceil((new Date().getTime() - startTime.getTime()) / 1000);
@@ -15,7 +16,7 @@ const ZenQuote = () => {
     setQuote();
   }
   return (
-    <Card
+    <StyledCard
       sx={{
         ":hover": {
           boxShadow: 20,
@@ -33,7 +34,7 @@ const ZenQuote = () => {
       <Typography variant="body2" align="center">
         {quote} - {author}
       </Typography>
-    </Card>
+    </StyledCard>
   );
 };
 

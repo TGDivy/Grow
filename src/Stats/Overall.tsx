@@ -41,6 +41,7 @@ import {
 } from "./Utils/overall";
 import { filterTimerRecords } from "./Utils/recordUtils";
 import useThemeStore from "../Common/Stores/ThemeStore";
+import StyledCard from "../Common/ReusableComponents/StyledCard";
 
 interface Props {
   timerRecords: timerType[];
@@ -170,14 +171,7 @@ const OverallStats: FC<Props> = ({
 
   return (
     <ClickAwayListener onClickAway={() => setExpanded(false)}>
-      <Card
-        sx={{
-          ":hover": {
-            boxShadow: 20,
-          },
-          backgroundColor: "#00000088",
-          color: "#ffffff",
-        }}
+      <StyledCard
         onClick={() => setExpanded(true)}
         className="tut-home-progress"
       >
@@ -330,7 +324,7 @@ const OverallStats: FC<Props> = ({
             </Grid>
           </CardContent>
         </Collapse>
-      </Card>
+      </StyledCard>
     </ClickAwayListener>
   );
 };
