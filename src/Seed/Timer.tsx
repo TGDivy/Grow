@@ -186,10 +186,8 @@ const Timer = () => {
                   },
                 },
                 "& .MuiSlider-mark": {
-                  // backgroundColor: "#000",
                   width: 12,
                   opacity: 0.4,
-                  // width: 1,
                   "&.MuiSlider-markActive": {
                     opacity: 1,
                     backgroundColor: "currentColor",

@@ -7,7 +7,12 @@ import {
 } from "@mui/material";
 import React from "react";
 
-type Props = { onClick?: () => void; title: string; children: React.ReactNode };
+type Props = {
+  onClick?: () => void;
+  title: string;
+  children: React.ReactNode;
+  defaultExpanded?: boolean;
+};
 
 const StyledAccordion = (props: Props) => {
   return (
@@ -18,6 +23,7 @@ const StyledAccordion = (props: Props) => {
           boxShadow: 20,
         },
       }}
+      defaultExpanded={props.defaultExpanded}
     >
       <AccordionSummary
         expandIcon={<ExpandMore />}

@@ -29,6 +29,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import moment from "moment";
 import useDailyJournalStore from "../Common/Stores/DailyJournalStore";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import StyledAccordion from "../Common/ReusableComponents/StyledAccordion";
 
 interface Props {
   allEntries?: boolean;
@@ -96,7 +97,7 @@ const All: FC<Props> = ({ allEntries }) => {
         <Grid item xs={12} sm={6} md={4} key={index}>
           <ListItem
             sx={{
-              backgroundColor: "#ffffff22",
+              backgroundColor: "primary.main",
             }}
           >
             <ListItemButton
@@ -116,17 +117,9 @@ const All: FC<Props> = ({ allEntries }) => {
 
       return (
         <>
-          <Typography
-            sx={{
-              color: "white",
-              fontSize: "1.5rem",
-              fontWeight: "bold",
-              marginTop: "1rem",
-            }}
-          >
+          <Typography variant="h4" sx={{ p: 2 }}>
             {key}
           </Typography>
-          <Divider />
           <Grid container spacing={2}>
             {month}
           </Grid>
@@ -136,21 +129,9 @@ const All: FC<Props> = ({ allEntries }) => {
 
     return (
       <>
-        <Paper
-          sx={{
-            p: 2,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            width: "100%",
-            justifyContent: "space-between",
-            height: "100%",
-            backgroundColor: "#00000088",
-            color: "white",
-          }}
-        >
+        <StyledAccordion title="All Entries" defaultExpanded>
           {items}
-        </Paper>
+        </StyledAccordion>
       </>
     );
   };
@@ -189,7 +170,7 @@ const All: FC<Props> = ({ allEntries }) => {
             sx: {
               position: "fixed",
               backgroundColor: "#ffffff22",
-              color: "white",
+              color: "primary.contrastText",
             },
           }}
           sx={{
