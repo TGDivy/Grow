@@ -5,8 +5,7 @@ import HomeMain from "./Home/Home";
 import LoginPage from "./Login/LoginPage";
 import SeedMain from "./Seed/SeedMain";
 import SoilMain from "./Soil/SoilMain";
-import StatsMain from "./Stats/StatsMain";
-import StatsMain2 from "./Stats2/StatsMain";
+import StatsMain from "./Stats2/StatsMain";
 import TasksMain from "./Tasks/TasksMain";
 import SettingMain from "./Setting/SettingMain";
 
@@ -95,13 +94,9 @@ const App = () => {
           path="/Soil"
           element={user ? <SoilMain /> : <Navigate to="/Login" />}
         />
-        {/* <Route
-          path="/Stats"
-          element={user ? <StatsMain /> : <Navigate to="/Login" />}
-        /> */}
         <Route
           path="/Stats"
-          element={user ? <StatsMain2 /> : <Navigate to="/Login" />}
+          element={user ? <StatsMain /> : <Navigate to="/Login" />}
         />
         <Route
           path="/Reflect"
