@@ -30,6 +30,7 @@ const DueDate: FC<dueDateProps> = ({ dueDate, editing, setDueDate }) => {
           renderInput={(params: JSX.IntrinsicAttributes & TextFieldProps) => (
             <TextField
               {...params}
+              size="small"
               InputLabelProps={{
                 sx: {
                   color: "primary.main",

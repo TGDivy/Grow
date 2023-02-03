@@ -209,20 +209,6 @@ const Task: FC<taskFC> = (props) => {
         <CardContent
           sx={{ padding: "5px 20px 5px 20px", position: "relative" }}
         >
-          {editing && (
-            <Box
-              sx={{
-                right: "0px",
-                top: "0px",
-              }}
-            >
-              <DueDate
-                dueDate={dueDate_}
-                setDueDate={setDueDate}
-                editing={editing}
-              />
-            </Box>
-          )}
           <Divider
             textAlign="left"
             sx={{
@@ -284,26 +270,43 @@ const Task: FC<taskFC> = (props) => {
           </Divider>
         </CardContent>
         <CardActions>
-          <Grid container justifyContent="space-between" alignItems="center">
-            <Grid item xs={2}>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "flex-start",
-                  width: "100%",
-                }}
-              >
-                {!editing && (
+          <Grid
+            container
+            justifyContent="space-between"
+            alignItems="center"
+            spacing={1}
+          >
+            {!editing && (
+              <Grid item xs={2}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                    width: "100%",
+                  }}
+                >
                   <Checkbox
                     checked={completed_}
                     onChange={handleTaskComplete}
                     size="medium"
                   />
-                )}
-                {!completed_ && <CreateEvent taskId={props.id} />}
-              </Box>
-            </Grid>
+
+                  {!completed_ && <CreateEvent taskId={props.id} />}
+                </Box>
+              </Grid>
+            )}
+            {editing && (
+              <Grid item xs={5}>
+                <Box>
+                  <DueDate
+                    dueDate={dueDate_}
+                    setDueDate={setDueDate}
+                    editing={editing}
+                  />
+                </Box>
+              </Grid>
+            )}
 
             <Grid item xs={6}>
               {props.startTimerButton && !editing && (
