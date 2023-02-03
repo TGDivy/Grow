@@ -14,6 +14,8 @@ import {
 } from "@mui/material";
 import _ from "lodash";
 import CreateTask from "../Tasks/CreateTask";
+import StyledCard from "../Common/ReusableComponents/StyledCard";
+import StyledButton from "../Common/ReusableComponents/StyledButton";
 
 const TimerTask = () => {
   const active = useTimerStore((state) => state.active);
@@ -39,22 +41,13 @@ const TimerTask = () => {
 
   // Get tasks by title
   const tasksToAdd = (
-    <Card
+    <StyledCard
       sx={{
-        ":hover": {
-          boxShadow: 20,
-        },
-        backgroundColor: "#00000088",
-        color: "primary.main",
-        width: "800px",
-        maxWidth: "100%",
         minHeight: "200px",
-        position: "relative",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        margin: "auto",
       }}
     >
       <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
@@ -76,7 +69,7 @@ const TimerTask = () => {
         </Select>
         <CreateTask taskListName={"Tasks"} />
       </FormControl>
-    </Card>
+    </StyledCard>
   );
 
   const TaskOrAdd = () => {
@@ -86,9 +79,9 @@ const TimerTask = () => {
           <Task {...task} id={taskKey} createNewTask={false} alwaysExpanded />
 
           {taskKey && !active && (
-            <Button onClick={deleteTask} variant="contained" size="small">
+            <StyledButton onClick={deleteTask} variant="contained" size="small">
               Remove Task
-            </Button>
+            </StyledButton>
           )}
         </>
       );

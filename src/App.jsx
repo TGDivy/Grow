@@ -4,9 +4,7 @@ import useCurrentUser from "./Common/Contexts/UserContext";
 import HomeMain from "./Home/Home";
 import LoginPage from "./Login/LoginPage";
 import SeedMain from "./Seed/SeedMain";
-import SoilMain from "./Soil/SoilMain";
-import StatsMain from "./Stats/StatsMain";
-import StatsMain2 from "./Stats2/StatsMain";
+import StatsMain from "./Stats2/StatsMain";
 import TasksMain from "./Tasks/TasksMain";
 import SettingMain from "./Setting/SettingMain";
 
@@ -20,6 +18,11 @@ import useJournalStore from "./Common/Stores/JournalStore";
 import useTaskStore from "./Common/Stores/TaskStore";
 import useTimerRecordsStore from "./Common/Stores/TimerRecordsStore";
 import useWorkoutStore from "./Common/Stores/WorkoutStore";
+
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import getTheme from "./Common/Styling/themes";
+import useThemeStore from "./Common/Stores/ThemeStore";
 
 const App = () => {
   const { user } = useCurrentUser();
@@ -92,16 +95,8 @@ const App = () => {
           element={user ? <SeedMain /> : <Navigate to="/Login" />}
         />
         <Route
-          path="/Soil"
-          element={user ? <SoilMain /> : <Navigate to="/Login" />}
-        />
-        {/* <Route
           path="/Stats"
           element={user ? <StatsMain /> : <Navigate to="/Login" />}
-        /> */}
-        <Route
-          path="/Stats"
-          element={user ? <StatsMain2 /> : <Navigate to="/Login" />}
         />
         <Route
           path="/Reflect"
@@ -111,14 +106,27 @@ const App = () => {
     );
   };
 
+  const colors = useThemeStore((state) => state.colors);
+  const mode = useThemeStore((state) => state.mode);
+  const setThemeByName = useThemeStore((state) => state.setThemeByName);
+
+  React.useEffect(() => {
+    setThemeByName("red");
+  }, []);
+
+  if (!colors) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <>
+    <ThemeProvider theme={getTheme(colors, mode)}>
+      <CssBaseline />
       <div style={{ marginBottom: 80 }}>
         <Routes>{routes()}</Routes>
       </div>
       <BottomNavigationBar />
       <AnonymousUser />
-    </>
+    </ThemeProvider>
   );
 };
 

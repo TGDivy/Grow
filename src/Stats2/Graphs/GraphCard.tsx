@@ -2,6 +2,7 @@ import React, { FC } from "react";
 
 import { ResponsiveContainer } from "recharts";
 import { Card, Box, Typography, CardHeader } from "@mui/material";
+import StyledCard from "../../Common/ReusableComponents/StyledCard";
 
 interface Props {
   children: React.ReactElement;
@@ -10,21 +11,10 @@ interface Props {
 
 const GraphCard: FC<Props> = (props) => {
   return (
-    <Card
-      sx={{
-        ":hover": {
-          boxShadow: 20,
-        },
-        backgroundColor: "#00000088",
-        color: "primary.main",
-        width: "800px",
-        maxWidth: "100%",
-        position: "relative",
-      }}
-    >
+    <StyledCard>
       <CardHeader
         title={
-          <Typography variant="h6" color="primary.main" align="center">
+          <Typography variant="h6" align="center">
             {props.title}
           </Typography>
         }
@@ -42,8 +32,7 @@ const GraphCard: FC<Props> = (props) => {
       >
         <ResponsiveContainer>{props.children}</ResponsiveContainer>
       </Box>
-      {/* </CardContent> */}
-    </Card>
+    </StyledCard>
   );
 };
 

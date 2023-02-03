@@ -18,6 +18,7 @@ import {
   getXAxisTicks,
 } from "../Utils/graph";
 import { CustomTooltipWrapper } from "../Utils/Shapes";
+import useThemeStore from "../../Common/Stores/ThemeStore";
 
 type Props = {
   timerRecords: timerType[];
@@ -36,6 +37,7 @@ const WorkStatLine = ({
 }: Props) => {
   const [data, setData] = React.useState<dataType[]>();
   const [previousData, setPreviousData] = React.useState<dataType[]>(); // for comparison
+  const colors = useThemeStore((state) => state.colors);
 
   React.useEffect(() => {
     getTimePeriods(timerRecords, period, date).then((data) => {
@@ -106,7 +108,7 @@ const WorkStatLine = ({
           type="monotone"
           dataKey="previousTime"
           name="Previous"
-          stroke="#ac9172"
+          stroke={colors.tertiary}
           strokeOpacity={0.3}
           strokeWidth={5}
           dot={false}
@@ -115,7 +117,7 @@ const WorkStatLine = ({
           type="monotone"
           dataKey="time"
           name="Current"
-          stroke="#ac9172"
+          stroke={colors.tertiary}
           strokeWidth={5}
           dot={false}
         />

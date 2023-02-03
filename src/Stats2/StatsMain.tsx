@@ -15,7 +15,9 @@ import TagPieStat from "./Graphs/PieStat";
 import useUserStore from "../Common/Stores/User";
 import HabitsChart from "./HabitsChart/HabitsChart";
 import { Stack } from "@mui/system";
-import PageTitle from "../Common/Utils/PageTitle";
+import PageTitle from "../Common/ReusableComponents/PageTitle";
+import StyledButton from "../Common/ReusableComponents/StyledButton";
+import StyledTab from "../Common/ReusableComponents/StyledTab";
 
 const StatsMain = () => {
   const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
@@ -80,35 +82,25 @@ const StatsMain = () => {
               alignItems="center"
             >
               <Grid item xs={12} md={8}>
-                <Tabs
-                  value={period}
-                  onChange={handlePeriodChange}
-                  textColor="primary"
-                  indicatorColor="primary"
-                  // change the font size of text in the tab when selected
-                  sx={{
-                    "& .MuiTab-textColorPrimary.Mui-selected": {
-                      fontSize: "1.4rem",
-                    },
-                  }}
-                >
+                <StyledTab value={period} onChange={handlePeriodChange}>
                   <Tab label="Day" value={timePeriod.day} />
                   <Tab label="Week" value={timePeriod.week} />
                   <Tab label="Month" value={timePeriod.month} />
                   <Tab label="Quarter" value={timePeriod.quarter} />
                   <Tab label="Year" value={timePeriod.year} />
-                </Tabs>
+                </StyledTab>
               </Grid>
               <Grid item xs={12} md={4}>
                 <Grid container spacing={2}>
                   <Grid item xs={3}>
-                    <Button
+                    <StyledButton
                       variant="contained"
                       fullWidth
                       onClick={() => handlePeriodBackClick("back")}
+                      size="small"
                     >
                       <ArrowBack />
-                    </Button>
+                    </StyledButton>
                   </Grid>
                   <Grid item xs={6}>
                     <Box
@@ -124,7 +116,6 @@ const StatsMain = () => {
                       <Typography
                         variant="h5"
                         align="center"
-                        color="primary"
                         noWrap
                         justifyItems="center"
                         alignItems="center"
@@ -135,14 +126,15 @@ const StatsMain = () => {
                   </Grid>
 
                   <Grid item xs={3}>
-                    <Button
+                    <StyledButton
                       variant="contained"
                       fullWidth
                       onClick={() => handlePeriodBackClick("forward")}
                       disabled={periodBack === 0}
+                      size="small"
                     >
                       <ArrowForward />
-                    </Button>
+                    </StyledButton>
                   </Grid>
                 </Grid>
               </Grid>

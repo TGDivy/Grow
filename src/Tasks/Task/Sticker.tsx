@@ -2,6 +2,7 @@ import React, { FC, useState, MouseEvent } from "react";
 import { Box, Chip, Menu, MenuItem, Typography } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import useUserStore from "../../Common/Stores/User";
+import StyledSticker from "../../Common/ReusableComponents/StyledSticker";
 
 interface tagsFc {
   sticker: string;
@@ -86,26 +87,13 @@ const Sticker: FC<tagsFc> = ({ sticker, editing, setSticker, timerPage }) => {
         </Menu>
 
         <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: 1 }}>
-          <Chip
+          <StyledSticker
             label={`${sticker}`}
-            color="secondary"
             size="small"
             variant="filled"
             onClick={handleClickOpen}
             onDelete={() => handleDeleteSticker()}
             icon={<Add />}
-            sx={{
-              marginBottom: 0,
-              pl: 1,
-              pr: 1,
-              py: 2,
-              borderRadius: 0,
-              "& .MuiChip-label": {
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              },
-            }}
             className="tut-task-sticker"
           />
         </Box>
@@ -115,26 +103,7 @@ const Sticker: FC<tagsFc> = ({ sticker, editing, setSticker, timerPage }) => {
   if (!sticker) {
     return null;
   }
-  return (
-    <Chip
-      label={sticker}
-      color="secondary"
-      size="small"
-      variant="filled"
-      sx={{
-        marginBottom: 0,
-        pl: 1,
-        pr: 1,
-        py: 2,
-        borderRadius: 0,
-        "& .MuiChip-label": {
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          whiteSpace: "nowrap",
-        },
-      }}
-    />
-  );
+  return <StyledSticker label={sticker} size="small" variant="filled" />;
 };
 
 export default Sticker;

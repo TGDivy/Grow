@@ -14,18 +14,14 @@ import TimerTask from "./AddTask";
 import AddTags from "./AddTags";
 import AddSticker from "./AddSticker";
 import ZenQuote from "./ZenQuote";
-import PageTitle from "../Common/Utils/PageTitle";
+import PageTitle from "../Common/ReusableComponents/PageTitle";
+import StyledCard from "../Common/ReusableComponents/StyledCard";
 
 const SeedMain = () => {
   const StickerAndTags = () => {
     return (
-      <Card
+      <StyledCard
         sx={{
-          ":hover": {
-            boxShadow: 20,
-          },
-          backgroundColor: "#00000088",
-          color: "primary.main",
           p: 2,
         }}
       >
@@ -37,7 +33,7 @@ const SeedMain = () => {
             <AddSticker />
           </Grid>
         </Grid>
-      </Card>
+      </StyledCard>
     );
   };
 
@@ -76,7 +72,8 @@ const SeedMain = () => {
       <Box
         sx={{
           p: 2,
-          backgroundColor: "rgba(0, 0, 0, 0.3)",
+          backgroundColor: "surfaceVariant.main",
+          color: "surfaceVariant.contrastText",
         }}
       >
         <Components />

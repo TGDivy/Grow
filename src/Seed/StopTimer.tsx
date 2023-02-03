@@ -12,13 +12,14 @@ import useTimerStore from "../Common/Stores/TimerStore";
 import useCurrentUser from "../Common/Contexts/UserContext";
 import { MIN_STOPWATCH_DURATION } from "../Common/constants";
 import useTaskStore from "../Common/Stores/TaskStore";
-import Transition from "../Common/Utils/Transitions";
+import Transition from "../Common/ReusableComponents/Transitions";
 
 type Props = {
   studyTime: number;
+  color: string;
 };
 
-const StopTimer: FC<Props> = ({ studyTime }) => {
+const StopTimer: FC<Props> = ({ studyTime, color }) => {
   const [open, setOpen] = React.useState(false);
   const active = useTimerStore((state) => state.active);
   const startTimer = useTimerStore((state) => state.startTimer);
@@ -48,13 +49,17 @@ const StopTimer: FC<Props> = ({ studyTime }) => {
   const StartStopFailButton = () => {
     if (active) {
       return (
-        <Button onClick={() => setOpen(true)} size="large">
+        <Button
+          onClick={() => setOpen(true)}
+          size="large"
+          sx={{ color: color }}
+        >
           <Stop fontSize="large" />
         </Button>
       );
     }
     return (
-      <Button onClick={startTimer} size="large">
+      <Button onClick={startTimer} size="large" sx={{ color: color }}>
         <PlayArrow fontSize="large" />
       </Button>
     );

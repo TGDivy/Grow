@@ -1,3 +1,4 @@
+import moment from "moment";
 import { timerType } from "../../Common/Types/Types";
 
 /**
@@ -17,6 +18,17 @@ import { timerType } from "../../Common/Types/Types";
 export const getWeek = (date: Date) => {
   const day = date.getDay(); // 0 = Sunday, 1 = Monday, etc.
   const diff = date.getDate() - day;
+  // check if monday is in the previous month
+  if (diff < 0) {
+    const firstDay = new Date(
+      date.getFullYear(),
+      date.getMonth() - 1,
+      // days in previous month - diff
+      moment(date).subtract(1, "month").daysInMonth() + diff
+    );
+    const lastDay = new Date(date.getFullYear(), date.getMonth(), 6 + diff);
+    return { firstDay, lastDay };
+  }
   const firstDay = new Date(date.setDate(diff)); // Sunday
   const lastDay = new Date(date.setDate(diff + 7)); // Saturday
   return { firstDay, lastDay };

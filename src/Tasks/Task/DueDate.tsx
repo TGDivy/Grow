@@ -49,12 +49,7 @@ const DueDate: FC<dueDateProps> = ({ dueDate, editing, setDueDate }) => {
   if (!dueDate) return null;
   return (
     <Stack direction="row" spacing={1}>
-      <Typography
-        variant="body2"
-        sx={{
-          color: "primary.main",
-        }}
-      >
+      <Typography variant="body2">
         {moment(dueDate).format("ddd, MMM Do")}
       </Typography>
     </Stack>

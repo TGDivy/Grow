@@ -6,6 +6,7 @@ import { Dialog, Button } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import { useTour } from "@reactour/tour";
 import { createTaskSteps } from "../steps";
+import StyledButton from "../Common/ReusableComponents/StyledButton";
 
 interface createTaskFc {
   taskListName: string;
@@ -63,7 +64,7 @@ const CreateTask: FC<createTaskFc> = ({
 
   return (
     <>
-      <Button
+      <StyledButton
         variant="contained"
         color="primary"
         onClick={handleClickOpen}
@@ -72,7 +73,7 @@ const CreateTask: FC<createTaskFc> = ({
       >
         <Add />
         {noName ? "" : "Task"}
-      </Button>
+      </StyledButton>
       <Dialog
         open={open}
         // TransitionComponent={Transition}

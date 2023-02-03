@@ -6,14 +6,10 @@ import {
   Nature,
   Terrain,
   TrendingUp,
-  ExpandMore,
   Settings,
 } from "@mui/icons-material";
 
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Container,
   Fade,
   Grid,
@@ -47,6 +43,9 @@ import { useTour } from "@reactour/tour";
 import { homeSteps } from "../steps";
 import useUserStore from "../Common/Stores/User";
 import ProfileLogo from "./ProfileLogo";
+import StyledAccordion from "../Common/ReusableComponents/StyledAccordion";
+import StyledButton from "../Common/ReusableComponents/StyledButton";
+import StyledTab from "../Common/ReusableComponents/StyledTab";
 
 const Home = () => {
   // const inspirationalQuote = {
@@ -125,7 +124,12 @@ const Home = () => {
   };
 
   return (
-    <Container>
+    <Container
+      sx={{
+        color: "surface.contrastText",
+        backgroundColor: "surface.main",
+      }}
+    >
       <Box
         sx={{
           height: "15vh",
@@ -141,7 +145,7 @@ const Home = () => {
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            gap: 2,
+            // gap: 2,
           }}
         >
           <Button
@@ -152,14 +156,11 @@ const Home = () => {
           >
             <Help fontSize="large" />
           </Button>
-          <Button
-            variant="contained"
-            component={Link}
-            to="/Settings"
-            className="tut-home-settings"
-          >
-            <Settings />
-          </Button>
+          <Link to="/Settings">
+            <StyledButton variant="contained" className="tut-home-settings">
+              <Settings />
+            </StyledButton>
+          </Link>
         </Box>
         <Box
           sx={{
@@ -227,20 +228,20 @@ const Home = () => {
                   }}
                   key={place.name}
                 >
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    startIcon={place.icon}
-                    component={Link}
-                    to={place.link}
-                    key={place.name}
-                    disabled={
-                      isOpen === true ||
-                      place.name.toLowerCase().includes("soon")
-                    }
-                  >
-                    {place.name}
-                  </Button>
+                  <Link to={place.link}>
+                    <StyledButton
+                      variant="contained"
+                      color="primary"
+                      startIcon={place.icon}
+                      key={place.name}
+                      disabled={
+                        isOpen === true ||
+                        place.name.toLowerCase().includes("soon")
+                      }
+                    >
+                      {place.name}
+                    </StyledButton>
+                  </Link>
                 </Zoom>
               ))}
             </Stack>
@@ -254,53 +255,15 @@ const Home = () => {
               }}
               {...{ timeout: 1000 }}
             >
-              <Accordion
-                sx={{
-                  backgroundColor: "rgba(0, 0, 0, 0.5)",
-                  ":hover": {
-                    boxShadow: 20,
-                  },
-                }}
-              >
-                <AccordionSummary
-                  expandIcon={<ExpandMore />}
-                  aria-controls="panel1a-content"
-                  id="panel1a-header"
-                  sx={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 1,
-                    // flexDirection: "row-reverse",
-                    " .MuiAccordionSummary-content": {
-                      flexGrow: 0,
-                    },
-                  }}
-                  className="tut-home-brief"
-                >
-                  <Typography variant="h6" color="primary">
-                    {"Today's Brief"}
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails
-                  sx={{
-                    pt: 2,
-                    bgcolor: "rgba(255, 255, 255, 0.05)",
-                  }}
-                >
-                  <Tabs
-                    value={tab}
-                    onChange={handleTabChange}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    variant="fullWidth"
-                    aria-label="full width tabs example"
-                  >
+              <div>
+                <StyledAccordion title="Today's Brief">
+                  <StyledTab value={tab} onChange={handleTabChange}>
                     <Tab label="Goals" className="tut-home-goals" />
                     <Tab label="Habits" className="tut-home-habits" />
-                  </Tabs>
+                  </StyledTab>
                   {tabs[tab]}
-                </AccordionDetails>
-              </Accordion>
+                </StyledAccordion>
+              </div>
             </Fade>
           </Grid>
 

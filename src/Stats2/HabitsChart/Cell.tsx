@@ -11,7 +11,7 @@ export interface cellProps {
 
 const backGroundColorMap = (habit: boolean | undefined | null) => {
   if (habit === undefined) {
-    return "#33333388";
+    return "surface.main";
   }
   if (habit === true) {
     return "#00B140AA";

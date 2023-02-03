@@ -40,6 +40,9 @@ import {
   filterJournalRecords,
 } from "./Utils/overall";
 import { filterTimerRecords } from "./Utils/recordUtils";
+import useThemeStore from "../Common/Stores/ThemeStore";
+import StyledCard from "../Common/ReusableComponents/StyledCard";
+import StyledButton from "../Common/ReusableComponents/StyledButton";
 
 interface Props {
   timerRecords: timerType[];
@@ -69,6 +72,7 @@ const OverallStats: FC<Props> = ({
   const [data, setData] = React.useState<dataType[]>();
   const [dataJournal, setDataJournal] = React.useState<dataTypeJournal[]>();
   const [expanded, setExpanded] = useState(false);
+  const colors = useThemeStore((state) => state.colors);
 
   React.useEffect(() => {
     getWeeklyWorkStat(timerRecords, previousRecords, dayDiff).then((data) => {
@@ -100,16 +104,13 @@ const OverallStats: FC<Props> = ({
         <Paper
           sx={{
             padding: "10px",
-            backgroundColor: "#ffffff",
             border: "2px solid #aaaaaa",
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
           }}
         >
-          <Typography variant="body1" color="text.primary">
-            {label}
-          </Typography>
+          <Typography variant="body1">{label}</Typography>
           <Divider
             orientation="vertical"
             flexItem
@@ -118,7 +119,7 @@ const OverallStats: FC<Props> = ({
               borderRight: "2px solid #aaaaaa",
             }}
           />
-          <Typography variant="body1" color="text.primary">
+          <Typography variant="body1">
             Score: {`${score}`.padStart(2, "0")}
           </Typography>
           <Divider
@@ -129,7 +130,7 @@ const OverallStats: FC<Props> = ({
               borderRight: "2px solid #aaaaaa",
             }}
           />
-          <Typography variant="body1" color="text.primary">
+          <Typography variant="body1">
             Prev: {`${scorePrev}`.padStart(2, "0")}
           </Typography>
         </Paper>
@@ -168,21 +169,20 @@ const OverallStats: FC<Props> = ({
 
   return (
     <ClickAwayListener onClickAway={() => setExpanded(false)}>
-      <Card
-        sx={{
-          ":hover": {
-            boxShadow: 20,
-          },
-          backgroundColor: "#00000088",
-          color: "#ffffff",
-        }}
+      <StyledCard
         onClick={() => setExpanded(true)}
         className="tut-home-progress"
+        sx={
+          {
+            // backgroundColor: "surfaceVariant.main",
+            // color: "surfaceVariant.contrastText",
+          }
+        }
       >
         {/* Center the header */}
         <CardHeader
           title={
-            <Typography variant="h6" color="primary" align="center">
+            <Typography variant="h6" align="center">
               Overall Stats
             </Typography>
           }
@@ -222,7 +222,6 @@ const OverallStats: FC<Props> = ({
                 orientation="left"
                 ticks={[20, 40, 60, 80, 100]}
                 tickLine={false}
-                tick={{ fill: "#ffffffbb" }}
               />
               <Tooltip content={<CustomTooltip />} />
               <XAxis
@@ -232,20 +231,21 @@ const OverallStats: FC<Props> = ({
                 tickLine={false}
                 dy={7}
                 dx={-5}
-                tick={{ fill: "#ffffffbb" }}
               />
 
-              <Bar fill="#ac9172" stackId="aa" dataKey="score" />
-              <Bar dataKey="scorePrev" fill="#ac917233" stackId="aa" />
+              <Bar fill={colors.tertiary} stackId="aa" dataKey="score" />
+              <Bar
+                dataKey="scorePrev"
+                fill={`${colors.tertiary}55`}
+                stackId="aa"
+              />
             </BarChart>
           </ResponsiveContainer>
         </Box>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent
             sx={{
-              //   marginBottom: 0,
               paddingTop: 0,
-              backgroundColor: "#00000000",
             }}
           >
             <Grid
@@ -259,57 +259,32 @@ const OverallStats: FC<Props> = ({
                 <Tabs
                   value={timePeriodLength}
                   onChange={handleChange}
-                  textColor="primary"
-                  indicatorColor="primary"
+                  indicatorColor="secondary"
                   variant="fullWidth"
                 >
-                  <Tab
-                    value={3}
-                    label="3 Day"
-                    sx={{
-                      color: "#ffffffbb",
-                    }}
-                  />
-                  <Tab
-                    value={7}
-                    label="Week"
-                    sx={{
-                      color: "#ffffffbb",
-                    }}
-                  />
-                  <Tab
-                    value={14}
-                    label="Fortnight"
-                    sx={{
-                      color: "#ffffffbb",
-                    }}
-                  />
-                  <Tab
-                    value={30}
-                    label="Month"
-                    sx={{
-                      color: "#ffffffbb",
-                    }}
-                  />
+                  <Tab value={3} label="3 Day" />
+                  <Tab value={7} label="Week" />
+                  <Tab value={14} label="Fortnight" />
+                  <Tab value={30} label="Month" />
                 </Tabs>
               </Grid>
               <Grid item xs={12} md={6}>
                 <Grid container spacing={2} alignContent="center">
                   <Grid item xs={3}>
-                    <Button
+                    <StyledButton
                       variant="contained"
                       fullWidth
                       onClick={() => handlePeriodBack("backward")}
                       size="small"
                     >
                       <ArrowBack />
-                    </Button>
+                    </StyledButton>
                   </Grid>
                   <Grid item xs={6}>
                     {displayPeriod()}
                   </Grid>
                   <Grid item xs={3}>
-                    <Button
+                    <StyledButton
                       variant="contained"
                       fullWidth
                       onClick={() => handlePeriodBack("forward")}
@@ -317,14 +292,14 @@ const OverallStats: FC<Props> = ({
                       size="small"
                     >
                       <ArrowForward />
-                    </Button>
+                    </StyledButton>
                   </Grid>
                 </Grid>
               </Grid>
             </Grid>
           </CardContent>
         </Collapse>
-      </Card>
+      </StyledCard>
     </ClickAwayListener>
   );
 };

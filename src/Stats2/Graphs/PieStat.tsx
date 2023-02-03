@@ -6,6 +6,7 @@ import GraphCard from "./GraphCard";
 import { getStickerPieData, getTagPieData } from "../Utils/graphRadial";
 import { renderActiveShape } from "../Utils/Shapes";
 import { dataType } from "../Utils/graph";
+import useThemeStore from "../../Common/Stores/ThemeStore";
 
 interface Props {
   timerRecords: timerType[];
@@ -15,6 +16,7 @@ interface Props {
 
 const TagPieStat: FC<Props> = ({ timerRecords, filterOn, values }) => {
   const [data, setData] = React.useState<dataType[]>();
+  const colors = useThemeStore((state) => state.colors);
 
   React.useEffect(() => {
     if (filterOn === "Tags") {
@@ -58,7 +60,7 @@ const TagPieStat: FC<Props> = ({ timerRecords, filterOn, values }) => {
           stroke="#ffffff33"
           strokeWidth={2}
           activeIndex={activeIndex}
-          activeShape={renderActiveShape}
+          activeShape={renderActiveShape(colors.tertiary)}
           onMouseEnter={onPieEnter}
         />
       </PieChart>

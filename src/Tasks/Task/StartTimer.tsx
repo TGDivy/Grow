@@ -4,6 +4,7 @@ import { PlayArrow } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 import useTimerStore from "../../Common/Stores/TimerStore";
+import StyledButton from "../../Common/ReusableComponents/StyledButton";
 interface startTimerProps {
   id: string;
   timeSpent?: number;
@@ -44,14 +45,27 @@ const StartTimer: FC<startTimerProps> = ({ id, timeSpent }) => {
         gap: 1,
       }}
     >
-      <Button variant="outlined" fullWidth size="small">
+      <Button
+        variant="outlined"
+        fullWidth
+        size="small"
+        // sx={{
+        //   color: "tertiary.main",
+        //   borderColor: "tertiary.main",
+        // }}
+      >
         <Typography variant="caption">
           {timeSpent ? formatTime(timeSpent) : "0m"}
         </Typography>
       </Button>
-      <Button variant="contained" fullWidth onClick={handleStart} size="small">
+      <StyledButton
+        variant="contained"
+        fullWidth
+        onClick={handleStart}
+        size="small"
+      >
         <PlayArrow fontSize="small" />{" "}
-      </Button>
+      </StyledButton>
     </Box>
   );
 };

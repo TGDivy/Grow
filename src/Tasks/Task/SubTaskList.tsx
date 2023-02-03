@@ -61,7 +61,6 @@ const SubTaskList: FC<SubTaskListProps> = ({
         sx={{
           paddingTop: 0,
           marginTop: 0,
-          color: "primary.main",
         }}
         className="tut-task-subtasks"
       >
@@ -69,12 +68,13 @@ const SubTaskList: FC<SubTaskListProps> = ({
           {subTasks.map((subTask, index) => (
             <Collapse key={index}>
               <ListItem
-                sx={{ padding: "0px 0px 0px 15px", color: "primary.main" }}
+                sx={{ padding: "0px 0px 0px 15px" }}
                 secondaryAction={
                   editing && (
                     <IconButton
                       edge="end"
                       aria-label="delete"
+                      color="primary"
                       onClick={() => handleDeleteSubTask(subTask)}
                     >
                       <Delete />
@@ -84,9 +84,9 @@ const SubTaskList: FC<SubTaskListProps> = ({
               >
                 <Checkbox
                   sx={{ padding: "0px 5px 0px 5px" }}
+                  color="secondary"
                   edge="start"
                   size="small"
-                  color="primary"
                   checked={subTask.completed}
                   onClick={() => handleToggleSubTask(index)}
                 />
@@ -99,16 +99,6 @@ const SubTaskList: FC<SubTaskListProps> = ({
                     onChange={(event) => {
                       handleSubTaskChange(event, index);
                     }}
-                    InputLabelProps={{
-                      sx: {
-                        color: "primary.main",
-                      },
-                    }}
-                    sx={{
-                      "& .MuiInputBase-root": {
-                        color: "primary.main",
-                      },
-                    }}
                   />
                 ) : (
                   <ListItemText>
@@ -118,7 +108,9 @@ const SubTaskList: FC<SubTaskListProps> = ({
                         textDecoration: subTask.completed
                           ? "line-through"
                           : "none",
-                        color: subTask.completed ? "gray" : "primary.main",
+                        color: subTask.completed
+                          ? "gray"
+                          : "surface.contrastText",
                       }}
                     >
                       {subTask.title}
@@ -151,6 +143,7 @@ const SubTaskList: FC<SubTaskListProps> = ({
               edge="start"
               checked={false}
               size="small"
+              color="secondary"
               sx={{ padding: "0px 5px 0px 5px" }}
             />
             <TextField
@@ -160,16 +153,6 @@ const SubTaskList: FC<SubTaskListProps> = ({
               value={subTask.title}
               onChange={(event) => {
                 setSubTask({ title: event.target.value, completed: false });
-              }}
-              InputLabelProps={{
-                sx: {
-                  color: "primary.main",
-                },
-              }}
-              sx={{
-                "& .MuiInputBase-root": {
-                  color: "primary.main",
-                },
               }}
             />
           </ListItem>

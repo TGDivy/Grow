@@ -8,12 +8,14 @@ import {
   Card,
   CardActions,
   CircularProgress,
+  useTheme,
 } from "@mui/material";
 import useTimerStore from "../Common/Stores/TimerStore";
 
 import StopTimer from "./StopTimer";
 import FinishTimer from "./FinishTimer";
 import { MAX_STOPWATCH_DURATION } from "../Common/constants";
+import StyledCard from "../Common/ReusableComponents/StyledCard";
 
 const timeElapsed = (startTime: Date) => {
   return Math.ceil((new Date().getTime() - startTime.getTime()) / 1000);
@@ -36,12 +38,15 @@ const formatTime = (time_: number, mode: string, duration: number) => {
 
 const Timer = () => {
   const startTime = useTimerStore((state) => state.startTime);
-  const [studyTime, setStudyTime] = useState<number>(timeElapsed(startTime));
   const active = useTimerStore((state) => state.active);
+  const timerDuration = useTimerStore((state) => state.timerDuration);
+  const [studyTime, setStudyTime] = useState<number>(
+    active ? timeElapsed(startTime) : timerDuration
+  );
+  const theme = useTheme();
 
   const timerMode = useTimerStore((state) => state.timerMode);
   const setTimerMode = useTimerStore((state) => state.setTimerMode);
-  const timerDuration = useTimerStore((state) => state.timerDuration);
   const setTimerDuration = useTimerStore((state) => state.setTimerDuration);
 
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
@@ -114,17 +119,22 @@ const Timer = () => {
     // This solution cause the page to scroll when the user is trying to change the timer duration
   };
 
+  console.log(
+    "timerDuration",
+    timerDuration,
+    "timerMode",
+    timerMode,
+    "studyTime",
+    studyTime
+  );
+
+  const color =
+    active || timerMode === "stopwatch" ? "tertiary.main" : "secondary.main";
+
   return (
     <>
-      <Card
+      <StyledCard
         sx={{
-          ":hover": {
-            boxShadow: 20,
-          },
-          backgroundColor: "#00000088",
-          color: "primary.main",
-          width: "800px",
-          maxWidth: "100%",
           position: "relative",
         }}
       >
@@ -158,7 +168,7 @@ const Timer = () => {
               disabled={active || timerMode === "stopwatch"}
               orientation="vertical"
               sx={{
-                color: "primary.main",
+                color: color,
                 "& .MuiSlider-thumb": {
                   width: 8,
                   height: 8,
@@ -167,7 +177,11 @@ const Timer = () => {
                     boxShadow: "0 2px 12px 0 rgba(0,0,0,0.4)",
                   },
                   "&:hover, &.Mui-focusVisible": {
-                    boxShadow: `0px 0px 0px 8px ${"rgb(255 255 255 / 16%)"}`,
+                    boxShadow: `0px 0px 0px 8px ${
+                      theme.palette.mode === "dark"
+                        ? "rgb(255 255 255 / 16%)"
+                        : "rgb(0 0 0 / 16%)"
+                    }`,
                   },
                   "&.Mui-active": {
                     width: 16,
@@ -175,10 +189,8 @@ const Timer = () => {
                   },
                 },
                 "& .MuiSlider-mark": {
-                  // backgroundColor: "#000",
                   width: 12,
                   opacity: 0.4,
-                  // width: 1,
                   "&.MuiSlider-markActive": {
                     opacity: 1,
                     backgroundColor: "currentColor",
@@ -229,7 +241,7 @@ const Timer = () => {
             value={100}
             size={225}
             sx={{
-              color: "#00000088",
+              color: theme.palette.mode === "dark" ? "#ffffff22" : "#00000022",
               position: "absolute",
             }}
           />
@@ -243,13 +255,10 @@ const Timer = () => {
             }
             size={225}
             sx={{
-              color: active || timerMode === "stopwatch" ? "#ffffff88" : "grey",
-
+              color: color,
               "& .MuiCircularProgress-circle": {
                 transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
                 strokeLinecap: "round",
-
-                // Make bar stand out an svg circle
                 transformOrigin: "center",
               },
             }}
@@ -269,7 +278,7 @@ const Timer = () => {
             <Typography
               variant="h3"
               align="center"
-              color="primary.main"
+              color={color}
               unselectable="on"
               sx={{
                 userSelect: "none",
@@ -294,7 +303,7 @@ const Timer = () => {
               zIndex: 2,
             }}
           >
-            <StopTimer studyTime={studyTime} />
+            <StopTimer studyTime={studyTime} color={color} />
           </Box>
         </Box>
         <CardActions
@@ -318,10 +327,13 @@ const Timer = () => {
                 setTimerMode("timer");
               }
             }}
+            sx={{
+              color: color,
+            }}
           />
           Stop Watch
         </CardActions>
-      </Card>
+      </StyledCard>
 
       <FinishTimer
         studyTime={studyTime}

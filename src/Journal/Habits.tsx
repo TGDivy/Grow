@@ -25,6 +25,7 @@ import useDailyJournalStore from "../Common/Stores/DailyJournalStore";
 import { JournalType } from "../Common/Types/Types";
 import useJournalStore from "../Common/Stores/JournalStore";
 import useUserStore from "../Common/Stores/User";
+import StyledButton from "../Common/ReusableComponents/StyledButton";
 
 interface Props {
   readonly?: boolean;
@@ -53,9 +54,6 @@ const CustomBoolHabitsDisplay = ({ readonly, document, today }: Props) => {
                 />
               }
               key={habit}
-              sx={{
-                backgroundColor: "#ffffff22",
-              }}
             >
               <ListItemButton sx={{ width: "100%" }} disabled={readonly}>
                 <ListItemText
@@ -118,12 +116,10 @@ const CustomBoolHabitsDisplay = ({ readonly, document, today }: Props) => {
                 checked={completed}
                 tabIndex={-1}
                 onClick={() => handleCustomBoolHabitToggle(habit)}
+                color="secondary"
               />
             }
             key={habit}
-            sx={{
-              backgroundColor: "#ffffff22",
-            }}
           >
             <ListItemButton
               sx={{ width: "100%" }}
@@ -227,8 +223,7 @@ const Habits: FC<Props> = ({ readonly, document }) => {
           width: "100%",
           justifyContent: "space-between",
           height: "100%",
-          backgroundColor: "#00000088",
-          color: "white",
+          backgroundColor: "surface.main",
         }}
       >
         <List
@@ -240,17 +235,16 @@ const Habits: FC<Props> = ({ readonly, document }) => {
             textAlign="center"
             sx={{
               "&.MuiDivider-root": {
-                color: "primary.main",
                 pb: 1,
                 "&::before": {
                   borderTopWidth: 2,
                   borderTopStyle: "solid",
-                  borderTopColor: "primary.main",
+                  borderTopColor: "outline",
                 },
                 "&::after": {
                   borderTopWidth: 2,
                   borderTopStyle: "solid",
-                  borderTopColor: "primary.main",
+                  borderTopColor: "outline",
                 },
               },
             }}
@@ -271,12 +265,10 @@ const Habits: FC<Props> = ({ readonly, document }) => {
                 checked={totalWorkTime >= 8 * 60}
                 tabIndex={-1}
                 disableRipple
+                color="secondary"
                 disabled
               />
             }
-            sx={{
-              backgroundColor: "#ffffff22",
-            }}
           >
             <ListItemButton sx={{ width: "100%" }} disabled={readonly}>
               <ListItemText
@@ -300,11 +292,9 @@ const Habits: FC<Props> = ({ readonly, document }) => {
                 tabIndex={-1}
                 disabled={readonly}
                 onChange={(e) => setExercised(e.target.checked)}
+                color="secondary"
               />
             }
-            sx={{
-              backgroundColor: "#ffffff22",
-            }}
           >
             <ListItemButton
               sx={{ width: "100%" }}
@@ -329,11 +319,9 @@ const Habits: FC<Props> = ({ readonly, document }) => {
                 checked={meals.filter((meal) => meal).length >= 3}
                 tabIndex={-1}
                 disabled
+                color="secondary"
               />
             }
-            sx={{
-              backgroundColor: "#ffffff22",
-            }}
           >
             <ListItemButton sx={{ width: "100%" }} disabled={readonly}>
               <ListItemText
@@ -355,7 +343,6 @@ const Habits: FC<Props> = ({ readonly, document }) => {
               return (
                 <ListItem
                   sx={{
-                    backgroundColor: "#ffffff19",
                     pl: 4,
                   }}
                   key={index}
@@ -363,34 +350,49 @@ const Habits: FC<Props> = ({ readonly, document }) => {
                     <ButtonGroup
                       variant="outlined"
                       aria-label="outlined button group"
+                      sx={{
+                        pr: 5,
+                      }}
                     >
-                      <Button
-                        variant={meals[index] === "" ? "contained" : "outlined"}
+                      <StyledButton
+                        sx={{
+                          backgroundColor:
+                            meals[index] === ""
+                              ? "primary.container"
+                              : "surfaceVariant.main",
+                        }}
+                        variant="contained"
                         onClick={handleMeals(index, "")}
                         disabled={readonly}
                       >
                         <Cancel />
-                      </Button>
-                      <Button
+                      </StyledButton>
+                      <StyledButton
                         onClick={handleMeals(index, "cooked")}
                         disabled={readonly}
-                        variant={
-                          meals[index] === "cooked" ? "contained" : "outlined"
-                        }
+                        variant="contained"
+                        sx={{
+                          backgroundColor:
+                            meals[index] === "cooked"
+                              ? "primary.container"
+                              : "surfaceVariant.main",
+                        }}
                       >
                         <TakeoutDining />
-                      </Button>
-                      <Button
+                      </StyledButton>
+                      <StyledButton
                         onClick={handleMeals(index, "restaurant")}
+                        variant="contained"
                         disabled={readonly}
-                        variant={
-                          meals[index] === "restaurant"
-                            ? "contained"
-                            : "outlined"
-                        }
+                        sx={{
+                          backgroundColor:
+                            meals[index] === "restaurant"
+                              ? "primary.container"
+                              : "surfaceVariant.main",
+                        }}
                       >
                         <LocalDining />
-                      </Button>
+                      </StyledButton>
                     </ButtonGroup>
                   }
                 >
@@ -429,12 +431,10 @@ const Habits: FC<Props> = ({ readonly, document }) => {
                     checked={object.completed}
                     tabIndex={-1}
                     disabled
+                    color="secondary"
                   />
                 }
                 key={object.name}
-                sx={{
-                  backgroundColor: "#ffffff22",
-                }}
               >
                 <ListItemButton sx={{ width: "100%" }} disabled={readonly}>
                   <ListItemText

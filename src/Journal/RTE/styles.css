@@ -372,7 +372,6 @@ pre::-webkit-scrollbar-thumb {
   display: flex;
   overflow: scroll;
   margin-bottom: 1px;
-  background: #ac9172;
   padding: 4px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -421,7 +420,7 @@ pre::-webkit-scrollbar-thumb {
 }
 
 .toolbar .toolbar-item:hover:not([disabled]) {
-  background-color: #eee;
+  background-color: #eeeeee88;
 }
 
 .toolbar .divider {
@@ -441,7 +440,6 @@ pre::-webkit-scrollbar-thumb {
   -moz-appearance: none;
   width: 70px;
   font-size: 14px;
-  color: rgb(0, 0, 0);
   text-overflow: ellipsis;
 }
 
@@ -456,7 +454,6 @@ pre::-webkit-scrollbar-thumb {
   width: 200px;
   vertical-align: middle;
   font-size: 14px;
-  color: #000;
   text-overflow: ellipsis;
   width: 70px;
   overflow: hidden;

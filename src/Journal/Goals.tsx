@@ -3,23 +3,15 @@ import useDailyJournalStore from "../Common/Stores/DailyJournalStore";
 import CreateTask from "../Tasks/CreateTask";
 import { v4 as uuid_v4 } from "uuid";
 import useTaskStore from "../Common/Stores/TaskStore";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  Grid,
-  Grow,
-  Stack,
-  Typography,
-} from "@mui/material";
-import { Edit, ExpandMore } from "@mui/icons-material";
+import { Box, Grid, Grow, Stack, Typography } from "@mui/material";
+import { Edit } from "@mui/icons-material";
 import _ from "lodash";
 import Task from "../Tasks/Task/Task";
 import { ToggleButton } from "@mui/material";
 import RTE from "./RTE/RTE";
 import useJournalStore from "../Common/Stores/JournalStore";
 import { JournalType } from "../Common/Types/Types";
+import StyledAccordion from "../Common/ReusableComponents/StyledAccordion";
 
 interface Props {
   readonly?: boolean;
@@ -199,26 +191,11 @@ const Goals: FC<Props> = ({ readonly, document }) => {
           }}
         >
           {completedTasks.length > 0 && !readonly && (
-            <Accordion
-              sx={{
-                backgroundColor: "rgba(0, 0, 0, 0.5)",
-              }}
-            >
-              <AccordionSummary
-                expandIcon={<ExpandMore />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <Typography variant="h5" color="primary">
-                  Tasks To Do
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Grid container spacing={2}>
-                  {completedTasks}
-                </Grid>
-              </AccordionDetails>
-            </Accordion>
+            <StyledAccordion title="Tasks To Do">
+              <Grid container spacing={2}>
+                {completedTasks}
+              </Grid>
+            </StyledAccordion>
           )}
         </Box>
       </Grow>
