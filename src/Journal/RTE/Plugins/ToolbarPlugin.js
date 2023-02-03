@@ -589,7 +589,6 @@ export default function ToolbarPlugin({ colors }) {
               setShowBlockOptionsDropDown(!showBlockOptionsDropDown)
             }
             aria-label="Formatting Options"
-            style={{}}
           >
             <span className={"icon block-type " + blockType} />
             <span className="text">{blockTypeToBlockName[blockType]}</span>
