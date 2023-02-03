@@ -49,7 +49,7 @@ const CreateEvent = ({ taskId }: Props) => {
       <Check />
     </Button>
   ) : (
-    <Button onClick={handleCreateEvent}>
+    <Button onClick={handleCreateEvent} color="secondary">
       <Add />
     </Button>
   );
@@ -57,9 +57,6 @@ const CreateEvent = ({ taskId }: Props) => {
   return (
     <>
       {button}
-      {/* <Button onClick={handleCreateEvent}>
-        <Add />
-      </Button> */}
       <Dialog open={open}>
         <DialogContent>
           <DialogContentText>

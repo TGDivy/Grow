@@ -15,6 +15,7 @@ import useJournalStore from "../Common/Stores/JournalStore";
 import moment from "moment";
 
 import { ViewList, Create } from "@mui/icons-material";
+import StyledButton from "../Common/ReusableComponents/StyledButton";
 
 const JournalMain = () => {
   const activeStep = useDailyJournalStore((state) => state.activeStep);
@@ -95,10 +96,13 @@ const JournalMain = () => {
             }}
           >
             <Divider textAlign="right">
-              <Button variant="contained" onClick={() => setViewAll(false)}>
+              <StyledButton
+                variant="contained"
+                onClick={() => setViewAll(false)}
+              >
                 <Create />
                 &nbsp;New Journal Entry
-              </Button>
+              </StyledButton>
             </Divider>
           </Box>
 
@@ -133,9 +137,9 @@ const JournalMain = () => {
           }}
         >
           <Divider textAlign="right">
-            <Button variant="contained" onClick={() => setViewAll(true)}>
+            <StyledButton variant="contained" onClick={() => setViewAll(true)}>
               <ViewList />
-            </Button>
+            </StyledButton>
           </Divider>
         </Box>
 
@@ -182,21 +186,21 @@ const JournalMain = () => {
           </Grid>
         </Box>
         <Stack direction="row" spacing={2}>
-          <Button
+          <StyledButton
             variant="contained"
             onClick={handleBack}
             disabled={activeStep === 0}
           >
             Back
-          </Button>
-          <Button
+          </StyledButton>
+          <StyledButton
             variant="contained"
             onClick={
               activeStep === steps.length - 1 ? handleSubmit : handleNext
             }
           >
             {activeStep === steps.length - 1 ? "Submit" : "Next"}
-          </Button>
+          </StyledButton>
         </Stack>
       </Stack>
     </Container>

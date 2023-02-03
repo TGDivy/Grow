@@ -200,7 +200,7 @@ const Task: FC<taskFC> = (props) => {
               </IconButton>
             )) || (
               <IconButton aria-label="edit" onClick={handleEdit}>
-                <Edit color="primary" />
+                <Edit />
               </IconButton>
             ))
           }
@@ -231,17 +231,17 @@ const Task: FC<taskFC> = (props) => {
               flexDirection: "row",
               position: "relative",
               "&.MuiDivider-root": {
-                color: "primary.main",
+                color: "outline",
                 py: 1,
                 "&::before": {
                   borderTopWidth: 2,
                   borderTopStyle: "solid",
-                  borderTopColor: "primary.main",
+                  borderTopColor: "outline",
                 },
                 "&::after": {
                   borderTopWidth: 2,
                   borderTopStyle: "solid",
-                  borderTopColor: "primary.main",
+                  borderTopColor: "outline",
                   width: "100%",
                 },
               },
@@ -299,11 +299,6 @@ const Task: FC<taskFC> = (props) => {
                     checked={completed_}
                     onChange={handleTaskComplete}
                     size="medium"
-                    sx={{
-                      paddingBottom: "0px",
-                      paddingTop: "0px",
-                      color: "primary.main",
-                    }}
                   />
                 )}
                 {!completed_ && <CreateEvent taskId={props.id} />}

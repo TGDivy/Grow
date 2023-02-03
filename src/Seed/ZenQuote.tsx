@@ -18,11 +18,6 @@ const ZenQuote = () => {
   return (
     <StyledCard
       sx={{
-        ":hover": {
-          boxShadow: 20,
-        },
-        backgroundColor: "#00000088",
-        color: "primary.main",
         position: "relative",
         display: "flex",
         flexDirection: "column",

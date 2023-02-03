@@ -15,6 +15,7 @@ import {
 import _ from "lodash";
 import CreateTask from "../Tasks/CreateTask";
 import StyledCard from "../Common/ReusableComponents/StyledCard";
+import StyledButton from "../Common/ReusableComponents/StyledButton";
 
 const TimerTask = () => {
   const active = useTimerStore((state) => state.active);
@@ -74,9 +75,9 @@ const TimerTask = () => {
           <Task {...task} id={taskKey} createNewTask={false} alwaysExpanded />
 
           {taskKey && !active && (
-            <Button onClick={deleteTask} variant="contained" size="small">
+            <StyledButton onClick={deleteTask} variant="contained" size="small">
               Remove Task
-            </Button>
+            </StyledButton>
           )}
         </>
       );

@@ -60,7 +60,7 @@ const TagPieStat: FC<Props> = ({ timerRecords, filterOn, values }) => {
           stroke="#ffffff33"
           strokeWidth={2}
           activeIndex={activeIndex}
-          activeShape={renderActiveShape(colors.primary)}
+          activeShape={renderActiveShape(colors.tertiaryContainer)}
           onMouseEnter={onPieEnter}
         />
       </PieChart>

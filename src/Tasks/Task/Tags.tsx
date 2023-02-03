@@ -74,7 +74,10 @@ const Tags: FC<tagsFc> = ({ tags, editing, setTags }) => {
         <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: 1 }}>
           <Chip
             icon={<Add />}
-            color="primary"
+            sx={{
+              backgroundColor: "tertiary.container",
+              color: "tertiary.onContainer",
+            }}
             onClick={handleClickOpen}
             size="small"
             label="Tag"
@@ -88,6 +91,10 @@ const Tags: FC<tagsFc> = ({ tags, editing, setTags }) => {
               size="small"
               color="secondary"
               onDelete={() => handleDeleteTag(tag)}
+              sx={{
+                backgroundColor: "secondary.container",
+                color: "secondary.onContainer",
+              }}
             />
           ))}
         </Box>
@@ -100,18 +107,14 @@ const Tags: FC<tagsFc> = ({ tags, editing, setTags }) => {
         <Chip
           key={tag}
           label={tag}
-          color="primary"
+          color="secondary"
           size="small"
-          variant="outlined"
-          // labelProps={{
-          //   sx: {
-          //     overflow: "hidden",
-          //     textOverflow: "clip",
-          //   },
-          // }}
+          variant="filled"
           sx={{
             marginBottom: 0,
             maxWidth: "120px",
+            backgroundColor: "secondary.container",
+            color: "secondary.onContainer",
             pl: 0,
             pr: 0,
             pt: 0.2,

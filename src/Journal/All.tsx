@@ -97,7 +97,7 @@ const All: FC<Props> = ({ allEntries }) => {
         <Grid item xs={12} sm={6} md={4} key={index}>
           <ListItem
             sx={{
-              backgroundColor: "primary.main",
+              backgroundColor: "surface.main",
             }}
           >
             <ListItemButton
@@ -170,7 +170,6 @@ const All: FC<Props> = ({ allEntries }) => {
             sx: {
               position: "fixed",
               backgroundColor: "#ffffff22",
-              color: "primary.contrastText",
             },
           }}
           sx={{

@@ -75,7 +75,7 @@ const RTE: FC<props> = ({
   return (
     <LexicalComposer initialConfig={editorConfig}>
       <div className="editor-container">
-        {!noToolbar && !notEditable ? <ToolbarPlugin /> : null}
+        {!noToolbar && !notEditable ? <ToolbarPlugin colors={colors} /> : null}
         <div className="editor-inner">
           <RichTextPlugin
             contentEditable={<ContentEditable className="editor-input" />}

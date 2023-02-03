@@ -16,6 +16,7 @@ import useUserStore from "../Common/Stores/User";
 import HabitsChart from "./HabitsChart/HabitsChart";
 import { Stack } from "@mui/system";
 import PageTitle from "../Common/ReusableComponents/PageTitle";
+import StyledButton from "../Common/ReusableComponents/StyledButton";
 
 const StatsMain = () => {
   const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
@@ -83,12 +84,12 @@ const StatsMain = () => {
                 <Tabs
                   value={period}
                   onChange={handlePeriodChange}
-                  textColor="primary"
-                  indicatorColor="primary"
-                  // change the font size of text in the tab when selected
+                  indicatorColor="secondary"
                   sx={{
                     "& .MuiTab-textColorPrimary.Mui-selected": {
                       fontSize: "1.4rem",
+                      color: "surfaceVariant.contrastText",
+                      backgroundColor: "surfaceVariant.main",
                     },
                   }}
                 >
@@ -102,13 +103,14 @@ const StatsMain = () => {
               <Grid item xs={12} md={4}>
                 <Grid container spacing={2}>
                   <Grid item xs={3}>
-                    <Button
+                    <StyledButton
                       variant="contained"
                       fullWidth
                       onClick={() => handlePeriodBackClick("back")}
+                      size="small"
                     >
                       <ArrowBack />
-                    </Button>
+                    </StyledButton>
                   </Grid>
                   <Grid item xs={6}>
                     <Box
@@ -124,7 +126,6 @@ const StatsMain = () => {
                       <Typography
                         variant="h5"
                         align="center"
-                        color="primary"
                         noWrap
                         justifyItems="center"
                         alignItems="center"
@@ -135,14 +136,15 @@ const StatsMain = () => {
                   </Grid>
 
                   <Grid item xs={3}>
-                    <Button
+                    <StyledButton
                       variant="contained"
                       fullWidth
                       onClick={() => handlePeriodBackClick("forward")}
                       disabled={periodBack === 0}
+                      size="small"
                     >
                       <ArrowForward />
-                    </Button>
+                    </StyledButton>
                   </Grid>
                 </Grid>
               </Grid>

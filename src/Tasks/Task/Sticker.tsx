@@ -88,7 +88,6 @@ const Sticker: FC<tagsFc> = ({ sticker, editing, setSticker, timerPage }) => {
         <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: 1 }}>
           <Chip
             label={`${sticker}`}
-            color="secondary"
             size="small"
             variant="filled"
             onClick={handleClickOpen}
@@ -98,6 +97,8 @@ const Sticker: FC<tagsFc> = ({ sticker, editing, setSticker, timerPage }) => {
               marginBottom: 0,
               pl: 1,
               pr: 1,
+              backgroundColor: "tertiary.container",
+              color: "tertiary.onContainer",
               py: 2,
               borderRadius: 0,
               "& .MuiChip-label": {
@@ -118,7 +119,6 @@ const Sticker: FC<tagsFc> = ({ sticker, editing, setSticker, timerPage }) => {
   return (
     <Chip
       label={sticker}
-      color="secondary"
       size="small"
       variant="filled"
       sx={{
@@ -127,6 +127,8 @@ const Sticker: FC<tagsFc> = ({ sticker, editing, setSticker, timerPage }) => {
         pr: 1,
         py: 2,
         borderRadius: 0,
+        backgroundColor: "tertiary.container",
+        color: "tertiary.onContainer",
         "& .MuiChip-label": {
           overflow: "hidden",
           textOverflow: "ellipsis",

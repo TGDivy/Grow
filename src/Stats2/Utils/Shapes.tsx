@@ -18,14 +18,13 @@ export const CustomTooltipWrapper = (period: timePeriod) => {
         <Paper
           sx={{
             padding: "10px",
-            backgroundColor: "#ffffff",
             border: "2px solid #aaaaaa",
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
           }}
         >
-          <Typography variant="body1" color="text.primary">
+          <Typography variant="body1">
             {title} {label}
           </Typography>
           <Divider
@@ -37,7 +36,7 @@ export const CustomTooltipWrapper = (period: timePeriod) => {
               borderRight: "2px solid #aaaaaa",
             }}
           />
-          <Typography variant="body1" color="text.primary">
+          <Typography variant="body1">
             {hours ? hours + "H " : ""}
             {minutes ? minutes + "M" : ""}
             {hours === 0 && minutes === 0 ? "0M" : ""}
@@ -51,7 +50,7 @@ export const CustomTooltipWrapper = (period: timePeriod) => {
               borderRight: "2px solid #aaaaaa",
             }}
           />
-          <Typography variant="body1" color="text.primary">
+          <Typography variant="body1">
             {hours2 ? hours2 + "H " : ""}
             {minutes2 ? minutes2 + "M" : ""}
             {hours2 === 0 && minutes2 === 0 ? "0M" : ""}

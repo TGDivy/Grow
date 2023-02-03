@@ -6,14 +6,10 @@ import {
   Nature,
   Terrain,
   TrendingUp,
-  ExpandMore,
   Settings,
 } from "@mui/icons-material";
 
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Container,
   Fade,
   Grid,
@@ -48,6 +44,7 @@ import { homeSteps } from "../steps";
 import useUserStore from "../Common/Stores/User";
 import ProfileLogo from "./ProfileLogo";
 import StyledAccordion from "../Common/ReusableComponents/StyledAccordion";
+import StyledButton from "../Common/ReusableComponents/StyledButton";
 
 const Home = () => {
   // const inspirationalQuote = {
@@ -126,7 +123,12 @@ const Home = () => {
   };
 
   return (
-    <Container>
+    <Container
+      sx={{
+        color: "surface.contrastText",
+        backgroundColor: "surface.main",
+      }}
+    >
       <Box
         sx={{
           height: "15vh",
@@ -142,7 +144,7 @@ const Home = () => {
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            gap: 2,
+            // gap: 2,
           }}
         >
           <Button
@@ -153,14 +155,11 @@ const Home = () => {
           >
             <Help fontSize="large" />
           </Button>
-          <Button
-            variant="contained"
-            component={Link}
-            to="/Settings"
-            className="tut-home-settings"
-          >
-            <Settings />
-          </Button>
+          <Link to="/Settings">
+            <StyledButton variant="contained" className="tut-home-settings">
+              <Settings />
+            </StyledButton>
+          </Link>
         </Box>
         <Box
           sx={{
@@ -228,20 +227,20 @@ const Home = () => {
                   }}
                   key={place.name}
                 >
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    startIcon={place.icon}
-                    component={Link}
-                    to={place.link}
-                    key={place.name}
-                    disabled={
-                      isOpen === true ||
-                      place.name.toLowerCase().includes("soon")
-                    }
-                  >
-                    {place.name}
-                  </Button>
+                  <Link to={place.link}>
+                    <StyledButton
+                      variant="contained"
+                      color="primary"
+                      startIcon={place.icon}
+                      key={place.name}
+                      disabled={
+                        isOpen === true ||
+                        place.name.toLowerCase().includes("soon")
+                      }
+                    >
+                      {place.name}
+                    </StyledButton>
+                  </Link>
                 </Zoom>
               ))}
             </Stack>

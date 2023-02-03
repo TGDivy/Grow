@@ -18,7 +18,8 @@ const StyledAccordion = (props: Props) => {
   return (
     <Accordion
       sx={{
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        backgroundColor: "surfaceVariant.main",
+        color: "surfaceVariant.contrastText",
         ":hover": {
           boxShadow: 20,
         },
@@ -33,21 +34,20 @@ const StyledAccordion = (props: Props) => {
           alignItems: "center",
           justifyContent: "center",
           gap: 1,
-          // flexDirection: "row-reverse",
           " .MuiAccordionSummary-content": {
             flexGrow: 0,
           },
         }}
         onClick={props.onClick}
       >
-        <Typography variant="h6" color="primary">
-          {props.title}
-        </Typography>
+        <Typography variant="h6">{props.title}</Typography>
       </AccordionSummary>
       <AccordionDetails
-        sx={{
-          bgcolor: "rgba(255, 255, 255, 0.05)",
-        }}
+        sx={
+          {
+            // bgcolor: "rgba(255, 255, 255, 0.05)",
+          }
+        }
       >
         {props.children}
       </AccordionDetails>

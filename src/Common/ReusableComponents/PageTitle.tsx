@@ -15,12 +15,10 @@ const PageTitle = (props: Props) => {
           "&::before": {
             borderTopWidth: 3,
             borderTopStyle: "solid",
-            borderTopColor: "#00000088",
           },
           "&::after": {
             borderTopWidth: 3,
             borderTopStyle: "solid",
-            borderTopColor: "#00000088",
           },
         },
       }}

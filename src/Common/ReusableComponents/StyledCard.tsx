@@ -6,9 +6,9 @@ const StyledCard = styled(Card)(({ theme }) => ({
   ":hover": {
     boxShadow: 20,
   },
-  backgroundColor: "#00000088",
   maxWidth: "100%",
-  color: theme.palette.primary.main,
+  backgroundColor: theme.palette.surface.main,
+  color: theme.palette.surface.contrastText,
   borderRadius: theme.shape.borderRadius,
 
   position: "relative",

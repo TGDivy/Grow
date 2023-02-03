@@ -3,6 +3,7 @@ import { Avatar, Button } from "@mui/material";
 import { Logout } from "@mui/icons-material";
 import { getAuth, signOut } from "firebase/auth";
 import useCurrentUser from "../Common/Contexts/UserContext";
+import StyledButton from "../Common/ReusableComponents/StyledButton";
 
 const ProfileLogo = () => {
   const { user } = useCurrentUser();
@@ -24,9 +25,9 @@ const ProfileLogo = () => {
     return (
       <>
         <Avatar>{userName.slice(0, 2).toUpperCase()}</Avatar>
-        <Button onClick={() => handleLogout()} variant="contained">
+        <StyledButton onClick={() => handleLogout()} variant="contained">
           <Logout />
-        </Button>
+        </StyledButton>
       </>
     );
   }

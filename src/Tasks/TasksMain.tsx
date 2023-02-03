@@ -36,7 +36,13 @@ const TasksMain = () => {
     <Container sx={{ position: "relative" }}>
       <PageTitle title={taskListName} />
       <Box position="absolute" p={2} top={0} right={10} zIndex={10}>
-        <Button onClick={handleHelp} size="large">
+        <Button
+          onClick={handleHelp}
+          size="large"
+          sx={{
+            color: "surface.contrastText",
+          }}
+        >
           <Help fontSize="large" />
         </Button>
       </Box>

@@ -113,7 +113,9 @@ const App = () => {
     setThemeByName("blue");
   }, []);
 
-  console.log("colors", colors);
+  if (!colors) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <ThemeProvider theme={getTheme(colors)}>

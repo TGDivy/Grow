@@ -425,7 +425,7 @@ function BlockOptionsDropdownList({
   );
 }
 
-export default function ToolbarPlugin() {
+export default function ToolbarPlugin({ colors }) {
   const [editor] = useLexicalComposerContext();
   const toolbarRef = useRef(null);
   const [canUndo, setCanUndo] = useState(false);
@@ -546,7 +546,14 @@ export default function ToolbarPlugin() {
   }, [editor, isLink]);
 
   return (
-    <div className="toolbar" ref={toolbarRef}>
+    <div
+      className="toolbar"
+      ref={toolbarRef}
+      style={{
+        backgroundColor: colors.primary,
+        color: "red",
+      }}
+    >
       <button
         disabled={!canUndo}
         onClick={() => {
@@ -554,6 +561,9 @@ export default function ToolbarPlugin() {
         }}
         className="toolbar-item spaced"
         aria-label="Undo"
+        style={{
+          color: colors.onPrimary,
+        }}
       >
         <i className="format undo" />
       </button>
@@ -561,6 +571,9 @@ export default function ToolbarPlugin() {
         disabled={!canRedo}
         onClick={() => {
           editor.dispatchCommand(REDO_COMMAND);
+        }}
+        style={{
+          color: colors.onPrimary,
         }}
         className="toolbar-item"
         aria-label="Redo"
@@ -576,6 +589,9 @@ export default function ToolbarPlugin() {
               setShowBlockOptionsDropDown(!showBlockOptionsDropDown)
             }
             aria-label="Formatting Options"
+            style={{
+              color: colors.onPrimary,
+            }}
           >
             <span className={"icon block-type " + blockType} />
             <span className="text">{blockTypeToBlockName[blockType]}</span>

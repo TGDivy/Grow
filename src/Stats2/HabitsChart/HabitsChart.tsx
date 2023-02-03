@@ -19,6 +19,7 @@ import { cellProps } from "./Cell";
 import { LinearProgress } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import StyledCard from "../../Common/ReusableComponents/StyledCard";
+import StyledButton from "../../Common/ReusableComponents/StyledButton";
 
 interface habitDate {
   [key: string]: boolean | undefined;
@@ -210,7 +211,7 @@ const HabitsChart = () => {
   };
 
   return (
-    <Paper sx={{ backgroundColor: "#00000000", elevation: 0 }} elevation={0}>
+    <Paper elevation={0}>
       <CardHeader
         title={
           <Grid
@@ -220,20 +221,21 @@ const HabitsChart = () => {
             justifyContent={"space-between"}
           >
             <Grid item xs={12} md={8}>
-              <Typography variant="h4" color="primary.main" align="left">
+              <Typography variant="h4" align="left">
                 Habits
               </Typography>
             </Grid>
             <Grid item xs={12} md={4}>
               <Grid container spacing={2}>
                 <Grid item xs={3}>
-                  <Button
+                  <StyledButton
                     variant="contained"
                     fullWidth
                     onClick={() => handleYearDecrease()}
+                    size="small"
                   >
                     <ArrowBack />
-                  </Button>
+                  </StyledButton>
                 </Grid>
                 <Grid item xs={6}>
                   <Box
@@ -249,7 +251,6 @@ const HabitsChart = () => {
                     <Typography
                       variant="h5"
                       align="center"
-                      color="primary"
                       noWrap
                       justifyItems="center"
                       alignItems="center"
@@ -260,14 +261,15 @@ const HabitsChart = () => {
                 </Grid>
 
                 <Grid item xs={3}>
-                  <Button
+                  <StyledButton
                     variant="contained"
                     fullWidth
+                    size="small"
                     onClick={() => handleYearIncrease()}
                     disabled={year === new Date().getFullYear()}
                   >
                     <ArrowForward />
-                  </Button>
+                  </StyledButton>
                 </Grid>
               </Grid>
             </Grid>
@@ -291,11 +293,14 @@ const HabitsChart = () => {
               sx={{
                 "& .MuiTab-textColorPrimary.Mui-selected": {
                   borderLeft: "2px solid",
-                  backgroundColor: "#00000088",
+                  color: "surfaceVariant.contrastText",
+
+                  backgroundColor: "surfaceVariant.main",
                 },
               }}
               TabIndicatorProps={{
                 style: {
+                  color: "surface.contrastText",
                   backgroundColor: "#00000000",
                   border: "0px solid",
                   borderLeftColor: "#ffffff00",
@@ -317,8 +322,8 @@ const HabitsChart = () => {
         <Grid item xs={10}>
           <Paper
             sx={{
-              backgroundColor: "#00000088",
-              color: "primary.main",
+              backgroundColor: "surfaceVariant.main",
+              color: "surfaceVariant.contrastText",
               width: "100%",
               height: "100%",
               position: "relative",
@@ -333,10 +338,6 @@ const HabitsChart = () => {
                 width: "100%",
                 maxWidth: "max-content",
                 overflow: "scroll",
-                // make scrollbar visible and customize it
-                // make the insider a darker transparent color
-                // and a smooth round edge finish
-                // make the scrollbar shorter
 
                 "&::-webkit-scrollbar": {
                   height: "0.5em",

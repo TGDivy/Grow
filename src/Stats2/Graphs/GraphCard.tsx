@@ -14,7 +14,7 @@ const GraphCard: FC<Props> = (props) => {
     <StyledCard>
       <CardHeader
         title={
-          <Typography variant="h6" color="primary.main" align="center">
+          <Typography variant="h6" align="center">
             {props.title}
           </Typography>
         }

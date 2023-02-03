@@ -72,7 +72,8 @@ const SeedMain = () => {
       <Box
         sx={{
           p: 2,
-          backgroundColor: "rgba(0, 0, 0, 0.3)",
+          backgroundColor: "surfaceVariant.main",
+          color: "surfaceVariant.contrastText",
         }}
       >
         <Components />

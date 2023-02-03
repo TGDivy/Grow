@@ -1,13 +1,34 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createTheme } from "@mui/material/styles";
 import shadows from "@mui/material/styles/shadows";
+import { ThemeColorsType } from "../Stores/ThemeStore";
+import {
+  PaletteOptions,
+  PaletteColorOptions,
+} from "@mui/material/styles/createPalette";
 
-export interface ThemeColorsType {
-  primary: string;
-  secondary: string;
-  error: string;
-  success: string;
-  background: string;
+declare module "@mui/material/styles" {
+  interface Palette {
+    tertiary: Palette["primary"];
+    surface: Palette["primary"];
+    surfaceVariant: Palette["primary"];
+  }
+
+  interface PaletteOptions {
+    tertiary: PaletteOptions["primary"];
+    surface: PaletteOptions["primary"];
+    surfaceVariant: PaletteOptions["primary"];
+  }
+
+  interface PaletteColor {
+    container?: string;
+    onContainer?: string;
+  }
+
+  interface SimplePaletteColorOptions {
+    container?: string;
+    onContainer?: string;
+  }
 }
 
 const getTheme = (props: ThemeColorsType) => {
@@ -82,27 +103,45 @@ const getTheme = (props: ThemeColorsType) => {
       },
     },
     palette: {
-      mode: "light",
+      mode: "dark",
       background: {
         default: props.background,
       },
       primary: {
         main: props.primary,
-        contrastText: "#fff",
+        contrastText: props.onPrimary,
+        container: props.primaryContainer,
+        onContainer: props.onPrimaryContainer,
+      },
+      tertiary: {
+        main: props.tertiary,
+        contrastText: props.onTertiary,
+        container: props.tertiaryContainer,
+        onContainer: props.onTertiaryContainer,
       },
       secondary: {
         main: props.secondary,
-        contrastText: "#fff",
+        contrastText: props.onSecondary,
+        container: props.secondaryContainer,
+        onContainer: props.onSecondaryContainer,
       },
       error: {
         main: props.error,
-        contrastText: "#fff",
+        contrastText: props.onError,
+        container: props.errorContainer,
+        onContainer: props.onErrorContainer,
+      },
+      surface: {
+        main: props.surface,
+        contrastText: props.onSurface,
+      },
+      surfaceVariant: {
+        main: props.surfaceVariant,
+        contrastText: props.onSurfaceVariant,
       },
     },
     typography: {
       fontFamily: "Montserrat, sans-serif",
-      // fontFamily: "Merriweather, serif",
-      // fontFamilySecondary: "Merriweather, serif",
     },
   });
 
