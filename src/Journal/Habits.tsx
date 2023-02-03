@@ -223,6 +223,7 @@ const Habits: FC<Props> = ({ readonly, document }) => {
           width: "100%",
           justifyContent: "space-between",
           height: "100%",
+          backgroundColor: "surface.main",
         }}
       >
         <List

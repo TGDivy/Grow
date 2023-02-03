@@ -17,6 +17,7 @@ import HabitsChart from "./HabitsChart/HabitsChart";
 import { Stack } from "@mui/system";
 import PageTitle from "../Common/ReusableComponents/PageTitle";
 import StyledButton from "../Common/ReusableComponents/StyledButton";
+import StyledTab from "../Common/ReusableComponents/StyledTab";
 
 const StatsMain = () => {
   const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
@@ -81,24 +82,13 @@ const StatsMain = () => {
               alignItems="center"
             >
               <Grid item xs={12} md={8}>
-                <Tabs
-                  value={period}
-                  onChange={handlePeriodChange}
-                  indicatorColor="secondary"
-                  sx={{
-                    "& .MuiTab-textColorPrimary.Mui-selected": {
-                      fontSize: "1.4rem",
-                      color: "surfaceVariant.contrastText",
-                      backgroundColor: "surfaceVariant.main",
-                    },
-                  }}
-                >
+                <StyledTab value={period} onChange={handlePeriodChange}>
                   <Tab label="Day" value={timePeriod.day} />
                   <Tab label="Week" value={timePeriod.week} />
                   <Tab label="Month" value={timePeriod.month} />
                   <Tab label="Quarter" value={timePeriod.quarter} />
                   <Tab label="Year" value={timePeriod.year} />
-                </Tabs>
+                </StyledTab>
               </Grid>
               <Grid item xs={12} md={4}>
                 <Grid container spacing={2}>

@@ -44,6 +44,10 @@ const TimerTask = () => {
     <StyledCard
       sx={{
         minHeight: "200px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>

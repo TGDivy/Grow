@@ -10,7 +10,6 @@ const StyledCard = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.surface.main,
   color: theme.palette.surface.contrastText,
   borderRadius: theme.shape.borderRadius,
-
   position: "relative",
 }));
 

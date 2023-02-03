@@ -45,6 +45,7 @@ import useUserStore from "../Common/Stores/User";
 import ProfileLogo from "./ProfileLogo";
 import StyledAccordion from "../Common/ReusableComponents/StyledAccordion";
 import StyledButton from "../Common/ReusableComponents/StyledButton";
+import StyledTab from "../Common/ReusableComponents/StyledTab";
 
 const Home = () => {
   // const inspirationalQuote = {
@@ -256,17 +257,10 @@ const Home = () => {
             >
               <div>
                 <StyledAccordion title="Today's Brief">
-                  <Tabs
-                    value={tab}
-                    onChange={handleTabChange}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    variant="fullWidth"
-                    aria-label="full width tabs example"
-                  >
+                  <StyledTab value={tab} onChange={handleTabChange}>
                     <Tab label="Goals" className="tut-home-goals" />
                     <Tab label="Habits" className="tut-home-habits" />
-                  </Tabs>
+                  </StyledTab>
                   {tabs[tab]}
                 </StyledAccordion>
               </div>
