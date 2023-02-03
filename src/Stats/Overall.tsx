@@ -233,14 +233,10 @@ const OverallStats: FC<Props> = ({
                 dx={-5}
               />
 
-              <Bar
-                fill={colors.tertiaryContainer}
-                stackId="aa"
-                dataKey="score"
-              />
+              <Bar fill={colors.tertiary} stackId="aa" dataKey="score" />
               <Bar
                 dataKey="scorePrev"
-                fill={`${colors.tertiaryContainer}55`}
+                fill={`${colors.tertiary}55`}
                 stackId="aa"
               />
             </BarChart>

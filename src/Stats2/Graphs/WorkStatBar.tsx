@@ -98,10 +98,10 @@ const WorkStatBar: FC<Props> = ({
           domain={[0, "auto"]}
         />
         <Tooltip content={<CustomTooltip />} />
-        <Bar dataKey="time" fill={colors.tertiaryContainer} stackId="aa" />
+        <Bar dataKey="time" fill={colors.tertiary} stackId="aa" />
         <Bar
           dataKey="previousTime"
-          fill={`${colors.tertiaryContainer}55`}
+          fill={`${colors.tertiary}55`}
           stackId="aa"
         />
       </BarChart>

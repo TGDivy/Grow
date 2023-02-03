@@ -108,7 +108,7 @@ const WorkStatLine = ({
           type="monotone"
           dataKey="previousTime"
           name="Previous"
-          stroke={colors.tertiaryContainer}
+          stroke={colors.tertiary}
           strokeOpacity={0.3}
           strokeWidth={5}
           dot={false}
@@ -117,7 +117,7 @@ const WorkStatLine = ({
           type="monotone"
           dataKey="time"
           name="Current"
-          stroke={colors.tertiaryContainer}
+          stroke={colors.tertiary}
           strokeWidth={5}
           dot={false}
         />

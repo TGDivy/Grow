@@ -420,7 +420,7 @@ pre::-webkit-scrollbar-thumb {
 }
 
 .toolbar .toolbar-item:hover:not([disabled]) {
-  background-color: #eee;
+  background-color: #eeeeee88;
 }
 
 .toolbar .divider {

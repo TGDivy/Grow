@@ -550,7 +550,7 @@ export default function ToolbarPlugin({ colors }) {
       className="toolbar"
       ref={toolbarRef}
       style={{
-        backgroundColor: colors.primary,
+        backgroundColor: colors.primaryContainer,
         color: "red",
       }}
     >
@@ -562,7 +562,7 @@ export default function ToolbarPlugin({ colors }) {
         className="toolbar-item spaced"
         aria-label="Undo"
         style={{
-          color: colors.onPrimary,
+          color: colors.onPrimaryContainer,
         }}
       >
         <i className="format undo" />
@@ -573,7 +573,7 @@ export default function ToolbarPlugin({ colors }) {
           editor.dispatchCommand(REDO_COMMAND);
         }}
         style={{
-          color: colors.onPrimary,
+          color: colors.onPrimaryContainer,
         }}
         className="toolbar-item"
         aria-label="Redo"
@@ -589,9 +589,7 @@ export default function ToolbarPlugin({ colors }) {
               setShowBlockOptionsDropDown(!showBlockOptionsDropDown)
             }
             aria-label="Formatting Options"
-            style={{
-              color: colors.onPrimary,
-            }}
+            style={{}}
           >
             <span className={"icon block-type " + blockType} />
             <span className="text">{blockTypeToBlockName[blockType]}</span>

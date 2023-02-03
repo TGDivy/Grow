@@ -36,6 +36,7 @@ export interface ThemeColorsType {
 export interface ThemeType {
   colors: ThemeColorsType;
   theme: "blue" | "green" | "red" | "purple" | "orange";
+  mode: "light" | "dark";
 }
 
 export interface ThemeStoreType extends ThemeType {
@@ -109,11 +110,39 @@ const defaultDarkTheme: ThemeColorsType = {
   onSurfaceVariant: "#CAC4D0",
 };
 
+const redDarkTheme: ThemeColorsType = {
+  primary: "#ffb4a3",
+  onPrimary: "#5e1605",
+  primaryContainer: "#7d2c19",
+  onPrimaryContainer: "#ffdad2",
+
+  secondary: "#e7bdb3",
+  onSecondary: "#442a23",
+  secondaryContainer: "#5d3f38",
+  onSecondaryContainer: "#ffdad2",
+  tertiary: "#dac58c",
+  onTertiary: "#3c2f04",
+  tertiaryContainer: "#544519",
+  onTertiaryContainer: "#f8e1a6",
+  error: "#ffb4ab",
+  onError: "#690005",
+  errorContainer: "#93000a",
+  onErrorContainer: "#ffdad6",
+  background: "#201a19",
+  onBackground: "#ede0dd",
+  outline: "#a08c88",
+  surface: "#201a19",
+  onSurface: "#ede0dd",
+  surfaceVariant: "#534340",
+  onSurfaceVariant: "#d8c2bd",
+};
+
 const useThemeStore = create<ThemeStoreType>()(
   persist(
     (set) => ({
       colors: defaultLightTheme,
       theme: "blue",
+      mode: "dark",
       setTheme: (theme: ThemeType) => {
         set(theme);
       },
@@ -125,6 +154,14 @@ const useThemeStore = create<ThemeStoreType>()(
             set({
               colors: defaultDarkTheme,
               theme: "blue",
+              mode: "dark",
+            });
+            break;
+          case "red":
+            set({
+              colors: redDarkTheme,
+              theme: "red",
+              mode: "dark",
             });
             break;
         }

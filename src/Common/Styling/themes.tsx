@@ -31,7 +31,7 @@ declare module "@mui/material/styles" {
   }
 }
 
-const getTheme = (props: ThemeColorsType) => {
+const getTheme = (props: ThemeColorsType, mode: "dark" | "light") => {
   const Theme = createTheme({
     components: {
       MuiCard: {
@@ -103,7 +103,7 @@ const getTheme = (props: ThemeColorsType) => {
       },
     },
     palette: {
-      mode: "dark",
+      mode: mode,
       background: {
         default: props.background,
       },

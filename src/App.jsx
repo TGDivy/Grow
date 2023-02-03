@@ -107,10 +107,11 @@ const App = () => {
   };
 
   const colors = useThemeStore((state) => state.colors);
+  const mode = useThemeStore((state) => state.mode);
   const setThemeByName = useThemeStore((state) => state.setThemeByName);
 
   React.useEffect(() => {
-    setThemeByName("blue");
+    setThemeByName("red");
   }, []);
 
   if (!colors) {
@@ -118,7 +119,7 @@ const App = () => {
   }
 
   return (
-    <ThemeProvider theme={getTheme(colors)}>
+    <ThemeProvider theme={getTheme(colors, mode)}>
       <CssBaseline />
       <div style={{ marginBottom: 80 }}>
         <Routes>{routes()}</Routes>
