@@ -55,7 +55,14 @@ const TopBar = () => {
   );
 
   return (
-    <AppBar position="static" color="transparent" elevation={1}>
+    <AppBar
+      position="static"
+      sx={{
+        backgroundColor: "surfaceVariant.main",
+        color: "surfaceVariant.contrastText",
+      }}
+      elevation={1}
+    >
       <Box component="nav">
         <Drawer
           variant="temporary"

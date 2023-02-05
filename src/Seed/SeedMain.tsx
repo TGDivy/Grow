@@ -71,9 +71,9 @@ const SeedMain = () => {
       <PageTitle title="Timer" />
       <Box
         sx={{
-          p: 2,
-          backgroundColor: "surfaceVariant.main",
-          color: "surfaceVariant.contrastText",
+          p: { xs: 0, sm: 2 },
+          backgroundColor: { xs: "transparent", sm: "surfaceVariant.main" },
+          color: { xs: "transparent", sm: "surfaceVariant.contrastText" },
         }}
       >
         <Components />
