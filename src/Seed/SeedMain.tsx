@@ -1,14 +1,6 @@
 import React from "react";
 
-import {
-  Box,
-  Card,
-  Container,
-  Divider,
-  Grid,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Container, Grid, Stack } from "@mui/material";
 import Timer from "./Timer";
 import TimerTask from "./AddTask";
 import AddTags from "./AddTags";
