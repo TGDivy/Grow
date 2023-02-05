@@ -113,7 +113,22 @@ const Home = () => {
     overall: 4000,
   };
 
-  const tabs = [<Goals readonly key="0" />, <Habits key="1" />];
+  const tabs = [
+    <Goals readonly key="0" />,
+    <Box
+      key={"habits"}
+      sx={{
+        "& .MuiPaper-root": {
+          border: "none",
+          padding: 0,
+          boxShadow: "none",
+          backgroundImage: "none",
+        },
+      }}
+    >
+      <Habits key="1" />
+    </Box>,
+  ];
   const [tab, setTab] = React.useState(0);
 
   const handleTabChange = (

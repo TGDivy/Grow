@@ -103,8 +103,8 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
               label={filter}
               onDelete={handleDeleteTag}
               sx={{
-                backgroundColor: "rgba(0, 0, 0, 0.5)",
-                color: "white",
+                backgroundColor: "surfaceVariant.main",
+                color: "surfaceVariant.contrastText",
               }}
             />
           </Collapse>
@@ -120,8 +120,8 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
             <Chip
               label={tag}
               sx={{
-                backgroundColor: "rgba(0, 0, 0, 0.5)",
-                color: "white",
+                backgroundColor: "surfaceVariant.main",
+                color: "surfaceVariant.contrastText",
               }}
               onClick={() => handleAddTag(tag)}
             />
@@ -145,7 +145,8 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
         <Box
           sx={{
             p: 2,
-            backgroundColor: "rgba(0, 0, 0, 0.3)",
+            backgroundColor: "surfaceVariant.main",
+            color: "surfaceVariant.contrastText",
           }}
         >
           <TransitionGroup>

@@ -45,11 +45,6 @@ const JournalMain = () => {
 
   const steps = [
     {
-      label: "How are you feeling today?",
-      component: <Mood />,
-      shortLabel: "Mood",
-    },
-    {
       label: "Keeping up with your habits?",
       component: <Habits />,
       shortLabel: "Habits",

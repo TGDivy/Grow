@@ -76,9 +76,22 @@ const RTE: FC<props> = ({
     <LexicalComposer initialConfig={editorConfig}>
       <div className="editor-container">
         {!noToolbar && !notEditable ? <ToolbarPlugin colors={colors} /> : null}
-        <div className="editor-inner">
+        <div
+          className="editor-inner"
+          style={{
+            backgroundColor: colors.surfaceVariant,
+            color: colors.onSurfaceVariant,
+          }}
+        >
           <RichTextPlugin
-            contentEditable={<ContentEditable className="editor-input" />}
+            contentEditable={
+              <ContentEditable
+                className="editor-input"
+                style={{
+                  color: colors.onSurfaceVariant,
+                }}
+              />
+            }
             placeholder={
               <div className="editor-placeholder">Enter some rich text...</div>
             }
@@ -91,7 +104,10 @@ const RTE: FC<props> = ({
           <AutoLinkPlugin matchers={[]} />
           <ListMaxIndentLevelPlugin maxDepth={7} />
           <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
-          <AddHelloWorldPlugin textToAdd={textToAdd} color={colors.primary} />
+          <AddHelloWorldPlugin
+            textToAdd={textToAdd}
+            color={colors.onSurfaceVariant}
+          />
           <OnChangePlugin onChange={onChange} ignoreSelectionChange />
         </div>
       </div>

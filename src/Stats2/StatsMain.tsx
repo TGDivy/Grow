@@ -71,7 +71,8 @@ const StatsMain = () => {
           <Box
             sx={{
               p: 2,
-              backgroundColor: "rgba(0, 0, 0, 0.3)",
+              backgroundColor: "surfaceVariant.main",
+              color: "surfaceVariant.contrastText",
             }}
           >
             <Grid
@@ -172,14 +173,7 @@ const StatsMain = () => {
               </Grid>
             </Grid>
           </Box>
-          <Box
-            sx={{
-              p: 2,
-              backgroundColor: "rgba(0, 0, 0, 0.3)",
-            }}
-          >
-            <HabitsChart />
-          </Box>
+          <HabitsChart />
         </Stack>
       </Container>
     </>
