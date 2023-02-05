@@ -95,7 +95,7 @@ const App = () => {
           element={user ? <SeedMain /> : <Navigate to="/Login" />}
         />
         <Route
-          path="/Stats"
+          path="/Statistics"
           element={user ? <StatsMain /> : <Navigate to="/Login" />}
         />
         <Route
@@ -108,11 +108,6 @@ const App = () => {
 
   const colors = useThemeStore((state) => state.colors);
   const mode = useThemeStore((state) => state.mode);
-  const setThemeByName = useThemeStore((state) => state.setThemeByName);
-
-  React.useEffect(() => {
-    setThemeByName("red");
-  }, []);
 
   if (!colors) {
     return <div>Loading...</div>;

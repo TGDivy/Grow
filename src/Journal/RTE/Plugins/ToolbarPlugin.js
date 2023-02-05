@@ -49,6 +49,20 @@ import {
   getDefaultCodeLanguage,
   getCodeLanguages,
 } from "@lexical/code";
+import {
+  Code,
+  FormatAlignCenter,
+  FormatAlignJustify,
+  FormatAlignLeft,
+  FormatAlignRight,
+  FormatBold,
+  FormatItalic,
+  FormatStrikethrough,
+  FormatUnderlined,
+  Link,
+  Redo,
+  Undo,
+} from "@mui/icons-material";
 
 const LowPriority = 1;
 
@@ -550,8 +564,7 @@ export default function ToolbarPlugin({ colors }) {
       className="toolbar"
       ref={toolbarRef}
       style={{
-        backgroundColor: colors.primaryContainer,
-        color: "red",
+        backgroundColor: colors.secondaryContainer,
       }}
     >
       <button
@@ -561,24 +574,20 @@ export default function ToolbarPlugin({ colors }) {
         }}
         className="toolbar-item spaced"
         aria-label="Undo"
-        style={{
-          color: colors.onPrimaryContainer,
-        }}
+        style={{ color: colors.onSecondaryContainer, opacity: 0.7 }}
       >
-        <i className="format undo" />
+        <Undo fontSize="small" />
       </button>
       <button
         disabled={!canRedo}
         onClick={() => {
           editor.dispatchCommand(REDO_COMMAND);
         }}
-        style={{
-          color: colors.onPrimaryContainer,
-        }}
         className="toolbar-item"
         aria-label="Redo"
+        style={{ color: colors.onSecondaryContainer, opacity: 0.7 }}
       >
-        <i className="format redo" />
+        <Redo fontSize="small" />
       </button>
       <Divider />
       {supportedBlockTypes.has(blockType) && (
@@ -589,6 +598,7 @@ export default function ToolbarPlugin({ colors }) {
               setShowBlockOptionsDropDown(!showBlockOptionsDropDown)
             }
             aria-label="Formatting Options"
+            style={{ color: colors.onSecondaryContainer, opacity: 0.7 }}
           >
             <span className={"icon block-type " + blockType} />
             <span className="text">{blockTypeToBlockName[blockType]}</span>
@@ -625,8 +635,9 @@ export default function ToolbarPlugin({ colors }) {
             }}
             className={"toolbar-item spaced " + (isBold ? "active" : "")}
             aria-label="Format Bold"
+            style={{ color: colors.onSecondaryContainer, opacity: 0.7 }}
           >
-            <i className="format bold" />
+            <FormatBold fontSize="small" />
           </button>
           <button
             onClick={() => {
@@ -634,8 +645,9 @@ export default function ToolbarPlugin({ colors }) {
             }}
             className={"toolbar-item spaced " + (isItalic ? "active" : "")}
             aria-label="Format Italics"
+            style={{ color: colors.onSecondaryContainer, opacity: 0.7 }}
           >
-            <i className="format italic" />
+            <FormatItalic fontSize="small" />
           </button>
           <button
             onClick={() => {
@@ -643,8 +655,9 @@ export default function ToolbarPlugin({ colors }) {
             }}
             className={"toolbar-item spaced " + (isUnderline ? "active" : "")}
             aria-label="Format Underline"
+            style={{ color: colors.onSecondaryContainer, opacity: 0.7 }}
           >
-            <i className="format underline" />
+            <FormatUnderlined fontSize="small" />
           </button>
           <button
             onClick={() => {
@@ -654,8 +667,9 @@ export default function ToolbarPlugin({ colors }) {
               "toolbar-item spaced " + (isStrikethrough ? "active" : "")
             }
             aria-label="Format Strikethrough"
+            style={{ color: colors.onSecondaryContainer, opacity: 0.7 }}
           >
-            <i className="format strikethrough" />
+            <FormatStrikethrough fontSize="small" />
           </button>
           <button
             onClick={() => {
@@ -663,15 +677,17 @@ export default function ToolbarPlugin({ colors }) {
             }}
             className={"toolbar-item spaced " + (isCode ? "active" : "")}
             aria-label="Insert Code"
+            style={{ color: colors.onSecondaryContainer, opacity: 0.7 }}
           >
-            <i className="format code" />
+            <Code fontSize="small" />
           </button>
           <button
             onClick={insertLink}
             className={"toolbar-item spaced " + (isLink ? "active" : "")}
             aria-label="Insert Link"
+            style={{ color: colors.onSecondaryContainer, opacity: 0.7 }}
           >
-            <i className="format link" />
+            <Link fontSize="small" />
           </button>
           {isLink &&
             createPortal(<FloatingLinkEditor editor={editor} />, document.body)}
@@ -682,8 +698,9 @@ export default function ToolbarPlugin({ colors }) {
             }}
             className="toolbar-item spaced"
             aria-label="Left Align"
+            style={{ color: colors.onSecondaryContainer, opacity: 0.7 }}
           >
-            <i className="format left-align" />
+            <FormatAlignLeft fontSize="small" />
           </button>
           <button
             onClick={() => {
@@ -692,7 +709,7 @@ export default function ToolbarPlugin({ colors }) {
             className="toolbar-item spaced"
             aria-label="Center Align"
           >
-            <i className="format center-align" />
+            <FormatAlignCenter fontSize="small" />
           </button>
           <button
             onClick={() => {
@@ -700,8 +717,9 @@ export default function ToolbarPlugin({ colors }) {
             }}
             className="toolbar-item spaced"
             aria-label="Right Align"
+            style={{ color: colors.onSecondaryContainer, opacity: 0.7 }}
           >
-            <i className="format right-align" />
+            <FormatAlignRight fontSize="small" />
           </button>
           <button
             onClick={() => {
@@ -709,8 +727,9 @@ export default function ToolbarPlugin({ colors }) {
             }}
             className="toolbar-item"
             aria-label="Justify Align"
+            style={{ color: colors.onSecondaryContainer, opacity: 0.7 }}
           >
-            <i className="format justify-align" />
+            <FormatAlignJustify fontSize="small" />
           </button>{" "}
         </>
       )}

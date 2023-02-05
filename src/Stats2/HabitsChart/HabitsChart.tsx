@@ -38,7 +38,10 @@ const convertJournalData = (journalData: JournalDicType): habitsDate => {
     // customBoolHabits is a dictionary of habit names and their boolean values.
     if (journal?.customBoolHabits) {
       const { customBoolHabits } = journal;
-      const newString = new Date(journal.date).toDateString();
+      // journal date - 5 hours to get the correct date
+      const newString = moment(journal.date)
+        .subtract(5, "hours")
+        .format("ddd MMM DD YYYY");
 
       newData["Exercise"][newString] = journal.exercised;
 
@@ -193,7 +196,6 @@ const HabitsChart = () => {
               color="primary.main"
               align="center"
               sx={{
-                // make the text italic
                 fontStyle: "italic",
               }}
             >

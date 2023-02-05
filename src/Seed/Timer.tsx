@@ -5,7 +5,6 @@ import {
   Typography,
   Switch,
   Slider,
-  Card,
   CardActions,
   CircularProgress,
   useTheme,

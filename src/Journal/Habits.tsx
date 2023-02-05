@@ -223,7 +223,8 @@ const Habits: FC<Props> = ({ readonly, document }) => {
           width: "100%",
           justifyContent: "space-between",
           height: "100%",
-          backgroundColor: "surface.main",
+          backgroundColor: "surfaceVariant.main",
+          color: "surfaceVariant.contrastText",
         }}
       >
         <List
@@ -278,11 +279,7 @@ const Habits: FC<Props> = ({ readonly, document }) => {
               />
             </ListItemButton>
           </ListItem>
-          <Divider
-            sx={{
-              borderBottomWidth: 3,
-            }}
-          />
+          <Divider />
 
           <ListItem
             secondaryAction={
@@ -306,11 +303,7 @@ const Habits: FC<Props> = ({ readonly, document }) => {
               />
             </ListItemButton>
           </ListItem>
-          <Divider
-            sx={{
-              borderBottomWidth: 3,
-            }}
-          />
+          <Divider />
 
           <ListItem
             secondaryAction={
@@ -325,15 +318,11 @@ const Habits: FC<Props> = ({ readonly, document }) => {
           >
             <ListItemButton sx={{ width: "100%" }} disabled={readonly}>
               <ListItemText
-                sx={{
-                  width: "100%",
-                }}
-                primary={`Had ${meals.length} meals`}
+                primary={`Had ${meals.filter((meal) => meal).length} meals`}
               />
             </ListItemButton>
           </ListItem>
           <List
-            component="div"
             disablePadding
             sx={{
               width: "100%",
@@ -406,22 +395,14 @@ const Habits: FC<Props> = ({ readonly, document }) => {
               );
             })}
           </List>
-          <Divider
-            sx={{
-              borderBottomWidth: 3,
-            }}
-          />
+          <Divider />
 
           <CustomBoolHabitsDisplay
             today={today}
             readonly={readonly}
             document={document}
           />
-          <Divider
-            sx={{
-              borderBottomWidth: 3,
-            }}
-          />
+          <Divider />
           {totalWorkTimeByTagOrSticker.map((object) => {
             return (
               <ListItem
