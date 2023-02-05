@@ -49,10 +49,6 @@ const All: FC<Props> = ({ allEntries }) => {
     return <></>;
   }
 
-  const latest = sortedDocuments[0];
-
-  console.log(latest.date);
-
   const OnePage: FC<onePage> = ({ document }) => {
     return (
       <Stack
@@ -72,18 +68,17 @@ const All: FC<Props> = ({ allEntries }) => {
 
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState(0);
+  const [grouped, setGrouped] = React.useState(
+    {} as {
+      [key: string]: JournalType[];
+    }
+  );
+  const [keysList, setKeysList] = React.useState([] as string[]);
+  const [totalEntriesCumulative, setTotalEntriesCumulative] = React.useState(
+    [] as number[]
+  );
 
-  const handleClickOpen = (n: number) => () => {
-    setSelectedValue(n);
-    setOpen(true);
-    console.log(n);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const ListOfEntries = () => {
+  React.useEffect(() => {
     const grouped = sortedDocuments.reduce((r, a) => {
       r[moment(a.date).format("MMMM YYYY")] = [
         ...(r[moment(a.date).format("MMMM YYYY")] || []),
@@ -92,23 +87,50 @@ const All: FC<Props> = ({ allEntries }) => {
       return r;
     }, {} as { [key: string]: JournalType[] });
 
-    const items = Object.keys(grouped).map((key) => {
-      const month = grouped[key].map((document, index) => (
-        <Grid item xs={12} sm={6} md={4} key={index}>
+    const keysList = Object.keys(grouped);
+    // get the total number of entries for each month
+    const totalEntries = keysList.map((key) => grouped[key].length);
+    // add total entries of each month from the left month to the right month
+    const totalEntriesCumulative = totalEntries.reduce(
+      (a, b, i) => [...a, (a[i - 1] || 0) + b],
+      [] as number[]
+    );
+
+    setGrouped(grouped);
+    setKeysList(keysList);
+    setTotalEntriesCumulative(totalEntriesCumulative);
+  }, []);
+
+  const handleClickOpen = (n: number) => () => {
+    setSelectedValue(n);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const ListOfEntries = () => {
+    const items = keysList.map((key, index2) => {
+      const month = grouped[key].map((document, index_month) => (
+        <Grid item xs={12} sm={6} md={4} key={document.date.toString()}>
           <ListItem
             sx={{
               backgroundColor: "surface.main",
             }}
+            onClick={handleClickOpen(
+              index_month +
+                (index2 > 0 ? totalEntriesCumulative[index2 - 1] : 0)
+            )}
           >
-            <ListItemButton
-              sx={{ width: "100%" }}
-              onClick={handleClickOpen(index)}
-            >
-              <ListItemIcon>{`${index} >`}</ListItemIcon>
+            <ListItemButton sx={{ width: "100%" }}>
+              <ListItemIcon>{`${index_month} >`}</ListItemIcon>
               <ListItemText
                 primary={moment(
-                  new Date(document.date.getTime() - 4 * 60 * 60 * 1000)
-                ).format("dddd, MMM Do 'YY")}
+                  new Date(document.date.getTime() - 5 * 60 * 60 * 1000)
+                )
+                  .format("dddd, MMM Do 'YY")
+                  .toString()}
               />
             </ListItemButton>
           </ListItem>
@@ -116,14 +138,14 @@ const All: FC<Props> = ({ allEntries }) => {
       ));
 
       return (
-        <>
+        <React.Fragment key={key}>
           <Typography variant="h4" sx={{ p: 2 }}>
             {key}
           </Typography>
           <Grid container spacing={2}>
             {month}
           </Grid>
-        </>
+        </React.Fragment>
       );
     });
 
@@ -139,9 +161,11 @@ const All: FC<Props> = ({ allEntries }) => {
   const Dialogs = () => {
     const date = moment(
       new Date(
-        sortedDocuments[selectedValue].date.getTime() - 4 * 60 * 60 * 1000
+        sortedDocuments[selectedValue].date.getTime() - 5 * 60 * 60 * 1000
       )
-    ).format("dddd, MMM Do 'YY");
+    )
+      .format("dddd, MMM Do 'YY")
+      .toString();
 
     // add buttons left and right to change the selected value
 
@@ -182,9 +206,7 @@ const All: FC<Props> = ({ allEntries }) => {
         >
           <DialogTitle id="alert-dialog-title">{date}</DialogTitle>
           <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              <OnePage document={sortedDocuments[selectedValue]} />
-            </DialogContentText>
+            <OnePage document={sortedDocuments[selectedValue]} />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleLeft} disabled={selectedValue == 0}>

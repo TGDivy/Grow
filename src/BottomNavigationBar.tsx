@@ -71,7 +71,7 @@ const BottomNavigationBar: FC = () => {
     {
       name: "Statistics",
       icon: <TrendingUp />,
-      link: "/Stats",
+      link: "/Statistics",
     },
     {
       name: "Reflect",

@@ -10,11 +10,13 @@ import {
 } from "@mui/icons-material";
 
 import {
+  AppBar,
   Container,
   Fade,
   Grid,
   Grow,
   Stack,
+  Toolbar,
   Typography,
   Zoom,
 } from "@mui/material";
@@ -42,10 +44,10 @@ import { Tab, Tabs } from "@mui/material";
 import { useTour } from "@reactour/tour";
 import { homeSteps } from "../steps";
 import useUserStore from "../Common/Stores/User";
-import ProfileLogo from "./ProfileLogo";
 import StyledAccordion from "../Common/ReusableComponents/StyledAccordion";
 import StyledButton from "../Common/ReusableComponents/StyledButton";
 import StyledTab from "../Common/ReusableComponents/StyledTab";
+import TopBar from "./TopBar";
 
 const Home = () => {
   // const inspirationalQuote = {
@@ -76,7 +78,7 @@ const Home = () => {
     {
       name: "Statistics",
       icon: <TrendingUp />,
-      link: "/Stats",
+      link: "/Statistics",
     },
     {
       name: "Reflect",
@@ -139,179 +141,144 @@ const Home = () => {
   };
 
   return (
-    <Container
-      sx={{
-        color: "surface.contrastText",
-        backgroundColor: "surface.main",
-      }}
-    >
-      <Box
+    <>
+      <TopBar />
+      <Container
         sx={{
-          height: "15vh",
-          position: "relative",
+          color: "surface.contrastText",
+          backgroundColor: "surface.main",
         }}
       >
         <Box
           sx={{
-            position: "absolute",
-            top: 0,
-            right: 0,
-            p: 2,
+            mt: 2,
+            width: "100%",
+            alignContent: "center",
+            justifyContent: "center",
             display: "flex",
-            flexDirection: "row",
+            flexDirection: "column",
             alignItems: "center",
-            // gap: 2,
           }}
         >
-          <Button
-            onClick={handleHelp}
-            size="large"
-            className="tut-home-help"
-            sx={{ p: 0 }}
+          <Grid
+            container
+            spacing={3}
+            alignItems="center"
+            justifyContent="center"
           >
-            <Help fontSize="large" />
-          </Button>
-          <Link to="/Settings">
-            <StyledButton variant="contained" className="tut-home-settings">
-              <Settings />
-            </StyledButton>
-          </Link>
+            <Grid item xs={12}>
+              <Grow
+                in={true}
+                style={{ transformOrigin: "0 0 0" }}
+                {...{ timeout: 1000 }}
+              >
+                <Typography variant="h4" align="center">
+                  {inspirationalQuote.quote}
+                </Typography>
+              </Grow>
+              <Grow
+                in={true}
+                style={{
+                  transformOrigin: "0 0 0",
+                  transitionDelay: `${transitionDelays.quoteAuthor}ms`,
+                }}
+                {...{ timeout: 1000 }}
+              >
+                <Typography variant="h6" align="center">
+                  ~{inspirationalQuote.author}
+                </Typography>
+              </Grow>
+            </Grid>
+            <Grid item xs={12}>
+              <Stack
+                direction={{ xs: "column", sm: "row" }}
+                spacing={2}
+                justifyContent="center"
+                className="tut-home-places"
+                sx={{
+                  display: { xs: "none", md: "flex" },
+                }}
+              >
+                {places.map((place, index) => (
+                  <Zoom
+                    in={true}
+                    style={{
+                      transitionDelay: `${
+                        index * 150 + transitionDelays.places
+                      }ms`,
+                    }}
+                    key={place.name}
+                  >
+                    <Link to={place.link}>
+                      <StyledButton
+                        variant="contained"
+                        color="primary"
+                        startIcon={place.icon}
+                        key={place.name}
+                        disabled={
+                          isOpen === true ||
+                          place.name.toLowerCase().includes("soon")
+                        }
+                      >
+                        {place.name}
+                      </StyledButton>
+                    </Link>
+                  </Zoom>
+                ))}
+              </Stack>
+            </Grid>
+
+            <Grid item xs={12} md={8} sx={{ pb: 0, mb: 0 }}>
+              <Fade
+                in={true}
+                style={{
+                  transitionDelay: `${transitionDelays.goals}ms`,
+                }}
+                {...{ timeout: 1000 }}
+              >
+                <div>
+                  <StyledAccordion title="Today's Brief">
+                    <StyledTab value={tab} onChange={handleTabChange}>
+                      <Tab label="Goals" className="tut-home-goals" />
+                      <Tab label="Habits" className="tut-home-habits" />
+                    </StyledTab>
+                    {tabs[tab]}
+                  </StyledAccordion>
+                </div>
+              </Fade>
+            </Grid>
+
+            <Grid item xs={12} md={8} sx={{ pt: 0, mt: 0 }}>
+              <Fade
+                in={true}
+                style={{
+                  transitionDelay: `${transitionDelays.schedule}ms`,
+                }}
+                {...{ timeout: 1000 }}
+              >
+                <div>
+                  <Events />
+                </div>
+              </Fade>
+            </Grid>
+
+            <Grid item xs={12} md={8} sx={{ pt: 0, mt: 0 }}>
+              <Fade
+                in={true}
+                style={{
+                  transitionDelay: `${transitionDelays.overall}ms`,
+                }}
+                {...{ timeout: 1000 }}
+              >
+                <div>
+                  <Overall />
+                </div>
+              </Fade>
+            </Grid>
+          </Grid>
         </Box>
-        <Box
-          sx={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            p: 2,
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 2,
-          }}
-        >
-          <ProfileLogo />
-        </Box>
-      </Box>
-      <Box
-        sx={{
-          width: "100%",
-          alignContent: "center",
-          justifyContent: "center",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Grid container spacing={3} alignItems="center" justifyContent="center">
-          <Grid item xs={12}>
-            <Grow
-              in={true}
-              style={{ transformOrigin: "0 0 0" }}
-              {...{ timeout: 1000 }}
-            >
-              <Typography variant="h4" align="center">
-                {inspirationalQuote.quote}
-              </Typography>
-            </Grow>
-            <Grow
-              in={true}
-              style={{
-                transformOrigin: "0 0 0",
-                transitionDelay: `${transitionDelays.quoteAuthor}ms`,
-              }}
-              {...{ timeout: 1000 }}
-            >
-              <Typography variant="h6" align="center">
-                ~{inspirationalQuote.author}
-              </Typography>
-            </Grow>
-          </Grid>
-          <Grid item xs={12}>
-            <Stack
-              direction={{ xs: "column", sm: "row" }}
-              spacing={2}
-              justifyContent="center"
-              className="tut-home-places"
-            >
-              {places.map((place, index) => (
-                <Zoom
-                  in={true}
-                  style={{
-                    transitionDelay: `${
-                      index * 150 + transitionDelays.places
-                    }ms`,
-                  }}
-                  key={place.name}
-                >
-                  <Link to={place.link}>
-                    <StyledButton
-                      variant="contained"
-                      color="primary"
-                      startIcon={place.icon}
-                      key={place.name}
-                      disabled={
-                        isOpen === true ||
-                        place.name.toLowerCase().includes("soon")
-                      }
-                    >
-                      {place.name}
-                    </StyledButton>
-                  </Link>
-                </Zoom>
-              ))}
-            </Stack>
-          </Grid>
-
-          <Grid item xs={12} md={8} sx={{ pb: 0, mb: 0 }}>
-            <Fade
-              in={true}
-              style={{
-                transitionDelay: `${transitionDelays.goals}ms`,
-              }}
-              {...{ timeout: 1000 }}
-            >
-              <div>
-                <StyledAccordion title="Today's Brief">
-                  <StyledTab value={tab} onChange={handleTabChange}>
-                    <Tab label="Goals" className="tut-home-goals" />
-                    <Tab label="Habits" className="tut-home-habits" />
-                  </StyledTab>
-                  {tabs[tab]}
-                </StyledAccordion>
-              </div>
-            </Fade>
-          </Grid>
-
-          <Grid item xs={12} md={8} sx={{ pt: 0, mt: 0 }}>
-            <Fade
-              in={true}
-              style={{
-                transitionDelay: `${transitionDelays.schedule}ms`,
-              }}
-              {...{ timeout: 1000 }}
-            >
-              <div>
-                <Events />
-              </div>
-            </Fade>
-          </Grid>
-
-          <Grid item xs={12} md={8} sx={{ pt: 0, mt: 0 }}>
-            <Fade
-              in={true}
-              style={{
-                transitionDelay: `${transitionDelays.overall}ms`,
-              }}
-              {...{ timeout: 1000 }}
-            >
-              <div>
-                <Overall />
-              </div>
-            </Fade>
-          </Grid>
-        </Grid>
-      </Box>
-    </Container>
+      </Container>
+    </>
   );
 };
 

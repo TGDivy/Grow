@@ -5,13 +5,6 @@ import CreateTask from "./CreateTask";
 import { Chip } from "@mui/material";
 import useTaskStore from "../Common/Stores/TaskStore";
 import _ from "lodash";
-import {
-  Accordion,
-  AccordionSummary,
-  Typography,
-  AccordionDetails,
-} from "@mui/material";
-import { ExpandMore } from "@mui/icons-material";
 import useUserStore from "../Common/Stores/User";
 import { TransitionGroup } from "react-transition-group";
 import { taskType } from "../Common/Types/Types";
@@ -96,7 +89,14 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
   // Filter chips for tags. Transition the chips using Collapse component, when chip is selected, hide other chips. When chip is deselected, show all chips.
   const filterChips = (
     <TransitionGroup>
-      <Stack direction="row" spacing={1}>
+      <Stack
+        direction="row"
+        spacing={1}
+        sx={{
+          // allow overflow to scroll
+          overflowX: "auto",
+        }}
+      >
         {filter && (
           <Collapse in={true} orientation="horizontal" timeout={200}>
             <Chip
@@ -115,6 +115,7 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
             key={tag}
             in={filter ? false : true}
             orientation="horizontal"
+            collapsedSize={0}
             timeout={index * 200}
           >
             <Chip
@@ -122,6 +123,7 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
               sx={{
                 backgroundColor: "surfaceVariant.main",
                 color: "surfaceVariant.contrastText",
+                // width: "70px",
               }}
               onClick={() => handleAddTag(tag)}
             />
@@ -134,7 +136,7 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
   return (
     <Stack direction="column" spacing={3}>
       <Grid container spacing={2} justifyContent="space-between">
-        <Grid item xs={10}>
+        <Grid item xs={12} md={10}>
           {filterChips}
         </Grid>
         <Grid item>

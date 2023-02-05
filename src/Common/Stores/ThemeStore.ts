@@ -60,7 +60,9 @@ const useThemeStore = create<ThemeStoreType>()(
     (set, get) => ({
       colors: blueThemeDark,
       theme: "blue",
-      mode: "dark",
+      mode: window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light",
       setTheme: (theme: ThemeType) => {
         set(theme);
       },
