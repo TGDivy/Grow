@@ -91,9 +91,7 @@ const ProfileLogo = () => {
           transformOrigin={{ horizontal: "right", vertical: "top" }}
           anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
         >
-          <MenuItem onClick={handleClose}>
-            <Avatar /> My account
-          </MenuItem>
+          <MenuItem disabled>My account</MenuItem>
           <Divider />
           <MenuItem onClick={handleClose} component={Link} to="/Settings">
             <ListItemIcon>
