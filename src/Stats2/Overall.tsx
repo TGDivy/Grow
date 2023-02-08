@@ -9,8 +9,9 @@ import {
 } from "./Utils/utils";
 import OverallStatBar from "./Graphs/OverallStatBar";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
-import { Grid, Box, Typography } from "@mui/material";
+import { Grid, Box, Typography, Tab } from "@mui/material";
 import StyledButton from "../Common/ReusableComponents/StyledButton";
+import StyledTab from "../Common/ReusableComponents/StyledTab";
 
 const Overall = () => {
   const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
@@ -57,50 +58,68 @@ const Overall = () => {
   );
 
   const tabs = (
-    <Grid container spacing={2}>
-      <Grid item xs={3}>
-        <StyledButton
-          variant="contained"
-          fullWidth
-          onClick={() => handlePeriodBackClick("back")}
-          size="small"
-        >
-          <ArrowBack />
-        </StyledButton>
+    <Grid
+      container
+      spacing={2}
+      alignContent="center"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <Grid item xs={12} md={6}>
+        <StyledTab value={period} onChange={handlePeriodChange}>
+          <Tab label="Week" value={timePeriod.week} />
+          <Tab label="Month" value={timePeriod.month} />
+          <Tab label="Quarter" value={timePeriod.quarter} />
+          <Tab label="Year" value={timePeriod.year} />
+        </StyledTab>
       </Grid>
-      <Grid item xs={6}>
-        <Box
-          textAlign="center"
-          alignItems="center"
-          justifyContent="center"
-          display="flex"
-          sx={{
-            width: "100%",
-            height: "100%",
-          }}
-        >
-          <Typography
-            variant="h5"
-            align="center"
-            noWrap
-            justifyItems="center"
-            alignItems="center"
-          >
-            {getPeriodName(firstDay, lastDay, period)}
-          </Typography>
-        </Box>
-      </Grid>
+      <Grid item xs={12} md={6}>
+        <Grid container spacing={2}>
+          <Grid item xs={3}>
+            <StyledButton
+              variant="contained"
+              fullWidth
+              onClick={() => handlePeriodBackClick("back")}
+              size="small"
+            >
+              <ArrowBack />
+            </StyledButton>
+          </Grid>
+          <Grid item xs={6}>
+            <Box
+              textAlign="center"
+              alignItems="center"
+              justifyContent="center"
+              display="flex"
+              sx={{
+                width: "100%",
+                height: "100%",
+              }}
+            >
+              <Typography
+                variant="h5"
+                align="center"
+                noWrap
+                justifyItems="center"
+                alignItems="center"
+              >
+                {getPeriodName(firstDay, lastDay, period)}
+              </Typography>
+            </Box>
+          </Grid>
 
-      <Grid item xs={3}>
-        <StyledButton
-          variant="contained"
-          fullWidth
-          onClick={() => handlePeriodBackClick("forward")}
-          disabled={periodBack === 0}
-          size="small"
-        >
-          <ArrowForward />
-        </StyledButton>
+          <Grid item xs={3}>
+            <StyledButton
+              variant="contained"
+              fullWidth
+              onClick={() => handlePeriodBackClick("forward")}
+              disabled={periodBack === 0}
+              size="small"
+            >
+              <ArrowForward />
+            </StyledButton>
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );

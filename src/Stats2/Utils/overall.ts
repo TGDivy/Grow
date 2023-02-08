@@ -123,7 +123,7 @@ export const getWeeks = async (journalRecords: JournalType[]) => {
   // Get the stats for each week of the quarter
   for (let i = 1; i <= 12; i++) {
     let week: dataType = {
-      label: `Week ${i}`,
+      label: `W${i}`,
       sort: i,
       workScore: 0,
       exerciseScore: 0,
@@ -131,9 +131,13 @@ export const getWeeks = async (journalRecords: JournalType[]) => {
       habitScore: 0,
     };
 
+    // get the quarter for the week
+
     // Get the records for the week
     const records = journalRecords.filter((record) => {
-      return moment(record.date).week() === i;
+      const expanded = moment(record.date).week() % 13;
+
+      return expanded === i;
     });
 
     // Get the stats for the week
@@ -157,7 +161,7 @@ export const getMonths = async (journalRecords: JournalType[]) => {
   // Get the stats for each month of the year
   for (let i = 0; i < 12; i++) {
     let month: dataType = {
-      label: moment().month(i).format("MMMM"),
+      label: moment().month(i).format("MMM"),
       sort: i,
       workScore: 0,
       exerciseScore: 0,
@@ -232,7 +236,6 @@ const MAX_EXERCISE_SCORE = 15;
 export const getExerciseScore = async (records: JournalType[]) => {
   // exercise score can be 0 or 15 based on whether exercise was done or not
   // if multiple exercise records are present, take the average
-  // console.log("records", records);
   let exerciseScore = 0;
   records.forEach((record) => {
     if (record.exercised) {

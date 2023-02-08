@@ -317,8 +317,6 @@ export const getJournalRecords = (
       })
     );
 
-    console.log(dates_with_records);
-
     // pad each day from startdate to enddate
     // using moment to get next day
 
@@ -331,7 +329,6 @@ export const getJournalRecords = (
       if (dates_with_records.has(newDate.toString())) {
         continue;
       }
-      console.log(newDate);
 
       const newRecord = {
         ...emptyRecord,
