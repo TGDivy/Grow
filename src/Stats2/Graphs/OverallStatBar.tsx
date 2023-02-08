@@ -27,21 +27,24 @@ const OverallStatBar: FC<Props> = ({
   const [previousData, setPreviousData] = React.useState<dataType[]>(); // for comparison
   const colors = useThemeStore((state) => state.colors);
 
+  const journalRecordsCopy = [...journalRecords];
+  const journalRecords2Copy = [...journalRecords2];
+
   React.useEffect(() => {
-    getOverallStats(journalRecords, period).then((data) => {
+    getOverallStats(journalRecordsCopy, period).then((data) => {
       if (data) {
         setData(data);
       }
     });
-  }, [journalRecords]);
+  }, []);
 
   React.useEffect(() => {
-    getOverallStats(journalRecords2, period).then((data) => {
+    getOverallStats(journalRecords2Copy, period).then((data) => {
       if (data) {
         setPreviousData(data);
       }
     });
-  }, [journalRecords]);
+  }, []);
 
   if (!data || !previousData) {
     return null;
@@ -188,13 +191,9 @@ const OverallStatBar: FC<Props> = ({
         />
         <Tooltip />
         <Bar dataKey="workScore" fill={colors.tertiary} {...props} />
-        <Bar dataKey="exerciseScore" fill={colors.onTertiary} {...props} />
-        <Bar dataKey="mealScore" fill={colors.tertiaryContainer} {...props} />
-        <Bar
-          dataKey="habitScore"
-          fill={colors.onTertiaryContainer}
-          {...props}
-        />
+        <Bar dataKey="exerciseScore" fill={colors.tertiary} {...props} />
+        <Bar dataKey="mealScore" fill={colors.tertiary} {...props} />
+        <Bar dataKey="habitScore" fill={colors.tertiary} {...props} />
         <Bar
           dataKey="previousScoreGhost"
           fill={`${colors.tertiary}55`}
