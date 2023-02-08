@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import Overall from "../Stats/Overall";
+import Overall from "../Stats2/Overall";
 import {
   Task,
   Nature,

@@ -43,7 +43,6 @@ const StatsMain = () => {
   };
 
   const { firstDay, lastDay } = getStartAndEndDate(period, periodBack);
-  console.log(firstDay, lastDay);
   const selectedTimerRecords = getTimerRecordsBetween(
     timerRecords,
     firstDay,

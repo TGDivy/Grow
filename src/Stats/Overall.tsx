@@ -172,14 +172,7 @@ const OverallStats: FC<Props> = ({
       <StyledCard
         onClick={() => setExpanded(true)}
         className="tut-home-progress"
-        sx={
-          {
-            // backgroundColor: "surfaceVariant.main",
-            // color: "surfaceVariant.contrastText",
-          }
-        }
       >
-        {/* Center the header */}
         <CardHeader
           title={
             <Typography variant="h6" align="center">
@@ -187,7 +180,7 @@ const OverallStats: FC<Props> = ({
             </Typography>
           }
           action={
-            <IconButton aria-label="settings" onClick={() => setExpanded(true)}>
+            <IconButton onClick={() => setExpanded(true)}>
               <ExpandMore />
             </IconButton>
           }

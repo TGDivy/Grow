@@ -263,3 +263,134 @@ export const getPeriodName = (
       return `${startDate.getFullYear()}`;
   }
 };
+
+import { JournalDicType, JournalType } from "../../Common/Types/Types";
+/**
+ * Get journal records between start and end date
+ * @param journals: JournalDicType
+ * @param startDate: Date
+ * @param endDate: Date
+ * @param pad: timePeriod
+ * @returns JournalType[]
+ */
+export const getJournalRecords = (
+  journals: JournalDicType,
+  startDate: Date,
+  endDate: Date,
+  pad: timePeriod
+): JournalType[] => {
+  // change start date and end date to be 5 hours later
+  const newStartDate = moment(startDate).add(5, "hours").toDate();
+  const newEndDate = moment(endDate).add(5, "hours").add(1, "day").toDate();
+
+  const filteredJournals = Object.values(journals).filter((journal) => {
+    const journalDate = new Date(journal.date);
+    return (
+      journalDate.getTime() >= newStartDate.getTime() &&
+      journalDate.getTime() <= newEndDate.getTime()
+    );
+  });
+
+  const emptyRecord: JournalType = {
+    date: new Date(),
+    entry: "",
+    exercised: false,
+    meals: [],
+    mood: [],
+    nextDayNotes: "",
+    tasksForTomorrow: [],
+    title: "",
+    workDone: 0,
+    tagHabits: {},
+    customBoolHabits: {},
+  };
+
+  if (pad) {
+    // get the days between start and end date
+    const dates_with_records = new Set(
+      filteredJournals.map((journal) => {
+        // subtract 5 hours to get the correct date
+        const corrected = moment(journal.date).subtract(5, "hours");
+        // get day without time
+        const day = corrected.startOf("day").toDate();
+        return day.toString();
+      })
+    );
+
+    console.log(dates_with_records);
+
+    // pad each day from startdate to enddate
+    // using moment to get next day
+
+    for (
+      let i = 0;
+      i < moment(newEndDate).diff(moment(newStartDate), "days");
+      i++
+    ) {
+      const newDate = moment(startDate).add(i, "days").toDate();
+      if (dates_with_records.has(newDate.toString())) {
+        continue;
+      }
+      console.log(newDate);
+
+      const newRecord = {
+        ...emptyRecord,
+        date: moment(newDate).add(5, "hours").toDate(),
+      };
+      filteredJournals.push(newRecord);
+    }
+  }
+
+  // sort by date
+  filteredJournals.sort((a, b) => {
+    return a.date.getTime() - b.date.getTime();
+  });
+
+  // change the date back to original
+  filteredJournals.forEach((journal) => {
+    journal.date = moment(journal.date).subtract(5, "hours").toDate();
+  });
+
+  return filteredJournals;
+};
+
+/**
+ * Given start and end date, timerType[], and journal records, and pad, return the journal records between the two dates by populating the workDone field
+ * @param startDate: Date
+ * @param endDate: Date
+ * @param period: timePeriod
+ * @param journals: JournalDicType
+ * @param pad: timePeriod
+ * @returns JournalType[]
+ */
+export const getJournalRecordsWithWorkDone = (
+  startDate: Date,
+  endDate: Date,
+  timerRecords: timerType[],
+  journals: JournalDicType,
+  pad: timePeriod
+): JournalType[] => {
+  const journalRecords = getJournalRecords(journals, startDate, endDate, pad);
+
+  // The above code is correct, but we don't want to iterate through all the timer records every time we want to get the work done for a journal record
+  // Instead, we want to iterate through the timer records once, and then use the date as a key to get the work done for each journal record
+  const timerRecordsByDate = timerRecords.reduce((acc, timer) => {
+    const timerDate = new Date(timer.startTime);
+    const dateKey = timerDate.toDateString();
+    if (acc[dateKey]) {
+      acc[dateKey] += timer.duration;
+    } else {
+      acc[dateKey] = timer.duration;
+    }
+    return acc;
+  }, {} as { [key: string]: number });
+
+  const journalRecordsWithWorkDone = journalRecords.map((journal) => {
+    const journalDate = new Date(journal.date);
+    const dateKey = journalDate.toDateString();
+    const workDone = timerRecordsByDate[dateKey] || 0;
+    return { ...journal, workDone };
+  });
+
+  return journalRecordsWithWorkDone;
+};

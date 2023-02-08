@@ -1,12 +1,13 @@
 import React, { FC } from "react";
 
 import { ResponsiveContainer } from "recharts";
-import { Card, Box, Typography, CardHeader } from "@mui/material";
+import { Card, Box, Typography, CardHeader, CardActions } from "@mui/material";
 import StyledCard from "../../Common/ReusableComponents/StyledCard";
 
 interface Props {
   children: React.ReactElement;
   title: string;
+  cardActions?: React.ReactElement;
 }
 
 const GraphCard: FC<Props> = (props) => {
@@ -32,6 +33,11 @@ const GraphCard: FC<Props> = (props) => {
       >
         <ResponsiveContainer>{props.children}</ResponsiveContainer>
       </Box>
+      {props.cardActions && (
+        <CardActions sx={{ justifyContent: "center" }}>
+          {props.cardActions}
+        </CardActions>
+      )}
     </StyledCard>
   );
 };
