@@ -65,6 +65,8 @@ const WorkStatBar: FC<Props> = ({
     };
   });
 
+  console.log("combinedData", combinedData);
+
   const CustomTooltip = CustomTooltipWrapper(period);
 
   return (
@@ -93,6 +95,7 @@ const WorkStatBar: FC<Props> = ({
           width={30}
           orientation="left"
           tickFormatter={periodYAxisLabelFunction[period]}
+          ticks={getXAxisTicks(period)}
           tickLine={false}
           tickCount={5}
           domain={[0, "auto"]}

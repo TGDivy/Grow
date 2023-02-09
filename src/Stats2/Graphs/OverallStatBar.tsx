@@ -43,6 +43,8 @@ const OverallStatBar: FC<Props> = ({
     });
   }, [journalRecords2]);
 
+  console.log(!data || !previousData);
+
   if (!data || !previousData) {
     return null;
   }
@@ -149,6 +151,8 @@ const OverallStatBar: FC<Props> = ({
     return null;
   };
 
+  console.log(combinedData);
+
   const props = {
     stroke: "#000000",
     strokeWidth: 1,
@@ -175,6 +179,7 @@ const OverallStatBar: FC<Props> = ({
           interval={"preserveStart"}
           fontSize={14}
           dy={10}
+          ticks={getXAxisTicks(period)}
           tickLine={false}
         />
         <YAxis

@@ -89,7 +89,7 @@ export const getDaysOfMonth = async (journalRecords: JournalType[]) => {
   // Get the stats for each day of the month
   for (let i = 1; i <= 31; i++) {
     let day: dataType = {
-      label: moment().date(i).format("DD"),
+      label: i < 10 ? `0${i}` : `${i}`,
       sort: i,
       workScore: 0,
       exerciseScore: 0,
@@ -103,8 +103,9 @@ export const getDaysOfMonth = async (journalRecords: JournalType[]) => {
     });
 
     // Get the stats for the day
-    day = await getStats(day, records);
-
+    if (records.length > 0) {
+      day = await getStats(day, records);
+    }
     days.push(day);
   }
 
