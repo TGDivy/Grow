@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import Overall from "../Stats/Overall";
+import Overall from "../Stats2/Overall";
 import {
   Task,
   Nature,
@@ -86,23 +86,6 @@ const Home = () => {
       link: "/Reflect",
     },
   ];
-
-  const tutorials = useUserStore((state) => state.tutorials);
-  const setTutorials = useUserStore((state) => state.setTutorials);
-
-  const { setIsOpen, isOpen, setSteps, setCurrentStep } = useTour();
-
-  const handleHelp = () => {
-    setSteps(homeSteps);
-    setCurrentStep(0);
-    setIsOpen(true);
-    setTutorials([...tutorials, "home"]);
-  };
-
-  useEffect(() => {
-    if (tutorials.includes("home")) return;
-    handleHelp();
-  }, []);
 
   // Add transitions to the home page.
 
@@ -215,10 +198,7 @@ const Home = () => {
                         color="primary"
                         startIcon={place.icon}
                         key={place.name}
-                        disabled={
-                          isOpen === true ||
-                          place.name.toLowerCase().includes("soon")
-                        }
+                        disabled={place.name.toLowerCase().includes("soon")}
                       >
                         {place.name}
                       </StyledButton>

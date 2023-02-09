@@ -379,3 +379,5 @@ const getMonths = async (timerRecords: timerType[]) => {
 
   return months;
 };
+
+import { JournalDicType, JournalType } from "../../Common/Types/Types";

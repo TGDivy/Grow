@@ -17,12 +17,11 @@ const ThemePicker = () => {
   const theme = useThemeStore((state) => state.theme); // red, green, blue
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+  const [open, setOpen] = React.useState(false);
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
+    setOpen(true);
   };
 
   const changeMode = () => {
@@ -66,7 +65,7 @@ const ThemePicker = () => {
         id="theme-menu"
         keepMounted
         open={open}
-        onClose={handleClose}
+        onClose={() => setOpen(false)}
         PaperProps={{
           elevation: 0,
           sx: {

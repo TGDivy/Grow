@@ -7,7 +7,8 @@ import SeedMain from "./Seed/SeedMain";
 import StatsMain from "./Stats2/StatsMain";
 import TasksMain from "./Tasks/TasksMain";
 import SettingMain from "./Setting/SettingMain";
-
+import { TourProvider } from "@reactour/tour";
+import { closeBtn } from "./steps";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import JournalMain from "./Journal/JournalMain";
 import AnonToLogin from "./Login/AnonToLogin";
@@ -62,18 +63,9 @@ const App = () => {
       <>
         <Route
           path="/Login"
-          element={
-            user ? (
-              user.email ? (
-                <Navigate to={initialPath} />
-              ) : (
-                <AnonToLogin />
-              )
-            ) : (
-              <LoginPage />
-            )
-          }
+          element={user ? <Navigate to={initialPath} /> : <LoginPage />}
         />
+        <Route path="/Anon" element={<AnonToLogin />} />
         <Route
           path="/"
           element={user ? <HomeMain /> : <Navigate to="/Login" />}
@@ -116,11 +108,39 @@ const App = () => {
   return (
     <ThemeProvider theme={getTheme(colors, mode)}>
       <CssBaseline />
-      <div style={{ marginBottom: 80 }}>
-        <Routes>{routes()}</Routes>
-      </div>
+      <TourProvider
+        styles={{
+          popover: (base) => ({
+            ...base,
+            "--reactour-accent": "#ef5a3d",
+            backgroundColor: colors.background,
+            color: colors.text,
+            borderRadius: 20,
+          }),
+          // maskArea: (base) => ({ ...base, rx: 2 }),
+          // maskWrapper: (base) => ({ ...base, color: "#ef5a3d" }),
+          badge: (base) => ({ ...base, left: "auto", right: "-0.8125em" }),
+          // controls: (base) => ({ ...base, marginTop: 100 }),
+          // close: (base) => ({ ...base, right: "auto", left: 8, top: 8 }),
+        }}
+        onClickMask={({ setCurrentStep, currentStep, steps, setIsOpen }) => {
+          if (steps) {
+            if (currentStep === steps.length - 1) {
+              setIsOpen(false);
+            } else {
+              setCurrentStep((s) => (s === steps.length - 1 ? 0 : s + 1));
+            }
+          }
+        }}
+        scrollSmooth
+        disableDotsNavigation
+        components={{ Close: closeBtn }}
+      >
+        <div style={{ marginBottom: 80 }}>
+          <Routes>{routes()}</Routes>
+        </div>
+      </TourProvider>
       <BottomNavigationBar />
-      <AnonymousUser />
     </ThemeProvider>
   );
 };

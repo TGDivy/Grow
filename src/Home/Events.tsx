@@ -9,7 +9,6 @@ import StyledAccordion from "../Common/ReusableComponents/StyledAccordion";
 
 const Events = () => {
   const [events, setEvents] = React.useState<EventType[]>([]);
-  console.log(events);
 
   const fetchFutureEvents = async () => {
     await getFutureEvents(setEvents);
