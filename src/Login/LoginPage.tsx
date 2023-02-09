@@ -84,15 +84,14 @@ const LoginPage = () => {
           <Typography variant="h6" component="h2">
             Just want to try it out?
           </Typography>
-          <Button
+          <StyledButton
             variant="contained"
             onClick={guestLogin}
-            component={Link}
-            to="/"
-            disabled
+            // component={Link}
+            // to="/"
           >
-            Try as Guest (Max guest limit reached)
-          </Button>
+            Try as Guest
+          </StyledButton>
           <Divider />
         </Stack>
 

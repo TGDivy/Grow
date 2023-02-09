@@ -27,24 +27,21 @@ const OverallStatBar: FC<Props> = ({
   const [previousData, setPreviousData] = React.useState<dataType[]>(); // for comparison
   const colors = useThemeStore((state) => state.colors);
 
-  const journalRecordsCopy = [...journalRecords];
-  const journalRecords2Copy = [...journalRecords2];
-
   React.useEffect(() => {
-    getOverallStats(journalRecordsCopy, period).then((data) => {
+    getOverallStats(journalRecords, period).then((data) => {
       if (data) {
         setData(data);
       }
     });
-  }, []);
+  }, [journalRecords]);
 
   React.useEffect(() => {
-    getOverallStats(journalRecords2Copy, period).then((data) => {
+    getOverallStats(journalRecords2, period).then((data) => {
       if (data) {
         setPreviousData(data);
       }
     });
-  }, []);
+  }, [journalRecords2]);
 
   if (!data || !previousData) {
     return null;

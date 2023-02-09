@@ -367,10 +367,20 @@ export const getJournalRecordsWithWorkDone = (
   journals: JournalDicType,
   pad: timePeriod
 ): JournalType[] => {
-  const journalRecords = getJournalRecords(journals, startDate, endDate, pad);
+  const deepJournals = JSON.parse(JSON.stringify(journals)) as JournalDicType;
+  Object.values(deepJournals).forEach((journal) => {
+    journal.date = new Date(journal.date);
+  });
+  const journalRecords = getJournalRecords(
+    deepJournals,
+    startDate,
+    endDate,
+    pad
+  );
 
   // The above code is correct, but we don't want to iterate through all the timer records every time we want to get the work done for a journal record
   // Instead, we want to iterate through the timer records once, and then use the date as a key to get the work done for each journal record
+  console.log(journalRecords, journalRecords.length);
   const timerRecordsByDate = timerRecords.reduce((acc, timer) => {
     const timerDate = new Date(timer.startTime);
     const dateKey = timerDate.toDateString();

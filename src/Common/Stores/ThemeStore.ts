@@ -58,11 +58,13 @@ export interface ThemeStoreType extends ThemeType {
 const useThemeStore = create<ThemeStoreType>()(
   persist(
     (set, get) => ({
-      colors: blueThemeDark,
       theme: "blue",
       mode: window.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
         : "light",
+      colors: window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? blueThemeDark
+        : blueThemeLight,
       setTheme: (theme: ThemeType) => {
         set(theme);
       },

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Avatar,
   Button,
@@ -7,18 +7,24 @@ import {
   ListItemIcon,
   Tooltip,
 } from "@mui/material";
-import { Logout, Settings } from "@mui/icons-material";
+import { Help, Logout, Settings } from "@mui/icons-material";
 import { getAuth, signOut } from "firebase/auth";
 import useCurrentUser from "../Common/Contexts/UserContext";
 import StyledButton from "../Common/ReusableComponents/StyledButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import AnonymousUser from "../Login/AnonymousUser";
+import { useTour } from "@reactour/tour";
+import useUserStore from "../Common/Stores/User";
+import { homeSteps } from "../steps";
+import Tutorial from "./Tutorial";
 
 const ProfileLogo = () => {
   const { user } = useCurrentUser();
 
   const userName = user?.displayName || user?.email || "Guest User";
+  const location = useLocation();
 
   const handleLogout = () => {
     const auth = getAuth();
@@ -43,6 +49,7 @@ const ProfileLogo = () => {
   if (user) {
     return (
       <>
+        <AnonymousUser />
         <Tooltip title="Account settings">
           <IconButton onClick={handleClick}>
             <Avatar
@@ -99,6 +106,7 @@ const ProfileLogo = () => {
             </ListItemIcon>
             Settings
           </MenuItem>
+          {location.pathname === "/" && <Tutorial />}
           <MenuItem onClick={() => handleLogout()}>
             <ListItemIcon>
               <Logout fontSize="small" />
