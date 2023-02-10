@@ -118,6 +118,8 @@ const PieCharts = () => {
     } else if (period === timePeriod.week) {
       setPeriod(timePeriod.month);
     } else if (period === timePeriod.month) {
+      setPeriod(timePeriod.quarter);
+    } else if (period === timePeriod.quarter) {
       setPeriod(timePeriod.year);
     } else if (period === timePeriod.year) {
       setPeriod(timePeriod.day);

@@ -19,7 +19,7 @@ const Overall = () => {
   const journalRecords = useJournalStore((state) => state.documents);
 
   const [periodBack, setPeriodBack] = React.useState(0);
-  const [period, setPeriod] = React.useState<timePeriod>(timePeriod.week);
+  const [period, setPeriod] = React.useState<timePeriod>(timePeriod.month);
 
   const navigate = useNavigate();
 
