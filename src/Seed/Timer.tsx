@@ -8,6 +8,7 @@ import {
   CardActions,
   CircularProgress,
   useTheme,
+  CardHeader,
 } from "@mui/material";
 import useTimerStore from "../Common/Stores/TimerStore";
 
@@ -15,6 +16,7 @@ import StopTimer from "./StopTimer";
 import FinishTimer from "./FinishTimer";
 import { MAX_STOPWATCH_DURATION } from "../Common/constants";
 import StyledCard from "../Common/ReusableComponents/StyledCard";
+import { Title } from "@mui/icons-material";
 
 const timeElapsed = (startTime: Date) => {
   return Math.ceil((new Date().getTime() - startTime.getTime()) / 1000);
@@ -117,15 +119,6 @@ const Timer = () => {
     }
     // This solution cause the page to scroll when the user is trying to change the timer duration
   };
-
-  console.log(
-    "timerDuration",
-    timerDuration,
-    "timerMode",
-    timerMode,
-    "studyTime",
-    studyTime
-  );
 
   const color =
     active || timerMode === "stopwatch" ? "tertiary.main" : "secondary.main";

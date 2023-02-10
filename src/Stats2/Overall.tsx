@@ -8,10 +8,11 @@ import {
   getPeriodName,
 } from "./Utils/utils";
 import OverallStatBar from "./Graphs/OverallStatBar";
-import { ArrowBack, ArrowForward } from "@mui/icons-material";
-import { Grid, Box, Typography, Tab } from "@mui/material";
+import { ArrowBack, ArrowForward, TrendingUp } from "@mui/icons-material";
+import { Grid, Box, Typography, Tab, IconButton, Button } from "@mui/material";
 import StyledButton from "../Common/ReusableComponents/StyledButton";
 import StyledTab from "../Common/ReusableComponents/StyledTab";
+import { Link, useNavigate } from "react-router-dom";
 
 const Overall = () => {
   const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
@@ -19,6 +20,8 @@ const Overall = () => {
 
   const [periodBack, setPeriodBack] = React.useState(0);
   const [period, setPeriod] = React.useState<timePeriod>(timePeriod.week);
+
+  const navigate = useNavigate();
 
   const handlePeriodChange = (
     e: React.SyntheticEvent<Element, Event>,
@@ -57,69 +60,58 @@ const Overall = () => {
     period
   );
 
+  const onClickCyclePeriod = () => {
+    if (period === timePeriod.week) {
+      setPeriod(timePeriod.month);
+    } else if (period === timePeriod.month) {
+      setPeriod(timePeriod.quarter);
+    } else if (period === timePeriod.quarter) {
+      setPeriod(timePeriod.year);
+    } else if (period === timePeriod.year) {
+      setPeriod(timePeriod.week);
+    }
+    setPeriodBack(0);
+  };
   const tabs = (
     <Grid
       container
-      spacing={2}
       alignContent="center"
       justifyContent="center"
       alignItems="center"
     >
-      <Grid item xs={12} md={6}>
-        <StyledTab value={period} onChange={handlePeriodChange}>
-          <Tab label="Week" value={timePeriod.week} />
-          <Tab label="Month" value={timePeriod.month} />
-          <Tab label="Quarter" value={timePeriod.quarter} />
-          <Tab label="Year" value={timePeriod.year} />
-        </StyledTab>
+      <Grid item xs={5} flexGrow={2}>
+        <StyledButton
+          variant="contained"
+          startIcon={<TrendingUp />}
+          onClick={() => navigate("/Statistics")}
+        >
+          Statistics
+        </StyledButton>
       </Grid>
-      <Grid item xs={12} md={6}>
-        <Grid container spacing={2}>
-          <Grid item xs={3}>
-            <StyledButton
-              variant="contained"
-              fullWidth
-              onClick={() => handlePeriodBackClick("back")}
-              size="small"
-            >
-              <ArrowBack />
-            </StyledButton>
-          </Grid>
-          <Grid item xs={6}>
-            <Box
-              textAlign="center"
-              alignItems="center"
-              justifyContent="center"
-              display="flex"
-              sx={{
-                width: "100%",
-                height: "100%",
-              }}
-            >
-              <Typography
-                variant="h5"
-                align="center"
-                noWrap
-                justifyItems="center"
-                alignItems="center"
-              >
-                {getPeriodName(firstDay, lastDay, period)}
-              </Typography>
-            </Box>
-          </Grid>
 
-          <Grid item xs={3}>
-            <StyledButton
-              variant="contained"
-              fullWidth
-              onClick={() => handlePeriodBackClick("forward")}
-              disabled={periodBack === 0}
-              size="small"
-            >
-              <ArrowForward />
-            </StyledButton>
-          </Grid>
-        </Grid>
+      <Grid item xs={2}>
+        <IconButton size="small" onClick={() => handlePeriodBackClick("back")}>
+          <ArrowBack />
+        </IconButton>
+      </Grid>
+      <Grid item xs={3}>
+        <Button
+          fullWidth
+          size="small"
+          variant="outlined"
+          onClick={onClickCyclePeriod}
+        >
+          {getPeriodName(firstDay, lastDay, period)}
+        </Button>
+      </Grid>
+      <Grid item xs={2}>
+        <IconButton
+          size="small"
+          onClick={() => handlePeriodBackClick("forward")}
+          disabled={periodBack === 0}
+        >
+          <ArrowForward />
+        </IconButton>
       </Grid>
     </Grid>
   );

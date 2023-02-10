@@ -116,7 +116,7 @@ export const renderActiveShape = (fill: string) => {
         >
           {payload.label}
         </text>
-        <text x={cx} y={cy} textAnchor="middle" fill="#fff" dy={30}>
+        <text x={cx} y={cy} textAnchor="middle" fill="#999" dy={30}>
           {Math.floor(payload.time / 60 / 60)}h{" "}
           {Math.floor((payload.time / 60) % 60)}m
         </text>

@@ -59,7 +59,7 @@ const TopBar = () => {
         backgroundColor: "surfaceVariant.main",
         color: "surfaceVariant.contrastText",
       }}
-      elevation={1}
+      elevation={2}
     >
       <Box component="nav">
         <Drawer

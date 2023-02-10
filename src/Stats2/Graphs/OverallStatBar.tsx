@@ -43,8 +43,6 @@ const OverallStatBar: FC<Props> = ({
     });
   }, [journalRecords2]);
 
-  console.log(!data || !previousData);
-
   if (!data || !previousData) {
     return null;
   }
@@ -151,17 +149,15 @@ const OverallStatBar: FC<Props> = ({
     return null;
   };
 
-  console.log(combinedData);
-
   const props = {
     stroke: "#000000",
     strokeWidth: 1,
-    width: 20,
+    barSize: 20,
     stackId: "aa",
   };
 
   return (
-    <GraphCard title="Overall" cardActions={tabs}>
+    <GraphCard title={tabs} height="310px">
       <BarChart
         data={combinedData}
         margin={{
@@ -181,18 +177,25 @@ const OverallStatBar: FC<Props> = ({
           dy={10}
           ticks={getXAxisTicks(period)}
           tickLine={false}
+          axisLine={false}
         />
         <YAxis
           axisLine={false}
           width={30}
           orientation="left"
           tickLine={false}
-          tickCount={5}
+          // tickCount={5}
           ticks={[0, 20, 40, 60, 80, 100]}
           domain={[0, 100]}
+          allowDataOverflow={true}
         />
         <Tooltip />
-        <Bar dataKey="workScore" fill={colors.tertiary} {...props} />
+        <Bar
+          dataKey="workScore"
+          fill={colors.tertiary}
+          {...props}
+          minPointSize={5}
+        />
         <Bar dataKey="exerciseScore" fill={colors.tertiary} {...props} />
         <Bar dataKey="mealScore" fill={colors.tertiary} {...props} />
         <Bar dataKey="habitScore" fill={colors.tertiary} {...props} />

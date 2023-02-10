@@ -68,8 +68,8 @@ const useTimerStore = create<timerStoreType>()(
         duration: 0,
         taskKey: "",
         tags: [],
-        timerMode: "stopwatch",
-        timerDuration: MAX_STOPWATCH_DURATION,
+        timerMode: "timer",
+        timerDuration: MAX_STOPWATCH_DURATION / 3,
         sticker: "",
 
         startTimer: () => set(() => ({ active: true, startTime: new Date() })),

@@ -35,6 +35,7 @@ interface taskFC extends taskType {
   alwaysExpanded?: boolean;
   startTimerButton?: boolean;
   handleCreateNewTask?: () => void;
+  hoverShadow?: boolean;
 }
 
 const Task: FC<taskFC> = (props) => {
@@ -173,6 +174,11 @@ const Task: FC<taskFC> = (props) => {
           if (!expanded) {
             setExpanded(true);
           }
+        }}
+        sx={{
+          ":hover": {
+            boxShadow: props.hoverShadow === false ? 0 : 20,
+          },
         }}
         className="tut-task-card"
       >

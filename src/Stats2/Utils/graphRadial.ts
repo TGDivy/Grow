@@ -27,7 +27,6 @@ export const getTagPieData = async (
   });
 
   // If tagStat only has Unset, use values to populate it
-  console.log(tagStat, Object.keys(tagStat).length);
   if (Object.keys(tagStat).length === 1 && tagStat["Unset"] === 0) {
     values.forEach((value) => {
       tagStat[value] = 1;
