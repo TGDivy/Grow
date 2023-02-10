@@ -6,8 +6,9 @@ export const filterTimerRecords = (
   daysBack: number
 ) => {
   const DAY = 24 * 60 * 60 * 1000;
+  const hour = 0;
 
-  const today = new Date(new Date().getTime() - 5 * 60 * 60 * 1000).setHours(
+  const today = new Date(new Date().getTime() - hour * 60 * 60 * 1000).setHours(
     0,
     0,
     0,
@@ -16,9 +17,9 @@ export const filterTimerRecords = (
   const current = new Date(today - daysBack * DAY);
   const filteredTimerRecords = timerRecords.filter(
     (timerRecord) =>
-      timerRecord.startTime.getTime() - 5 * 60 * 60 * 1000 >
+      timerRecord.startTime.getTime() - hour * 60 * 60 * 1000 >
         current.getTime() - (timePeriodLength - 1) * DAY &&
-      timerRecord.startTime.getTime() - 5 * 60 * 60 * 1000 <
+      timerRecord.startTime.getTime() - hour * 60 * 60 * 1000 <
         current.getTime() + DAY
   );
   // Pad weeklyTimerRecords with empty days

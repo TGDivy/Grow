@@ -42,6 +42,77 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 
+const CustomBoolHabitsDisplay = () => {
+  const today = new Date();
+  const customBoolHabitsStore = useUserStore((state) => state.customBoolHabits);
+
+  const filterCustomBoolHabits = customBoolHabitsStore.filter(
+    (habit) => habit.daysOfWeek[today.getDay()] === "1"
+  );
+
+  const customBoolHabits = useDailyJournalStore(
+    (state) => state.customBoolHabits
+  );
+
+  const setCustomBoolHabit = useDailyJournalStore(
+    (state) => state.setCustomBoolHabit
+  );
+
+  useEffect(() => {
+    // if customBoolHabits doesn't have the same habits as filterCustomBoolHabits, then add them
+
+    const map = new Map<string, boolean>();
+    filterCustomBoolHabits.forEach((habit) => {
+      map.set(habit.name, false);
+    });
+    Object.entries(customBoolHabits).forEach(([habit, completed]) => {
+      map.set(habit, completed);
+    });
+
+    setCustomBoolHabit(map);
+  }, []);
+
+  const handleCustomBoolHabitToggle = (name: string) => {
+    // customBoolhabits to map
+    const map = new Map<string, boolean>();
+    Object.entries(customBoolHabits).forEach(([key, value]) => {
+      map.set(key, value);
+    });
+    map.set(name, !map.get(name));
+    setCustomBoolHabit(map);
+  };
+
+  return (
+    <>
+      {Object.entries(customBoolHabits).map(([habit, completed], index) => {
+        return (
+          <ListItem
+            secondaryAction={
+              <Checkbox
+                edge="end"
+                checked={completed}
+                tabIndex={-1}
+                onClick={() => handleCustomBoolHabitToggle(habit)}
+                color="secondary"
+              />
+            }
+            key={habit}
+          >
+            <ListItemButton
+              sx={{ width: "100%" }}
+              onClick={() => handleCustomBoolHabitToggle(habit)}
+            >
+              <ListItemText
+                primary={`${completed ? "Did - " : "Did not - "} ${habit}`}
+              />
+            </ListItemButton>
+          </ListItem>
+        );
+      })}
+    </>
+  );
+};
+
 const HabitsCondensed = () => {
   const today = new Date();
   const meals = useDailyJournalStore((state) => state.meals);
@@ -50,7 +121,7 @@ const HabitsCondensed = () => {
   const exercised = useDailyJournalStore((state) => state.exercised);
   const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
 
-  const todayRecords = filterTimerRecords(timerRecords, 1, 1);
+  const todayRecords = filterTimerRecords(timerRecords, 1, 0);
   const totalWorkTime = totalTimeWorked(todayRecords);
 
   const filterStickerTagHabits = stickerTagHabits.filter(
@@ -208,6 +279,8 @@ const HabitsCondensed = () => {
             />
           </ListItemButton>
         </ListItem>
+        <Divider />
+        <CustomBoolHabitsDisplay />
         <Divider />
         {totalWorkTimeByTagOrSticker.map((object) => {
           return (
