@@ -6,7 +6,7 @@ export const filterTimerRecords = (
   daysBack: number
 ) => {
   const DAY = 24 * 60 * 60 * 1000;
-  const hour = 0;
+  const hour = 5;
 
   const today = new Date(new Date().getTime() - hour * 60 * 60 * 1000).setHours(
     0,
