@@ -25,6 +25,17 @@ import CssBaseline from "@mui/material/CssBaseline";
 import getTheme from "./Common/Styling/themes";
 import useThemeStore from "./Common/Stores/ThemeStore";
 
+function requestPermission() {
+  console.log("Requesting permission...");
+  Notification.requestPermission().then((permission) => {
+    if (permission === "granted") {
+      console.log("Notification permission granted.");
+    } else {
+      console.log("Unable to get permission to notify.");
+    }
+  });
+}
+
 const App = () => {
   const { user } = useCurrentUser();
   const [initialPath, setInitialPath] = React.useState("/");
@@ -47,6 +58,13 @@ const App = () => {
     fetchTimerRecords();
     fetchJournalEntries();
     fetchTasks();
+    if (!("Notification" in window)) {
+      console.log("This browser does not support desktop notification");
+    } else if (Notification.permission === "granted") {
+      console.log("Notification permission granted");
+    } else if (Notification.permission !== "denied") {
+      requestPermission();
+    }
   }, []);
 
   React.useEffect(() => {
