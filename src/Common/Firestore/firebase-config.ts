@@ -3,8 +3,8 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore, enableIndexedDbPersistence } from "firebase/firestore";
 import { getAnalytics } from "firebase/analytics";
-import { getMessaging, getToken } from "firebase/messaging";
-
+import { getToken, onMessage } from "firebase/messaging";
+import { getMessaging } from "firebase/messaging/sw";
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -53,3 +53,8 @@ getToken(messaging, { vapidKey: process.env.REACT_APP_FIREBASE_VAPID_KEY })
     console.log("An error occurred while retrieving token. ", err);
     // ...
   });
+
+onMessage(messaging, (payload) => {
+  console.log("Message received. ", payload);
+  // ...
+});
