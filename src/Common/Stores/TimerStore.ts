@@ -138,11 +138,16 @@ const useTimerStore = create<timerStoreType>()(
             return endState;
           }),
         resetTimer: () =>
-          set(() => ({
-            active: false,
-            startTime: new Date(),
-            duration: 0,
-          })),
+          set((state) => {
+            const resetState = {
+              ...state,
+              active: false,
+              startTime: new Date(),
+              duration: 0,
+            };
+            updateTimer(resetState, get().user_id);
+            return resetState;
+          }),
         syncTimer: async (user_id: string) => {
           const timer = await getTimer(user_id);
           set(() => ({
