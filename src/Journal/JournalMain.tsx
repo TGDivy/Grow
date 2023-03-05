@@ -6,7 +6,6 @@ import { Stack } from "@mui/system";
 import { Button } from "@mui/material";
 import useDailyJournalStore from "../Common/Stores/DailyJournalStore";
 
-import Mood from "./Mood";
 import Habits from "./Habits";
 import Reflect from "./Reflect";
 import Goals from "./Goals";

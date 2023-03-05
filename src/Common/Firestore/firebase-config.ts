@@ -49,7 +49,7 @@ export const getOrRegisterServiceWorker = () => {
       .then((serviceWorker) => {
         if (serviceWorker) return serviceWorker;
         return window.navigator.serviceWorker.register(
-          "/firebase-messaging-sw.js",
+          "./firebase-messaging-sw.js",
           {
             scope: "/firebase-push-notification-scope",
           }
@@ -71,7 +71,7 @@ export const getFirebaseToken = () =>
       if (currentToken) {
         // Send the token to your server and update the UI if necessary
         // ...
-        console.log("currentToken: ", currentToken);
+        console.log(currentToken);
       } else {
         // Show permission request UI
         console.log(
