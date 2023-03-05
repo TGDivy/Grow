@@ -6,7 +6,7 @@ import { db } from "../Firestore/firebase-config";
 
 interface timerRecordsStoreType {
   addTimerRecord: (timer: timerType) => void;
-  addLatestTimerRecord: (user_id: string) => void;
+  addLatestTimerRecord: () => void;
 
   timerRecords: timerType[];
   user_id: string;

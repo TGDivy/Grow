@@ -25,6 +25,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import getTheme from "./Common/Styling/themes";
 import useThemeStore from "./Common/Stores/ThemeStore";
 import useTimerStore from "./Common/Stores/TimerStore";
+import { getFirebaseToken } from "./Common/Firestore/firebase-config";
+import useUserStore from "./Common/Stores/User";
 
 function requestPermission() {
   console.log("Requesting permission...");
@@ -51,6 +53,18 @@ const App = () => {
   const fetchTasks = useTaskStore((state) => state.fetchNewDocs);
   const fetchTimer = useTimerStore((state) => state.syncTimer);
 
+  const addDevice = useUserStore((state) => state.addDevice);
+
+  console.log("device", navigator.userAgent);
+
+  const getPushToken = (pushToken: string) => {
+    const device = {
+      pushToken: pushToken,
+      device: navigator.userAgent,
+    };
+    addDevice(device);
+  };
+
   React.useEffect(() => {
     if (location.pathname !== "/") {
       setInitialPath(location.pathname);
@@ -76,6 +90,7 @@ const App = () => {
       fetchTimerRecords();
       fetchJournalEntries();
       fetchTimer(user?.uid);
+      getFirebaseToken(getPushToken);
     }
   }, [user]);
 
@@ -129,38 +144,9 @@ const App = () => {
   return (
     <ThemeProvider theme={getTheme(colors, mode)}>
       <CssBaseline />
-      <TourProvider
-        styles={{
-          popover: (base) => ({
-            ...base,
-            "--reactour-accent": "#ef5a3d",
-            backgroundColor: colors.background,
-            color: colors.text,
-            borderRadius: 20,
-          }),
-          // maskArea: (base) => ({ ...base, rx: 2 }),
-          // maskWrapper: (base) => ({ ...base, color: "#ef5a3d" }),
-          badge: (base) => ({ ...base, left: "auto", right: "-0.8125em" }),
-          // controls: (base) => ({ ...base, marginTop: 100 }),
-          // close: (base) => ({ ...base, right: "auto", left: 8, top: 8 }),
-        }}
-        onClickMask={({ setCurrentStep, currentStep, steps, setIsOpen }) => {
-          if (steps) {
-            if (currentStep === steps.length - 1) {
-              setIsOpen(false);
-            } else {
-              setCurrentStep((s) => (s === steps.length - 1 ? 0 : s + 1));
-            }
-          }
-        }}
-        scrollSmooth
-        disableDotsNavigation
-        components={{ Close: closeBtn }}
-      >
-        <div style={{ marginBottom: 80 }}>
-          <Routes>{routes()}</Routes>
-        </div>
-      </TourProvider>
+      <div style={{ marginBottom: 80 }}>
+        <Routes>{routes()}</Routes>
+      </div>
       <BottomNavigationBar />
     </ThemeProvider>
   );

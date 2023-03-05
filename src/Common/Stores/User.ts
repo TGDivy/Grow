@@ -4,6 +4,7 @@ import {
   userType,
   stickerTagHabitType,
   customBoolHabitType,
+  deviceType,
 } from "../Types/Types";
 
 import { updateDoc, doc } from "firebase/firestore";
@@ -18,6 +19,7 @@ interface userStoreType extends userType {
   setCustomBoolHabits: (customBoolHabit: Array<customBoolHabitType>) => void;
 
   setTutorials: (tutorials: Array<string>) => void;
+  addDevice: (devices: deviceType) => void;
 }
 
 const updateTags = async (user_id: string, tags: string[]) => {
@@ -61,10 +63,18 @@ const updateTutorials = async (user_id: string, tutorials: Array<string>) => {
   });
 };
 
+const updateDevices = async (user_id: string, devices: deviceType[]) => {
+  const userDocRef = doc(db, "users", user_id);
+  await updateDoc(userDocRef, {
+    devices: devices,
+  });
+};
+
 const useUserStore = create<userStoreType>()(
   devtools(
     (set, get) => ({
       created: new Date(),
+      lastLogin: new Date(),
       uid: "",
       email: "",
       displayName: "",
@@ -74,6 +84,8 @@ const useUserStore = create<userStoreType>()(
       stickerTagHabits: [],
       customBoolHabits: [],
       tutorials: [],
+      devices: [],
+
       setUser: (user) => set({ ...user }),
       setTags: (tags) => {
         set({ tags: tags });
@@ -94,6 +106,22 @@ const useUserStore = create<userStoreType>()(
       setTutorials: (tutorials) => {
         set({ tutorials: tutorials });
         updateTutorials(get().uid, tutorials);
+      },
+      addDevice: (device) => {
+        let devices = [...get().devices, device];
+        // filter out devices with same pushToken
+        const pushTokens = new Set();
+        devices = devices.filter((device) => {
+          if (pushTokens.has(device.pushToken)) {
+            return false;
+          } else {
+            pushTokens.add(device.pushToken);
+            return true;
+          }
+        });
+
+        set({ devices: devices });
+        updateDevices(get().uid, devices);
       },
     }),
     {

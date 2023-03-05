@@ -65,26 +65,23 @@ const pushStudyTime = async (timer: timerType, user_id: string) => {
 };
 
 const updateTimer = async (timerStore: timerStoreType, user_id: string) => {
-  const timer = timerStoreTypeToTimerType(timerStore);
-
-  console.log(timer);
+  const timer = {
+    ...timerStoreTypeToTimerType(timerStore),
+    timerDuration: timerStore.timerDuration,
+  };
 
   // if user_id does not exist in timers collection, create a new document with user_id as id
   // if user_id exists, update the document with user_id with the new timer
-  const docRef = await setDoc(doc(db, "timers", user_id), {
+  await setDoc(doc(db, "timers", user_id), {
     ...timer,
   });
-  console.log("Document written with ID: ", docRef);
 };
 
 const getTimer = async (user_id: string) => {
   // Get the document with user_id, if it exists otherwise return a dummy timer
   const docRef = doc(db, "timers", user_id);
   const docSnap = await getDoc(docRef);
-  console.log("Document written with ID: ", docRef);
-  console.log(docSnap);
   if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
     const data = docSnap.data();
     data.startTime = data.startTime.toDate();
 
@@ -135,9 +132,9 @@ const useTimerStore = create<timerStoreType>()(
             const endState = {
               ...state,
               active: false,
-              duration: duration,
             };
             pushStudyTime(timerStoreTypeToTimerType(endState), get().user_id);
+            updateTimer(endState, get().user_id);
             return endState;
           }),
         resetTimer: () =>
@@ -148,7 +145,6 @@ const useTimerStore = create<timerStoreType>()(
           })),
         syncTimer: async (user_id: string) => {
           const timer = await getTimer(user_id);
-          console.log(timer);
           set(() => ({
             ...timer,
             user_id: user_id,

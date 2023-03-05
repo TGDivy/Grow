@@ -9,8 +9,14 @@ export interface customBoolHabitType {
   daysOfWeek: string;
 }
 
+export interface deviceType {
+  device: string;
+  pushToken: string;
+}
+
 export interface userType {
   created: Date;
+  lastLogin: Date;
   uid: string;
   email: string;
   displayName: string;
@@ -23,6 +29,8 @@ export interface userType {
   customBoolHabits: Array<customBoolHabitType>;
 
   tutorials: Array<string>;
+
+  devices: deviceType[];
 }
 
 export type tagsType = Array<string>;

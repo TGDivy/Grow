@@ -109,7 +109,7 @@ const Timer = () => {
       // only change in intervals of 5 minutes
       percent = Math.round(percent * 24) / 24;
       // minimum of 10 minutes
-      percent = Math.max(percent, 600 / 7200);
+      percent = Math.max(percent, 60 / 7200);
       // Don't allow the timer to jump more than 30 minutes at a time
       if (Math.abs(percent * MAX_STOPWATCH_DURATION - timerDuration) > 5400) {
         return;

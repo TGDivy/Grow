@@ -16,10 +16,10 @@ export const onUpdateTimer = functions
     // const previousData = change.before.data();
     const userId = context.params.userId;
 
-    const { active, duration, startTime } = data;
+    const { active, timerDuration, startTime } = data;
 
     if (active) {
-      const expiresAtSeconds = startTime.seconds + duration;
+      const expiresAtSeconds = startTime.seconds + timerDuration;
 
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const project = JSON.parse(process.env.FIREBASE_CONFIG!).projectId;
@@ -106,17 +106,18 @@ export const timerNotification = functions
           token: token,
           notification: {
             title: "Timer Completed",
-            body: "Congratulations, you have completed your timer",
+            body: "Well done!",
+            imageUrl: "https://img.icons8.com/emoji/256/partying-face.png",
           },
           webpush: {
             headers: {
               Urgency: "high",
             },
             notification: {
-              title: "Timer Completed",
-              body: "Well done!",
-              // requireInteraction: true,
               badge: "https://img.icons8.com/emoji/256/partying-face.png",
+              fcmOptions: {
+                link: "https://grow.divyb.xyz/Seed",
+              },
             },
           },
         },

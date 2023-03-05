@@ -59,7 +59,7 @@ export const getOrRegisterServiceWorker = () => {
   throw new Error("The browser doesn`t support service worker.");
 };
 
-export const getFirebaseToken = () =>
+export const getFirebaseToken = (updateToken: (token: string) => void) =>
   getOrRegisterServiceWorker()
     .then((serviceWorkerRegistration) =>
       getToken(messaging, {
@@ -71,6 +71,7 @@ export const getFirebaseToken = () =>
       if (currentToken) {
         // Send the token to your server and update the UI if necessary
         // ...
+        updateToken(currentToken);
         console.log(currentToken);
       } else {
         // Show permission request UI
