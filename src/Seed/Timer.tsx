@@ -81,7 +81,7 @@ const Timer = () => {
     event: React.TouchEvent | React.MouseEvent,
     bypass = false
   ) => {
-    event.preventDefault();
+    // event.preventDefault();
     if (timerMode === "timer" && (mouseDown || bypass) && !active) {
       let x = 0,
         y = 0;

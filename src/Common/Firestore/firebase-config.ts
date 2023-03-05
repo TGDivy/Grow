@@ -72,7 +72,7 @@ export const getFirebaseToken = (updateToken: (token: string) => void) =>
         // Send the token to your server and update the UI if necessary
         // ...
         updateToken(currentToken);
-        console.log(currentToken);
+        // console.log(currentToken);
       } else {
         // Show permission request UI
         console.log(

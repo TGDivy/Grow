@@ -65,8 +65,6 @@ const WorkStatBar: FC<Props> = ({
     };
   });
 
-  console.log("combinedData", combinedData);
-
   const CustomTooltip = CustomTooltipWrapper(period);
 
   return (

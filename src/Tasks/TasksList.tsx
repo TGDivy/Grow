@@ -89,47 +89,49 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
   // Filter chips for tags. Transition the chips using Collapse component, when chip is selected, hide other chips. When chip is deselected, show all chips.
   const filterChips = (
     <TransitionGroup>
-      <Stack
-        direction="row"
-        spacing={1}
-        sx={{
-          // allow overflow to scroll
-          overflowX: "auto",
-        }}
-      >
-        {filter && (
-          <Collapse in={true} orientation="horizontal" timeout={200}>
-            <Chip
-              label={filter}
-              onDelete={handleDeleteTag}
-              sx={{
-                backgroundColor: "surfaceVariant.main",
-                color: "surfaceVariant.contrastText",
-              }}
-            />
-          </Collapse>
-        )}
+      <>
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{
+            // allow overflow to scroll
+            overflowX: "auto",
+          }}
+        >
+          {filter && (
+            <Collapse orientation="horizontal" timeout={200}>
+              <Chip
+                label={filter}
+                onDelete={handleDeleteTag}
+                sx={{
+                  backgroundColor: "surfaceVariant.main",
+                  color: "surfaceVariant.contrastText",
+                }}
+              />
+            </Collapse>
+          )}
 
-        {possibleTags.map((tag, index) => (
-          <Collapse
-            key={tag}
-            in={filter ? false : true}
-            orientation="horizontal"
-            collapsedSize={0}
-            timeout={index * 200}
-          >
-            <Chip
-              label={tag}
-              sx={{
-                backgroundColor: "surfaceVariant.main",
-                color: "surfaceVariant.contrastText",
-                // width: "70px",
-              }}
-              onClick={() => handleAddTag(tag)}
-            />
-          </Collapse>
-        ))}
-      </Stack>
+          {possibleTags.map((tag, index) => (
+            <Collapse
+              key={tag}
+              in={filter ? false : true}
+              orientation="horizontal"
+              collapsedSize={0}
+              timeout={index * 200}
+            >
+              <Chip
+                label={tag}
+                sx={{
+                  backgroundColor: "surfaceVariant.main",
+                  color: "surfaceVariant.contrastText",
+                  // width: "70px",
+                }}
+                onClick={() => handleAddTag(tag)}
+              />
+            </Collapse>
+          ))}
+        </Stack>
+      </>
     </TransitionGroup>
   );
 
@@ -152,9 +154,11 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
           }}
         >
           <TransitionGroup>
-            <Grid container spacing={2}>
-              {displayTasks}
-            </Grid>
+            <>
+              <Grid container spacing={2}>
+                {displayTasks}
+              </Grid>
+            </>
           </TransitionGroup>
         </Box>
       )}

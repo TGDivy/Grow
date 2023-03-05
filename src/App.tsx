@@ -52,8 +52,6 @@ const App = () => {
 
   const addDevice = useUserStore((state) => state.addDevice);
 
-  console.log("device", navigator.userAgent);
-
   const getPushToken = (pushToken: string) => {
     const device = {
       pushToken: pushToken,

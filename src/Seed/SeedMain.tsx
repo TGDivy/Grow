@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Box, Container, Grid, Stack } from "@mui/material";
+import { Box, Container, Fade, Grid, Grow, Stack } from "@mui/material";
 import Timer from "./Timer";
 import TimerTask from "./AddTask";
 import AddTags from "./AddTags";
@@ -12,20 +12,33 @@ import StyledCard from "../Common/ReusableComponents/StyledCard";
 const SeedMain = () => {
   const StickerAndTags = () => {
     return (
-      <StyledCard
-        sx={{
-          p: 2,
+      <Fade
+        in={true}
+        {...{ timeout: 1000 }}
+        style={{
+          transitionDelay: `${2500}ms`,
         }}
       >
-        <Grid container spacing={2} alignItems="center" justifyContent="center">
-          <Grid item xs={8}>
-            <AddTags />
+        <StyledCard
+          sx={{
+            p: 2,
+          }}
+        >
+          <Grid
+            container
+            spacing={2}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Grid item xs={8}>
+              <AddTags />
+            </Grid>
+            <Grid item xs={4}>
+              <AddSticker />
+            </Grid>
           </Grid>
-          <Grid item xs={4}>
-            <AddSticker />
-          </Grid>
-        </Grid>
-      </StyledCard>
+        </StyledCard>
+      </Fade>
     );
   };
 
@@ -33,26 +46,54 @@ const SeedMain = () => {
     return (
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <ZenQuote />
+          <Fade
+            in={true}
+            {...{ timeout: 1000 }}
+            style={{
+              transitionDelay: `${500}ms`,
+            }}
+          >
+            <div>
+              <ZenQuote />
+            </div>
+          </Fade>
         </Grid>
         <Grid item xs={12} md={6} sx={{ height: "100%" }}>
           <Stack spacing={2}>
-            <Timer />
+            <Fade
+              in={true}
+              {...{ timeout: 1000 }}
+              style={{
+                transitionDelay: `${1000}ms`,
+              }}
+            >
+              <div>
+                <Timer />
+              </div>
+            </Fade>
             <StickerAndTags />
           </Stack>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Box
-            sx={{
-              height: "100%",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              gap: "1rem",
+          <Fade
+            in={true}
+            {...{ timeout: 1000 }}
+            style={{
+              transitionDelay: `${1750}ms`,
             }}
           >
-            <TimerTask />
-          </Box>
+            <Box
+              sx={{
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                gap: "1rem",
+              }}
+            >
+              <TimerTask />
+            </Box>
+          </Fade>
         </Grid>
       </Grid>
     );
