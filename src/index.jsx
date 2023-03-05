@@ -6,6 +6,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { TourProvider } from "@reactour/tour";
 import { closeBtn } from "./steps";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import { getFirebaseToken } from "./Common/Firestore/firebase-config";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -17,4 +18,5 @@ root.render(
   </Router>
 );
 
-serviceWorkerRegistration.register();
+serviceWorkerRegistration.unregister();
+getFirebaseToken();
