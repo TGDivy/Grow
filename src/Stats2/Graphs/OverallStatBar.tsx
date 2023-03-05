@@ -152,7 +152,6 @@ const OverallStatBar: FC<Props> = ({
   const props = {
     stroke: "#000000",
     strokeWidth: 1,
-    barSize: 20,
     stackId: "aa",
   };
 

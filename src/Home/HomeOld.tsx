@@ -220,7 +220,7 @@ const Home = () => {
           alignItems="center"
           justifyContent="center"
         >
-          <Grid item xs={12} md={8} sx={{ pb: 0, mb: 0 }}>
+          <Grid item xs={12} md={9} sx={{ pb: 0, mb: 0 }}>
             <TodaysBrief />
           </Grid>
 
@@ -235,8 +235,7 @@ const Home = () => {
               <Box
                 sx={{
                   pt: 0,
-                  p: 2,
-                  mb: 2,
+                  p: { xs: 0, md: 2 },
                   backgroundColor: {
                     xs: "surfaceVariant.main",
                     sm: "surfaceVariant.main",
@@ -252,19 +251,20 @@ const Home = () => {
             </Fade>
           </Grid>
 
-          <Grid item xs={12} md={8} sx={{ pt: 0, mt: 0 }}></Grid>
+          <Grid item xs={12} md={12} sx={{ pt: 0, mt: 0 }}>
+            <Fade
+              in={true}
+              style={{
+                transitionDelay: `${transitionDelays.schedule}ms`,
+              }}
+              {...{ timeout: 1000 }}
+            >
+              <div>
+                <Events />
+              </div>
+            </Fade>
+          </Grid>
         </Grid>
-        <Fade
-          in={true}
-          style={{
-            transitionDelay: `${transitionDelays.schedule}ms`,
-          }}
-          {...{ timeout: 1000 }}
-        >
-          <div>
-            <Events />
-          </div>
-        </Fade>
       </Container>
     </>
   );

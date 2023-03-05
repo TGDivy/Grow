@@ -82,10 +82,10 @@ const Overall = () => {
       <Grid item xs={5} flexGrow={2}>
         <StyledButton
           variant="contained"
-          startIcon={<TrendingUp />}
-          onClick={() => navigate("/Statistics")}
+          // startIcon={<TrendingUp />}
+          onClick={onClickCyclePeriod}
         >
-          Statistics
+          {period}
         </StyledButton>
       </Grid>
 
