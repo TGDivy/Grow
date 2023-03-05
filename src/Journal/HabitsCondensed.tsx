@@ -207,11 +207,13 @@ const HabitsCondensed = () => {
   return (
     <StyledCard
       sx={{
-        height: "310px",
-        overflow: "scroll",
+        // height: "310px",
+        ":hover": {
+          boxShadow: 0,
+        },
       }}
     >
-      <CardHeader title={titleButton} align="center" />
+      <CardHeader align="center" />
       <List dense>
         <ListItem
           secondaryAction={

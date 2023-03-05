@@ -133,13 +133,15 @@ const CondensedTaskList = () => {
   return (
     <StyledCard
       sx={{
-        height: "310px",
-        overflow: "scroll",
+        // height: "310px",
         display: "flex",
         flexDirection: "column",
+        ":hover": {
+          boxShadow: 0,
+        },
       }}
     >
-      <CardHeader title={titleButton} align="center" />
+      <CardHeader align="center" />
       <List dense>{taskList}</List>
       {notCompletedArray.length === 0 && (
         <>
