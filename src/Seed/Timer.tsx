@@ -17,6 +17,8 @@ import FinishTimer from "./FinishTimer";
 import { MAX_STOPWATCH_DURATION } from "../Common/constants";
 import StyledCard from "../Common/ReusableComponents/StyledCard";
 import { Title } from "@mui/icons-material";
+import { getFirebaseToken } from "../Common/Firestore/firebase-config";
+import useUserStore from "../Common/Stores/User";
 
 const timeElapsed = (startTime: Date) => {
   return Math.ceil((new Date().getTime() - startTime.getTime()) / 1000);

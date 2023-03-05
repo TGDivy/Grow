@@ -12,10 +12,30 @@ import useTimerStore from "../Common/Stores/TimerStore";
 import { MIN_STOPWATCH_DURATION } from "../Common/constants";
 import useTaskStore from "../Common/Stores/TaskStore";
 import Transition from "../Common/ReusableComponents/Transitions";
+import useUserStore from "../Common/Stores/User";
+import { getFirebaseToken } from "../Common/Firestore/firebase-config";
 
 type Props = {
   studyTime: number;
   color: string;
+};
+
+const requestPermission = (getPushToken: (pushToken: string) => void) => {
+  if (!("Notification" in window)) {
+    console.log("This browser does not support desktop notification");
+  } else if (Notification.permission === "granted") {
+    console.log("Notification permission granted");
+  } else if (Notification.permission !== "denied") {
+    console.log("Permission Denied, Requesting permission...");
+    Notification.requestPermission().then((permission) => {
+      if (permission === "granted") {
+        console.log("Notification permission granted.");
+        getFirebaseToken(getPushToken);
+      } else {
+        console.log("Unable to get permission to notify.");
+      }
+    });
+  }
 };
 
 const StopTimer: FC<Props> = ({ studyTime, color }) => {
@@ -29,6 +49,15 @@ const StopTimer: FC<Props> = ({ studyTime, color }) => {
   const taskKey = useTimerStore((state) => state.taskKey);
 
   const sufficientTime = studyTime > MIN_STOPWATCH_DURATION;
+
+  const addDevice = useUserStore((state) => state.addDevice);
+  const getPushToken = (pushToken: string) => {
+    const device = {
+      pushToken: pushToken,
+      device: navigator.userAgent,
+    };
+    addDevice(device);
+  };
 
   const handleClose = (end: boolean) => () => {
     if (end) {
@@ -46,7 +75,10 @@ const StopTimer: FC<Props> = ({ studyTime, color }) => {
     if (active) {
       return (
         <Button
-          onClick={() => setOpen(true)}
+          onClick={() => {
+            setOpen(true);
+            requestPermission(getPushToken);
+          }}
           size="large"
           sx={{ color: color }}
         >

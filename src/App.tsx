@@ -22,8 +22,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import getTheme from "./Common/Styling/themes";
 import useThemeStore from "./Common/Stores/ThemeStore";
 import useTimerStore from "./Common/Stores/TimerStore";
-import { getFirebaseToken } from "./Common/Firestore/firebase-config";
-import useUserStore from "./Common/Stores/User";
 
 const App = () => {
   const { user } = useCurrentUser();
