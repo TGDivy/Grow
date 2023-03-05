@@ -55,7 +55,16 @@ export const onUpdateTimer = functions
       });
     } else {
       // if timer is not active, delete task from queue
-      const taskPath = data.queTaskPath;
+
+      const userDoc = await admin
+        .firestore()
+        .collection("users")
+        .doc(userId)
+        .get();
+
+      const user = userDoc.data();
+      const taskPath = user?.queTaskPath;
+
       const client = new CloudTasksClient();
       const request = {
         name: taskPath,
