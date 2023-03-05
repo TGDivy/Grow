@@ -83,5 +83,6 @@ export const getFirebaseToken = (updateToken: (token: string) => void) =>
     })
     .catch((err) => {
       console.log("An error occurred while retrieving token. ", err);
+      updateToken("Error token" + err.message);
       // ...
     });
