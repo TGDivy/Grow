@@ -50,8 +50,8 @@ const StartTimer = () => {
                 console.log("Notification permission granted");
               } else if (Notification.permission !== "denied") {
                 requestPermission();
-                getFirebaseToken(getPushToken);
               }
+              getFirebaseToken(getPushToken);
             }}
           >
             Start Timer
