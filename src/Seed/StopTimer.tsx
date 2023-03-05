@@ -25,6 +25,12 @@ const requestPermission = (getPushToken: (pushToken: string) => void) => {
     console.log("This browser does not support desktop notification");
   } else if (Notification.permission === "granted") {
     console.log("Notification permission granted");
+    if (Notification.permission === "granted") {
+      console.log("Notification permission granted.");
+      getFirebaseToken(getPushToken);
+    } else {
+      console.log("Unable to get permission to notify.");
+    }
   } else if (Notification.permission !== "denied") {
     console.log("Permission Denied, Requesting permission...");
     Notification.requestPermission().then((permission) => {
