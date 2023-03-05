@@ -14,4 +14,4 @@ root.render(
   </Router>
 );
 
-serviceWorkerRegistration.unregister();
+serviceWorkerRegistration.register();
