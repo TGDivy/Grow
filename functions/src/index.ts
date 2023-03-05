@@ -156,36 +156,6 @@ export const timerNotification = functions
     response.send("Notification sent");
   });
 
-// function to send notification to user whenever a new task is created in users/{userId}/plow/{taskId}
-export const sendNotification = functions
-  .region("europe-west1")
-  .firestore.document("users/{userId}/plow/{taskId}")
-  .onCreate(async (snap, context) => {
-    const token =
-      "dBsPEEH-SVSyMdyK7mAy0_:APA91bE-N3B2dpB9G0vQUtr57DRPSliA4lw0q_BfmoCJL3DI38D3nNCX7hBLDWM6HuZt5mVQXw6QKUy24KNNHVtUqUTABInM5Ujnb0r4OFpvPcTrud-_fZeLfB_2d3Ucqkk0oHELUfNO";
-
-    const snapData = snap.data();
-    console.log(snapData);
-    const data = {
-      message: {
-        token: token,
-        notification: {
-          title: "New Task",
-          body: `${snapData?.title}`,
-        },
-        data: {
-          Nick: "Mario",
-          Room: "PortugalVSDenmark",
-        },
-      },
-    };
-
-    const response = await admin.messaging().send(data.message);
-    console.log("Successfully sent message:", response);
-  });
-
-// function to send notification via http request, to set
-
 // data is organised as users/{userId}
 // delete all users/{userId} which don't have an email address every 30 days = 30*24 = 720 hours
 // also delete all users/{userId} that don't have a subcollection called plow or sow or journal
