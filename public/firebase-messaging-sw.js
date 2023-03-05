@@ -54,32 +54,32 @@ const messaging = firebase.messaging();
 // For more info see:
 // https://firebase.google.com/docs/cloud-messaging/concept-options
 
-let show = false;
+// let show = false;
 
-messaging.onBackgroundMessage(function (payload) {
-  console.log(
-    "[firebase-messaging-sw.js] Received background message ",
-    payload
-  );
-  // Customize notification here
-  const notificationTitle = payload.notification.title;
+// messaging.onBackgroundMessage(function (payload) {
+//   console.log(
+//     "[firebase-messaging-sw.js] Received background message ",
+//     payload
+//   );
+//   // Customize notification here
+//   const notificationTitle = payload.notification.title;
 
-  const body = payload.notification.body;
+//   const body = payload.notification.body;
 
-  show = body.includes("show");
+//   show = body.includes("show");
 
-  const notificationOptions = {
-    body: "Background Message: " + body,
-    icon: "/logo192.png",
-  };
+//   const notificationOptions = {
+//     body: "Background Message: " + body,
+//     icon: "/logo192.png",
+//   };
 
-  // time out the notification after 10 seconds. If after that the show value is true, then show the notification otherwise don't show it.
-  setTimeout(() => {
-    if (show) {
-      self.registration.showNotification(
-        notificationTitle,
-        notificationOptions
-      );
-    }
-  }, 10000);
-});
+//   // time out the notification after 10 seconds. If after that the show value is true, then show the notification otherwise don't show it.
+//   setTimeout(() => {
+//     if (show) {
+//       self.registration.showNotification(
+//         notificationTitle,
+//         notificationOptions
+//       );
+//     }
+//   }, 10000);
+// });
