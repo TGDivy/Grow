@@ -39,16 +39,6 @@ const App = () => {
   const fetchTasks = useTaskStore((state) => state.fetchNewDocs);
   const fetchTimer = useTimerStore((state) => state.syncTimer);
 
-  const addDevice = useUserStore((state) => state.addDevice);
-
-  const getPushToken = (pushToken: string) => {
-    const device = {
-      pushToken: pushToken,
-      device: navigator.userAgent,
-    };
-    addDevice(device);
-  };
-
   React.useEffect(() => {
     if (location.pathname !== "/") {
       setInitialPath(location.pathname);
@@ -67,7 +57,6 @@ const App = () => {
       fetchTimerRecords();
       fetchJournalEntries();
       fetchTimer(user?.uid);
-      getFirebaseToken(getPushToken);
     }
   }, [user]);
 

@@ -2,7 +2,8 @@ import React from "react";
 
 import useTimerStore from "../Common/Stores/TimerStore";
 import { Button, Container, Grid } from "@mui/material";
-import useCurrentUser from "../Common/Contexts/UserContext";
+import useUserStore from "../Common/Stores/User";
+import { getFirebaseToken } from "../Common/Firestore/firebase-config";
 
 function requestPermission() {
   console.log("Requesting permission...");
@@ -17,6 +18,15 @@ function requestPermission() {
 
 const StartTimer = () => {
   const startTimer = useTimerStore((state) => state.startTimer);
+  const addDevice = useUserStore((state) => state.addDevice);
+
+  const getPushToken = (pushToken: string) => {
+    const device = {
+      pushToken: pushToken,
+      device: navigator.userAgent,
+    };
+    addDevice(device);
+  };
 
   return (
     <Container>
@@ -40,6 +50,7 @@ const StartTimer = () => {
                 console.log("Notification permission granted");
               } else if (Notification.permission !== "denied") {
                 requestPermission();
+                getFirebaseToken(getPushToken);
               }
             }}
           >
