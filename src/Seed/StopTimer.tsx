@@ -60,7 +60,7 @@ const StopTimer: FC<Props> = ({ studyTime, color }) => {
   const getPushToken = (pushToken: string) => {
     const device = {
       pushToken: pushToken,
-      device: navigator.userAgent,
+      device: navigator?.userAgent || "Unknown",
     };
     addDevice(device);
   };
