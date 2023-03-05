@@ -10,13 +10,14 @@ import {
   doc,
   increment,
   addDoc,
+  getDoc,
 } from "firebase/firestore";
 import { db } from "../Firestore/firebase-config";
 import { MAX_STOPWATCH_DURATION } from "../constants";
 
 interface timerStoreType extends timerType {
   startTimer: () => void;
-  stopTimer: (user_id: string, duration: number) => void;
+  stopTimer: (duration: number) => void;
   addTask: (id: string) => void;
   deleteTask: () => void;
   addTag: (tag: string) => void;
@@ -25,9 +26,11 @@ interface timerStoreType extends timerType {
   resetTimer: () => void;
   timerMode: "stopwatch" | "timer";
   timerDuration: number;
+  user_id: string;
   setTimerMode: (mode: "stopwatch" | "timer") => void;
   setTimerDuration: (duration: number) => void;
   setSticker: (sticker: string) => void;
+  syncTimer: (user_id: string) => void;
 }
 
 const timerStoreTypeToTimerType = (
@@ -47,6 +50,8 @@ const timerStoreTypeToTimerType = (
     timerDuration,
     setTimerDuration,
     setSticker,
+    syncTimer,
+    user_id,
     ...timerType
   } = timerStoreType;
   return timerType;
@@ -59,10 +64,51 @@ const pushStudyTime = async (timer: timerType, user_id: string) => {
   console.log("Document written with ID: ", docRef);
 };
 
+const updateTimer = async (timerStore: timerStoreType, user_id: string) => {
+  const timer = timerStoreTypeToTimerType(timerStore);
+
+  console.log(timer);
+
+  // if user_id does not exist in timers collection, create a new document with user_id as id
+  // if user_id exists, update the document with user_id with the new timer
+  const docRef = await setDoc(doc(db, "timers", user_id), {
+    ...timer,
+  });
+  console.log("Document written with ID: ", docRef);
+};
+
+const getTimer = async (user_id: string) => {
+  // Get the document with user_id, if it exists otherwise return a dummy timer
+  const docRef = doc(db, "timers", user_id);
+  const docSnap = await getDoc(docRef);
+  console.log("Document written with ID: ", docRef);
+  console.log(docSnap);
+  if (docSnap.exists()) {
+    console.log("Document data:", docSnap.data());
+    const data = docSnap.data();
+    data.startTime = data.startTime.toDate();
+
+    return data;
+  } else {
+    // doc.data() will be undefined in this case
+    console.log("No such document!");
+    return {
+      active: false,
+      startTime: new Date(),
+      duration: 0,
+      taskKey: "",
+      tags: [],
+      timerMode: "timer",
+      timerDuration: MAX_STOPWATCH_DURATION / 3,
+      sticker: "",
+    };
+  }
+};
+
 const useTimerStore = create<timerStoreType>()(
   devtools(
     persist(
-      (set) => ({
+      (set, get) => ({
         active: false,
         startTime: new Date(),
         duration: 0,
@@ -71,16 +117,27 @@ const useTimerStore = create<timerStoreType>()(
         timerMode: "timer",
         timerDuration: MAX_STOPWATCH_DURATION / 3,
         sticker: "",
+        user_id: "",
 
-        startTimer: () => set(() => ({ active: true, startTime: new Date() })),
-        stopTimer: (user_id: string, duration: number) =>
+        startTimer: () =>
+          set((state) => {
+            const startState = {
+              ...state,
+              active: true,
+              startTime: new Date(),
+            };
+            updateTimer(startState, get().user_id);
+            return startState;
+          }),
+
+        stopTimer: (duration: number) =>
           set((state) => {
             const endState = {
               ...state,
               active: false,
               duration: duration,
             };
-            pushStudyTime(timerStoreTypeToTimerType(endState), user_id);
+            pushStudyTime(timerStoreTypeToTimerType(endState), get().user_id);
             return endState;
           }),
         resetTimer: () =>
@@ -89,15 +146,37 @@ const useTimerStore = create<timerStoreType>()(
             startTime: new Date(),
             duration: 0,
           })),
-        addTask: (id: string) => set((state) => ({ taskKey: id })),
-        deleteTask: () => set((state) => ({ taskKey: "" })),
-        addTag: (tag: string) =>
-          set((state) => ({ tags: [...state.tags, tag] })),
-        deleteTag: (tag: string) =>
-          set((state) => ({ tags: state.tags.filter((item) => item !== tag) })),
-        setTags: (tags: Array<string>) => set(() => ({ tags: tags })),
-        setTimerMode: (mode: "stopwatch" | "timer") =>
-          set(() => ({ timerMode: mode })),
+        syncTimer: async (user_id: string) => {
+          const timer = await getTimer(user_id);
+          console.log(timer);
+          set(() => ({
+            ...timer,
+            user_id: user_id,
+          }));
+        },
+        addTask: (id: string) => {
+          set((state) => ({ taskKey: id }));
+          updateTimer(get(), get().user_id);
+        },
+        deleteTask: () => {
+          set((state) => ({ taskKey: "" }));
+          updateTimer(get(), get().user_id);
+        },
+        addTag: (tag: string) => {
+          set((state) => ({ tags: [...state.tags, tag] }));
+          // updateTimer(get(), get().user_id);
+        },
+        deleteTag: (tag: string) => {
+          set((state) => ({ tags: state.tags.filter((item) => item !== tag) }));
+          // updateTimer(get(), get().user_id);
+        },
+        setTags: (tags: Array<string>) => {
+          set(() => ({ tags: tags }));
+          // updateTimer(get(), get().user_id);
+        },
+        setTimerMode: (mode: "stopwatch" | "timer") => {
+          set(() => ({ timerMode: mode }));
+        },
         setTimerDuration: (duration: number) =>
           set(() => ({ timerDuration: duration })),
         setSticker: (sticker: string) => set(() => ({ sticker: sticker })),

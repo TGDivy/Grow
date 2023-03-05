@@ -9,7 +9,6 @@ import {
   Button,
 } from "@mui/material";
 import useTimerStore from "../Common/Stores/TimerStore";
-import useCurrentUser from "../Common/Contexts/UserContext";
 import { MIN_STOPWATCH_DURATION } from "../Common/constants";
 import useTaskStore from "../Common/Stores/TaskStore";
 import Transition from "../Common/ReusableComponents/Transitions";
@@ -25,7 +24,6 @@ const StopTimer: FC<Props> = ({ studyTime, color }) => {
   const startTimer = useTimerStore((state) => state.startTimer);
   const stopTimer = useTimerStore((state) => state.stopTimer);
   const resetTimer = useTimerStore((state) => state.resetTimer);
-  const { user } = useCurrentUser();
 
   const updateTimeSpent = useTaskStore((state) => state.updateTimeSpent);
   const taskKey = useTimerStore((state) => state.taskKey);
@@ -35,9 +33,7 @@ const StopTimer: FC<Props> = ({ studyTime, color }) => {
   const handleClose = (end: boolean) => () => {
     if (end) {
       if (sufficientTime) {
-        if (user) {
-          stopTimer(user.uid, studyTime);
-        }
+        stopTimer(studyTime);
         updateTimeSpent(taskKey, studyTime);
       } else {
         resetTimer();
@@ -59,7 +55,7 @@ const StopTimer: FC<Props> = ({ studyTime, color }) => {
       );
     }
     return (
-      <Button onClick={startTimer} size="large" sx={{ color: color }}>
+      <Button onClick={() => startTimer()} size="large" sx={{ color: color }}>
         <PlayArrow fontSize="large" />
       </Button>
     );

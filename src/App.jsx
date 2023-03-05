@@ -24,6 +24,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import getTheme from "./Common/Styling/themes";
 import useThemeStore from "./Common/Stores/ThemeStore";
+import useTimerStore from "./Common/Stores/TimerStore";
 
 function requestPermission() {
   console.log("Requesting permission...");
@@ -48,6 +49,7 @@ const App = () => {
   const fetchJournalEntries = useJournalStore((state) => state.fetchDocuments);
   const fetchActivities = useActivityStore((state) => state.fetchActivities);
   const fetchTasks = useTaskStore((state) => state.fetchNewDocs);
+  const fetchTimer = useTimerStore((state) => state.syncTimer);
 
   React.useEffect(() => {
     if (location.pathname !== "/") {
@@ -68,11 +70,12 @@ const App = () => {
   }, []);
 
   React.useEffect(() => {
-    if (user) {
+    if (user?.uid) {
       fetchActivities();
       fetchWorkouts();
       fetchTimerRecords();
       fetchJournalEntries();
+      fetchTimer(user?.uid);
     }
   }, [user]);
 

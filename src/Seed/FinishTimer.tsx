@@ -9,7 +9,6 @@ import {
   DialogContent,
 } from "@mui/material";
 import useTimerStore from "../Common/Stores/TimerStore";
-import useCurrentUser from "../Common/Contexts/UserContext";
 import Confetti from "react-confetti";
 import useWindowSize from "../Common/useWindowSize";
 import useTaskStore from "../Common/Stores/TaskStore";
@@ -26,15 +25,11 @@ const FinishTimer = ({ studyTime, maxDuration }: Props) => {
   const updateTimeSpent = useTaskStore((state) => state.updateTimeSpent);
   const taskKey = useTimerStore((state) => state.taskKey);
 
-  const { user } = useCurrentUser();
-
   const sufficientTime = studyTime >= maxDuration;
 
   const handleClose = () => {
     setOpen(false);
-    if (user) {
-      stopTimer(user.uid, studyTime);
-    }
+    stopTimer(studyTime);
     updateTimeSpent(taskKey, studyTime);
   };
 

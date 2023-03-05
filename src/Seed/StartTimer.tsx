@@ -2,6 +2,7 @@ import React from "react";
 
 import useTimerStore from "../Common/Stores/TimerStore";
 import { Button, Container, Grid } from "@mui/material";
+import useCurrentUser from "../Common/Contexts/UserContext";
 
 const StartTimer = () => {
   const startTimer = useTimerStore((state) => state.startTimer);
