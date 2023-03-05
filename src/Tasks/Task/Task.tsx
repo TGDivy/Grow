@@ -2,7 +2,6 @@ import { Delete, Edit, ExpandLess, Save } from "@mui/icons-material";
 import {
   Box,
   Button,
-  Card,
   CardActions,
   CardContent,
   CardHeader,
@@ -24,7 +23,6 @@ import { subtaskType, taskType } from "../../Common/Types/Types";
 
 import useTaskStore from "../../Common/Stores/TaskStore";
 import Sticker from "./Sticker";
-import { useTour } from "@reactour/tour";
 import DueDate from "./DueDate";
 import CreateEvent from "./CreateEvent";
 import StyledCard from "../../Common/ReusableComponents/StyledCard";
@@ -54,7 +52,6 @@ const Task: FC<taskFC> = (props) => {
   const [sticker_, setSticker] = useState(props.sticker);
   const [completed_, setCompleted] = useState(props.completed);
   const [dueDate_, setDueDate] = useState<Date | null>(props.dueDate);
-  const { setIsOpen, isOpen } = useTour();
   const handleEdit = () => {
     setEditing(true);
     setExpanded(true);
@@ -63,7 +60,6 @@ const Task: FC<taskFC> = (props) => {
   const handleSave = () => {
     console.log("Saving...");
     if (props.createNewTask) {
-      if (isOpen) setIsOpen(false);
       addTask(
         {
           taskListName: props.taskListName,
@@ -180,7 +176,6 @@ const Task: FC<taskFC> = (props) => {
             boxShadow: props.hoverShadow === false ? 0 : 20,
           },
         }}
-        className="tut-task-card"
       >
         <CardHeader
           title={

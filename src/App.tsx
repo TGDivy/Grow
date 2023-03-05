@@ -7,12 +7,9 @@ import SeedMain from "./Seed/SeedMain";
 import StatsMain from "./Stats2/StatsMain";
 import TasksMain from "./Tasks/TasksMain";
 import SettingMain from "./Setting/SettingMain";
-import { TourProvider } from "@reactour/tour";
-import { closeBtn } from "./steps";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import JournalMain from "./Journal/JournalMain";
 import AnonToLogin from "./Login/AnonToLogin";
-import AnonymousUser from "./Login/AnonymousUser";
 
 import useActivityStore from "./Common/Stores/ActivityStore";
 import useJournalStore from "./Common/Stores/JournalStore";

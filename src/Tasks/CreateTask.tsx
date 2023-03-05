@@ -2,10 +2,8 @@ import React, { FC, useState } from "react";
 import Task from "./Task/Task";
 import { taskType } from "../Common/Types/Types";
 import { v4 as uuid_v4 } from "uuid";
-import { Dialog, Button } from "@mui/material";
+import { Dialog } from "@mui/material";
 import { Add } from "@mui/icons-material";
-import { useTour } from "@reactour/tour";
-import { createTaskSteps } from "../steps";
 import StyledButton from "../Common/ReusableComponents/StyledButton";
 
 interface createTaskFc {
@@ -39,24 +37,11 @@ const CreateTask: FC<createTaskFc> = ({
     dueDate: null,
   };
 
-  const { setIsOpen, isOpen, setSteps, setCurrentStep } = useTour();
-
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
-    if (isOpen) {
-      setSteps(createTaskSteps);
-      setCurrentStep(0);
-      setIsOpen(true);
-    }
   };
-
-  // useEffect(() => {
-  //   if (steps === createTaskSteps.length - 1 && showPrevNextButtons !) {
-  //     showPrevNextButtons(false);
-  //   }
-  // }, [isOpen, steps]);
 
   const handleClose = () => {
     setOpen(false);
@@ -76,7 +61,6 @@ const CreateTask: FC<createTaskFc> = ({
       </StyledButton>
       <Dialog
         open={open}
-        // TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}
         PaperProps={{
@@ -87,15 +71,13 @@ const CreateTask: FC<createTaskFc> = ({
         }}
         fullWidth
       >
-        <span className="tut-task-overview">
-          <Task
-            {...createTask}
-            id={id || uuid_v4()}
-            createNewTask
-            alwaysExpanded
-            handleCreateNewTask={handleClose}
-          />
-        </span>
+        <Task
+          {...createTask}
+          id={id || uuid_v4()}
+          createNewTask
+          alwaysExpanded
+          handleCreateNewTask={handleClose}
+        />
       </Dialog>
     </>
   );
