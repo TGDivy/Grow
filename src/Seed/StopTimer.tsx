@@ -87,7 +87,14 @@ const StopTimer: FC<Props> = ({ studyTime, color }) => {
       );
     }
     return (
-      <Button onClick={() => startTimer()} size="large" sx={{ color: color }}>
+      <Button
+        onClick={() => {
+          startTimer();
+          requestPermission(getPushToken);
+        }}
+        size="large"
+        sx={{ color: color }}
+      >
         <PlayArrow fontSize="large" />
       </Button>
     );
