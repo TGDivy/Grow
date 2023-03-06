@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import create from "zustand";
-import { devtools, persist } from "zustand/middleware";
+import { devtools, persist, subscribeWithSelector } from "zustand/middleware";
 import { timerType } from "../Types/Types";
 
 import {
@@ -104,106 +104,129 @@ const getTimer = async (user_id: string) => {
 
 const useTimerStore = create<timerStoreType>()(
   devtools(
-    persist(
-      (set, get) => ({
-        active: false,
-        startTime: new Date(),
-        duration: 0,
-        taskKey: "",
-        tags: [],
-        timerMode: "timer",
-        timerDuration: MAX_STOPWATCH_DURATION / 3,
-        sticker: "",
-        user_id: "",
+    subscribeWithSelector((set, get) => ({
+      active: false,
+      startTime: new Date(),
+      duration: 0,
+      taskKey: "",
+      tags: [],
+      timerMode: "timer",
+      timerDuration: MAX_STOPWATCH_DURATION / 3,
+      sticker: "",
+      user_id: "",
 
-        startTimer: () =>
-          set((state) => {
-            const startState = {
-              ...state,
-              active: true,
-              startTime: new Date(),
-            };
-            updateTimer(startState, get().user_id);
-            return startState;
-          }),
+      startTimer: () =>
+        set((state) => {
+          const startState = {
+            ...state,
+            active: true,
+            startTime: new Date(),
+          };
+          updateTimer(startState, get().user_id);
+          return startState;
+        }),
 
-        stopTimer: (dur: number) =>
-          set((state) => {
-            const endState = {
-              ...state,
-              active: false,
-              duration: dur,
-            };
-            if (dur === 0) {
-              let duration =
-                (new Date().getTime() - state.startTime.getTime()) / 1000;
-              duration = Math.min(duration, state.timerDuration);
-              endState.duration = duration;
-            }
-            pushStudyTime(timerStoreTypeToTimerType(endState), get().user_id);
-            updateTimer(endState, get().user_id);
-            return endState;
-          }),
-        resetTimer: () =>
-          set((state) => {
-            const resetState = {
-              ...state,
-              active: false,
-              startTime: new Date(),
-              duration: 0,
-            };
-            updateTimer(resetState, get().user_id);
-            return resetState;
-          }),
-        syncTimer: async (user_id: string) => {
-          const timer = await getTimer(user_id);
-          set(() => ({
-            ...timer,
-            user_id: user_id,
-          }));
-        },
-        addTask: (id: string) => {
-          set((state) => ({ taskKey: id }));
-          updateTimer(get(), get().user_id);
-        },
-        deleteTask: () => {
-          set((state) => ({ taskKey: "" }));
-          updateTimer(get(), get().user_id);
-        },
-        addTag: (tag: string) => {
-          set((state) => ({ tags: [...state.tags, tag] }));
-          // updateTimer(get(), get().user_id);
-        },
-        deleteTag: (tag: string) => {
-          set((state) => ({ tags: state.tags.filter((item) => item !== tag) }));
-          // updateTimer(get(), get().user_id);
-        },
-        setTags: (tags: Array<string>) => {
-          set(() => ({ tags: tags }));
-          // updateTimer(get(), get().user_id);
-        },
-        setTimerMode: (mode: "stopwatch" | "timer") => {
-          set(() => ({ timerMode: mode }));
-        },
-        setTimerDuration: (duration: number) =>
-          set(() => ({ timerDuration: duration })),
-        setSticker: (sticker: string) => set(() => ({ sticker: sticker })),
-      }),
-      {
-        name: "timer-storage",
-
-        deserialize: (state) => {
-          const newState = JSON.parse(state);
-          newState.state.startTime = new Date(newState.state.startTime);
-          return newState;
-        },
-      }
-    ),
-
+      stopTimer: (dur: number) =>
+        set((state) => {
+          const endState = {
+            ...state,
+            active: false,
+            duration: dur,
+          };
+          if (dur === 0) {
+            let duration =
+              (new Date().getTime() - state.startTime.getTime()) / 1000;
+            duration = Math.min(duration, state.timerDuration);
+            endState.duration = duration;
+          }
+          pushStudyTime(timerStoreTypeToTimerType(endState), get().user_id);
+          updateTimer(endState, get().user_id);
+          return endState;
+        }),
+      resetTimer: () =>
+        set((state) => {
+          const resetState = {
+            ...state,
+            active: false,
+            startTime: new Date(),
+            duration: 0,
+          };
+          updateTimer(resetState, get().user_id);
+          return resetState;
+        }),
+      syncTimer: async (user_id: string) => {
+        const timer = await getTimer(user_id);
+        set(() => ({
+          ...timer,
+          user_id: user_id,
+        }));
+      },
+      addTask: (id: string) => {
+        set((state) => ({ taskKey: id }));
+        updateTimer(get(), get().user_id);
+      },
+      deleteTask: () => {
+        set((state) => ({ taskKey: "" }));
+        updateTimer(get(), get().user_id);
+      },
+      addTag: (tag: string) => {
+        set((state) => ({ tags: [...state.tags, tag] }));
+        // updateTimer(get(), get().user_id);
+      },
+      deleteTag: (tag: string) => {
+        set((state) => ({ tags: state.tags.filter((item) => item !== tag) }));
+        // updateTimer(get(), get().user_id);
+      },
+      setTags: (tags: Array<string>) => {
+        set(() => ({ tags: tags }));
+        // updateTimer(get(), get().user_id);
+      },
+      setTimerMode: (mode: "stopwatch" | "timer") => {
+        set(() => ({ timerMode: mode }));
+      },
+      setTimerDuration: (duration: number) =>
+        set(() => ({ timerDuration: duration })),
+      setSticker: (sticker: string) => set(() => ({ sticker: sticker })),
+    })),
     {
       name: "timer-storage",
     }
   )
+);
+
+import { onSnapshot } from "firebase/firestore";
+
+const user_ids: string[] = [];
+let unsub: () => void = () => {
+  return;
+};
+// console.log("subscribing to user_id");
+const unsub_user_id = useTimerStore.subscribe(
+  (state) => state.user_id,
+  (user_id) => {
+    if (user_ids.includes(user_id)) {
+      return;
+    }
+    user_ids.push(user_id);
+    // console.log("setting active to true");
+    useTimerStore.setState({ active: true });
+    unsub();
+    if (user_id !== "") {
+      unsub = onSnapshot(doc(db, "timers", user_id), (doc) => {
+        const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
+        // console.log(source, " data: ", doc.data());
+        if (source === "Local") {
+          return;
+        }
+        const data = doc.data();
+        if (data === undefined) {
+          return;
+        }
+        data.startTime = data.startTime.toDate();
+        useTimerStore.setState(data);
+      });
+    }
+  }
 );
 
 export default useTimerStore;

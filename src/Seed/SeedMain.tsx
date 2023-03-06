@@ -6,7 +6,6 @@ import TimerTask from "./AddTask";
 import AddTags from "./AddTags";
 import AddSticker from "./AddSticker";
 import ZenQuote from "./ZenQuote";
-import PageTitle from "../Common/ReusableComponents/PageTitle";
 import StyledCard from "../Common/ReusableComponents/StyledCard";
 
 const SeedMain = () => {
