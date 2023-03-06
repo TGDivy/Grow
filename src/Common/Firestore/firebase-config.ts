@@ -5,6 +5,8 @@ import { getFirestore, enableIndexedDbPersistence } from "firebase/firestore";
 import { getAnalytics } from "firebase/analytics";
 import { getToken, onMessage } from "firebase/messaging";
 import { getMessaging } from "firebase/messaging/sw";
+import { getPerformance } from "firebase/performance";
+
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -18,6 +20,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export const analytics = getAnalytics(app);
+export const perf = getPerformance(app);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
 

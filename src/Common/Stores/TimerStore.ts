@@ -214,7 +214,6 @@ const unsub_user_id = useTimerStore.subscribe(
     if (user_id !== "") {
       unsub = onSnapshot(doc(db, "timers", user_id), (doc) => {
         const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
-        // console.log(source, " data: ", doc.data());
         if (source === "Local") {
           return;
         }
