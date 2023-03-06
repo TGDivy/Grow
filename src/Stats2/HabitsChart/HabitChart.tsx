@@ -29,8 +29,6 @@ const yearGrid = (yearGrid: (cellProps | null)[][], data: habitDate) => {
     }
   }
 
-  console.log("newYearGrid", newYearGrid);
-
   return newYearGrid;
 };
 

@@ -23,15 +23,6 @@ import getTheme from "./Common/Styling/themes";
 import useThemeStore from "./Common/Stores/ThemeStore";
 import useTimerStore from "./Common/Stores/TimerStore";
 
-// a button to notify right now
-const NotifyNow = () => {
-  const notify = () => {
-    const notification = new Notification("Hello there!");
-  };
-
-  return <button onClick={notify}>Notify me!</button>;
-};
-
 const App = () => {
   const { user } = useCurrentUser();
   const [initialPath, setInitialPath] = React.useState("/");
@@ -118,7 +109,6 @@ const App = () => {
     <ThemeProvider theme={getTheme(colors, mode)}>
       <CssBaseline />
       <div style={{ marginBottom: 80 }}>
-        <NotifyNow />
         <Routes>{routes()}</Routes>
       </div>
       <BottomNavigationBar />

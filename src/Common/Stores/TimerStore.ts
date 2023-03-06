@@ -127,12 +127,19 @@ const useTimerStore = create<timerStoreType>()(
             return startState;
           }),
 
-        stopTimer: (duration: number) =>
+        stopTimer: (dur: number) =>
           set((state) => {
             const endState = {
               ...state,
               active: false,
+              duration: dur,
             };
+            if (dur === 0) {
+              let duration =
+                (new Date().getTime() - state.startTime.getTime()) / 1000;
+              duration = Math.min(duration, state.timerDuration);
+              endState.duration = duration;
+            }
             pushStudyTime(timerStoreTypeToTimerType(endState), get().user_id);
             updateTimer(endState, get().user_id);
             return endState;

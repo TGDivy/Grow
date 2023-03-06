@@ -16,7 +16,7 @@ const SeedMain = () => {
         in={true}
         {...{ timeout: 1000 }}
         style={{
-          transitionDelay: `${2500}ms`,
+          transitionDelay: `${900}ms`,
         }}
       >
         <StyledCard
@@ -50,7 +50,7 @@ const SeedMain = () => {
             in={true}
             {...{ timeout: 1000 }}
             style={{
-              transitionDelay: `${500}ms`,
+              transitionDelay: `${250}ms`,
             }}
           >
             <div>
@@ -64,7 +64,7 @@ const SeedMain = () => {
               in={true}
               {...{ timeout: 1000 }}
               style={{
-                transitionDelay: `${1000}ms`,
+                transitionDelay: `${500}ms`,
               }}
             >
               <div>
@@ -79,7 +79,7 @@ const SeedMain = () => {
             in={true}
             {...{ timeout: 1000 }}
             style={{
-              transitionDelay: `${1750}ms`,
+              transitionDelay: `${1200}ms`,
             }}
           >
             <Box

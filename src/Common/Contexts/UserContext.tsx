@@ -32,7 +32,7 @@ export const CurrentUserProvider = ({ children }: any) => {
 
   onAuthStateChanged(auth, (user: any) => {
     if (user && !once) {
-      console.log("auth state changed", user);
+      // console.log("auth state changed", user);
       addUser(user).then((userData) => {
         setUser(userData as userType);
         setUserID(userData.uid);

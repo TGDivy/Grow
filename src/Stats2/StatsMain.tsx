@@ -61,6 +61,8 @@ const StatsMain = () => {
     period
   );
 
+  console.log(selectedTimerRecords);
+
   return (
     <>
       <Container>

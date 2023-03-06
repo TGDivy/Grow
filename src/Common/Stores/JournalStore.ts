@@ -42,7 +42,6 @@ const getLatestJournalRecords = async (
   const latestRecordTime = Object.values(documents).reduce((a, b) =>
     a.date > b.date ? a : b
   ).date;
-  console.log(latestRecordTime);
   const q = query(collectionRef, where("date", ">", latestRecordTime));
   const querySnapshot = await getDocs(q);
 
