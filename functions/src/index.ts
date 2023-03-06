@@ -115,15 +115,14 @@ export const timerNotification = functions
           token: token,
           notification: {
             title: "Timer Completed",
-            body: "Well done!",
-            imageUrl: "https://img.icons8.com/emoji/256/partying-face.png",
+            body: "Well Done!",
           },
           webpush: {
             headers: {
               Urgency: "high",
             },
             notification: {
-              badge: "https://img.icons8.com/emoji/256/partying-face.png",
+              icon: "https://firebasestorage.googleapis.com/v0/b/focus-2ad73.appspot.com/o/hourglass%20(1).png?alt=media&token=b15d92ea-3377-4b4a-b383-a39259fe3f5c",
               fcmOptions: {
                 link: "https://grow.divyb.xyz/Seed",
               },
