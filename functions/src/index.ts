@@ -122,7 +122,7 @@ export const timerNotification = functions
               Urgency: "high",
             },
             notification: {
-              icon: "https://firebasestorage.googleapis.com/v0/b/focus-2ad73.appspot.com/o/hourglass%20(1).png?alt=media&token=b15d92ea-3377-4b4a-b383-a39259fe3f5c",
+              // icon: "https://firebasestorage.googleapis.com/v0/b/focus-2ad73.appspot.com/o/hourglass%20(1).png?alt=media&token=b15d92ea-3377-4b4a-b383-a39259fe3f5c",
               fcmOptions: {
                 link: "https://grow.divyb.xyz/Seed",
               },

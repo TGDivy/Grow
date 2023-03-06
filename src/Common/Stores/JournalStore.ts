@@ -85,7 +85,6 @@ const useJournalStore = create<JournalStoreType>()(
                 console.log(`Fetch Journal Records => ${doc.id}`);
                 const document = doc.data();
                 console.log(document.date);
-                console.log(typeof document.date);
                 document.date = document.date.toDate();
                 addDocument(document as JournalType, true);
               });

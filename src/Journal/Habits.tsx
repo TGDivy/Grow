@@ -157,7 +157,6 @@ const Habits: FC<Props> = ({ readonly, document }) => {
     if (document) {
       meals = document.meals;
       today = document.date;
-      console.log("today", today);
     } else {
       const documents = useJournalStore((state) => state.documents);
       const latest = Object.values(documents).sort(
