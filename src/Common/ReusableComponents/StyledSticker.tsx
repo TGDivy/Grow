@@ -3,27 +3,28 @@ import { Chip } from "@mui/material";
 
 const StyledSticker = styled(Chip)(({ theme }) => ({
   padding: "15px 5px",
-  backgroundColor: theme.palette.tertiary.main,
-  color: theme.palette.tertiary.contrastText,
+  backgroundColor: theme.palette.tertiary.container,
+  color: theme.palette.tertiary.onContainer,
   borderRadius: 0,
+
   "& .MuiChip-label": {
-    fontWeight: 600,
     overflow: "hidden",
-    textOverflow: "ellipsis",
+    textOverflow: "clip",
     whiteSpace: "nowrap",
+    flexShrink: 1,
   },
   "& .MuiChip-icon": {
-    color: theme.palette.tertiary.contrastText,
+    color: theme.palette.tertiary.onContainer,
   },
   "& .MuiChip-deleteIcon": {
-    color: theme.palette.tertiary.contrastText,
+    color: theme.palette.tertiary.onContainer,
   },
 
   "&:hover": {
     backgroundColor:
       theme.palette.mode === "light"
-        ? lighten(theme.palette.tertiary.main as string, 0.2)
-        : darken(theme.palette.tertiary.main as string, 0.2),
+        ? lighten(theme.palette.tertiary.container as string, 0.2)
+        : darken(theme.palette.tertiary.container as string, 0.2),
   },
 }));
 

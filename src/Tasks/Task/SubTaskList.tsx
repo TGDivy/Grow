@@ -62,7 +62,6 @@ const SubTaskList: FC<SubTaskListProps> = ({
           paddingTop: 0,
           marginTop: 0,
         }}
-        className="tut-task-subtasks"
       >
         <TransitionGroup>
           {subTasks.map((subTask, index) => (
@@ -92,10 +91,11 @@ const SubTaskList: FC<SubTaskListProps> = ({
                 />
                 {editing ? (
                   <TextField
-                    id="small"
                     size="small"
                     variant="standard"
                     value={subTasks[index].title}
+                    multiline
+                    fullWidth
                     onChange={(event) => {
                       handleSubTaskChange(event, index);
                     }}
@@ -147,13 +147,14 @@ const SubTaskList: FC<SubTaskListProps> = ({
               sx={{ padding: "0px 5px 0px 5px" }}
             />
             <TextField
-              id="small"
               size="small"
               variant="standard"
               value={subTask.title}
+              fullWidth
               onChange={(event) => {
                 setSubTask({ title: event.target.value, completed: false });
               }}
+              placeholder="Add Subtask"
             />
           </ListItem>
         )}

@@ -26,6 +26,7 @@ const AddSticker = () => {
         alignItems: "flex-end",
         // justifyContent: "flex-end",
         justifyContent: "center",
+        overflow: "hidden",
       }}
     >
       <Sticker sticker={sticker} setSticker={setSticker} editing timerPage />

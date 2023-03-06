@@ -30,7 +30,7 @@ const Description: FC<descriptionProps> = ({
         defaultValue={description}
         multiline
         color="primary"
-        rows={4}
+        minRows={4}
         fullWidth
         onChange={(event) => {
           setDescription(event.target.value);

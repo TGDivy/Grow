@@ -63,14 +63,18 @@ const StatsMain = () => {
 
   return (
     <>
-      <Container>
-        <PageTitle title="Stats" />
+      <Container
+        sx={{
+          mt: { xs: 2, md: 2 },
+        }}
+      >
+        {/* <PageTitle title="Stats" /> */}
 
         <Stack spacing={2}>
           <Box
             sx={{
-              p: 2,
-              backgroundColor: "surfaceVariant.main",
+              p: { xs: 0, md: 2 },
+              backgroundColor: { xs: "transparent", md: "surfaceVariant.main" },
               color: "surfaceVariant.contrastText",
             }}
           >

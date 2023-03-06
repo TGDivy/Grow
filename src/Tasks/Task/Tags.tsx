@@ -71,33 +71,33 @@ const Tags: FC<tagsFc> = ({ tags, editing, setTags }) => {
             ))}
         </Menu>
 
-        <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: 1 }}>
-          <Chip
-            icon={<Add />}
-            sx={{
-              backgroundColor: "tertiary.container",
-              color: "tertiary.onContainer",
-            }}
-            onClick={handleClickOpen}
-            size="small"
-            label="Tag"
-            className="tut-task-tag"
-          />
+        {/* <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: 1 }}> */}
+        <Chip
+          icon={<Add />}
+          sx={{
+            backgroundColor: "tertiary.container",
+            color: "tertiary.onContainer",
+          }}
+          onClick={handleClickOpen}
+          size="small"
+          label="Tag"
+          className="tut-task-tag"
+        />
 
-          {tags.map((tag) => (
-            <Chip
-              key={tag}
-              label={tag}
-              size="small"
-              color="secondary"
-              onDelete={() => handleDeleteTag(tag)}
-              sx={{
-                backgroundColor: "secondary.container",
-                color: "secondary.onContainer",
-              }}
-            />
-          ))}
-        </Box>
+        {tags.map((tag) => (
+          <Chip
+            key={tag}
+            label={tag}
+            size="small"
+            color="secondary"
+            onDelete={() => handleDeleteTag(tag)}
+            sx={{
+              backgroundColor: "secondary.container",
+              color: "secondary.onContainer",
+            }}
+          />
+        ))}
+        {/* </Box> */}
       </>
     );
   }

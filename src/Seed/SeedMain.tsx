@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Box, Container, Fade, Grid, Grow, Stack } from "@mui/material";
+import { Box, Container, Grow, Grid, Stack } from "@mui/material";
 import Timer from "./Timer";
 import TimerTask from "./AddTask";
 import AddTags from "./AddTags";
@@ -12,11 +12,11 @@ import StyledCard from "../Common/ReusableComponents/StyledCard";
 const SeedMain = () => {
   const StickerAndTags = () => {
     return (
-      <Fade
+      <Grow
         in={true}
-        {...{ timeout: 1000 }}
+        {...{ timeout: 1500 }}
         style={{
-          transitionDelay: `${900}ms`,
+          transitionDelay: `${400}ms`,
         }}
       >
         <StyledCard
@@ -30,15 +30,15 @@ const SeedMain = () => {
             alignItems="center"
             justifyContent="center"
           >
-            <Grid item xs={8}>
+            <Grid item xs={6} sm={8}>
               <AddTags />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={6} sm={4}>
               <AddSticker />
             </Grid>
           </Grid>
         </StyledCard>
-      </Fade>
+      </Grow>
     );
   };
 
@@ -46,40 +46,40 @@ const SeedMain = () => {
     return (
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Fade
+          <Grow
             in={true}
             {...{ timeout: 1000 }}
             style={{
-              transitionDelay: `${250}ms`,
+              transitionDelay: `${0}ms`,
             }}
           >
             <div>
               <ZenQuote />
             </div>
-          </Fade>
+          </Grow>
         </Grid>
         <Grid item xs={12} md={6} sx={{ height: "100%" }}>
           <Stack spacing={2}>
-            <Fade
+            <Grow
               in={true}
-              {...{ timeout: 1000 }}
+              {...{ timeout: 1500 }}
               style={{
-                transitionDelay: `${500}ms`,
+                transitionDelay: `${400}ms`,
               }}
             >
               <div>
                 <Timer />
               </div>
-            </Fade>
+            </Grow>
             <StickerAndTags />
           </Stack>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Fade
+          <Grow
             in={true}
-            {...{ timeout: 1000 }}
+            {...{ timeout: 1500 }}
             style={{
-              transitionDelay: `${1200}ms`,
+              transitionDelay: `${400}ms`,
             }}
           >
             <Box
@@ -93,15 +93,19 @@ const SeedMain = () => {
             >
               <TimerTask />
             </Box>
-          </Fade>
+          </Grow>
         </Grid>
       </Grid>
     );
   };
 
   return (
-    <Container>
-      <PageTitle title="Timer" />
+    <Container
+      sx={{
+        mt: { xs: 2, md: 2 },
+      }}
+    >
+      {/* <PageTitle title="Timer" /> */}
       <Box
         sx={{
           p: { xs: 0, sm: 2 },

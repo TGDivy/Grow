@@ -122,7 +122,10 @@ export const timerNotification = functions
               Urgency: "high",
             },
             notification: {
-              // icon: "https://firebasestorage.googleapis.com/v0/b/focus-2ad73.appspot.com/o/hourglass%20(1).png?alt=media&token=b15d92ea-3377-4b4a-b383-a39259fe3f5c",
+              icon: "https://firebasestorage.googleapis.com/v0/b/focus-2ad73.appspot.com/o/logo192.png?alt=media&token=117f4b3a-78c9-47f6-b818-a7ac92192fa8",
+              bage: "https://firebasestorage.googleapis.com/v0/b/focus-2ad73.appspot.com/o/hourglass%20(1).png?alt=media&token=b15d92ea-3377-4b4a-b383-a39259fe3f5c",
+              click_action: "https://grow.divyb.xyz/Seed",
+
               fcmOptions: {
                 link: "https://grow.divyb.xyz/Seed",
               },

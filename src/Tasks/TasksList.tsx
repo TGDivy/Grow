@@ -1,5 +1,14 @@
 import React, { FC } from "react";
-import { Box, Grid, Grow, Stack, Collapse } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Grow,
+  Stack,
+  Collapse,
+  Fade,
+  Zoom,
+  Slide,
+} from "@mui/material";
 import Task from "./Task/Task";
 import CreateTask from "./CreateTask";
 import { Chip } from "@mui/material";
@@ -72,11 +81,18 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
 
   const displayTasks = filtered.map(([id, task], index) => (
     <Grid item xs={12} sm={6} md={4} lg={4} key={id}>
-      <Grow in={true} timeout={600 + index * 200}>
+      <Zoom
+        in={true}
+        timeout={600}
+        style={{
+          transformOrigin: "0 0 0",
+          transitionDelay: `${index * 450}ms`,
+        }}
+      >
         <Box>
           <Task {...task} id={id} createNewTask={false} startTimerButton />
         </Box>
-      </Grow>
+      </Zoom>
     </Grid>
   ));
 
@@ -93,42 +109,44 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
         <Stack
           direction="row"
           spacing={1}
+          // justifyContent="flex-end"
+          alignItems="center"
           sx={{
-            // allow overflow to scroll
             overflowX: "auto",
           }}
         >
           {filter && (
-            <Collapse orientation="horizontal" timeout={200}>
+            <Collapse
+              orientation="horizontal"
+              timeout={500}
+              in={filter ? true : false}
+            >
               <Chip
                 label={filter}
                 onDelete={handleDeleteTag}
                 sx={{
                   backgroundColor: "surfaceVariant.main",
                   color: "surfaceVariant.contrastText",
+                  padding: { xs: "0", sm: "0.4rem" },
+                  margin: "0",
                 }}
               />
             </Collapse>
           )}
 
           {possibleTags.map((tag, index) => (
-            <Collapse
+            <Chip
+              label={tag}
               key={tag}
-              in={filter ? false : true}
-              orientation="horizontal"
-              collapsedSize={0}
-              timeout={index * 200}
-            >
-              <Chip
-                label={tag}
-                sx={{
-                  backgroundColor: "surfaceVariant.main",
-                  color: "surfaceVariant.contrastText",
-                  // width: "70px",
-                }}
-                onClick={() => handleAddTag(tag)}
-              />
-            </Collapse>
+              sx={{
+                backgroundColor: "surfaceVariant.main",
+                color: "surfaceVariant.contrastText",
+                display: filter ? "none" : "default ",
+                padding: { xs: "0", sm: "0.4rem" },
+                margin: "0",
+              }}
+              onClick={() => handleAddTag(tag)}
+            />
           ))}
         </Stack>
       </>
@@ -138,11 +156,11 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
   return (
     <Stack direction="column" spacing={3}>
       <Grid container spacing={2} justifyContent="space-between">
+        <Grid item xs={12} md={2}>
+          <CreateTask taskListName={taskListName} />
+        </Grid>
         <Grid item xs={12} md={10}>
           {filterChips}
-        </Grid>
-        <Grid item>
-          <CreateTask taskListName={taskListName} />
         </Grid>
       </Grid>
       {filtered.length !== 0 && (
@@ -154,11 +172,9 @@ const TasksList: FC<tasksListFC> = ({ taskListName }) => {
           }}
         >
           <TransitionGroup>
-            <>
-              <Grid container spacing={2}>
-                {displayTasks}
-              </Grid>
-            </>
+            <Grid container spacing={2}>
+              {displayTasks}
+            </Grid>
           </TransitionGroup>
         </Box>
       )}

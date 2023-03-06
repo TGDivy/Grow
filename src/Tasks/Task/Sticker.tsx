@@ -1,5 +1,13 @@
 import React, { FC, useState, MouseEvent } from "react";
-import { Box, Chip, Menu, MenuItem, Typography } from "@mui/material";
+import {
+  Box,
+  Chip,
+  Menu,
+  MenuItem,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { Add } from "@mui/icons-material";
 import useUserStore from "../../Common/Stores/User";
 import StyledSticker from "../../Common/ReusableComponents/StyledSticker";
@@ -35,6 +43,10 @@ const Sticker: FC<tagsFc> = ({ sticker, editing, setSticker, timerPage }) => {
     setSticker("");
   };
   const ITEM_HEIGHT = 48;
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const label = sticker ? sticker : "Add sticker";
 
   if (editing) {
     return (
@@ -86,17 +98,15 @@ const Sticker: FC<tagsFc> = ({ sticker, editing, setSticker, timerPage }) => {
           )}
         </Menu>
 
-        <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: 1 }}>
-          <StyledSticker
-            label={`${sticker}`}
-            size="small"
-            variant="filled"
-            onClick={handleClickOpen}
-            onDelete={() => handleDeleteSticker()}
-            icon={<Add />}
-            className="tut-task-sticker"
-          />
-        </Box>
+        <StyledSticker
+          label={label}
+          size="small"
+          variant="filled"
+          onClick={handleClickOpen}
+          onDelete={() => handleDeleteSticker()}
+          icon={!mobile ? <Add /> : <></>}
+          className="tut-task-sticker"
+        />
       </>
     );
   }

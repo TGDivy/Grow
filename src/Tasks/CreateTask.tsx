@@ -2,9 +2,10 @@ import React, { FC, useState } from "react";
 import Task from "./Task/Task";
 import { taskType } from "../Common/Types/Types";
 import { v4 as uuid_v4 } from "uuid";
-import { Dialog } from "@mui/material";
+import { Dialog, DialogTitle, useMediaQuery, useTheme } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import StyledButton from "../Common/ReusableComponents/StyledButton";
+import CreateNewTask from "./Task/CreateNewTask";
 
 interface createTaskFc {
   taskListName: string;
@@ -25,7 +26,7 @@ const CreateTask: FC<createTaskFc> = ({
 }) => {
   const createTask: taskType = {
     taskListName,
-    title: title || "Create task",
+    title: title || "",
     description: description || "",
     dateUpdated: new Date(),
     priority: false,
@@ -46,6 +47,8 @@ const CreateTask: FC<createTaskFc> = ({
   const handleClose = () => {
     setOpen(false);
   };
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <>
@@ -54,6 +57,7 @@ const CreateTask: FC<createTaskFc> = ({
         color="primary"
         onClick={handleClickOpen}
         fullWidth
+        size="small"
         className="tut-task-create"
       >
         <Add />
@@ -63,20 +67,26 @@ const CreateTask: FC<createTaskFc> = ({
         open={open}
         keepMounted
         onClose={handleClose}
+        fullScreen={fullScreen}
         PaperProps={{
-          sx: { position: "fixed", backgroundColor: "transparent" },
+          sx: {
+            backgroundColor: "background.main",
+            color: "background.contrastText",
+            minHeight: "667px",
+          },
         }}
         sx={{
           backdropFilter: "blur(10px)",
         }}
         fullWidth
+        scroll="paper"
       >
-        <Task
+        <CreateNewTask
           {...createTask}
           id={id || uuid_v4()}
-          createNewTask
           alwaysExpanded
           handleCreateNewTask={handleClose}
+          handleExit={handleClose}
         />
       </Dialog>
     </>

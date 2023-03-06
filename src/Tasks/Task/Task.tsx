@@ -175,6 +175,7 @@ const Task: FC<taskFC> = (props) => {
           ":hover": {
             boxShadow: props.hoverShadow === false ? 0 : 20,
           },
+          height: "100%",
         }}
       >
         <CardHeader
@@ -294,17 +295,6 @@ const Task: FC<taskFC> = (props) => {
                   />
 
                   {!completed_ && <CreateEvent taskId={props.id} />}
-                </Box>
-              </Grid>
-            )}
-            {editing && (
-              <Grid item xs={5}>
-                <Box>
-                  <DueDate
-                    dueDate={dueDate_}
-                    setDueDate={setDueDate}
-                    editing={editing}
-                  />
                 </Box>
               </Grid>
             )}

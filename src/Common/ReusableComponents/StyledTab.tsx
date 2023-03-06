@@ -8,6 +8,9 @@ type Props = {
 };
 
 const StyledTab = (props: Props) => {
+  // const theme = useTheme();
+  // const mobile = useMediaQuery(theme.breakpoints.down("xs"));
+
   return (
     <Tabs
       {...props}
@@ -15,8 +18,11 @@ const StyledTab = (props: Props) => {
       color="secondary"
       sx={{
         "& .MuiTab-textColorPrimary.Mui-selected": {
-          color: "surface.contrastText",
-          backgroundColor: "surface.main",
+          backgroundColor: { xs: "surfaceVariant.main", sm: "surface.main" },
+          color: {
+            xs: "surfaceVariant.contrastText",
+            sm: "surface.contrastText",
+          },
         },
       }}
       TabIndicatorProps={{
