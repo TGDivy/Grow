@@ -70,8 +70,9 @@ const CreateTask: FC<createTaskFc> = ({
         fullScreen={fullScreen}
         PaperProps={{
           sx: {
-            backgroundColor: "background.main",
-            color: "background.contrastText",
+            backgroundColor: "background.default",
+            backgroundImage: "none",
+            color: "surface.contrastText",
             minHeight: "667px",
           },
         }}

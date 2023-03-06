@@ -25,7 +25,9 @@ const GraphCard: FC<Props> = (props) => {
     <ClickAwayListener onClickAway={() => setExpanded(false)}>
       <StyledCard
         onClick={() => setExpanded(true)}
-        sx={{ height: props.height ? props.height : "100%" }}
+        sx={{
+          height: props.height ? props.height : "100%",
+        }}
       >
         <CardHeader
           title={

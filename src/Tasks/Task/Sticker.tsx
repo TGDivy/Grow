@@ -55,6 +55,7 @@ const Sticker: FC<tagsFc> = ({ sticker, editing, setSticker, timerPage }) => {
           open={open}
           anchorEl={anchorEl}
           onClose={handleClose}
+          onClick={handleClose}
           anchorOrigin={{
             vertical: "bottom",
             horizontal: "center",

@@ -149,10 +149,12 @@ const OverallStatBar: FC<Props> = ({
     return null;
   };
 
+  const color = colors.tertiary;
   const props = {
     stroke: "#000000",
     strokeWidth: 1,
     stackId: "aa",
+    fill: color,
   };
 
   return (
@@ -189,25 +191,12 @@ const OverallStatBar: FC<Props> = ({
           allowDataOverflow={true}
         />
         <Tooltip />
-        <Bar
-          dataKey="workScore"
-          fill={colors.tertiary}
-          {...props}
-          minPointSize={5}
-        />
-        <Bar dataKey="exerciseScore" fill={colors.tertiary} {...props} />
-        <Bar dataKey="mealScore" fill={colors.tertiary} {...props} />
-        <Bar dataKey="habitScore" fill={colors.tertiary} {...props} />
-        <Bar
-          dataKey="previousScoreGhost"
-          fill={`${colors.tertiary}55`}
-          stackId="aa"
-        />
-        <Bar
-          dataKey="previousScore"
-          fill={`${colors.tertiary}00`}
-          stackId="aa"
-        />
+        <Bar dataKey="workScore" {...props} minPointSize={5} />
+        <Bar dataKey="exerciseScore" {...props} />
+        <Bar dataKey="mealScore" {...props} />
+        <Bar dataKey="habitScore" {...props} />
+        <Bar dataKey="previousScoreGhost" fill={`${color}55`} stackId="aa" />
+        <Bar dataKey="previousScore" fill={`${color}00`} stackId="aa" />
       </BarChart>
     </GraphCard>
   );

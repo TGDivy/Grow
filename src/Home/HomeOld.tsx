@@ -167,11 +167,12 @@ const Home = () => {
       <Container sx={{ pt: 2, p: { xs: 0, md: 2 } }}>
         <Box
           sx={{
-            pt: 0,
-            p: 2,
-            mb: 2,
+            mt: { xs: 2, md: 0 },
+            p: { xs: 0, md: 2 },
+            mb: { xs: 0, md: 2 },
+            borderRadius: 1,
             backgroundColor: {
-              xs: "surfaceVariant.main",
+              xs: "transparent",
               sm: "surfaceVariant.main",
             },
             color: { xs: "transparent", sm: "surfaceVariant.contrastText" },
@@ -236,6 +237,7 @@ const Home = () => {
                 sx={{
                   pt: 0,
                   p: { xs: 0, md: 2 },
+                  borderRadius: 1,
                   backgroundColor: {
                     xs: "surfaceVariant.main",
                     sm: "surfaceVariant.main",

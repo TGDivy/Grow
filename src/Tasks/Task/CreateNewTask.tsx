@@ -134,7 +134,7 @@ const CreateNewTask: FC<taskFC> = (props) => {
           />
         }
       />
-      <CardContent sx={{ pt: 2, pb: 0, mb: 0, flexGrow: 2 }}>
+      <CardContent sx={{ pt: 2, pb: 0, mb: 0, flexGrow: 1 }}>
         <SubTaskList
           subTasks={subtasks_}
           setSubTasks={setSubtasks}
@@ -144,7 +144,7 @@ const CreateNewTask: FC<taskFC> = (props) => {
           editing={editing}
         />
       </CardContent>
-      <Stack sx={{ flexGrow: 1 }} spacing={1}>
+      <Stack sx={{ flexGrow: 0 }} spacing={1}>
         <Box
           sx={{
             // display: "flex",
