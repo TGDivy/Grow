@@ -1,5 +1,13 @@
 import React from "react";
-import { Box, Divider, Grid, Stepper, Typography } from "@mui/material";
+import {
+  Box,
+  Divider,
+  Grid,
+  Stepper,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { Step, StepLabel } from "@mui/material";
 import { Container } from "@mui/material";
 import { Stack } from "@mui/system";
@@ -15,6 +23,7 @@ import moment from "moment";
 
 import { ViewList, Create } from "@mui/icons-material";
 import StyledButton from "../Common/ReusableComponents/StyledButton";
+import HabitsCondensed from "./HabitsCondensed";
 
 const JournalMain = () => {
   const activeStep = useDailyJournalStore((state) => state.activeStep);
@@ -42,10 +51,13 @@ const JournalMain = () => {
     resetStore();
   };
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   const steps = [
     {
       label: "Keeping up with your habits?",
-      component: <Habits />,
+      component: <HabitsCondensed />,
       shortLabel: "Habits",
     },
     {
