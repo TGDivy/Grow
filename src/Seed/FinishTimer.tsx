@@ -40,6 +40,8 @@ const FinishTimer = ({ studyTime, maxDuration }: Props) => {
   useEffect(() => {
     if (sufficientTime && active) {
       handleOpen();
+    } else {
+      setOpen(false);
     }
   }, [sufficientTime]);
 
