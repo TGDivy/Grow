@@ -107,55 +107,82 @@ export const timerNotification = functions
 
     const failedTokens: string[] = [];
 
-    // send notification to each device
-    devices?.forEach(async (device) => {
-      const token = device.pushToken;
-      const data = {
-        message: {
-          token: token,
-          notification: {
-            title: "Timer Completed",
-            body: "Well Done!",
+    const data = {
+      message: {
+        token: "",
+        notification: {
+          title: "Timer Completed",
+          body: "Well Done!",
+        },
+        webpush: {
+          headers: {
+            Urgency: "high",
           },
-          webpush: {
-            headers: {
-              Urgency: "high",
-            },
-            notification: {
-              icon: "https://firebasestorage.googleapis.com/v0/b/focus-2ad73.appspot.com/o/logo192.png?alt=media&token=117f4b3a-78c9-47f6-b818-a7ac92192fa8",
-              bage: "https://firebasestorage.googleapis.com/v0/b/focus-2ad73.appspot.com/o/hourglass%20(1).png?alt=media&token=b15d92ea-3377-4b4a-b383-a39259fe3f5c",
-              click_action: "https://grow.divyb.xyz/Seed",
+          notification: {
+            icon: "https://firebasestorage.googleapis.com/v0/b/focus-2ad73.appspot.com/o/logo192.png?alt=media&token=117f4b3a-78c9-47f6-b818-a7ac92192fa8",
+            bage: "https://firebasestorage.googleapis.com/v0/b/focus-2ad73.appspot.com/o/hourglass%20(1).png?alt=media&token=b15d92ea-3377-4b4a-b383-a39259fe3f5c",
+            click_action: "https://grow.divyb.xyz/Seed",
 
-              fcmOptions: {
-                link: "https://grow.divyb.xyz/Seed",
-              },
+            fcmOptions: {
+              link: "https://grow.divyb.xyz/Seed",
             },
           },
         },
-      };
+      },
+    };
 
-      // if notification fails, remove device from users/{userId}
-      try {
-        const response = await admin.messaging().send(data.message);
-        console.log("Successfully sent message:", response);
-      } catch (error) {
-        console.log("Error sending message:", error);
-        failedTokens.push(token);
-      }
+    // send notification to each device and collect the promises, then await them
+    const promises = devices?.map((device) => {
+      const token = device.pushToken;
+      data.message.token = token;
+
+      return admin.messaging().send(data.message);
     });
 
-    // remove failed tokens from users/{userId}
-    if (failedTokens.length > 0) {
-      const updatedDevices = devices?.filter((device) => {
-        return !failedTokens.includes(device.pushToken);
+    Promise.allSettled(promises)
+      .then((results) => {
+        results.forEach((result, i) => {
+          const token = devices?.[i].pushToken;
+          if (result.status === "rejected") {
+            failedTokens.push(token);
+          }
+        });
+        console.log(
+          "promise all settled",
+          "results of failed tokens",
+          failedTokens.length
+        );
+      })
+      .then(() => {
+        console.log("Failure tokens: " + failedTokens);
+        if (failedTokens.length > 0) {
+          const updatedDevices = devices?.filter((device) => {
+            return !failedTokens.includes(device.pushToken);
+          });
+
+          console.log("Length of updated devices:", updatedDevices?.length);
+
+          admin
+            .firestore()
+            .collection("users")
+            .doc(userId)
+            .update({
+              devices: updatedDevices,
+            })
+            .then(() => {
+              response.status(200).send("Devices updated");
+            })
+            .catch((err) => {
+              response.status(500).send("Error updating devices");
+            });
+        } else {
+          console.log("No failed tokens");
+        }
       });
 
-      await admin.firestore().collection("users").doc(userId).update({
-        devices: updatedDevices,
-      });
-    }
+    console.log("Notification sent end");
 
-    response.send("Notification sent");
+    response.status(200).send("Notifications sent");
   });
 
 // data is organised as users/{userId}
