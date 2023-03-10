@@ -30,10 +30,16 @@ import {
 } from "@mui/material";
 import Task from "./Task/Task";
 import CreateTask from "./CreateTask";
+import { type } from "os";
 
 const taskListName = "Tasks";
 
-const CondensedTaskList = () => {
+type props = {
+  title?: React.ReactElement | string;
+  createTask?: boolean;
+};
+
+const CondensedTaskList = (props: props) => {
   const tasks = useTaskStore((state) => state.tasks);
 
   const [notCompletedArray, setNotCompletedArray] = React.useState<
@@ -141,8 +147,8 @@ const CondensedTaskList = () => {
         },
       }}
     >
-      <CardHeader align="center" />
-      <List dense>{taskList}</List>
+      <CardHeader align="center" title={props.title} />
+      {notCompletedArray.length > 0 && <List dense>{taskList}</List>}
       {notCompletedArray.length === 0 && (
         <>
           <CardContent
@@ -159,23 +165,21 @@ const CondensedTaskList = () => {
               No tasks left to complete.
             </Typography>
             <Divider flexItem />
-            <Typography variant="body2" align="center">
-              Well done!
-            </Typography>
-            <Divider flexItem />
-          </CardContent>
-          <CardContent
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              flexDirection: "column",
-              justifyContent: "center",
-              height: "100%",
-            }}
-          >
-            <CreateTask taskListName="Tasks" />
           </CardContent>
         </>
+      )}
+      {props.createTask && (
+        <CardContent
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+            justifyContent: "center",
+            height: "100%",
+          }}
+        >
+          <CreateTask taskListName="Tasks" />
+        </CardContent>
       )}
     </StyledCard>
   );

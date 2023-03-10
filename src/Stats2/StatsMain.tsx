@@ -170,7 +170,7 @@ const StatsMain = () => {
               <Grid item xs={12} md={6}>
                 <TagPieStat
                   timerRecords={selectedTimerRecords}
-                  filterOn="Stickers"
+                  filterOn="Projects"
                   values={possibleStickers}
                 />
               </Grid>

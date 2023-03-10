@@ -22,6 +22,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import getTheme from "./Common/Styling/themes";
 import useThemeStore from "./Common/Stores/ThemeStore";
 import useTimerStore from "./Common/Stores/TimerStore";
+import ProjectPage from "./Tasks/ProjectPage";
 
 const App = () => {
   const { user } = useCurrentUser();
@@ -94,6 +95,7 @@ const App = () => {
           path="/Reflect"
           element={user ? <JournalMain /> : <Navigate to="/Login" />}
         />
+        <Route path="projects/:projectId" element={<ProjectPage />} />
       </>
     );
   };

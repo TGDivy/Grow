@@ -10,7 +10,7 @@ import useThemeStore from "../../Common/Stores/ThemeStore";
 
 interface Props {
   timerRecords: timerType[];
-  filterOn: "Tags" | "Stickers";
+  filterOn: "Tags" | "Projects";
   values: string[];
 }
 
@@ -25,7 +25,7 @@ const TagPieStat: FC<Props> = ({ timerRecords, filterOn, values }) => {
           setData(data);
         }
       });
-    } else if (filterOn === "Stickers") {
+    } else if (filterOn === "Projects") {
       getStickerPieData(timerRecords, values).then((data) => {
         if (data) {
           setData(data);

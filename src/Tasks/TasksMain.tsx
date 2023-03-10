@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Box, Container, Button } from "@mui/material";
+import { Box, Container, Button, Stack } from "@mui/material";
 import TasksList from "./TasksList";
 import { Help } from "@mui/icons-material";
 import PageTitle from "../Common/ReusableComponents/PageTitle";
+import Projects from "./Projects";
+import CondensedTaskList from "./CondensedTaskList";
 
 const TasksMain = () => {
   const [taskListName] = useState("Tasks");
@@ -13,7 +15,10 @@ const TasksMain = () => {
         mt: { xs: 2, md: 2 },
       }}
     >
-      <TasksList taskListName={taskListName} />
+      <Stack spacing={2}>
+        <Projects />
+        <CondensedTaskList title={"All Tasks"} createTask />
+      </Stack>
     </Container>
   );
 };

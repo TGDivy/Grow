@@ -46,7 +46,7 @@ const Sticker: FC<tagsFc> = ({ sticker, editing, setSticker, timerPage }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const label = sticker ? sticker : "Add sticker";
+  const label = sticker ? sticker : "Select Project";
 
   if (editing) {
     return (
@@ -93,7 +93,7 @@ const Sticker: FC<tagsFc> = ({ sticker, editing, setSticker, timerPage }) => {
               disabled
             >
               <Typography variant="body2" color="textSecondary">
-                Create a sticker in settings
+                Create a Project First.
               </Typography>
             </MenuItem>
           )}
@@ -106,7 +106,6 @@ const Sticker: FC<tagsFc> = ({ sticker, editing, setSticker, timerPage }) => {
           onClick={handleClickOpen}
           onDelete={() => handleDeleteSticker()}
           icon={!mobile ? <Add /> : <></>}
-          className="tut-task-sticker"
         />
       </>
     );
