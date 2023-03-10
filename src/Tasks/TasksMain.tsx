@@ -1,14 +1,9 @@
-import React, { useState } from "react";
-import { Box, Container, Button, Stack, Fade } from "@mui/material";
-import TasksList from "./TasksList";
-import { Help } from "@mui/icons-material";
-import PageTitle from "../Common/ReusableComponents/PageTitle";
+import React from "react";
+import { Box, Container, Stack, Fade } from "@mui/material";
 import Projects from "./Projects";
 import CondensedTaskList from "./CondensedTaskList";
 
 const TasksMain = () => {
-  const [taskListName] = useState("Tasks");
-
   return (
     <Container
       sx={{
