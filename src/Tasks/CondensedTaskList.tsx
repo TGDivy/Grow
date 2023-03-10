@@ -7,7 +7,6 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import Divider from "@mui/material/Divider";
@@ -108,8 +107,6 @@ const CondensedTaskList = (props: props) => {
     return (
       <StyledCard
         sx={{
-          // maxHeight: "310px",
-          overflow: "scroll",
           ":hover": {
             boxShadow: 0,
           },
@@ -123,6 +120,9 @@ const CondensedTaskList = (props: props) => {
             </Button>
           }
           align="center"
+          sx={{
+            mb: 1,
+          }}
         />
         <Task
           id={taskSelected}

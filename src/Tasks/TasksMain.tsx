@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Container, Button, Stack } from "@mui/material";
+import { Box, Container, Button, Stack, Fade } from "@mui/material";
 import TasksList from "./TasksList";
 import { Help } from "@mui/icons-material";
 import PageTitle from "../Common/ReusableComponents/PageTitle";
@@ -17,7 +17,11 @@ const TasksMain = () => {
     >
       <Stack spacing={2}>
         <Projects />
-        <CondensedTaskList title={"All Tasks"} createTask />
+        <Fade in={true} timeout={1000}>
+          <Box>
+            <CondensedTaskList title={"All Tasks"} createTask />
+          </Box>
+        </Fade>
       </Stack>
     </Container>
   );

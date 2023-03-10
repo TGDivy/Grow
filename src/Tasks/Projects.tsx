@@ -22,6 +22,7 @@ import {
   Typography,
   LinearProgress,
   TextField,
+  Zoom,
 } from "@mui/material";
 import StyledCard from "../Common/ReusableComponents/StyledCard";
 import useTaskStore from "../Common/Stores/TaskStore";
@@ -31,6 +32,7 @@ import _ from "lodash";
 import { ExpandMoreOutlined, PlayArrow } from "@mui/icons-material";
 import styled from "@emotion/styled";
 import CreateTask from "./CreateTask";
+import { TransitionGroup } from "react-transition-group";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -285,16 +287,37 @@ const Projects = () => {
         color: { xs: "transparent", sm: "surfaceVariant.contrastText" },
       }}
     >
-      <Grid container spacing={2}>
-        {projects.map((project) => (
-          <Grid item xs={12} sm={6} md={4} key={project}>
-            <ProjectCard name={project} />
-          </Grid>
-        ))}
-        <Grid item xs={12} sm={6} md={4}>
-          <CreateProjectCard />
+      <TransitionGroup>
+        <Grid container spacing={2}>
+          {projects.map((project, index) => (
+            <Zoom
+              in={true}
+              timeout={600}
+              style={{
+                transformOrigin: "0 0 0",
+                transitionDelay: `${index * 450}ms`,
+              }}
+              key={project}
+            >
+              <Grid item xs={12} sm={6} md={4} key={project}>
+                <ProjectCard name={project} />
+              </Grid>
+            </Zoom>
+          ))}
+          <Zoom
+            in={true}
+            timeout={600}
+            style={{
+              transformOrigin: "0 0 0",
+              transitionDelay: `${projects.length * 450}ms`,
+            }}
+          >
+            <Grid item xs={12} sm={6} md={4}>
+              <CreateProjectCard />
+            </Grid>
+          </Zoom>
         </Grid>
-      </Grid>
+      </TransitionGroup>
     </Box>
   );
 };

@@ -110,7 +110,6 @@ const CreateNewTask: FC<taskFC> = (props) => {
       <CardHeader
         title={
           <TextField
-            className="tut-task-title"
             id="outlined-basic"
             label="Title"
             size="small"
