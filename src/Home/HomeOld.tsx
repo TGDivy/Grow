@@ -126,7 +126,7 @@ const TodaysBrief = () => {
     <Fade
       in={true}
       style={{
-        transitionDelay: `${2000}ms`,
+        transitionDelay: `${1000}ms`,
       }}
       {...{ timeout: 1000 }}
     >
@@ -155,10 +155,9 @@ const Home = () => {
   const transitionDelays = {
     quote: 0,
     quoteAuthor: 1000,
-    places: 1000,
-    goals: 2000,
-    overall: 3000,
-    schedule: 4000,
+
+    overall: 2000,
+    schedule: 3000,
   };
 
   return (
