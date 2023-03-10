@@ -65,7 +65,6 @@ const CreateTask: FC<createTaskFc> = ({
       </StyledButton>
       <Dialog
         open={open}
-        keepMounted
         onClose={handleClose}
         fullScreen={fullScreen}
         PaperProps={{
