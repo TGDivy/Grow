@@ -35,7 +35,7 @@ const Reflect: FC<Props> = ({ Question, readonly, document }) => {
             // height: "500px",
             width: "100%",
             "& .editor-inner": {
-              minHeight: readonly ? "" : "450px",
+              minHeight: readonly ? "" : "150px",
             },
           }}
         >

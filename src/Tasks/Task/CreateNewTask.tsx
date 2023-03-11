@@ -115,7 +115,7 @@ const CreateNewTask: FC<taskFC> = (props) => {
             size="small"
             variant="filled"
             fullWidth
-            value={title_ === "" ? undefined : title_}
+            value={title_}
             onChange={(event) => {
               setTitle(event.target.value);
             }}

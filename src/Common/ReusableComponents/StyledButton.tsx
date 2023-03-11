@@ -1,9 +1,17 @@
 import { lighten, styled, darken } from "@mui/material";
 import { Button } from "@mui/material";
 
-const StyledButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.primary.onContainer,
-  backgroundColor: theme.palette.primary.container,
+const StyledButton = styled(Button)(({ theme, ...props }) => ({
+  color:
+    props.variant === "contained"
+      ? theme.palette.primary.onContainer
+      : theme.palette.surface.contrastText,
+  backgroundColor:
+    props.variant === "contained"
+      ? theme.palette.primary.container
+      : "transparent",
+
+  borderColor: theme.palette.secondary.main,
 
   textDecoration: "none",
   // remove any link styling or a tag styling
