@@ -24,6 +24,8 @@ import useThemeStore from "./Common/Stores/ThemeStore";
 import useTimerStore from "./Common/Stores/TimerStore";
 import ProjectPage from "./Tasks/ProjectPage";
 import NewJournalMain from "./Journal/NewJournalMain";
+import All from "./Journal/All";
+import HabitsMain from "./Habits/HabitsMain";
 
 const App = () => {
   const { user } = useCurrentUser();
@@ -92,13 +94,17 @@ const App = () => {
           path="/Statistics"
           element={user ? <StatsMain /> : <Navigate to="/Login" />}
         />
-        {/* <Route
-          path="/Reflect"
+        <Route
+          path="/Journal/Today"
           element={user ? <JournalMain /> : <Navigate to="/Login" />}
-        /> */}
+        />
         <Route
           path="/Reflect"
           element={user ? <NewJournalMain /> : <Navigate to="/Login" />}
+        />
+        <Route
+          path="/Habits"
+          element={user ? <HabitsMain /> : <Navigate to="/Login" />}
         />
         <Route path="projects/:projectId" element={<ProjectPage />} />
       </>
