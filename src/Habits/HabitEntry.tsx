@@ -21,7 +21,7 @@ const HabitEntry = () => {
 
   // 1 day from now
   const today = new Date();
-  today.setDate(today.getDate() + 1);
+  // today.setDate(today.getDate() + 1);
 
   React.useEffect(() => {
     const habitsDueToday_ = Object.values(habits).filter((habit) => {
@@ -50,7 +50,7 @@ const HabitEntry = () => {
         },
       }}
     >
-      <CardHeader align="center" />
+      <CardHeader align="center" title="Habits Due Today" />
       <List dense>
         {habitsDueToday.map((habit) => (
           <ListItem

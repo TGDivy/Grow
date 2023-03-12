@@ -20,7 +20,9 @@ import StyledCard from "../Common/ReusableComponents/StyledCard";
 import { useNavigate } from "react-router-dom";
 import { ExpandMore } from "../Tasks/Projects";
 import moment from "moment";
-const FrequencyTypeVisualizer = (props: FrequencyType) => {
+import HabitViewer from "./HabitViewer";
+
+export const FrequencyTypeVisualizer = (props: FrequencyType) => {
   const { type, repeatEvery, daysOfWeek } = props;
   let daysOfWeekText = "";
   const weekdays = ["mon", "tue", "wed", "thu", "fri"] as (
@@ -78,8 +80,17 @@ const FrequencyTypeVisualizer = (props: FrequencyType) => {
 const HabitCard = (habit: HabitType) => {
   const [expanded, setExpanded] = React.useState(false);
   const navigate = useNavigate();
+  const [open, setOpen] = React.useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <StyledCard>
+      <HabitViewer open={open} handleClose={handleClose} habit={habit} />
       <CardHeader
         title={
           <ListItemButton
@@ -92,7 +103,7 @@ const HabitCard = (habit: HabitType) => {
               alignItems: "center",
               pl: 0,
             }}
-            onClick={() => navigate(`/projects/${habit.title}`)}
+            onClick={handleClickOpen}
           >
             {habit.title}
           </ListItemButton>
