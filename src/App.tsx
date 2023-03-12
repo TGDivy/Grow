@@ -26,6 +26,7 @@ import ProjectPage from "./Tasks/ProjectPage";
 import NewJournalMain from "./Journal/NewJournalMain";
 import All from "./Journal/All";
 import HabitsMain from "./Habits/HabitsMain";
+import useHabitsStore from "./Common/Stores/HabitsStore";
 
 const App = () => {
   const { user } = useCurrentUser();
@@ -40,6 +41,7 @@ const App = () => {
   const fetchActivities = useActivityStore((state) => state.fetchActivities);
   const fetchTasks = useTaskStore((state) => state.fetchNewDocs);
   const fetchTimer = useTimerStore((state) => state.syncTimer);
+  const fetchHabits = useHabitsStore((state) => state.syncHabits);
 
   React.useEffect(() => {
     if (location.pathname !== "/") {
@@ -50,6 +52,7 @@ const App = () => {
     fetchTimerRecords();
     fetchJournalEntries();
     fetchTasks();
+    fetchHabits();
   }, []);
 
   React.useEffect(() => {
@@ -59,6 +62,10 @@ const App = () => {
       fetchTimerRecords();
       fetchJournalEntries();
       fetchTimer(user?.uid);
+      fetchTasks();
+      fetchHabits();
+    } else {
+      console.log("no user id no fetch");
     }
   }, [user]);
 

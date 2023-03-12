@@ -37,7 +37,7 @@ import { TransitionGroup } from "react-transition-group";
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
 }
-const ExpandMore = styled((props: ExpandMoreProps) => {
+export const ExpandMore = styled((props: ExpandMoreProps) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
 })(({ theme, expand }) => ({

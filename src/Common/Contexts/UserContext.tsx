@@ -9,6 +9,7 @@ import useJournalStore from "../Stores/JournalStore";
 import useTimerRecordsStore from "../Stores/TimerRecordsStore";
 import useUserStore from "../Stores/User";
 import { userType } from "../Types/Types";
+import useHabitsStore from "../Stores/HabitsStore";
 
 export const CurrentUserContext = React.createContext(
   {} as {
@@ -28,6 +29,7 @@ export const CurrentUserProvider = ({ children }: any) => {
   const setTimerRecordsUserID = useTimerRecordsStore(
     (state) => state.setUserId
   );
+  const setHabitsStoreUserID = useHabitsStore((state) => state.setUserId);
   const setUserStore = useUserStore((state) => state.setUser);
 
   onAuthStateChanged(auth, (user: any) => {
@@ -40,6 +42,7 @@ export const CurrentUserProvider = ({ children }: any) => {
         setActivityUserID(userData.uid);
         setJournalUserID(userData.uid);
         setTimerRecordsUserID(userData.uid);
+        setHabitsStoreUserID(userData.uid);
         setUserStore(userData as userType);
         setOnce(true);
       });
@@ -50,6 +53,7 @@ export const CurrentUserProvider = ({ children }: any) => {
       setActivityUserID("");
       setJournalUserID("");
       setTimerRecordsUserID("");
+      setHabitsStoreUserID("");
       setOnce(false);
     }
   });

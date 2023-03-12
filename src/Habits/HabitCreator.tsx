@@ -17,51 +17,58 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
+  Checkbox,
 } from "@mui/material";
 import StyledButton from "../Common/ReusableComponents/StyledButton";
+import useHabitsStore, {
+  FrequencyType,
+  HabitType,
+} from "../Common/Stores/HabitsStore";
+import { v4 as uuidv4 } from "uuid";
+import { Timestamp } from "firebase/firestore";
 
-// The core of the habit creator
+const HabitCreatorCore = (props: { handleClose: () => void }) => {
+  const [habit, setHabit] = useState<HabitType>({
+    title: "",
+    description: "",
+    frequencyType: {
+      type: "day",
+      repeatEvery: 1,
+    },
+    habitId: uuidv4(),
+    type: "custom",
 
-/**
- * The user can create a new habit here
- * They should be able to:
- * - Give it a name
- * - Give it a description
- * - Select Frequency and to be extremly customizable
- *   - example1: I want to do this habit every day,
- *   - example2: I want to do this habit every Tuesday, Thursday, and Saturday
- *   - example3: I want to do this habit every other satuday
- *   - example4: I want to do this habit once a month
- * - Conditionally render the frequency selector based on the frequency
- */
+    nextDueDate: Timestamp.fromDate(new Date()),
+    lastCompletedDate: Timestamp.fromDate(new Date()),
 
-// if type is weekly, then allow the user to select the days of the week
-// if type is monthly, then allow the user to select whether it is by day of the week i.e. 1st Monday, 2nd Tuesday, etc.
-interface FrequencyType {
-  type: "day" | "week";
-  repeatEvery: number;
-  // weekly
-  daysOfWeek?: string[];
-}
+    reminder: false,
 
-const HabitCreatorCore = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [frequencyType, setFrequencyType] = useState<FrequencyType>({
-    type: "day",
-    repeatEvery: 1,
+    createdAt: Timestamp.fromDate(new Date()),
+    updatedAt: Timestamp.fromDate(new Date()),
   });
+  const addHabit = useHabitsStore((state) => state.addHabit);
+
+  const handleSave = () => {
+    addHabit(habit);
+    props.handleClose();
+  };
 
   // daily, weekly, monthly is a button group
   const handleFrequencyTypeChange = (event: React.MouseEvent<HTMLElement>) => {
     const type = (event.target as HTMLInputElement).value as "day" | "week";
-    setFrequencyType({ ...frequencyType, type });
+    setHabit({
+      ...habit,
+      frequencyType: {
+        type,
+        repeatEvery: habit.frequencyType.repeatEvery,
+      },
+    });
   };
 
   const FrequencySelector = () => {
     return (
       <ToggleButtonGroup
-        value={frequencyType.type}
+        value={habit.frequencyType.type}
         exclusive
         orientation="vertical"
         style={{
@@ -85,16 +92,22 @@ const HabitCreatorCore = () => {
 
   // repeat every is number with a min of 1 with arrow buttons to increment/decrement
   const incrementRepeatEvery = () => {
-    setFrequencyType({
-      ...frequencyType,
-      repeatEvery: frequencyType.repeatEvery + 1,
+    setHabit({
+      ...habit,
+      frequencyType: {
+        ...habit.frequencyType,
+        repeatEvery: habit.frequencyType.repeatEvery + 1,
+      },
     });
   };
 
   const decrementRepeatEvery = () => {
-    setFrequencyType({
-      ...frequencyType,
-      repeatEvery: frequencyType.repeatEvery - 1,
+    setHabit({
+      ...habit,
+      frequencyType: {
+        ...habit.frequencyType,
+        repeatEvery: habit.frequencyType.repeatEvery - 1,
+      },
     });
   };
 
@@ -115,12 +128,12 @@ const HabitCreatorCore = () => {
         </Typography>
         <IconButton
           onClick={decrementRepeatEvery}
-          disabled={frequencyType.repeatEvery === 1}
+          disabled={habit.frequencyType.repeatEvery === 1}
           size="small"
         >
           <Remove />
         </IconButton>
-        <Typography>{frequencyType.repeatEvery}</Typography>
+        <Typography>{habit.frequencyType.repeatEvery}</Typography>
         <IconButton onClick={incrementRepeatEvery} size="small">
           <Add />
         </IconButton>
@@ -139,15 +152,25 @@ const HabitCreatorCore = () => {
       | "fri"
       | "sat"
       | "sun";
-    if (frequencyType.daysOfWeek?.includes(day)) {
-      setFrequencyType({
-        ...frequencyType,
-        daysOfWeek: frequencyType.daysOfWeek?.filter((d) => d !== day),
+    if (habit.frequencyType.daysOfWeek?.includes(day)) {
+      setHabit({
+        ...habit,
+        frequencyType: {
+          ...habit.frequencyType,
+          daysOfWeek: habit.frequencyType.daysOfWeek.filter(
+            (d) => d !== day
+          ) as FrequencyType["daysOfWeek"],
+        },
       });
     } else {
-      setFrequencyType({
-        ...frequencyType,
-        daysOfWeek: [...(frequencyType.daysOfWeek || []), day],
+      setHabit({
+        ...habit,
+        frequencyType: {
+          ...habit.frequencyType,
+          daysOfWeek: habit.frequencyType.daysOfWeek
+            ? [...habit.frequencyType.daysOfWeek, day]
+            : [day],
+        },
       });
     }
   };
@@ -155,7 +178,7 @@ const HabitCreatorCore = () => {
   const DayOfWeekSelector = () => {
     return (
       <ToggleButtonGroup
-        value={frequencyType.daysOfWeek}
+        value={habit.frequencyType.daysOfWeek}
         fullWidth
         color="success"
       >
@@ -197,9 +220,9 @@ const HabitCreatorCore = () => {
             size="small"
             variant="filled"
             fullWidth
-            value={title}
+            value={habit.title}
             onChange={(event) => {
-              setTitle(event.target.value);
+              setHabit({ ...habit, title: event.target.value });
             }}
             sx={{
               "& .MuiInputBase-root": {
@@ -221,7 +244,7 @@ const HabitCreatorCore = () => {
             <RepeatEvery />
             <FrequencySelector />
           </Stack>
-          {frequencyType.type === "week" && (
+          {habit.frequencyType.type === "week" && (
             <>
               Repeat on:
               <DayOfWeekSelector />
@@ -234,13 +257,13 @@ const HabitCreatorCore = () => {
         placeholder="Write any additional details here..."
         margin="normal"
         variant="filled"
-        value={description}
+        value={habit.description}
         multiline
         minRows={3}
         maxRows={5}
         fullWidth
         onChange={(event) => {
-          setDescription(event.target.value);
+          setHabit({ ...habit, description: event.target.value });
         }}
         sx={{
           "& .MuiInputBase-root": {
@@ -261,6 +284,7 @@ const HabitCreatorCore = () => {
           color="secondary"
           startIcon={<Delete />}
           fullWidth
+          onClick={props.handleClose}
         >
           Cancel
         </Button>
@@ -269,6 +293,8 @@ const HabitCreatorCore = () => {
           color="primary"
           startIcon={<Save />}
           fullWidth
+          disabled={habit.title === ""}
+          onClick={handleSave}
         >
           Save
         </StyledButton>
@@ -323,7 +349,7 @@ const HabitCreator = () => {
         fullWidth
         scroll="paper"
       >
-        <HabitCreatorCore />
+        <HabitCreatorCore handleClose={handleClose} />
       </Dialog>
     </>
   );

@@ -95,6 +95,7 @@ const BottomNavigationBar: FC = () => {
         right: 0,
         backgroundColor: `${colors.surface}bb`,
         color: "surface.contrastText",
+        zIndex: 100,
       }}
       elevation={3}
       className={`tut-navbar-overview`}

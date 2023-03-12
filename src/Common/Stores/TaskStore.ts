@@ -82,7 +82,7 @@ const updateTimeSpent = async (
 };
 
 // find the latest task in tasksList
-const fetchNewDocs = async (tasks: tasksListType, user_id: string) => {
+const fetchNewDocsF = async (tasks: tasksListType, user_id: string) => {
   const collectionRef = collection(db, "users", user_id, "plow");
   const tasksEntries = Object.entries(tasks);
   const initialTask = tasksEntries[0];
@@ -160,7 +160,7 @@ const useTaskStore = create<taskListStoreType>()(
         setUserID: (user_id: string) => set(() => ({ user_id: user_id })),
         fetchNewDocs: async () => {
           const user_id = get().user_id;
-          const querySnapshot = fetchNewDocs(get().tasks, user_id);
+          const querySnapshot = fetchNewDocsF(get().tasks, user_id);
           querySnapshot
             .then((querySnapshot) => {
               querySnapshot.forEach((doc) => {
