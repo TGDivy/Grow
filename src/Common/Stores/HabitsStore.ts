@@ -151,13 +151,12 @@ interface HabitsStoreType {
   updateHabit: (habit: HabitType) => void;
   // deleteHabit: (habitId: string) => void;
 
-  // addEntry: (entry: entryType, date: Date) => void;
-  // updateEntry: (entry: entryType, date: Date) => void;
+  updateEntry: (habits: habitEntryType, date: Date) => void;
 
   setUserId: (userId: string) => void;
 
   syncHabits: () => void;
-  //   syncEntries: () => void;
+  syncEntries: () => void;
 }
 
 const initialState = {
@@ -178,7 +177,7 @@ const updateEntry = async (entry: entryType, date: Date, userId: string) => {
     "users",
     userId,
     "habit-entries",
-    date.toDateString()
+    moment(date).format("YYYY-MM-DD")
   );
   const entrySnap = await getDoc(entryRef);
   if (entrySnap.exists()) {
@@ -193,10 +192,9 @@ const updateEntry = async (entry: entryType, date: Date, userId: string) => {
   }
 };
 
-// delete habit
 const deleteHabit = async (habitId: string) => {
   const habitRef = doc(db, "habits", habitId);
-  await deleteDoc(habitRef);
+  await setDoc(habitRef, { archived: true });
 };
 
 // sync habits with firestore
@@ -252,7 +250,7 @@ const fetchEntries = async (
     ? latestEntry[1].updatedAt.toDate()
     : new Date(2000, 1, 1);
 
-  const q = query(entriesRef, where("dateUpdated", ">", latestDate));
+  const q = query(entriesRef, where("updatedAt", ">", latestDate));
 
   const querySnapshot = await getDocs(q);
 
@@ -313,6 +311,77 @@ const useHabitsStore = create<HabitsStoreType>()(
               querySnapshot.forEach((doc) => {
                 const habit = doc.data() as HabitType;
                 state.habits[habit.habitId] = habit;
+              });
+            })
+          );
+        },
+        updateEntry: async (habitEntry: habitEntryType, date: Date) => {
+          const entry = {
+            date: Timestamp.fromDate(date),
+            habits: habitEntry,
+            updatedAt: Timestamp.now(),
+          } as entryType;
+          entry.updatedAt = Timestamp.now();
+          entry.date = Timestamp.fromDate(date);
+          // check if entry exists
+          // if it doesn't, create it, and update all the habits in to their nextDueDate
+          // if it exists, update it, no need to update habits
+          const entryRef = doc(
+            db,
+            "users",
+            get().userId,
+            "habit-entries",
+            moment(date).format("YYYY-MM-DD")
+          );
+          const entrySnap = await getDoc(entryRef);
+          if (entrySnap.exists()) {
+            await updateDoc(entryRef, {
+              date: entry.date,
+              habits: entry.habits,
+              updatedAt: entry.updatedAt,
+              ...entry.habits,
+            });
+            console.log("updated entry");
+          } else {
+            await setDoc(entryRef, {
+              date: entry.date,
+              habits: entry.habits,
+              updatedAt: entry.updatedAt,
+              ...entry.habits,
+            });
+            const habits = get().habits;
+            for (const habitId in habits) {
+              const habit = habits[habitId];
+              get().updateHabit({
+                ...habit,
+              });
+            }
+            console.log("created entry and updated habits");
+          }
+
+          set(
+            produce((state) => {
+              state.entries[moment(date).format("YYYY-MM-DD")] = entry;
+              // update habits
+              for (const habitId in entry.habits) {
+                const habit = state.habits[habitId];
+                habit.nextDueDate = Timestamp.fromDate(
+                  getNextDueDate(habit.frequencyType)
+                );
+              }
+            })
+          );
+        },
+        syncEntries: async () => {
+          if (!get().userId) return;
+          const querySnapshot = await fetchEntries(get().userId, get().entries);
+          set(
+            produce((state) => {
+              querySnapshot.forEach((doc) => {
+                const entry = doc.data() as entryType;
+                state.entries[
+                  moment(entry.date.toDate()).format("YYYY-MM-DD")
+                ] = entry;
               });
             })
           );
