@@ -93,9 +93,10 @@ const HabitCard = (habit: HabitType) => {
   const handleClose = () => {
     setOpen(false);
   };
+  const [coverImageHover, setCoverImageHover] = React.useState(false);
 
   return (
-    <StyledCard>
+    <StyledCard onMouseLeave={() => setCoverImageHover(false)}>
       <HabitViewer open={open} handleClose={handleClose} habit={habit} />
       {habit.image?.url && (
         <ImageList
@@ -112,30 +113,34 @@ const HabitCard = (habit: HabitType) => {
               srcSet={`${habit.image.url}`}
               alt={`cover image for ${habit.image.url}}`}
               loading="lazy"
+              onMouseEnter={() => setCoverImageHover(true)}
             />
-            <ImageListItemBar
-              subtitle={
-                // link to author's profile
-                <Stack
-                  direction="row"
-                  spacing={1}
-                  alignItems="flex-end"
-                  justifyContent={"flex-end"}
-                >
-                  <Typography variant="caption">Photo by</Typography>
+            {coverImageHover && (
+              <ImageListItemBar
+                subtitle={
+                  // link to author's profile
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    onMouseEnter={() => setCoverImageHover(true)}
+                    alignItems="flex-end"
+                    justifyContent={"flex-end"}
+                  >
+                    <Typography variant="caption">Photo by</Typography>
 
-                  <Link href={habit.image.authorUrl} target="_blank">
-                    <Typography variant="caption">
-                      {habit.image.name}
-                    </Typography>
-                  </Link>
-                  <Typography variant="caption">on</Typography>
-                  <Link href="https://unsplash.com/" target="_blank">
-                    <Typography variant="caption">Unsplash</Typography>
-                  </Link>
-                </Stack>
-              }
-            />
+                    <Link href={habit.image.authorUrl} target="_blank">
+                      <Typography variant="caption">
+                        {habit.image.name}
+                      </Typography>
+                    </Link>
+                    <Typography variant="caption">on</Typography>
+                    <Link href="https://unsplash.com/" target="_blank">
+                      <Typography variant="caption">Unsplash</Typography>
+                    </Link>
+                  </Stack>
+                }
+              />
+            )}
           </ImageListItem>
         </ImageList>
       )}
