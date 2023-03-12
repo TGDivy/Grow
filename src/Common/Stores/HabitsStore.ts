@@ -20,6 +20,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../Firestore/firebase-config";
 import produce from "immer";
+import { UnsplashImageType, getUnsplashImageUrl } from "./Utils/Utils";
 export interface FrequencyType {
   type: "day" | "week";
   repeatEvery: number;
@@ -46,6 +47,9 @@ export interface HabitType {
 
   createdAt: Timestamp;
   updatedAt: Timestamp;
+
+  image?: UnsplashImageType;
+  archived?: boolean;
 }
 
 // consists of various habitIds and their boolean values
@@ -261,7 +265,7 @@ const useHabitsStore = create<HabitsStoreType>()(
     persist(
       (set, get) => ({
         ...initialState,
-        addHabit: (habit: HabitType) => {
+        addHabit: async (habit: HabitType) => {
           habit.createdAt = Timestamp.now();
           habit.updatedAt = Timestamp.now();
           // update nextDueDate

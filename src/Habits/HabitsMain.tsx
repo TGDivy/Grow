@@ -17,9 +17,9 @@ const HabitsMain = () => {
         <Fade in timeout={1000}>
           <Box>
             <HabitsList />
-            <HabitEntry />
           </Box>
         </Fade>
+        <HabitEntry />
       </Stack>
     </Container>
   );

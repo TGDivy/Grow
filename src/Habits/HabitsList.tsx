@@ -5,13 +5,19 @@ import {
   CardActions,
   CardContent,
   CardHeader,
+  CardMedia,
   Collapse,
   Divider,
   Grid,
+  ImageListItem,
+  ImageListItemBar,
   List,
   ListItemButton,
+  Stack,
   Typography,
   Zoom,
+  Link,
+  ImageList,
 } from "@mui/material";
 import { TransitionGroup } from "react-transition-group";
 import { HabitType } from "../Common/Stores/HabitsStore";
@@ -91,6 +97,48 @@ const HabitCard = (habit: HabitType) => {
   return (
     <StyledCard>
       <HabitViewer open={open} handleClose={handleClose} habit={habit} />
+      {habit.image?.url && (
+        <ImageList
+          cols={3}
+          variant="quilted"
+          rowHeight={120}
+          sx={{
+            m: 0,
+          }}
+        >
+          <ImageListItem cols={3} rows={1}>
+            <img
+              src={`${habit.image.url}`}
+              srcSet={`${habit.image.url}`}
+              alt={`cover image for ${habit.image.url}}`}
+              loading="lazy"
+            />
+            <ImageListItemBar
+              subtitle={
+                // link to author's profile
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  alignItems="flex-end"
+                  justifyContent={"flex-end"}
+                >
+                  <Typography variant="caption">Photo by</Typography>
+
+                  <Link href={habit.image.authorUrl} target="_blank">
+                    <Typography variant="caption">
+                      {habit.image.name}
+                    </Typography>
+                  </Link>
+                  <Typography variant="caption">on</Typography>
+                  <Link href="https://unsplash.com/" target="_blank">
+                    <Typography variant="caption">Unsplash</Typography>
+                  </Link>
+                </Stack>
+              }
+            />
+          </ImageListItem>
+        </ImageList>
+      )}
       <CardHeader
         title={
           <ListItemButton

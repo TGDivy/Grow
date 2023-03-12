@@ -28,6 +28,9 @@ const HabitViewer = (props: Props) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const { habit, handleClose, open } = props;
+  const defaultImage =
+    "https://images.unsplash.com/photo-1476820865390-c52aeebb9891?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8";
+  const urlImageParams = ""; //"&auto=format&fit=crop&w=1740&q=80";
   return (
     <Dialog
       fullScreen={fullScreen}
@@ -58,8 +61,8 @@ const HabitViewer = (props: Props) => {
       </DialogTitle>
       <CardMedia
         component="img"
-        image="https://images.unsplash.com/photo-1476820865390-c52aeebb9891?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"
-        alt="Live from space album cover"
+        image={(habit.image?.url || defaultImage) + urlImageParams}
+        alt="Habit Image"
         height="140"
       />
       <DialogContent>

@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 
-import { Add, Create, Delete, Remove, Save } from "@mui/icons-material";
+import {
+  Add,
+  ArrowBack,
+  Create,
+  Delete,
+  ImageAspectRatio,
+  Remove,
+  Save,
+} from "@mui/icons-material";
 import {
   Button,
   CardHeader,
@@ -26,6 +34,8 @@ import useHabitsStore, {
 } from "../Common/Stores/HabitsStore";
 import { v4 as uuidv4 } from "uuid";
 import { Timestamp } from "firebase/firestore";
+import ImagePicker from "./ImagePicker";
+import { UnsplashImageType } from "../Common/Stores/Utils/Utils";
 
 const HabitCreatorCore = (props: { handleClose: () => void }) => {
   const [habit, setHabit] = useState<HabitType>({
@@ -52,6 +62,17 @@ const HabitCreatorCore = (props: { handleClose: () => void }) => {
     addHabit(habit);
     props.handleClose();
   };
+
+  const [pickingImage, setPickingImage] = useState(false);
+
+  const handlePickImage = () => {
+    setPickingImage(!pickingImage);
+  };
+
+  const imageUrls = [
+    "https://images.unsplash.com/photo-1476820865390-c52aeebb9891?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
+    "https://images.unsplash.com/photo-1476820865390-c52aeebb9891?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
+  ];
 
   // daily, weekly, monthly is a button group
   const handleFrequencyTypeChange = (event: React.MouseEvent<HTMLElement>) => {
@@ -206,23 +227,66 @@ const HabitCreatorCore = (props: { handleClose: () => void }) => {
       >
         Create Habit
       </DialogTitle>
-      <CardMedia
-        component="img"
-        image="https://images.unsplash.com/photo-1476820865390-c52aeebb9891?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"
-        alt="Live from space album cover"
-        height="140"
-      />
-      <CardHeader
-        title={
+      {!pickingImage && (
+        <>
+          <CardMedia
+            component="img"
+            image="https://images.unsplash.com/photo-1476820865390-c52aeebb9891?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"
+            alt="Live from space album cover"
+            height="140"
+          />
+          <CardHeader
+            title={
+              <TextField
+                id="outlined-basic"
+                label="Title"
+                size="small"
+                variant="filled"
+                fullWidth
+                value={habit.title}
+                onChange={(event) => {
+                  setHabit({ ...habit, title: event.target.value });
+                }}
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderBottom: "0px solid",
+                    "&::before": {
+                      borderBottom: "0px solid",
+                    },
+                    "&::after": {
+                      borderBottom: "0px solid",
+                    },
+                  },
+                }}
+              />
+            }
+          />
+          <DialogContent>
+            <Stack spacing={2}>
+              <Stack spacing={2} direction="row">
+                <RepeatEvery />
+                <FrequencySelector />
+              </Stack>
+              {habit.frequencyType.type === "week" && (
+                <>
+                  Repeat on:
+                  <DayOfWeekSelector />
+                </>
+              )}
+            </Stack>
+          </DialogContent>
           <TextField
-            id="outlined-basic"
-            label="Title"
-            size="small"
+            // label="Description"
+            placeholder="Write any additional details here..."
+            margin="normal"
             variant="filled"
+            value={habit.description}
+            multiline
+            minRows={3}
+            maxRows={5}
             fullWidth
-            value={habit.title}
             onChange={(event) => {
-              setHabit({ ...habit, title: event.target.value });
+              setHabit({ ...habit, description: event.target.value });
             }}
             sx={{
               "& .MuiInputBase-root": {
@@ -236,69 +300,77 @@ const HabitCreatorCore = (props: { handleClose: () => void }) => {
               },
             }}
           />
-        }
-      />
-      <DialogContent>
-        <Stack spacing={2}>
-          <Stack spacing={2} direction="row">
-            <RepeatEvery />
-            <FrequencySelector />
-          </Stack>
-          {habit.frequencyType.type === "week" && (
-            <>
-              Repeat on:
-              <DayOfWeekSelector />
-            </>
-          )}
-        </Stack>
-      </DialogContent>
-      <TextField
-        // label="Description"
-        placeholder="Write any additional details here..."
-        margin="normal"
-        variant="filled"
-        value={habit.description}
-        multiline
-        minRows={3}
-        maxRows={5}
-        fullWidth
-        onChange={(event) => {
-          setHabit({ ...habit, description: event.target.value });
-        }}
-        sx={{
-          "& .MuiInputBase-root": {
-            borderBottom: "0px solid",
-            "&::before": {
-              borderBottom: "0px solid",
-            },
-            "&::after": {
-              borderBottom: "0px solid",
-            },
-          },
-        }}
-      />
 
-      <DialogActions>
-        <Button
-          variant="text"
-          color="secondary"
-          startIcon={<Delete />}
-          fullWidth
-          onClick={props.handleClose}
-        >
-          Cancel
-        </Button>
-        <StyledButton
-          variant="contained"
-          color="primary"
-          startIcon={<Save />}
-          fullWidth
-          disabled={habit.title === ""}
-          onClick={handleSave}
-        >
-          Save
-        </StyledButton>
-      </DialogActions>
+          <DialogActions>
+            <Button
+              variant="text"
+              color="secondary"
+              startIcon={<ArrowBack />}
+              fullWidth
+              onClick={props.handleClose}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="text"
+              color="secondary"
+              startIcon={<ImageAspectRatio />}
+              fullWidth
+              disabled={habit.title === ""}
+              onClick={handlePickImage}
+            >
+              Pick Image
+            </Button>
+            <StyledButton
+              variant="contained"
+              color="primary"
+              startIcon={<Save />}
+              fullWidth
+              disabled={habit.title === "" || habit.image?.url === ""}
+              onClick={handleSave}
+            >
+              Save
+            </StyledButton>
+          </DialogActions>
+        </>
+      )}
+      {pickingImage && (
+        <>
+          <DialogContent>
+            <ImagePicker
+              search={habit.title}
+              setImage={(unsplashImage: UnsplashImageType) =>
+                setHabit({ ...habit, image: unsplashImage })
+              }
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              variant="text"
+              color="secondary"
+              startIcon={<ArrowBack />}
+              fullWidth
+              onClick={handlePickImage}
+            >
+              Back
+            </Button>
+            <StyledButton
+              variant="contained"
+              color="primary"
+              startIcon={<Save />}
+              fullWidth
+              disabled={
+                habit.title === "" ||
+                habit.image?.url === "" ||
+                habit.image?.url === undefined
+              }
+              onClick={handleSave}
+            >
+              Save
+            </StyledButton>
+          </DialogActions>
+        </>
+      )}
     </>
   );
 };
