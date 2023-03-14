@@ -72,7 +72,8 @@ const CreateTask: FC<createTaskFc> = ({
             backgroundColor: "background.default",
             backgroundImage: "none",
             color: "surface.contrastText",
-            minHeight: "667px",
+            height: "100%",
+            maxHeight: fullScreen ? "100%" : "700px",
           },
         }}
         sx={{
