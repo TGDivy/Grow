@@ -22,40 +22,34 @@ const HabitEntry = () => {
   const updateEntry = useHabitsStore((state) => state.updateEntry);
   const entries = useHabitsStore((state) => state.entries);
 
-  const [habitsDueToday, setHabitsDueToday] = React.useState<HabitType[]>([]);
   const [habitsDone, setHabitsDone] = React.useState<habitEntryType>({});
 
   React.useEffect(() => {
-    if (habitsDueToday.length === 0) {
-      const habitsDueToday_ = Object.values(habits).filter((habit) => {
-        // check if today is the same as the next due date using moment
-        const nextDueDate = moment(habit.nextDueDate.toDate());
-        const todayMoment = moment(today);
-        return nextDueDate.isSame(todayMoment, "day");
+    // if entries for today exist, set habitsDone to the habits in the entry
+    // note entries contains habit ids as keys and and boolean as value
+    if (entries[moment(today).format("YYYY-MM-DD")]?.habits) {
+      setHabitsDone(entries[moment(today).format("YYYY-MM-DD")].habits);
+    } else {
+      // get all habits due today
+      const habitsDueToday = Object.values(habits).filter((habit) => {
+        return moment(habit.nextDueDate).isSame(today, "day");
       });
-      setHabitsDueToday(habitsDueToday_);
-
-      if (Object.keys(entries).length > 0) {
-        if (entries[moment(today).format("YYYY-MM-DD")]?.habits) {
-          setHabitsDone(entries[moment(today).format("YYYY-MM-DD")].habits);
-        } else {
-          // set habitsDone to false for all habits due today
-          const habitsDone_ = habitsDueToday_.reduce((acc, habit) => {
-            return {
-              ...acc,
-              [habit.habitId]: false,
-            };
-          }, {});
-          setHabitsDone(habitsDone_);
-        }
-      }
+      const habitsDueTodayObj = habitsDueToday.reduce((acc, habit) => {
+        acc[habit.habitId] = false;
+        return acc;
+      }, {} as habitEntryType);
+      setHabitsDone(habitsDueTodayObj);
     }
-  }, [habits]);
+  }, []);
 
   React.useEffect(() => {
     updateEntry(habitsDone, today);
     console.log("updated entry");
   }, [habitsDone]);
+
+  const habitsDueToday = Object.keys(habitsDone).map((habit) => {
+    return habits[habit];
+  });
 
   return (
     <StyledCard
