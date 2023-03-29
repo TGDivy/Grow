@@ -194,6 +194,7 @@ interface HabitsStoreType {
 
   addHabit: (habit: HabitType) => void;
   updateHabit: (habit: HabitType) => void;
+  deleteHabit: (habitId: string) => void;
 
   updateEntry: (habits: habitEntryType, date: Date) => Promise<void>;
   getTodaysEntry: () => entryType | undefined;
@@ -297,6 +298,20 @@ const useHabitsStore = create<HabitsStoreType>()(
               state.habits[habit.habitId] = habit;
             })
           );
+          if (dueToday(habit.frequencyType, habit.createdAt.toDate())) {
+            // add habit to today's entry
+            const today = new Date();
+            const entry = get().entries[moment(today).format("YYYY-MM-DD")];
+
+            if (entry) {
+              // make a copy of the entry object
+              const entryCopy = { ...entry };
+              // make a copy of the habits object
+              entryCopy.habits = { ...entryCopy.habits };
+              entryCopy.habits[habit.habitId] = false;
+              get().updateEntry(entryCopy.habits, today);
+            }
+          }
         },
         updateHabit: (habit: HabitType) => {
           habit.updatedAt = Timestamp.now();
@@ -313,6 +328,23 @@ const useHabitsStore = create<HabitsStoreType>()(
           set(
             produce((state) => {
               state.habits[habit.habitId] = habit;
+            })
+          );
+        },
+
+        deleteHabit: (habitId: string) => {
+          const habit_ = get().habits[habitId];
+          const habit = { ...habit_ };
+          // set habit archived to true
+          habit.archived = true;
+          habit.updatedAt = Timestamp.now();
+          if (get().userId) {
+            habit.userId = get().userId;
+            updateHabit(habit);
+          }
+          set(
+            produce((state) => {
+              state.habits[habitId] = habit;
             })
           );
         },

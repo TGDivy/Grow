@@ -192,6 +192,9 @@ const HabitCard = (habit: HabitType) => {
 const HabitsList = () => {
   const habits = useHabitsStore((state) => state.habits);
   const habitsList = Object.entries(habits);
+  const habitsListFiltered = habitsList.filter(([habitId, habit]) =>
+    habit.archived ? !habit.archived : true
+  );
 
   return (
     <Box
@@ -202,7 +205,7 @@ const HabitsList = () => {
       }}
     >
       <Grid container spacing={2}>
-        {habitsList.map(([habitId, habit], index) => (
+        {habitsListFiltered.map(([habitId, habit], index) => (
           <Zoom
             in
             timeout={600}

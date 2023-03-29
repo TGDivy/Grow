@@ -13,10 +13,12 @@ import {
   DialogActions,
   DialogContentText,
   Box,
+  IconButton,
 } from "@mui/material";
-import { HabitType } from "../Common/Stores/HabitsStore";
+import useHabitsStore, { HabitType } from "../Common/Stores/HabitsStore";
 import { FrequencyTypeToString } from "./HabitsList";
 import moment from "moment";
+import { Delete } from "@mui/icons-material";
 
 type Props = {
   open: boolean;
@@ -28,9 +30,15 @@ const HabitViewer = (props: Props) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const { habit, handleClose, open } = props;
+  const deleteHabit = useHabitsStore((state) => state.deleteHabit);
   const defaultImage =
     "https://images.unsplash.com/photo-1476820865390-c52aeebb9891?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8";
   const urlImageParams = ""; //"&auto=format&fit=crop&w=1740&q=80";
+
+  const handleDelete = () => {
+    deleteHabit(habit.habitId);
+    handleClose();
+  };
   return (
     <Dialog
       fullScreen={fullScreen}
@@ -58,6 +66,9 @@ const HabitViewer = (props: Props) => {
         }}
       >
         {habit.title}
+        <IconButton onClick={handleDelete}>
+          <Delete />
+        </IconButton>
       </DialogTitle>
       <CardMedia
         component="img"
