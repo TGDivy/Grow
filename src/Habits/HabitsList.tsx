@@ -1,31 +1,29 @@
-import React from "react";
-import useHabitsStore, { FrequencyType } from "../Common/Stores/HabitsStore";
+import { ExpandMoreOutlined } from "@mui/icons-material";
 import {
   Box,
   CardActions,
   CardContent,
   CardHeader,
-  CardMedia,
   Collapse,
   Divider,
   Grid,
+  ImageList,
   ImageListItem,
   ImageListItemBar,
-  List,
+  Link,
   ListItemButton,
   Stack,
   Typography,
   Zoom,
-  Link,
-  ImageList,
 } from "@mui/material";
-import { TransitionGroup } from "react-transition-group";
-import { HabitType } from "../Common/Stores/HabitsStore";
-import { ExpandMoreOutlined } from "@mui/icons-material";
-import StyledCard from "../Common/ReusableComponents/StyledCard";
-import { useNavigate } from "react-router-dom";
-import { ExpandMore } from "../Tasks/Projects";
 import moment from "moment";
+import React from "react";
+import StyledCard from "../Common/ReusableComponents/StyledCard";
+import useHabitsStore, {
+  FrequencyType,
+  HabitType,
+} from "../Common/Stores/HabitsStore";
+import { ExpandMore } from "../Tasks/Projects";
 import HabitViewer from "./HabitViewer";
 
 export const FrequencyTypeVisualizer = (props: FrequencyType) => {
@@ -85,7 +83,6 @@ export const FrequencyTypeVisualizer = (props: FrequencyType) => {
 
 const HabitCard = (habit: HabitType) => {
   const [expanded, setExpanded] = React.useState(false);
-  const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     setOpen(true);

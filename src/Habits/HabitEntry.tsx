@@ -6,13 +6,9 @@ import {
   ListItemButton,
   ListItemText,
 } from "@mui/material";
-import moment from "moment";
 import React from "react";
 import StyledCard from "../Common/ReusableComponents/StyledCard";
-import useHabitsStore, {
-  HabitType,
-  habitEntryType,
-} from "../Common/Stores/HabitsStore";
+import useHabitsStore, { habitEntryType } from "../Common/Stores/HabitsStore";
 
 const HabitEntry = () => {
   const getTodaysEntry = useHabitsStore((state) => state.getTodaysEntry);

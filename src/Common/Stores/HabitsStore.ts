@@ -128,7 +128,6 @@ export const dueToday = (
   today?: Date
 ) => {
   today = today || new Date();
-  let nextDueDate;
 
   switch (frequencyType.type) {
     case "day":
@@ -214,32 +213,6 @@ const initialState = {
 const updateHabit = async (habit: HabitType) => {
   const habitRef = doc(db, "habits", habit.habitId);
   await setDoc(habitRef, habit);
-};
-// update and add entry
-const updateEntry = async (entry: entryType, date: Date, userId: string) => {
-  const entryRef = doc(
-    db,
-    "users",
-    userId,
-    "habit-entries",
-    moment(date).format("YYYY-MM-DD")
-  );
-  const entrySnap = await getDoc(entryRef);
-  if (entrySnap.exists()) {
-    await updateDoc(entryRef, {
-      date: entry.date,
-      habits: entry.habits,
-      updatedAt: entry.updatedAt,
-      ...entry.habits,
-    });
-  } else {
-    await setDoc(entryRef, entry);
-  }
-};
-
-const deleteHabit = async (habitId: string) => {
-  const habitRef = doc(db, "habits", habitId);
-  await setDoc(habitRef, { archived: true });
 };
 
 // sync habits with firestore
