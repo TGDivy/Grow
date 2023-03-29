@@ -1,26 +1,21 @@
 /* eslint-disable no-case-declarations */
-import create from "zustand";
-import { devtools, persist, subscribeWithSelector } from "zustand/middleware";
 import {
   Timestamp,
-  deleteDoc,
+  collection,
+  doc,
+  getDoc,
   getDocs,
   query,
+  setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
-import moment from "moment";
-import {
-  setDoc,
-  collection,
-  updateDoc,
-  doc,
-  increment,
-  addDoc,
-  getDoc,
-} from "firebase/firestore";
-import { db } from "../Firestore/firebase-config";
 import produce from "immer";
-import { UnsplashImageType, getUnsplashImageUrl } from "./Utils/Utils";
+import moment from "moment";
+import create from "zustand";
+import { devtools, persist } from "zustand/middleware";
+import { db } from "../Firestore/firebase-config";
+import { UnsplashImageType } from "./Utils/Utils";
 export interface FrequencyType {
   type: "day" | "week";
   repeatEvery: number;
@@ -126,6 +121,57 @@ export const getNextDueDate = (frequencyType: FrequencyType, today?: Date) => {
       throw new Error("Invalid Frequency Type");
   }
 };
+// Function to check if the habit is due today
+export const dueToday = (
+  frequencyType: FrequencyType,
+  habitStartDate: Date,
+  today?: Date
+) => {
+  today = today || new Date();
+  let nextDueDate;
+
+  switch (frequencyType.type) {
+    case "day":
+      // calculate the next due date take into account the repeatEvery, current date, and start date
+      const diff = moment(today).diff(habitStartDate, "days");
+      const repeatEvery = frequencyType.repeatEvery;
+      const remainder = diff % repeatEvery;
+      if (remainder === 0) {
+        return true;
+      }
+      return false;
+    case "week":
+      // calculate the next due date take into account the repeatEvery, and days of the week
+      const { daysOfWeek } = frequencyType;
+      if (!daysOfWeek) {
+        throw new Error("Days of the week is not defined");
+      }
+      // Days of week is an array of strings representing the days of the week
+      // Also take into account the repeatEvery
+      const daysOfWeekMap = {
+        sun: 0,
+        mon: 1,
+        tue: 2,
+        wed: 3,
+        thu: 4,
+        fri: 5,
+        sat: 6,
+      };
+      const daysOfWeekNum = daysOfWeek.map((day) => daysOfWeekMap[day]);
+      const todayNum = today.getDay();
+      const nextDueDateNum = daysOfWeekNum.reduce((a, b) =>
+        calcDiff(todayNum, a) < calcDiff(todayNum, b) ? a : b
+      );
+
+      if (nextDueDateNum === todayNum) {
+        return true;
+      }
+      return false;
+    default:
+      // throw an error
+      throw new Error("Invalid Frequency Type");
+  }
+};
 
 // Function to get the next due dates up until the next 30 days
 export const getNextDueDates = (frequencyType: FrequencyType) => {
@@ -149,14 +195,13 @@ interface HabitsStoreType {
 
   addHabit: (habit: HabitType) => void;
   updateHabit: (habit: HabitType) => void;
-  // deleteHabit: (habitId: string) => void;
 
-  updateEntry: (habits: habitEntryType, date: Date) => void;
+  updateEntry: (habits: habitEntryType, date: Date) => Promise<void>;
+  getTodaysEntry: () => entryType | undefined;
 
   setUserId: (userId: string) => void;
 
-  syncHabits: () => void;
-  syncEntries: () => void;
+  syncHabitEntries: () => Promise<void>;
 }
 
 const initialState = {
@@ -263,19 +308,17 @@ const useHabitsStore = create<HabitsStoreType>()(
     persist(
       (set, get) => ({
         ...initialState,
-        addHabit: async (habit: HabitType) => {
+        addHabit: (habit: HabitType) => {
           habit.createdAt = Timestamp.now();
           habit.updatedAt = Timestamp.now();
           // update nextDueDate
           habit.nextDueDate = Timestamp.fromDate(
             getNextDueDate(habit.frequencyType)
           );
-
           if (get().userId) {
             habit.userId = get().userId;
             updateHabit(habit);
           }
-
           set(
             produce((state) => {
               state.habits[habit.habitId] = habit;
@@ -303,18 +346,7 @@ const useHabitsStore = create<HabitsStoreType>()(
         setUserId: (userId: string) => {
           set({ userId });
         },
-        syncHabits: async () => {
-          if (!get().userId) return;
-          const querySnapshot = await fetchHabits(get().userId, get().habits);
-          set(
-            produce((state) => {
-              querySnapshot.forEach((doc) => {
-                const habit = doc.data() as HabitType;
-                state.habits[habit.habitId] = habit;
-              });
-            })
-          );
-        },
+
         updateEntry: async (habitEntry: habitEntryType, date: Date) => {
           const entry = {
             date: Timestamp.fromDate(date),
@@ -323,6 +355,19 @@ const useHabitsStore = create<HabitsStoreType>()(
           } as entryType;
           entry.updatedAt = Timestamp.now();
           entry.date = Timestamp.fromDate(date);
+
+          const entries = get().entries;
+          const entryDate = moment(date).format("YYYY-MM-DD");
+          if (entries[entryDate]) {
+            // check if all values are the same
+            const isSame = Object.entries(habitEntry).every(
+              ([key, value]) => value === entries[entryDate].habits[key]
+            );
+            if (isSame) {
+              return;
+            }
+          }
+
           // check if entry exists
           // if it doesn't, create it, and update all the habits in to their nextDueDate
           // if it exists, update it, no need to update habits
@@ -372,7 +417,12 @@ const useHabitsStore = create<HabitsStoreType>()(
             })
           );
         },
-        syncEntries: async () => {
+        getTodaysEntry: () => {
+          const today = moment().format("YYYY-MM-DD");
+          return get().entries[today];
+        },
+
+        syncHabitEntries: async () => {
           if (!get().userId) return;
           const querySnapshot = await fetchEntries(get().userId, get().entries);
           set(
@@ -385,6 +435,82 @@ const useHabitsStore = create<HabitsStoreType>()(
               });
             })
           );
+
+          const querySnapshot2 = await fetchHabits(get().userId, get().habits);
+          set(
+            produce((state) => {
+              querySnapshot2.forEach((doc) => {
+                const habit = doc.data() as HabitType;
+                state.habits[habit.habitId] = habit;
+              });
+            })
+          );
+
+          // if entry for today exist, don't do anything
+          // if entry for today doesn't exist, check for the latest entry.
+          // if no entry exists, create a new entry with all habits due today set to false
+          // if an entry exists, iterate through from the latest entry to today and create entries for each day with all habits due that day set to false,
+          // Followed by creating an entry for today with all habits due today set to false
+          const today = moment().format("YYYY-MM-DD");
+          const todayEntry = get().entries[today];
+          if (!todayEntry) {
+            const entries = get().entries;
+            const habits = get().habits;
+            const entryDates = Object.keys(entries);
+            // if no entries exist, create a new entry for today with all habits set to false
+            if (entryDates.length === 0) {
+              const entry = {
+                date: Timestamp.fromDate(new Date()),
+                habits: {},
+                updatedAt: Timestamp.now(),
+              } as entryType;
+              for (const habitId in habits) {
+                const habit = habits[habitId];
+                // check if habit is due today
+                if (dueToday(habit.frequencyType, habit.createdAt.toDate())) {
+                  entry.habits[habitId] = false;
+                }
+              }
+              await get().updateEntry(entry.habits, new Date());
+              console.log("created entry for today", entry);
+            }
+            // if entries exist, iterate through from the latest entry to today and create entries for each day with all habits due that day set to false,
+            else {
+              // iterate throught the entry dates, to find the latest entry
+              const latestEntryDate = moment(
+                entryDates.reduce((a, b) => (moment(a).isAfter(b) ? a : b))
+              );
+              console.log("latest entry date", latestEntryDate);
+              const todayDate = moment(today, "YYYY-MM-DD");
+              const daysBetween = todayDate.diff(latestEntryDate, "days");
+              for (let i = 1; i <= daysBetween; i++) {
+                // get next day without changing latestEntryDate
+                const date = moment(latestEntryDate.clone())
+                  .add(i, "days")
+                  .toDate();
+
+                const entry = {
+                  date: Timestamp.fromDate(date),
+                  habits: {},
+                  updatedAt: Timestamp.now(),
+                } as entryType;
+                for (const habitId in habits) {
+                  const habit = habits[habitId];
+                  if (
+                    dueToday(
+                      habit.frequencyType,
+                      habit.createdAt.toDate(),
+                      date
+                    )
+                  ) {
+                    entry.habits[habitId] = false;
+                  }
+                }
+                await get().updateEntry(entry.habits, date);
+                console.log("created entry for", date, entry);
+              }
+            }
+          }
         },
       }),
       {

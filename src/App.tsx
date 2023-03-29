@@ -40,8 +40,7 @@ const App = () => {
   const fetchActivities = useActivityStore((state) => state.fetchActivities);
   const fetchTasks = useTaskStore((state) => state.fetchNewDocs);
   const fetchTimer = useTimerStore((state) => state.syncTimer);
-  const fetchHabits = useHabitsStore((state) => state.syncHabits);
-  const fetchHabitEntries = useHabitsStore((state) => state.syncEntries);
+  const fetchHabitEntries = useHabitsStore((state) => state.syncHabitEntries);
 
   React.useEffect(() => {
     if (location.pathname !== "/") {
@@ -52,7 +51,6 @@ const App = () => {
     fetchTimerRecords();
     fetchJournalEntries();
     fetchTasks();
-    fetchHabits();
     fetchHabitEntries();
   }, []);
 
@@ -64,7 +62,6 @@ const App = () => {
       fetchJournalEntries();
       fetchTimer(user?.uid);
       fetchTasks();
-      fetchHabits();
       fetchHabitEntries();
     } else {
       console.log("no user id no fetch");

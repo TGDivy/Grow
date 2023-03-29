@@ -14,36 +14,22 @@ import useHabitsStore, {
   habitEntryType,
 } from "../Common/Stores/HabitsStore";
 
-const today = new Date();
-today.setDate(today.getDate());
-
 const HabitEntry = () => {
-  const habits = useHabitsStore((state) => state.habits);
+  const getTodaysEntry = useHabitsStore((state) => state.getTodaysEntry);
   const updateEntry = useHabitsStore((state) => state.updateEntry);
-  const entries = useHabitsStore((state) => state.entries);
 
+  const habits = useHabitsStore((state) => state.habits);
   const [habitsDone, setHabitsDone] = React.useState<habitEntryType>({});
 
   React.useEffect(() => {
-    // if entries for today exist, set habitsDone to the habits in the entry
-    // note entries contains habit ids as keys and and boolean as value
-    if (entries[moment(today).format("YYYY-MM-DD")]?.habits) {
-      setHabitsDone(entries[moment(today).format("YYYY-MM-DD")].habits);
-    } else {
-      // get all habits due today
-      const habitsDueToday = Object.values(habits).filter((habit) => {
-        return moment(habit.nextDueDate).isSame(today, "day");
-      });
-      const habitsDueTodayObj = habitsDueToday.reduce((acc, habit) => {
-        acc[habit.habitId] = false;
-        return acc;
-      }, {} as habitEntryType);
-      setHabitsDone(habitsDueTodayObj);
+    const entry = getTodaysEntry();
+    if (entry) {
+      setHabitsDone(entry.habits);
     }
   }, []);
 
   React.useEffect(() => {
-    updateEntry(habitsDone, today);
+    updateEntry(habitsDone, new Date());
     console.log("updated entry");
   }, [habitsDone]);
 
@@ -54,7 +40,6 @@ const HabitEntry = () => {
   return (
     <StyledCard
       sx={{
-        // height: "310px",
         ":hover": {
           boxShadow: 0,
         },

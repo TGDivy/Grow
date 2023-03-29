@@ -206,37 +206,23 @@ const HabitsList = () => {
         color: { xs: "transparent", sm: "surfaceVariant.contrastText" },
       }}
     >
-      <TransitionGroup>
-        <Grid container spacing={2}>
-          {habitsList.map(([habitId, habit], index) => (
-            <Zoom
-              in
-              timeout={600}
-              style={{
-                transformOrigin: "0 0 0",
-                transitionDelay: `${index * 450}ms`,
-              }}
-              key={habitId}
-            >
-              <Grid item xs={12} sm={6} md={4} key={habitId}>
-                <HabitCard {...habit} />
-              </Grid>
-            </Zoom>
-          ))}
-          {/* <Zoom
-            in={true}
+      <Grid container spacing={2}>
+        {habitsList.map(([habitId, habit], index) => (
+          <Zoom
+            in
             timeout={600}
             style={{
               transformOrigin: "0 0 0",
-              transitionDelay: `${projects.length * 450}ms`,
+              transitionDelay: `${index * 450}ms`,
             }}
+            key={habitId}
           >
-            <Grid item xs={12} sm={6} md={4}>
-              <CreateProjectCard />
+            <Grid item xs={12} sm={6} md={4} key={habitId}>
+              <HabitCard {...habit} />
             </Grid>
-          </Zoom> */}
-        </Grid>
-      </TransitionGroup>
+          </Zoom>
+        ))}
+      </Grid>
     </Box>
   );
 };
