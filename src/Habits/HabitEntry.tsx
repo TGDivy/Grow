@@ -1,14 +1,26 @@
 import {
+  Box,
   CardHeader,
   Checkbox,
+  LinearProgress,
   List,
   ListItem,
   ListItemButton,
   ListItemText,
+  Typography,
 } from "@mui/material";
 import React from "react";
 import StyledCard from "../Common/ReusableComponents/StyledCard";
-import useHabitsStore, { habitEntryType } from "../Common/Stores/HabitsStore";
+import useHabitsStore, {
+  HabitType,
+  habitEntryType,
+} from "../Common/Stores/HabitsStore";
+import {
+  filterTimerRecords,
+  totalTimeWorked,
+  totalTimeWorkedByTagOrSticker,
+} from "../Stats/Utils/recordUtils";
+import useTimerRecordsStore from "../Common/Stores/TimerRecordsStore";
 
 const HabitEntry = () => {
   const getTodaysEntry = useHabitsStore((state) => state.getTodaysEntry);
@@ -32,6 +44,114 @@ const HabitEntry = () => {
     return habits[habit];
   });
 
+  const SimpleHabitItem = (habit: HabitType) => {
+    return (
+      <ListItem
+        key={habit.habitId}
+        secondaryAction={
+          <Checkbox
+            color="primary"
+            onClick={() => {
+              setHabitsDone({
+                ...habitsDone,
+                [habit.habitId]: !habitsDone[habit.habitId],
+              });
+            }}
+            checked={habitsDone[habit.habitId] || false}
+          />
+        }
+      >
+        <ListItemButton
+          sx={{ width: "100%" }}
+          onClick={() => {
+            setHabitsDone({
+              ...habitsDone,
+              [habit.habitId]: !habitsDone[habit.habitId],
+            });
+          }}
+        >
+          <ListItemText primary={habit.title} />
+        </ListItemButton>
+      </ListItem>
+    );
+  };
+  const timerRecords = useTimerRecordsStore((state) => state.timerRecords);
+  const todayRecords = filterTimerRecords(timerRecords, 1, 0);
+  const projectHabitItem = (habit: HabitType) => {
+    if (habit?.completionCriteria?.type !== "numeric") return null;
+    const timeSpent = totalTimeWorkedByTagOrSticker(todayRecords, habit.title); // time spent on project in minutes
+    if (
+      timeSpent > habit.completionCriteria.value / 60 &&
+      habitsDone[habit.habitId] !== true
+    ) {
+      setHabitsDone({
+        ...habitsDone,
+        [habit.habitId]: true,
+      });
+    }
+    // secondary text informing user how much time they have spent on the project
+    // and how much time they need to spend
+    // display in hours and minutes
+    const secondaryText = `Spent ${Math.floor(timeSpent / 60)}h ${Math.floor(
+      timeSpent % 60
+    )}m / ${Math.floor(habit.completionCriteria.value / 3600)}h ${Math.floor(
+      (habit.completionCriteria.value % 3600) / 60
+    )}m`;
+
+    // progress bar showing how much time is left to spend on the project
+
+    return (
+      <>
+        <ListItem
+          key={habit.habitId}
+          secondaryAction={
+            <Checkbox
+              color="primary"
+              onClick={() => {
+                setHabitsDone({
+                  ...habitsDone,
+                  [habit.habitId]: !habitsDone[habit.habitId],
+                });
+              }}
+              checked={habitsDone[habit.habitId] || false}
+              disabled
+            />
+          }
+        >
+          <ListItemButton sx={{ width: "100%", pb: 1 }}>
+            <ListItemText
+              sx={{
+                textTransform: "capitalize",
+              }}
+              primary={habit.title}
+            />
+            <Box
+              sx={{
+                width: "100%",
+                position: "absolute",
+                left: 0,
+                bottom: 0,
+                paddingRight: "1rem",
+                paddingLeft: "1rem",
+              }}
+            >
+              <Typography variant="body2" align="right">
+                {secondaryText}
+              </Typography>
+              <LinearProgress
+                variant="determinate"
+                value={Math.min(
+                  (timeSpent / (habit.completionCriteria.value / 60)) * 100,
+                  100
+                )}
+              />
+            </Box>
+          </ListItemButton>
+        </ListItem>
+      </>
+    );
+  };
+
   return (
     <StyledCard
       sx={{
@@ -49,35 +169,11 @@ const HabitEntry = () => {
         }
       />
       <List dense>
-        {habitsDueToday.map((habit) => (
-          <ListItem
-            key={habit.habitId}
-            secondaryAction={
-              <Checkbox
-                color="primary"
-                onClick={() => {
-                  setHabitsDone({
-                    ...habitsDone,
-                    [habit.habitId]: !habitsDone[habit.habitId],
-                  });
-                }}
-                checked={habitsDone[habit.habitId] || false}
-              />
-            }
-          >
-            <ListItemButton
-              sx={{ width: "100%" }}
-              onClick={() => {
-                setHabitsDone({
-                  ...habitsDone,
-                  [habit.habitId]: !habitsDone[habit.habitId],
-                });
-              }}
-            >
-              <ListItemText primary={habit.title} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        {habitsDueToday.map((habit) =>
+          habit.type === "custom"
+            ? SimpleHabitItem(habit)
+            : projectHabitItem(habit)
+        )}
       </List>
     </StyledCard>
   );

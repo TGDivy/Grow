@@ -134,7 +134,7 @@ const CompletionCriteriaNumericGreater = (props: PropsComp) => {
                   } as numericType,
                 });
               }}
-              disabled={value <= 60 * 60}
+              disabled={value < 60 * 60}
             >
               <RemoveCircle />
             </IconButton>
