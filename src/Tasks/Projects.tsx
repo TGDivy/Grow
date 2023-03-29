@@ -287,37 +287,35 @@ const Projects = () => {
         color: { xs: "transparent", sm: "surfaceVariant.contrastText" },
       }}
     >
-      <TransitionGroup>
-        <Grid container spacing={2}>
-          {projects.map((project, index) => (
-            <Zoom
-              in={true}
-              timeout={600}
-              style={{
-                transformOrigin: "0 0 0",
-                transitionDelay: `${index * 450}ms`,
-              }}
-              key={project}
-            >
-              <Grid item xs={12} sm={6} md={4} key={project}>
-                <ProjectCard name={project} />
-              </Grid>
-            </Zoom>
-          ))}
+      <Grid container spacing={2}>
+        {projects.map((project, index) => (
           <Zoom
             in={true}
             timeout={600}
             style={{
               transformOrigin: "0 0 0",
-              transitionDelay: `${projects.length * 450}ms`,
+              transitionDelay: `${index * 450}ms`,
             }}
+            key={project}
           >
-            <Grid item xs={12} sm={6} md={4}>
-              <CreateProjectCard />
+            <Grid item xs={12} sm={6} md={4} key={project}>
+              <ProjectCard name={project} />
             </Grid>
           </Zoom>
-        </Grid>
-      </TransitionGroup>
+        ))}
+        <Zoom
+          in={true}
+          timeout={600}
+          style={{
+            transformOrigin: "0 0 0",
+            transitionDelay: `${projects.length * 450}ms`,
+          }}
+        >
+          <Grid item xs={12} sm={6} md={4}>
+            <CreateProjectCard />
+          </Grid>
+        </Zoom>
+      </Grid>
     </Box>
   );
 };

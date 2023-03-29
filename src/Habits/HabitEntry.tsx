@@ -92,63 +92,73 @@ const HabitEntry = () => {
     // secondary text informing user how much time they have spent on the project
     // and how much time they need to spend
     // display in hours and minutes
-    const secondaryText = `Spent ${Math.floor(timeSpent / 60)}h ${Math.floor(
-      timeSpent % 60
-    )}m / ${Math.floor(habit.completionCriteria.value / 3600)}h ${Math.floor(
+
+    // ignore 0 values
+    const timeSpentHours = Math.floor(timeSpent / 60);
+    const timeSpentMinutes = Math.floor(timeSpent % 60);
+    const timeSpentText = `${timeSpentHours > 0 ? timeSpentHours + "h" : ""} ${
+      timeSpentMinutes > 0 ? timeSpentMinutes + "m" : ""
+    }`;
+
+    const timeNeededHours = Math.floor(habit.completionCriteria.value / 3600);
+    const timeNeededMinutes = Math.floor(
       (habit.completionCriteria.value % 3600) / 60
-    )}m`;
+    );
+    const timeNeededText = `${
+      timeNeededHours > 0 ? timeNeededHours + "h" : ""
+    } ${timeNeededMinutes > 0 ? timeNeededMinutes + "m" : ""}`;
+
+    const secondaryText = `${timeSpentText} / ${timeNeededText}`;
 
     // progress bar showing how much time is left to spend on the project
 
     return (
-      <>
-        <ListItem
-          key={habit.habitId}
-          secondaryAction={
-            <Checkbox
-              color="primary"
-              onClick={() => {
-                setHabitsDone({
-                  ...habitsDone,
-                  [habit.habitId]: !habitsDone[habit.habitId],
-                });
-              }}
-              checked={habitsDone[habit.habitId] || false}
-              disabled
+      <ListItem
+        key={habit.habitId}
+        secondaryAction={
+          <Checkbox
+            color="primary"
+            onClick={() => {
+              setHabitsDone({
+                ...habitsDone,
+                [habit.habitId]: !habitsDone[habit.habitId],
+              });
+            }}
+            checked={habitsDone[habit.habitId] || false}
+            disabled
+          />
+        }
+      >
+        <ListItemButton sx={{ width: "100%", pb: 1 }}>
+          <ListItemText
+            sx={{
+              textTransform: "capitalize",
+            }}
+            primary={habit.title}
+          />
+          <Box
+            sx={{
+              width: "100%",
+              position: "absolute",
+              left: 0,
+              bottom: 0,
+              paddingRight: "1rem",
+              paddingLeft: "1rem",
+            }}
+          >
+            <Typography variant="body2" align="right">
+              {secondaryText}
+            </Typography>
+            <LinearProgress
+              variant="determinate"
+              value={Math.min(
+                (timeSpent / (habit.completionCriteria.value / 60)) * 100,
+                100
+              )}
             />
-          }
-        >
-          <ListItemButton sx={{ width: "100%", pb: 1 }}>
-            <ListItemText
-              sx={{
-                textTransform: "capitalize",
-              }}
-              primary={habit.title}
-            />
-            <Box
-              sx={{
-                width: "100%",
-                position: "absolute",
-                left: 0,
-                bottom: 0,
-                paddingRight: "1rem",
-                paddingLeft: "1rem",
-              }}
-            >
-              <Typography variant="body2" align="right">
-                {secondaryText}
-              </Typography>
-              <LinearProgress
-                variant="determinate"
-                value={Math.min(
-                  (timeSpent / (habit.completionCriteria.value / 60)) * 100,
-                  100
-                )}
-              />
-            </Box>
-          </ListItemButton>
-        </ListItem>
-      </>
+          </Box>
+        </ListItemButton>
+      </ListItem>
     );
   };
 
