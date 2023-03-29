@@ -26,7 +26,7 @@ import useHabitsStore, {
 import { ExpandMore } from "../Tasks/Projects";
 import HabitViewer from "./HabitViewer";
 
-export const FrequencyTypeVisualizer = (props: FrequencyType) => {
+export const FrequencyTypeToString = (props: FrequencyType) => {
   const { type, repeatEvery, daysOfWeek } = props;
   let daysOfWeekText = "";
   const weekdays = ["mon", "tue", "wed", "thu", "fri"] as (
@@ -44,9 +44,9 @@ export const FrequencyTypeVisualizer = (props: FrequencyType) => {
   switch (type) {
     case "day":
       if (repeatEvery === 1) {
-        return <Typography variant="body2">Everyday</Typography>;
+        return "Everyday";
       }
-      return <Typography variant="body2">Every {repeatEvery} days</Typography>;
+      return `Every ${repeatEvery} days`;
     case "week":
       if (daysOfWeek && capDaysOfWeek) {
         if (daysOfWeek.length === 7) {
@@ -71,11 +71,9 @@ export const FrequencyTypeVisualizer = (props: FrequencyType) => {
           }`;
         }
       }
-      return (
-        <Typography variant="body2">
-          Every {repeatEvery === 1 ? "" : repeatEvery} week {daysOfWeekText}
-        </Typography>
-      );
+      return `Every ${
+        repeatEvery === 1 ? "" : repeatEvery
+      } week ${daysOfWeekText}`;
     default:
       return <Typography variant="body2">Unknown</Typography>;
   }
@@ -168,7 +166,7 @@ const HabitCard = (habit: HabitType) => {
         >
           <Divider flexItem />
           <Typography variant="body2" align="center">
-            <FrequencyTypeVisualizer {...habit.frequencyType} />
+            {FrequencyTypeToString({ ...habit.frequencyType })}
           </Typography>
           <Divider flexItem />
         </CardContent>

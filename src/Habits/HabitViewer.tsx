@@ -15,7 +15,7 @@ import {
   Box,
 } from "@mui/material";
 import { HabitType } from "../Common/Stores/HabitsStore";
-import { FrequencyTypeVisualizer } from "./HabitsList";
+import { FrequencyTypeToString } from "./HabitsList";
 import moment from "moment";
 
 type Props = {
@@ -72,7 +72,9 @@ const HabitViewer = (props: Props) => {
             direction="row"
             sx={{ justifyContent: "space-between" }}
           >
-            <FrequencyTypeVisualizer {...habit.frequencyType} />
+            <Typography variant="body2">
+              {FrequencyTypeToString(habit.frequencyType)}
+            </Typography>
             <Typography variant="body2">
               {moment(habit.nextDueDate.toDate()).format("dddd, MMMM Do")}
             </Typography>
