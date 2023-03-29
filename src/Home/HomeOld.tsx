@@ -1,21 +1,20 @@
+import { Nature, Task, Terrain, TrendingUp } from "@mui/icons-material";
 import React from "react";
 import { Link } from "react-router-dom";
 import Overall from "../Stats2/Overall";
-import { Nature, Task, Terrain, TrendingUp } from "@mui/icons-material";
 
 import {
   Container,
   Fade,
   Grid,
   Grow,
-  IconButton,
   Stack,
   Tab,
   Typography,
   Zoom,
 } from "@mui/material";
-import Events from "./Events";
 import { Box } from "@mui/system";
+import Events from "./Events";
 /**
  * A simple, elegant and inspiration home page for the app.
  * Allow easy access to the main features of the app.
@@ -31,17 +30,14 @@ import { Box } from "@mui/system";
  * - A link to the statistics page.
  * - A single most important graph of growth.
  */
-import TopBar from "./TopBar";
-import CondensedTaskList from "../Tasks/CondensedTaskList";
-import Timer from "../Seed/Timer";
-import StyledCard from "../Common/ReusableComponents/StyledCard";
-import HabitsCondensed from "../Journal/HabitsCondensed";
-import PieCharts from "../Stats2/PieCharts";
-import StyledButton from "../Common/ReusableComponents/StyledButton";
-import { tab } from "@testing-library/user-event/dist/tab";
 import StyledAccordion from "../Common/ReusableComponents/StyledAccordion";
+import StyledButton from "../Common/ReusableComponents/StyledButton";
+import StyledCard from "../Common/ReusableComponents/StyledCard";
 import StyledTab from "../Common/ReusableComponents/StyledTab";
 import Goals from "../Journal/Goals";
+import HabitsCondensed from "../Journal/HabitsCondensed";
+import CondensedTaskList from "../Tasks/CondensedTaskList";
+import TopBar from "./TopBar";
 
 const Buttons = () => {
   const places = [
@@ -56,9 +52,9 @@ const Buttons = () => {
       link: "/Seed",
     },
     {
-      name: "Workout (soon)",
+      name: "Habits (soon)",
       icon: <Terrain />,
-      link: "/Soil",
+      link: "/Habits",
     },
     {
       name: "Statistics",

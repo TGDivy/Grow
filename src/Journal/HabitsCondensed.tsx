@@ -1,46 +1,21 @@
+import { SelfImprovement } from "@mui/icons-material";
+import { CardHeader, Checkbox, Divider, Menu, MenuList } from "@mui/material";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import StyledButton from "../Common/ReusableComponents/StyledButton";
+import StyledCard from "../Common/ReusableComponents/StyledCard";
 import useDailyJournalStore from "../Common/Stores/DailyJournalStore";
+import useTimerRecordsStore from "../Common/Stores/TimerRecordsStore";
 import useUserStore from "../Common/Stores/User";
 import {
   filterTimerRecords,
   totalTimeWorked,
   totalTimeWorkedByTagOrSticker,
 } from "../Stats/Utils/recordUtils";
-import useTimerRecordsStore from "../Common/Stores/TimerRecordsStore";
-import { useNavigate } from "react-router-dom";
-import {
-  Cancel,
-  Cloud,
-  ContentCopy,
-  ContentCut,
-  ContentPaste,
-  ExpandLess,
-  LocalDining,
-  SelfImprovement,
-  TakeoutDining,
-  Task,
-} from "@mui/icons-material";
-import {
-  Box,
-  ButtonGroup,
-  CardHeader,
-  Checkbox,
-  Collapse,
-  Divider,
-  Grow,
-  IconButton,
-  ListItemIcon,
-  Menu,
-  MenuItem,
-  MenuList,
-  Typography,
-} from "@mui/material";
-import StyledButton from "../Common/ReusableComponents/StyledButton";
-import StyledCard from "../Common/ReusableComponents/StyledCard";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
 
 const CustomBoolHabitsDisplay = () => {
   const today = new Date();
