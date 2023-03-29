@@ -26,7 +26,6 @@ const HabitEntry = () => {
 
   React.useEffect(() => {
     updateEntry(habitsDone, new Date());
-    console.log("updated entry");
   }, [habitsDone]);
 
   const habitsDueToday = Object.keys(habitsDone).map((habit) => {
