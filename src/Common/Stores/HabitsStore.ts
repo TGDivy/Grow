@@ -16,6 +16,7 @@ import create from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { db } from "../Firestore/firebase-config";
 import { UnsplashImageType } from "./Utils/Utils";
+
 export interface FrequencyType {
   type: "day" | "week";
   repeatEvery: number;
@@ -24,6 +25,27 @@ export interface FrequencyType {
   daysOfWeek?: ("mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun")[];
 }
 
+export type HabitVariant = "project" | "tag" | "custom";
+
+// completion criteria types
+export interface numericType {
+  type: "numeric";
+  value: number;
+  variant: "greater" | "less" | "equal";
+}
+
+export interface booleanType {
+  type: "boolean";
+}
+
+export interface rangeType {
+  type: "range";
+  start: number;
+  end: number;
+}
+
+export type completionCriteriaType = numericType | booleanType | rangeType;
+
 export interface HabitType {
   habitId: string;
   userId?: string;
@@ -31,7 +53,8 @@ export interface HabitType {
   title: string;
   description: string;
 
-  type: "project" | "tag" | "custom";
+  type: HabitVariant;
+  completionCriteria?: completionCriteriaType; // default is boolean
 
   frequencyType: FrequencyType;
 
@@ -45,6 +68,7 @@ export interface HabitType {
 
   image?: UnsplashImageType;
   archived?: boolean;
+  cannotArchive?: boolean;
 }
 
 // consists of various habitIds and their boolean values

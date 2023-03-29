@@ -66,7 +66,7 @@ const HabitViewer = (props: Props) => {
         }}
       >
         {habit.title}
-        <IconButton onClick={handleDelete}>
+        <IconButton onClick={handleDelete} disabled={habit.cannotArchive}>
           <Delete />
         </IconButton>
       </DialogTitle>
