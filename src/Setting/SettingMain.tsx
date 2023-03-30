@@ -13,6 +13,7 @@ import StickerAndTagGoals from "./StickerAndTagGoals";
 import CustomBoolHabits from "./CustomHabits";
 import useUserStore from "../Common/Stores/User";
 import { Help } from "@mui/icons-material";
+import CleanUpLocalStorage from "./CleanUpLocalStorage";
 
 const SettingMain = () => {
   return (
@@ -32,6 +33,7 @@ const SettingMain = () => {
         <Divider />
         <StickerAndTagGoals />
         <CustomBoolHabits />
+        <CleanUpLocalStorage />
       </Stack>
     </Container>
   );
