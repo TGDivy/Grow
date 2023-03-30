@@ -1,29 +1,32 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useMemo } from "react";
 import "./styles.css";
 
-import { LexicalComposer } from "@lexical/react/LexicalComposer";
-import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
-import { ContentEditable } from "@lexical/react/LexicalContentEditable";
-import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
-import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
-import { HeadingNode, QuoteNode } from "@lexical/rich-text";
-import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
-import { ListItemNode, ListNode } from "@lexical/list";
 import { CodeHighlightNode, CodeNode } from "@lexical/code";
 import { AutoLinkNode, LinkNode } from "@lexical/link";
+import { ListItemNode, ListNode } from "@lexical/list";
+import { $convertFromMarkdownString, TRANSFORMERS } from "@lexical/markdown";
+import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
+import { AutoLinkPlugin } from "@lexical/react/LexicalAutoLinkPlugin";
+import { ClearEditorPlugin } from "@lexical/react/LexicalClearEditorPlugin";
+import { LexicalComposer } from "@lexical/react/LexicalComposer";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { ContentEditable } from "@lexical/react/LexicalContentEditable";
+import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
+import { HorizontalRuleNode } from "@lexical/react/LexicalHorizontalRuleNode";
 import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
+import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+import { HeadingNode, QuoteNode } from "@lexical/rich-text";
+import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
+import { $createParagraphNode, $getRoot, CLEAR_EDITOR_COMMAND } from "lexical";
+import useThemeStore from "../../Common/Stores/ThemeStore";
 import AddHelloWorldPlugin from "./Plugins/AddHelloWorld";
-import { TRANSFORMERS } from "@lexical/markdown";
-import exampleTheme from "./themes/ExampleTheme";
-import ToolbarPlugin from "./Plugins/ToolbarPlugin";
-import { AutoLinkPlugin } from "@lexical/react/LexicalAutoLinkPlugin";
 import CodeHighlightPlugin from "./Plugins/CodeHighlightPlugin";
 import ListMaxIndentLevelPlugin from "./Plugins/ListMaxIndentLevelPlugin";
-import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
-import { HorizontalRuleNode } from "@lexical/react/LexicalHorizontalRuleNode";
-import useThemeStore from "../../Common/Stores/ThemeStore";
+import OnChangeMarkdownPlugin from "./Plugins/OnChangeMarkdownPlugin";
+import ToolbarPlugin from "./Plugins/ToolbarPlugin";
+import exampleTheme from "./themes/ExampleTheme";
 
 interface props {
   text: string;
@@ -31,6 +34,29 @@ interface props {
   textToAdd?: string;
   noToolbar?: boolean;
   readonly?: boolean;
+  clear?: boolean;
+  setClear?: any;
+}
+
+interface clearPLuginProps {
+  clear?: boolean;
+  setClear?: any;
+}
+export function ActionsPlugin(props: clearPLuginProps) {
+  const [editor] = useLexicalComposerContext();
+
+  const MandatoryPlugins = useMemo(() => {
+    return <ClearEditorPlugin />;
+  }, []);
+
+  useEffect(() => {
+    if (props.clear) {
+      editor.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined);
+      props.setClear(false);
+    }
+  }, [props.clear]);
+
+  return <>{MandatoryPlugins}</>;
 }
 
 const RTE: FC<props> = ({
@@ -39,6 +65,8 @@ const RTE: FC<props> = ({
   textToAdd,
   noToolbar,
   readonly: notEditable,
+  clear,
+  setClear,
 }) => {
   const editorConfig = {
     namespace: "MyEditor",
@@ -61,7 +89,38 @@ const RTE: FC<props> = ({
     onError(error: any) {
       console.error(error);
     },
-    editorState: text ? text : undefined,
+    editorState: () => {
+      let str = (text || "").replace(/\n\n<br>\n/g, "\n");
+
+      // If we still have br tags, we're coming from Slate, apply
+      // Slate list collapse and remove remaining br tags
+      // https://github.com/facebook/lexical/issues/2208
+      if (str.match(/<br>/g)) {
+        str = str.replace(/^(\n)(?=\s*[-+\d.])/gm, "").replace(/<br>/g, "");
+      }
+
+      str = str
+        // Unescape HTML characters
+        .replace(/&quot;/g, '"')
+        .replace(/&amp;/g, "&")
+        .replace(/&#39;/g, "'")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">");
+
+      if (!str) {
+        // if string is empty and this is not an update
+        // don't bother trying to $convertFromMarkdown
+        // below we properly initialize with the correct state allowing for
+        // AutoFocus to work (as there is state to focus on), which works better
+        // than $convertFromMarkdownString('')
+        const root = $getRoot();
+        const paragraph = $createParagraphNode();
+        root.append(paragraph);
+        return;
+      }
+
+      $convertFromMarkdownString(str, TRANSFORMERS);
+    },
 
     theme: exampleTheme,
     // Any custom nodes go here
@@ -69,8 +128,16 @@ const RTE: FC<props> = ({
   const colors = useThemeStore((state) => state.colors);
 
   const onChange = (editorState: any) => {
-    setText(JSON.stringify(editorState));
+    // console.log(JSON.stringify(editorState), typeof editorState);
+    setText(editorState);
   };
+
+  useEffect(() => {
+    if (text) {
+      // const editorState = $convertFromMarkdownString(text, TRANSFORMERS);
+      // setText(editorState);
+    }
+  }, [text]);
 
   return (
     <LexicalComposer initialConfig={editorConfig}>
@@ -79,8 +146,8 @@ const RTE: FC<props> = ({
         <div
           className="editor-inner"
           style={{
-            backgroundColor: colors.surfaceVariant,
-            color: colors.onSurfaceVariant,
+            backgroundColor: "transparent",
+            padding: 0,
           }}
         >
           <RichTextPlugin
@@ -92,10 +159,9 @@ const RTE: FC<props> = ({
                 }}
               />
             }
-            placeholder={
-              <div className="editor-placeholder">Enter some rich text...</div>
-            }
+            placeholder={<div className="editor-placeholder">Aa</div>}
           />
+          <ClearEditorPlugin />
           <HistoryPlugin />
           <AutoFocusPlugin />
           <CodeHighlightPlugin />
@@ -104,11 +170,15 @@ const RTE: FC<props> = ({
           <AutoLinkPlugin matchers={[]} />
           <ListMaxIndentLevelPlugin maxDepth={7} />
           <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+          <OnChangeMarkdownPlugin
+            onChange={onChange}
+            transformers={TRANSFORMERS}
+          />
+          <ActionsPlugin clear={clear} setClear={setClear} />
           <AddHelloWorldPlugin
             textToAdd={textToAdd}
             color={colors.onSurfaceVariant}
           />
-          <OnChangePlugin onChange={onChange} ignoreSelectionChange />
         </div>
       </div>
     </LexicalComposer>

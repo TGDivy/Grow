@@ -1,38 +1,33 @@
-import React from "react";
-import useUserStore from "../Common/Stores/User";
-import ProjectPage from "./ProjectPage";
-import { Navigate, useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
+import { ExpandMoreOutlined, PlayArrow } from "@mui/icons-material";
 import {
-  Button,
   Box,
-  Grid,
-  Stack,
-  Card,
-  CardHeader,
+  Button,
+  CardActions,
   CardContent,
+  CardHeader,
+  Collapse,
+  Divider,
+  Grid,
   IconButton,
+  IconButtonProps,
+  LinearProgress,
+  List,
   ListItem,
   ListItemButton,
   ListItemText,
-  List,
-  Collapse,
-  CardActions,
-  IconButtonProps,
-  Divider,
-  Typography,
-  LinearProgress,
   TextField,
+  Typography,
   Zoom,
 } from "@mui/material";
+import _ from "lodash";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import StyledCard from "../Common/ReusableComponents/StyledCard";
 import useTaskStore from "../Common/Stores/TaskStore";
-import { taskType } from "../Common/Types/Types";
 import useTimerStore from "../Common/Stores/TimerStore";
-import _ from "lodash";
-import { ExpandMoreOutlined, PlayArrow } from "@mui/icons-material";
-import styled from "@emotion/styled";
-import CreateTask from "./CreateTask";
-import { TransitionGroup } from "react-transition-group";
+import useUserStore from "../Common/Stores/User";
+import { taskType } from "../Common/Types/Types";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;

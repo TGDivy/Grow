@@ -24,13 +24,13 @@ const PageTitle = (props: Props) => {
       }}
     >
       <Box
-        pt={2}
-        pb={2}
+        // pt={2}
+        // pb={2}
         alignItems={"center"}
         display={"flex"}
         justifyContent={"center"}
       >
-        <Typography variant="h3" align="center">
+        <Typography variant="h4" align="center">
           {props.title}
         </Typography>
       </Box>

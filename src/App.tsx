@@ -26,6 +26,7 @@ import ProjectPage from "./Tasks/ProjectPage";
 import NewJournalMain from "./Journal/NewJournalMain";
 import HabitsMain from "./Habits/HabitsMain";
 import useHabitsStore from "./Common/Stores/HabitsStore";
+import ReflectAIAssistedChat from "./Journal/ReflectAIAssisted/ReflectAIAssistedChat";
 
 const App = () => {
   const { user } = useCurrentUser();
@@ -111,6 +112,10 @@ const App = () => {
         <Route
           path="/Habits"
           element={user ? <HabitsMain /> : <Navigate to="/Login" />}
+        />
+        <Route
+          path="/Journal/Assisted"
+          element={user ? <ReflectAIAssistedChat /> : <Navigate to="/Login" />}
         />
         <Route path="projects/:projectId" element={<ProjectPage />} />
       </>
