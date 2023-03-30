@@ -105,19 +105,19 @@ export const filterJournalRecords = (
   for (let i = 0; i < timePeriodLength; i++) {
     const date = new Date(current.getTime() + 5 * 60 * 60 * 1000 - i * DAY);
 
-    filteredTimerRecords.push({
-      date: date,
-      entry: "",
-      exercised: false,
-      meals: [],
-      mood: [],
-      nextDayNotes: "",
-      tasksForTomorrow: [],
-      title: "",
-      workDone: 0,
-      tagHabits: {},
-      customBoolHabits: {},
-    } as JournalType);
+    // filteredTimerRecords.push({
+    //   date: date,
+    //   entry: "",
+    //   exercised: false,
+    //   meals: [],
+    //   mood: [],
+    //   nextDayNotes: "",
+    //   tasksForTomorrow: [],
+    //   title: "",
+    //   workDone: 0,
+    //   tagHabits: {},
+    //   customBoolHabits: {},
+    // } as JournalType);
   }
 
   return filteredTimerRecords;
@@ -172,41 +172,41 @@ export const getWeeklyHabitStat = async (
       const month = date.getMonth();
       const dayEntry = `${months[month]} ${day}`;
 
-      const customBoolHabits = cur?.customBoolHabits || {};
+      // const customBoolHabits = cur?.customBoolHabits || {};
       // Calculate custom bool habits score.
       // If all habits are true, score is 1.
       // If all habits are false, score is 0.
       // if no habits, score is 0.
-      const customBoolHabitsScore = Object.values(customBoolHabits).length
-        ? Object.values(customBoolHabits).filter((val) => val).length /
-          Object.values(customBoolHabits).length
-        : 0;
+      // const customBoolHabitsScore = Object.values(customBoolHabits).length
+      //   ? Object.values(customBoolHabits).filter((val) => val).length /
+      //     Object.values(customBoolHabits).length
+      //   : 0;
 
-      const tagHabits = cur?.tagHabits || {};
-      // Calculate tag habits score.
-      // If all habits are true, score is 1.
-      // If all habits are false, score is 0.
-      // if no habits, score is 0.
-      const tagHabitsScore = Object.values(tagHabits).length
-        ? Object.values(tagHabits).filter((val) => val).length /
-          Object.values(tagHabits).length
-        : 0;
+      // const tagHabits = cur?.tagHabits || {};
+      // // Calculate tag habits score.
+      // // If all habits are true, score is 1.
+      // // If all habits are false, score is 0.
+      // // if no habits, score is 0.
+      // const tagHabitsScore = Object.values(tagHabits).length
+      //   ? Object.values(tagHabits).filter((val) => val).length /
+      //     Object.values(tagHabits).length
+      //   : 0;
 
-      const mealsCount = cur?.meals.filter((meal) => meal).length || 0;
+      // const mealsCount = cur?.meals.filter((meal) => meal).length || 0;
 
-      if (acc[dayEntry]) {
-        acc[dayEntry].meals += mealsCount;
-        acc[dayEntry].exercised += cur.exercised ? 1 : 0;
-        acc[dayEntry].customBoolHabits += customBoolHabitsScore;
-        acc[dayEntry].tagHabits += tagHabitsScore;
-      } else {
-        acc[dayEntry] = {
-          meals: mealsCount,
-          exercised: cur.exercised ? 1 : 0,
-          customBoolHabits: customBoolHabitsScore,
-          tagHabits: tagHabitsScore,
-        };
-      }
+      // if (acc[dayEntry]) {
+      //   acc[dayEntry].meals += mealsCount;
+      //   acc[dayEntry].exercised += cur.exercised ? 1 : 0;
+      //   acc[dayEntry].customBoolHabits += customBoolHabitsScore;
+      //   acc[dayEntry].tagHabits += tagHabitsScore;
+      // } else {
+      //   acc[dayEntry] = {
+      //     meals: mealsCount,
+      //     exercised: cur.exercised ? 1 : 0,
+      //     customBoolHabits: customBoolHabitsScore,
+      //     tagHabits: tagHabitsScore,
+      //   };
+      // }
 
       return acc;
     }, weeklyHabitStatTemp);

@@ -3,6 +3,7 @@ import { Box, IconButton, Stack } from "@mui/material";
 import React from "react";
 import RTE from "../RTE/RTE";
 import { messagesType, queryType, reflectChatAPI } from "./reflectChatAPI";
+import useDailyJournalStore from "../../Common/Stores/DailyJournalStore";
 
 const sample_messages = [
   {
@@ -55,7 +56,11 @@ const DisplayMessage = (message: messagesType[0]) => {
 const queryAI = true;
 
 const Chat = () => {
-  const [messages, setMessages] = React.useState<messagesType>([]);
+  const [messages, setMessages] = useDailyJournalStore((state) => [
+    state.reflectionConversation,
+    state.setReflectionConversation,
+  ]);
+  // const [messages, setMessages] = React.useState<messagesType>([]);
 
   const [newMessage, setNewMessage] = React.useState<string>("");
   const [clear, setClear] = React.useState<boolean>(false);
@@ -107,9 +112,18 @@ const Chat = () => {
     }
   }, []);
 
-  //   const RTEClone = () => {
-  //     return ;
-  //   };
+  // on ctrl + enter, send message
+  React.useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey && event.key === "Enter" && !disableSend) {
+        addNewUserMessage(newMessage);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [newMessage]);
 
   return (
     <Stack spacing={2}>

@@ -35,9 +35,9 @@ import StyledButton from "../Common/ReusableComponents/StyledButton";
 import StyledCard from "../Common/ReusableComponents/StyledCard";
 import StyledTab from "../Common/ReusableComponents/StyledTab";
 import Goals from "../Journal/Goals";
-import HabitsCondensed from "../Journal/HabitsCondensed";
 import CondensedTaskList from "../Tasks/CondensedTaskList";
 import TopBar from "./TopBar";
+import HabitEntry from "../Habits/HabitEntry";
 
 const Buttons = () => {
   const places = [
@@ -109,7 +109,7 @@ const TodaysBrief = () => {
       <CondensedTaskList />
       <Goals readonly key="0" />
     </>,
-    <HabitsCondensed key="habits" />,
+    <HabitEntry key="1" />,
   ];
   const [tab, setTab] = React.useState(0);
   const handleTabChange = (

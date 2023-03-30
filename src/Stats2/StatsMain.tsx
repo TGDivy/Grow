@@ -13,7 +13,6 @@ import WorkStatBar from "./Graphs/WorkStatBar";
 import WorkStatLine from "./Graphs/WorkStatLine";
 import TagPieStat from "./Graphs/PieStat";
 import useUserStore from "../Common/Stores/User";
-import HabitsChart from "./HabitsChart/HabitsChart";
 import { Stack } from "@mui/system";
 import PageTitle from "../Common/ReusableComponents/PageTitle";
 import StyledButton from "../Common/ReusableComponents/StyledButton";
@@ -176,7 +175,6 @@ const StatsMain = () => {
               </Grid>
             </Grid>
           </Box>
-          <HabitsChart />
         </Stack>
       </Container>
     </>

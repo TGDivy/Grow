@@ -2,8 +2,6 @@
 import React, { FC } from "react";
 
 import Goals from "./Goals";
-import Habits from "./Habits";
-import Reflect from "./Reflect";
 import {
   Grid,
   ListItem,
@@ -55,8 +53,8 @@ const All: FC<Props> = ({ allEntries }) => {
           width: "100%",
         }}
       >
-        <Reflect readonly document={document} />
-        <Habits readonly document={document} />
+        {/* <Reflect readonly document={document} /> */}
+        {/* <Habits readonly document={document} /> */}
         <Goals readonly document={document} />
         {/* <Mood /> */}
       </Stack>

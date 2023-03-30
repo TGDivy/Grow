@@ -213,16 +213,16 @@ export const getWorkScore = async (records: JournalType[]) => {
   // work score can be 0-50 based 0-12 hours of work done in a day
   // if multiple work records are present, take the average
   let workScore = 0;
-  records.forEach((record) => {
-    if (record.workDone) {
-      const time = record.workDone;
-      const score =
-        ((time - minTime) / (maxTime - minTime)) * (maxScore - minScore) +
-        minScore;
+  // records.forEach((record) => {
+  //   if (record.workDone) {
+  //     const time = record.workDone;
+  //     const score =
+  //       ((time - minTime) / (maxTime - minTime)) * (maxScore - minScore) +
+  //       minScore;
 
-      workScore += Math.min(score, maxScore);
-    }
-  });
+  //     workScore += Math.min(score, maxScore);
+  //   }
+  // });
   workScore = workScore / records.length;
 
   return round(workScore);
@@ -238,11 +238,11 @@ export const getExerciseScore = async (records: JournalType[]) => {
   // exercise score can be 0 or 15 based on whether exercise was done or not
   // if multiple exercise records are present, take the average
   let exerciseScore = 0;
-  records.forEach((record) => {
-    if (record.exercised) {
-      exerciseScore += MAX_EXERCISE_SCORE;
-    }
-  });
+  // records.forEach((record) => {
+  //   if (record.exercised) {
+  //     exerciseScore += MAX_EXERCISE_SCORE;
+  //   }
+  // });
   exerciseScore = exerciseScore / records.length;
   return exerciseScore;
 };
@@ -258,19 +258,19 @@ export const getMealScore = async (records: JournalType[]) => {
   // if multiple meal records are present, take the average
   let mealScore = 0;
   records.forEach((record) => {
-    if (record.meals) {
-      // record.meals is an array of meals, each meal can be "", "cooked", "restaurant"
-      // for each cooked meal, add 1/3rd of the max meal score
-      // for each restaurant meal, add 1/4th of the max meal score
-      // for each "" meal, add 0
-      record.meals.forEach((meal) => {
-        if (meal === "cooked") {
-          mealScore += MAX_MEAL_SCORE / 3;
-        } else if (meal === "restaurant") {
-          mealScore += MAX_MEAL_SCORE / 4;
-        }
-      });
-    }
+    // if (record.meals) {
+    //   // record.meals is an array of meals, each meal can be "", "cooked", "restaurant"
+    //   // for each cooked meal, add 1/3rd of the max meal score
+    //   // for each restaurant meal, add 1/4th of the max meal score
+    //   // for each "" meal, add 0
+    //   record.meals.forEach((meal) => {
+    //     if (meal === "cooked") {
+    //       mealScore += MAX_MEAL_SCORE / 3;
+    //     } else if (meal === "restaurant") {
+    //       mealScore += MAX_MEAL_SCORE / 4;
+    //     }
+    //   });
+    // }
   });
   mealScore = mealScore / records.length;
   return mealScore;
@@ -286,18 +286,18 @@ export const getHabitScore = async (records: JournalType[]) => {
   // habit score can be between 0-MAX_HABIT_SCORE based on the percentage of true habits
   // if multiple habit records are present, take the average
   let habitScore = 0;
-  records.forEach((record) => {
-    let habits: boolean[] = [];
-    if (record.customBoolHabits) {
-      habits = habits.concat(Object.values(record.customBoolHabits));
-    }
-    if (record.tagHabits) {
-      habits = habits.concat(Object.values(record.tagHabits));
-    }
-    const totalHabits = habits.length || 1;
-    const trueHabits = habits.filter((habit) => habit).length || 0;
-    habitScore += (trueHabits / totalHabits) * MAX_HABIT_SCORE;
-  });
+  // records.forEach((record) => {
+  //   let habits: boolean[] = [];
+  //   if (record.customBoolHabits) {
+  //     habits = habits.concat(Object.values(record.customBoolHabits));
+  //   }
+  //   if (record.tagHabits) {
+  //     habits = habits.concat(Object.values(record.tagHabits));
+  //   }
+  //   const totalHabits = habits.length || 1;
+  //   const trueHabits = habits.filter((habit) => habit).length || 0;
+  //   habitScore += (trueHabits / totalHabits) * MAX_HABIT_SCORE;
+  // });
   habitScore = habitScore / records.length;
   habitScore = round(habitScore);
   return habitScore;

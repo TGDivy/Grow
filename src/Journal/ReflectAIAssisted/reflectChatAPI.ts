@@ -41,6 +41,11 @@ export const reflectChatAPI = (
   }).then((response) => response.json());
 };
 
+export interface summariseResponse {
+  summary: string;
+  title: string;
+}
+
 export const summariseChatAPI = (
   query: Pick<queryType, "messages">
 ): Promise<response> => {

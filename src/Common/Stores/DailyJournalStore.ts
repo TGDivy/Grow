@@ -56,13 +56,20 @@ const useDailyJournalStore = create<JournalStoreType>()(
         setNextDayNotes: (notes: string) =>
           set(() => ({ nextDayNotes: notes })),
         getJournal: () => {
-          const { title, summary, nextDayNotes, tasksForTomorrow } = get();
+          const {
+            title,
+            summary,
+            nextDayNotes,
+            tasksForTomorrow,
+            reflectionConversation,
+          } = get();
           return {
             date: new Date(),
             title,
             summary,
             nextDayNotes,
             tasksForTomorrow,
+            reflectionConversation,
           } as JournalType;
         },
       }),

@@ -293,16 +293,11 @@ export const getJournalRecords = (
 
   const emptyRecord: JournalType = {
     date: new Date(),
-    entry: "",
-    exercised: false,
-    meals: [],
-    mood: [],
     nextDayNotes: "",
     tasksForTomorrow: [],
     title: "",
-    workDone: 0,
-    tagHabits: {},
-    customBoolHabits: {},
+    summary: "",
+    reflectionConversation: [],
   };
 
   if (pad) {

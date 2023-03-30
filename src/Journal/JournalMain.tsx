@@ -14,8 +14,6 @@ import { Stack } from "@mui/system";
 import { Button } from "@mui/material";
 import useDailyJournalStore from "../Common/Stores/DailyJournalStore";
 
-import Habits from "./Habits";
-import Reflect from "./Reflect";
 import Goals from "./Goals";
 import All from "./All";
 import useJournalStore from "../Common/Stores/JournalStore";
@@ -23,7 +21,12 @@ import moment from "moment";
 
 import { ViewList, Create } from "@mui/icons-material";
 import StyledButton from "../Common/ReusableComponents/StyledButton";
-import HabitsCondensed from "./HabitsCondensed";
+import ReflectAIAssistedChat from "./ReflectAIAssisted/ReflectAIAssistedChat";
+import HabitEntry from "../Habits/HabitEntry";
+import {
+  summariseChatAPI,
+  summariseResponse,
+} from "./ReflectAIAssisted/reflectChatAPI";
 
 const JournalMain = () => {
   const activeStep = useDailyJournalStore((state) => state.activeStep);
@@ -47,8 +50,19 @@ const JournalMain = () => {
   };
 
   const handleSubmit = () => {
-    addDocument(getJournal());
-    resetStore();
+    const j = getJournal();
+    // console.log(j);
+    summariseChatAPI({
+      messages: j.reflectionConversation,
+    }).then((res) => {
+      // parse the stringified JSON
+      const res2 = JSON.parse(res) as summariseResponse;
+      j.summary = res2.summary;
+      j.title = res2.title;
+      console.log(j);
+      addDocument(j);
+      resetStore();
+    });
   };
 
   const theme = useTheme();
@@ -56,21 +70,14 @@ const JournalMain = () => {
 
   const steps = [
     {
-      label: "Keeping up with your habits?",
-      component: <HabitsCondensed />,
+      label: "",
+      component: <HabitEntry />,
       shortLabel: "Habits",
     },
     {
-      component: <Reflect Question="What went well today?" />,
-      shortLabel: "Positives",
-    },
-    {
-      component: <Reflect Question="What could have gone better today?" />,
-      shortLabel: "Negatives",
-    },
-    {
-      component: <Reflect Question="How are you feeling overall?" />,
-      shortLabel: "Overall",
+      label: "",
+      component: <ReflectAIAssistedChat />,
+      shortLabel: "Reflect",
     },
     {
       label: "",
