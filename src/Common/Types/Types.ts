@@ -1,3 +1,5 @@
+import { messagesType } from "../../Journal/ReflectAIAssisted/reflectChatAPI";
+
 export interface stickerTagHabitType {
   name: string;
   minutes: number;
@@ -126,27 +128,15 @@ export interface activityTypeDoc {
   activityTypes: string[];
 }
 
-interface BoolHabitTemplate {
-  [key: string]: boolean;
-}
-
 export interface JournalType {
   date: Date;
   title: string;
+  summary: string;
 
-  entry: string;
+  reflectionConversation: messagesType;
   nextDayNotes: string;
 
-  tasksForTomorrow: Array<string>; // task keys
-
-  mood: string[];
-
-  workDone: number;
-  exercised: boolean;
-  meals: string[];
-
-  tagHabits: BoolHabitTemplate;
-  customBoolHabits: BoolHabitTemplate;
+  tasksForTomorrow: Array<string>;
 }
 
 export interface JournalDicType {

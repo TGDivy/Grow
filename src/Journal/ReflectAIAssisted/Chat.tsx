@@ -52,10 +52,10 @@ const DisplayMessage = (message: messagesType[0]) => {
   );
 };
 
-const queryAI = false;
+const queryAI = true;
 
 const Chat = () => {
-  const [messages, setMessages] = React.useState<messagesType>(sample_messages);
+  const [messages, setMessages] = React.useState<messagesType>([]);
 
   const [newMessage, setNewMessage] = React.useState<string>("");
   const [clear, setClear] = React.useState<boolean>(false);
@@ -86,8 +86,11 @@ const Chat = () => {
 
   // disable sending new message if no messages are present.
   // disable also if the last message is from the user.
+  // disable also if the last message in messages contains <END> token.
   const disableSend =
-    messages.length === 0 || messages.slice(-1)[0].role === "user";
+    messages.length === 0 ||
+    messages.slice(-1)[0].role === "user" ||
+    messages.slice(-1)[0].content.includes("<END>");
 
   React.useEffect(() => {
     const query = {

@@ -1,18 +1,17 @@
-import create from "zustand";
-import { devtools, persist } from "zustand/middleware";
-import { JournalType, taskType, JournalDicType } from "../Types/Types";
 import {
   collection,
-  query,
-  where,
-  getDocs,
   doc,
+  getDocs,
+  query,
   setDoc,
+  where,
 } from "firebase/firestore";
+import create from "zustand";
+import { devtools, persist } from "zustand/middleware";
 import { db } from "../Firestore/firebase-config";
+import { JournalDicType, JournalType } from "../Types/Types";
 
 interface JournalStoreType {
-  // keys: JournalType[];
   documents: JournalDicType;
 
   user_id: string;
