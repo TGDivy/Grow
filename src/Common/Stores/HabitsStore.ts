@@ -146,6 +146,13 @@ export const getNextDueDate = (frequencyType: FrequencyType, today?: Date) => {
   }
 };
 // Function to check if the habit is due today
+const calcDiffToday = (a: number, b: number) => {
+  const diff = b - a;
+  if (diff < 0) {
+    return 7 + diff;
+  }
+  return diff;
+};
 export const dueToday = (
   frequencyType: FrequencyType,
   habitStartDate: Date,
@@ -183,9 +190,9 @@ export const dueToday = (
       const daysOfWeekNum = daysOfWeek.map((day) => daysOfWeekMap[day]);
       const todayNum = today.getDay();
       const nextDueDateNum = daysOfWeekNum.reduce((a, b) =>
-        calcDiff(todayNum, a) < calcDiff(todayNum, b) ? a : b
+        calcDiffToday(todayNum, a) < calcDiffToday(todayNum, b) ? a : b
       );
-
+      console.log(nextDueDateNum, todayNum);
       if (nextDueDateNum === todayNum) {
         return true;
       }
