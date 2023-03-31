@@ -39,6 +39,21 @@ export function register(config?: Config) {
 
     window.addEventListener("load", () => {
       const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
+      let isAppOnline = navigator.onLine;
+
+      window.addEventListener("online", () => {
+        if (!isAppOnline) {
+          toast("☘️ The connectivity is back, sync in progress");
+          isAppOnline = true;
+        }
+      });
+
+      window.addEventListener("offline", () => {
+        toast.warn(
+          "The app is running offline, any changes mades during this time will be synced as soon as the connectivity is back"
+        );
+        isAppOnline = false;
+      });
 
       if (isLocalhost) {
         // This is running on localhost. Let's check if a service worker still exists or not.
