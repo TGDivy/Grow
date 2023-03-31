@@ -27,6 +27,7 @@ import NewJournalMain from "./Journal/NewJournalMain";
 import HabitsMain from "./Habits/HabitsMain";
 import useHabitsStore from "./Common/Stores/HabitsStore";
 import ReflectAIAssistedChat from "./Journal/ReflectAIAssisted/ReflectAIAssistedChat";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   const { user } = useCurrentUser();
@@ -132,6 +133,17 @@ const App = () => {
   return (
     <ThemeProvider theme={getTheme(colors, mode)}>
       <CssBaseline />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+        theme="dark"
+      />
       <div style={{ marginBottom: 80 }}>
         <Routes>{routes()}</Routes>
       </div>
