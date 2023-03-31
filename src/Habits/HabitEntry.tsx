@@ -25,6 +25,9 @@ import useTimerRecordsStore from "../Common/Stores/TimerRecordsStore";
 const HabitEntry = () => {
   const getTodaysEntry = useHabitsStore((state) => state.getTodaysEntry);
   const updateEntry = useHabitsStore((state) => state.updateEntry);
+  const syncHabitEntryToday = useHabitsStore(
+    (state) => state.syncHabitEntryToday
+  );
 
   const habits = useHabitsStore((state) => state.habits);
   const [habitsDone, setHabitsDone] = React.useState<habitEntryType>({});
@@ -39,6 +42,12 @@ const HabitEntry = () => {
   React.useEffect(() => {
     updateEntry(habitsDone, new Date());
   }, [habitsDone]);
+
+  React.useEffect(() => {
+    syncHabitEntryToday().then(() => {
+      // update habitsDone
+    });
+  }, []);
 
   const habitsDueToday = Object.keys(habitsDone).map((habit) => {
     return habits[habit];
