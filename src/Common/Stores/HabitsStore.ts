@@ -228,11 +228,12 @@ interface HabitsStoreType {
   deleteHabit: (habitId: string) => void;
 
   updateEntry: (habits: habitEntryType, date: Date) => Promise<void>;
-  getTodaysEntry: () => entryType | undefined;
+  getTodaysEntry: () => entryType | null;
 
   setUserId: (userId: string) => void;
 
   syncHabitEntries: () => Promise<void>;
+  syncHabitEntryToday: () => Promise<void>;
 }
 
 const initialState = {
@@ -382,7 +383,6 @@ const useHabitsStore = create<HabitsStoreType>()(
         setUserId: (userId: string) => {
           set({ userId });
         },
-
         updateEntry: async (habitEntry: habitEntryType, date: Date) => {
           const entry = {
             date: Timestamp.fromDate(date),
@@ -455,7 +455,11 @@ const useHabitsStore = create<HabitsStoreType>()(
         },
         getTodaysEntry: () => {
           const today = moment().format("YYYY-MM-DD");
-          return get().entries[today];
+          const entry = get().entries[today];
+          if (entry) {
+            return entry;
+          }
+          return null;
         },
 
         syncHabitEntries: async () => {
@@ -546,6 +550,44 @@ const useHabitsStore = create<HabitsStoreType>()(
                 console.log("created entry for", date, entry);
               }
             }
+          }
+        },
+        syncHabitEntryToday: async () => {
+          const todayEntry = get().getTodaysEntry();
+          // if today entry exist, check for all habits due today and only update those habits that don't exist in the entry
+          // if today entry doesn't exist, create a new entry with all habits due today set to false
+          if (todayEntry) {
+            const habits = get().habits;
+            const entry = {
+              date: Timestamp.fromDate(new Date()),
+              habits: {},
+              updatedAt: Timestamp.now(),
+            } as entryType;
+            for (const habitId in habits) {
+              const habit = habits[habitId];
+              // check if habit is due today
+              if (dueToday(habit.frequencyType, habit.createdAt.toDate())) {
+                entry.habits[habitId] = false;
+              }
+            }
+            await get().updateEntry(entry.habits, new Date());
+            console.log("created entry for today", entry);
+          } else {
+            const habits = get().habits;
+            const entry = {
+              date: Timestamp.fromDate(new Date()),
+              habits: {},
+              updatedAt: Timestamp.now(),
+            } as entryType;
+            for (const habitId in habits) {
+              const habit = habits[habitId];
+              // check if habit is due today
+              if (dueToday(habit.frequencyType, habit.createdAt.toDate())) {
+                entry.habits[habitId] = false;
+              }
+            }
+            await get().updateEntry(entry.habits, new Date());
+            console.log("created entry for today", entry);
           }
         },
       }),

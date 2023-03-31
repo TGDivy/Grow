@@ -37,11 +37,11 @@ const Buttons = () => {
       icon: <List />,
       link: "/Journal",
     },
-    {
-      name: "Assisted Journaling (Coming Soon)",
-      icon: <Task />,
-      link: "/Journal/Assisted",
-    },
+    // {
+    //   name: "Assisted Journaling (Coming Soon)",
+    //   icon: <Task />,
+    //   link: "/Journal/Assisted",
+    // },
   ];
 
   return (

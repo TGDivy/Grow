@@ -197,6 +197,19 @@ export const deleteUsers = functions
     snapshot.forEach(async (doc) => {
       const data = doc.data();
       if (!data.email) {
+        // await admin.firestore().collection("users").doc(doc.id).delete();
+        // first recursively delete all subcollections
+        const subcollections = await admin
+          .firestore()
+          .collection("users")
+          .doc(doc.id)
+          .listCollections();
+        subcollections.forEach(async (subcollection) => {
+          const docs = await subcollection.get();
+          docs.forEach(async (doc) => {
+            await doc.ref.delete();
+          });
+        });
         await admin.firestore().collection("users").doc(doc.id).delete();
       }
     });
@@ -210,6 +223,19 @@ export const deleteUsers = functions
         .doc(doc.id)
         .listCollections();
       if (subcollections.length === 0) {
+        // await admin.firestore().collection("users").doc(doc.id).delete();
+        // first recursively delete all subcollections
+        const subcollections = await admin
+          .firestore()
+          .collection("users")
+          .doc(doc.id)
+          .listCollections();
+        subcollections.forEach(async (subcollection) => {
+          const docs = await subcollection.get();
+          docs.forEach(async (doc) => {
+            await doc.ref.delete();
+          });
+        });
         await admin.firestore().collection("users").doc(doc.id).delete();
       }
     });
