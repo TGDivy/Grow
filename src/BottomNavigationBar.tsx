@@ -4,23 +4,13 @@ import { Link, useLocation } from "react-router-dom";
 
 import {
   Home,
-  Task,
   Nature,
+  SelfImprovement,
+  Task,
   Terrain,
   TrendingUp,
-  SelfImprovement,
-  Menu,
 } from "@mui/icons-material";
-import {
-  Fab,
-  IconButton,
-  Paper,
-  Button,
-  Box,
-  Grid,
-  Zoom,
-  darken,
-} from "@mui/material";
+import { Box, Grid, IconButton, Paper, Zoom } from "@mui/material";
 import StyledFab from "./Common/ReusableComponents/StyledFab";
 import useThemeStore from "./Common/Stores/ThemeStore";
 
