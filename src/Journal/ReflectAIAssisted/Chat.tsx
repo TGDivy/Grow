@@ -1,5 +1,5 @@
 import { Send } from "@mui/icons-material";
-import { Box, IconButton, Stack } from "@mui/material";
+import { Box, IconButton, Paper, Stack } from "@mui/material";
 import React from "react";
 import RTE from "../RTE/RTE";
 import { messagesType, queryType, reflectChatAPI } from "./reflectChatAPI";
@@ -22,7 +22,7 @@ const sample_messages = [
 
 const DisplayMessage = (message: messagesType[0]) => {
   return (
-    <Box
+    <Paper
       sx={{
         pl: { xs: 0, md: 1 },
         pr: { xs: 0, md: 1 },
@@ -39,6 +39,9 @@ const DisplayMessage = (message: messagesType[0]) => {
         maxWidth: "80%",
         width: "fit-content",
         alignSelf: message.role === "user" ? "flex-start" : "flex-end",
+        "&:hover": {
+          boxShadow: 10,
+        },
       }}
     >
       <RTE
@@ -49,7 +52,7 @@ const DisplayMessage = (message: messagesType[0]) => {
         noToolbar
         readonly
       />
-    </Box>
+    </Paper>
   );
 };
 
@@ -131,7 +134,7 @@ const Chat = () => {
         <DisplayMessage {...message} key={message.content} />
       ))}
       <Stack direction="row">
-        <Box
+        <Paper
           sx={{
             p: { xs: 0, md: 1 },
             borderRadius: 4,
@@ -144,6 +147,9 @@ const Chat = () => {
               sm: "surface.contrastText",
             },
             flexGrow: 1,
+            "&:hover": {
+              boxShadow: 10,
+            },
           }}
         >
           <RTE
@@ -153,7 +159,7 @@ const Chat = () => {
             clear={clear}
             setClear={setClear}
           />
-        </Box>
+        </Paper>
         <IconButton
           color="primary"
           edge="end"

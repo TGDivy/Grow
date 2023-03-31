@@ -156,6 +156,7 @@ const RTE: FC<props> = ({
                 className="editor-input"
                 style={{
                   color: colors.onSurfaceVariant,
+                  caretColor: colors.onSurfaceVariant,
                 }}
               />
             }
