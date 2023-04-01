@@ -17,7 +17,10 @@ import useHabitsStore from "./Common/Stores/HabitsStore";
 import useThemeStore from "./Common/Stores/ThemeStore";
 import useTimerStore from "./Common/Stores/TimerStore";
 import getTheme from "./Common/Styling/themes";
-import SideNavigationPanelMain from "./Elements/SideNavigationPanel/SideNavigationPanelMain";
+import NavigationRail from "./Elements/SideNavigationPanel/NavigationRail";
+import LayoutExampleResponsive from "./Elements/SideNavigationPanel/LayoutExampleResponsive";
+import MiniDrawerExample from "./Elements/SideNavigationPanel/MiniDrawerExample";
+import { Box } from "@mui/material";
 
 const App = () => {
   const { user } = useCurrentUser();
@@ -82,10 +85,18 @@ const App = () => {
         theme="dark"
       />
       {/* <div style={{ marginBottom: 80 }}>
-        <Routes>{routes(user, initialPath)}</Routes>
+        
       </div> */}
-      <SideNavigationPanelMain links={MainNavigationLinks} />
-      <BottomNavigationBar />
+      {/* <LayoutExampleResponsive /> */}
+      {/* <MiniDrawerExample /> */}
+      <Box
+        sx={{
+          display: "flex",
+        }}
+      >
+        <NavigationRail links={MainNavigationLinks} />
+        <Routes>{routes(user, initialPath)}</Routes>
+      </Box>
     </ThemeProvider>
   );
 };

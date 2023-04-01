@@ -9,7 +9,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import ProfileLogo from "./ProfileLogo";
-import ThemePicker from "./ThemePicker";
+import ThemePicker from "../Elements/ThemePicker";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";

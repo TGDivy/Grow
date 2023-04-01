@@ -6,7 +6,7 @@ import {
   BarChartOutlined,
   SelfImprovementOutlined,
 } from "@mui/icons-material";
-import { MainNavigationLink } from "./Elements/SideNavigationPanel/SideNavigationPanelMain";
+import { MainNavigationLink } from "./Elements/SideNavigationPanel/NavigationRail";
 import { Navigate, Route } from "react-router-dom";
 import HabitsMain from "./Habits/HabitsMain";
 import JournalMain from "./Journal/JournalMain";
@@ -71,11 +71,11 @@ export const routes = (user: userType | null, initialPath: string) => {
         element={user ? <SettingMain /> : <Navigate to="/Login" />}
       />
       <Route
-        path="/Tasks"
+        path="/projects"
         element={user ? <TasksMain /> : <Navigate to="/Login" />}
       />
       <Route
-        path="/Seed"
+        path="/timer"
         element={user ? <SeedMain /> : <Navigate to="/Login" />}
       />
       <Route

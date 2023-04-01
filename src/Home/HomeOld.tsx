@@ -47,9 +47,9 @@ const Buttons = () => {
       link: "/Tasks",
     },
     {
-      name: "Seed",
+      name: "timer",
       icon: <Nature />,
-      link: "/Seed",
+      link: "/timer",
     },
     {
       name: "Habits (soon)",
@@ -158,7 +158,7 @@ const Home = () => {
 
   return (
     <>
-      <TopBar />
+      {/* <TopBar /> */}
       <Container sx={{ pt: 2, p: { xs: 0, md: 2 } }}>
         <Box
           sx={{
@@ -201,9 +201,9 @@ const Home = () => {
                 </StyledCard>
               </Grow>
             </Grid>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <Buttons />
-            </Grid>
+            </Grid> */}
           </Grid>
         </Box>
         <Grid
