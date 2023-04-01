@@ -1,18 +1,17 @@
+import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import { Button, Grid, IconButton } from "@mui/material";
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import StyledButton from "../Common/ReusableComponents/StyledButton";
 import useJournalStore from "../Common/Stores/JournalStore";
 import useTimerRecordsStore from "../Common/Stores/TimerRecordsStore";
+import OverallStatBar from "./Graphs/OverallStatBar";
 import {
-  timePeriod,
-  getStartAndEndDate,
   getJournalRecordsWithWorkDone,
   getPeriodName,
+  getStartAndEndDate,
+  timePeriod,
 } from "./Utils/utils";
-import OverallStatBar from "./Graphs/OverallStatBar";
-import { ArrowBack, ArrowForward, TrendingUp } from "@mui/icons-material";
-import { Grid, Box, Typography, Tab, IconButton, Button } from "@mui/material";
-import StyledButton from "../Common/ReusableComponents/StyledButton";
-import StyledTab from "../Common/ReusableComponents/StyledTab";
-import { Link, useNavigate } from "react-router-dom";
 
 const Overall = () => {
   const timerRecords = useTimerRecordsStore((state) => state.timerRecords);

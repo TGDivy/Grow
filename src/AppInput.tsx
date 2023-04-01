@@ -6,7 +6,6 @@ import {
   BarChartOutlined,
   SelfImprovementOutlined,
 } from "@mui/icons-material";
-import { MainNavigationLink } from "./Elements/SideNavigationPanel/NavigationRail";
 import { Navigate, Route } from "react-router-dom";
 import HabitsMain from "./Habits/HabitsMain";
 import JournalMain from "./Journal/JournalMain";
@@ -21,7 +20,6 @@ import ProjectPage from "./Tasks/ProjectPage";
 import TasksMain from "./Tasks/TasksMain";
 import { userType } from "./Common/Types/Types";
 import HomeMain from "./Home/HomeOld";
-import useUserStore from "./Common/Stores/User";
 
 export const MainNavigationLinks = (projectNames: string[]) => [
   {
