@@ -11,8 +11,8 @@ import {
   TrendingUp,
 } from "@mui/icons-material";
 import { Box, Grid, IconButton, Paper, Zoom } from "@mui/material";
-import StyledFab from "./Common/ReusableComponents/StyledFab";
-import useThemeStore from "./Common/Stores/ThemeStore";
+import StyledFab from "../Common/ReusableComponents/StyledFab";
+import useThemeStore from "../Common/Stores/ThemeStore";
 
 const BottomNavigationBar: FC = () => {
   const location = useLocation();
