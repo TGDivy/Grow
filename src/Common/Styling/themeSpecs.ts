@@ -186,3 +186,36 @@ export const redThemeDark: ThemeColorsType = {
   surfaceVariant: "#534340",
   onSurfaceVariant: "#d8c2bd",
 };
+
+export const simpleDarkTheme: ThemeColorsType = {
+  primary: "#9B9B8C",
+  onPrimary: "#5e1605",
+  primaryContainer: "#D7D7CE",
+  onPrimaryContainer: "#5e1605",
+
+  secondary: "#e7bdb3",
+  onSecondary: "#442a23",
+  secondaryContainer: "#2C2C2C",
+  onSecondaryContainer: "#D7D7CE",
+
+  tertiary: "#dac58c",
+  onTertiary: "#3c2f04",
+  tertiaryContainer: "#544519",
+  onTertiaryContainer: "#f8e1a6",
+
+  error: "#ffb4ab",
+  onError: "#690005",
+  errorContainer: "#93000a",
+  onErrorContainer: "#ffdad6",
+
+  background: "#191919",
+
+  onBackground: "#ede0dd",
+  outline: "#a08c88",
+
+  surface: "#202020",
+  onSurface: "#848484",
+
+  surfaceVariant: "#2C2C2C",
+  onSurfaceVariant: "#D7D7CE",
+};

@@ -9,8 +9,8 @@ type buttonM3Variants =
 // styled Button
 
 const M3Button = styled(Button)<{
-  component: React.ElementType;
-  to: string;
+  component?: React.ElementType;
+  to?: string;
   variantStyle?: buttonM3Variants;
 }>(({ theme, variant, variantStyle }) => {
   let variantStyleType: buttonM3Variants;
@@ -29,9 +29,23 @@ const M3Button = styled(Button)<{
   const borderRadius = theme.spacing(2.5);
   const shadow = theme.shadows[0];
 
+  // Height
+  // 40dp
+  // Shape
+  // 20dp
+  // Icon size
+  // 18dp
+  // Container width
+  // 48dp min
+  // Left/right padding
+  // 12dp
   const commonStyles = {
     borderRadius,
     boxShadow: shadow,
+    height: theme.spacing(5),
+    // width: fullWidth ? "100%" : "auto",
+    // minWidth: theme.spacing(12),
+    // padding: theme.spacing(0, 3),
   };
   let overwrideStyles = {};
 
@@ -39,13 +53,29 @@ const M3Button = styled(Button)<{
     case "text":
       overwrideStyles = {
         color: theme.palette.primary.main,
+        fontWeight: 400,
+        textTransform: "none",
+        fontSize: theme.typography.body2.fontSize,
       };
       break;
     case "filledTonal":
       overwrideStyles = {
         color: theme.palette.secondary.container,
         backgroundColor: theme.palette.secondary.onContainer,
+        fontWeight: 400,
+        fontSize: theme.typography.body2.fontSize,
+        textTransform: "none",
       };
+      break;
+    case "outlined":
+      overwrideStyles = {
+        color: theme.palette.primary.main,
+        border: `1px solid ${theme.palette.divider}`,
+        fontWeight: 400,
+        fontSize: theme.typography.body2.fontSize,
+        textTransform: "none",
+      };
+      break;
   }
 
   return {

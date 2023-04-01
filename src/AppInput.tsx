@@ -21,8 +21,9 @@ import ProjectPage from "./Tasks/ProjectPage";
 import TasksMain from "./Tasks/TasksMain";
 import { userType } from "./Common/Types/Types";
 import HomeMain from "./Home/HomeOld";
+import useUserStore from "./Common/Stores/User";
 
-export const MainNavigationLinks: MainNavigationLink[] = [
+export const MainNavigationLinks = (projectNames: string[]) => [
   {
     name: "Home",
     icon: <HomeOutlined />,
@@ -32,6 +33,22 @@ export const MainNavigationLinks: MainNavigationLink[] = [
     name: "Projects",
     icon: <TaskOutlined />,
     link: "/projects",
+    subNavigationLinks: [
+      {
+        name: "Projects Overview",
+        link: "/projects",
+      },
+      {
+        name: "Active Projects",
+        link: "/projects",
+        subSubNavigationLinks: projectNames.map((projectName) => {
+          return {
+            name: projectName,
+            link: `/projects/${projectName}`,
+          };
+        }),
+      },
+    ],
   },
   {
     name: "Timer",
@@ -47,6 +64,24 @@ export const MainNavigationLinks: MainNavigationLink[] = [
     name: "Reflect",
     icon: <SelfImprovementOutlined />,
     link: "/reflect",
+    subNavigationLinks: [
+      {
+        name: "Reflect Overview",
+        link: "/reflect",
+      },
+      {
+        name: "Today's Journal Entry",
+        link: "/journal/today",
+      },
+      {
+        name: "Assisted Journal Entry",
+        link: "/journal/assisted",
+      },
+      {
+        name: "Habits",
+        link: "/habits",
+      },
+    ],
   },
 ];
 
@@ -67,7 +102,7 @@ export const routes = (user: userType | null, initialPath: string) => {
         element={user ? <HomeMain /> : <Navigate to="/Login" />}
       />
       <Route
-        path="/Settings"
+        path="/settings"
         element={user ? <SettingMain /> : <Navigate to="/Login" />}
       />
       <Route
@@ -79,23 +114,23 @@ export const routes = (user: userType | null, initialPath: string) => {
         element={user ? <SeedMain /> : <Navigate to="/Login" />}
       />
       <Route
-        path="/Statistics"
+        path="/statistics"
         element={user ? <StatsMain /> : <Navigate to="/Login" />}
       />
       <Route
-        path="/Journal/Today"
+        path="/journal/today"
         element={user ? <JournalMain /> : <Navigate to="/Login" />}
       />
       <Route
-        path="/Reflect"
+        path="/reflect"
         element={user ? <NewJournalMain /> : <Navigate to="/Login" />}
       />
       <Route
-        path="/Habits"
+        path="/habits"
         element={user ? <HabitsMain /> : <Navigate to="/Login" />}
       />
       <Route
-        path="/Journal/Assisted"
+        path="/journal/assisted"
         element={user ? <ReflectAIAssistedChat /> : <Navigate to="/Login" />}
       />
       <Route path="projects/:projectId" element={<ProjectPage />} />

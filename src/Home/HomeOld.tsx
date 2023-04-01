@@ -160,52 +160,28 @@ const Home = () => {
     <>
       {/* <TopBar /> */}
       <Container sx={{ pt: 2, p: { xs: 0, md: 2 } }}>
-        <Box
-          sx={{
-            mt: { xs: 2, md: 0 },
-            p: { xs: 0, md: 2 },
-            mb: { xs: 0, md: 2 },
-            borderRadius: 1,
-            backgroundColor: {
-              xs: "transparent",
-              sm: "surfaceVariant.main",
-            },
-            color: { xs: "transparent", sm: "surfaceVariant.contrastText" },
-          }}
-        >
-          <Grid
-            container
-            spacing={{
-              xs: 2,
-              sm: 2,
-              md: 3,
+        <Grow in={true} {...{ timeout: 1000 }}>
+          <StyledCard
+            sx={{
+              position: "relative",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: "1rem",
+              borderRadius: 1,
+              mb: 2,
+              ":hover": {
+                boxShadow: 4,
+              },
             }}
-            alignItems="center"
-            justifyContent="center"
           >
-            <Grid item xs={12}>
-              <Grow in={true} {...{ timeout: 1000 }}>
-                <StyledCard
-                  sx={{
-                    position: "relative",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: "1rem",
-                  }}
-                >
-                  <Typography variant="h6" align="center">
-                    {inspirationalQuote.quote} - {inspirationalQuote.author}
-                  </Typography>
-                </StyledCard>
-              </Grow>
-            </Grid>
-            {/* <Grid item xs={12}>
-              <Buttons />
-            </Grid> */}
-          </Grid>
-        </Box>
+            <Typography variant="h6" align="center">
+              {inspirationalQuote.quote} - {inspirationalQuote.author}
+            </Typography>
+          </StyledCard>
+        </Grow>
+
         <Grid
           container
           spacing={{
@@ -228,21 +204,7 @@ const Home = () => {
               }}
               {...{ timeout: 1000 }}
             >
-              <Box
-                sx={{
-                  pt: 0,
-                  p: { xs: 0, md: 2 },
-                  borderRadius: 1,
-                  backgroundColor: {
-                    xs: "surfaceVariant.main",
-                    sm: "surfaceVariant.main",
-                  },
-                  color: {
-                    xs: "transparent",
-                    sm: "surfaceVariant.contrastText",
-                  },
-                }}
-              >
+              <Box>
                 <Overall />
               </Box>
             </Fade>

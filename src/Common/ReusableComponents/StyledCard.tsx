@@ -4,7 +4,7 @@ import { Card } from "@mui/material";
 
 const StyledCard = styled(Card)(({ theme }) => ({
   ":hover": {
-    boxShadow: 20,
+    boxShadow: 0,
   },
   maxWidth: "100%",
   backgroundColor: theme.palette.surface.main,

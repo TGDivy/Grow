@@ -6,6 +6,7 @@ import {
   PaletteOptions,
   PaletteColorOptions,
 } from "@mui/material/styles/createPalette";
+import { darken, lighten } from "@mui/material/styles";
 
 declare module "@mui/material/styles" {
   interface Palette {
@@ -132,7 +133,10 @@ const getTheme = (props: ThemeColorsType, mode: "dark" | "light") => {
         onContainer: props.onErrorContainer,
       },
       surface: {
-        main: props.surface,
+        main:
+          mode === "dark" && props.surface === props.background
+            ? lighten(props.surface, 0.05)
+            : darken(props.surface, 0.03),
         contrastText: props.onSurface,
       },
       surfaceVariant: {

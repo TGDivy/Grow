@@ -1,7 +1,6 @@
 import React from "react";
 import { Routes, useLocation } from "react-router-dom";
 import useCurrentUser from "./Common/Contexts/UserContext";
-import BottomNavigationBar from "./Navigation/BottomNavigationBar";
 
 import useActivityStore from "./Common/Stores/ActivityStore";
 import useJournalStore from "./Common/Stores/JournalStore";
@@ -9,6 +8,7 @@ import useTaskStore from "./Common/Stores/TaskStore";
 import useTimerRecordsStore from "./Common/Stores/TimerRecordsStore";
 import useWorkoutStore from "./Common/Stores/WorkoutStore";
 
+import { Box } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import { ToastContainer } from "react-toastify";
@@ -18,9 +18,7 @@ import useThemeStore from "./Common/Stores/ThemeStore";
 import useTimerStore from "./Common/Stores/TimerStore";
 import getTheme from "./Common/Styling/themes";
 import NavigationRail from "./Elements/SideNavigationPanel/NavigationRail";
-import LayoutExampleResponsive from "./Elements/SideNavigationPanel/LayoutExampleResponsive";
-import MiniDrawerExample from "./Elements/SideNavigationPanel/MiniDrawerExample";
-import { Box } from "@mui/material";
+import useUserStore from "./Common/Stores/User";
 
 const App = () => {
   const { user } = useCurrentUser();
@@ -36,6 +34,7 @@ const App = () => {
   const fetchTasks = useTaskStore((state) => state.fetchNewDocs);
   const fetchTimer = useTimerStore((state) => state.syncTimer);
   const fetchHabitEntries = useHabitsStore((state) => state.syncHabitEntries);
+  const projectNames = useUserStore((state) => state.stickers);
 
   React.useEffect(() => {
     if (location.pathname !== "/") {
@@ -92,9 +91,10 @@ const App = () => {
       <Box
         sx={{
           display: "flex",
+          paddingLeft: "80px",
         }}
       >
-        <NavigationRail links={MainNavigationLinks} />
+        <NavigationRail links={MainNavigationLinks(projectNames)} />
         <Routes>{routes(user, initialPath)}</Routes>
       </Box>
     </ThemeProvider>

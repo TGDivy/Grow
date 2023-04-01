@@ -8,13 +8,14 @@ import {
   blueThemeLight,
   redThemeLight,
   greenThemeLight,
+  simpleDarkTheme,
 } from "../Common/Styling/themeSpecs";
 
 const ThemePicker = () => {
   const setMode = useThemeStore((state) => state.setMode);
   const mode = useThemeStore((state) => state.mode); // light, dark
   const setThemeByName = useThemeStore((state) => state.setThemeByName);
-  const theme = useThemeStore((state) => state.theme); // red, green, blue
+  const theme = useThemeStore((state) => state.theme); // red, green, blue, simple
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [open, setOpen] = React.useState(false);
@@ -95,6 +96,19 @@ const ThemePicker = () => {
         transformOrigin={{ horizontal: "center", vertical: "top" }}
         anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
       >
+        <MenuItem onClick={() => setThemeByName("simple")}>
+          <ListItemIcon>
+            <Avatar
+              sx={{
+                bgcolor: simpleDarkTheme.background,
+                color: simpleDarkTheme.onSurface,
+              }}
+            >
+              S
+            </Avatar>
+          </ListItemIcon>
+          Simple
+        </MenuItem>
         <MenuItem onClick={() => setThemeByName("red")}>
           <ListItemIcon>
             <Avatar

@@ -86,7 +86,7 @@ const SeedMain = () => {
                 height: "100%",
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "center",
+                justifyContent: "start",
                 gap: "1rem",
               }}
             >
@@ -106,11 +106,13 @@ const SeedMain = () => {
     >
       {/* <PageTitle title="Timer" /> */}
       <Box
-        sx={{
-          p: { xs: 0, sm: 2 },
-          backgroundColor: { xs: "transparent", sm: "surfaceVariant.main" },
-          color: { xs: "transparent", sm: "surfaceVariant.contrastText" },
-        }}
+        sx={
+          {
+            // p: { xs: 0, sm: 2 },
+            // backgroundColor: { xs: "transparent", sm: "surfaceVariant.main" },
+            // color: { xs: "transparent", sm: "surfaceVariant.contrastText" },
+          }
+        }
       >
         <Components />
       </Box>

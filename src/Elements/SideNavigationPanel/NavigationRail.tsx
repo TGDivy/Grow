@@ -1,16 +1,10 @@
-import {
-  BarChartOutlined,
-  HomeOutlined,
-  SelfImprovementOutlined,
-  TaskOutlined,
-  TimerOutlined,
-} from "@mui/icons-material";
-import { Stack, Typography, styled, useTheme } from "@mui/material";
+import { Box, Collapse, Stack, Typography, styled } from "@mui/material";
 import MuiDrawer from "@mui/material/Drawer";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import M3Button from "../../StyledComponents/M3Button";
 import ThemePicker from "../ThemePicker";
+import { ArrowDropDown } from "@mui/icons-material";
 /**
  * We are building a side navigation panel that will be used in the whole app.
  * This panel will be used to navigate between different pages.
@@ -58,20 +52,13 @@ const Drawer = styled(MuiDrawer)(({ theme }) => ({
   boxSizing: "border-box",
   overflowX: "hidden",
   // width 80dp
-  width: theme.spacing(10),
   "& .MuiDrawer-paper": {
     backgroundColor: theme.palette.surface.main,
     color: theme.palette.surface.contrastText,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-    height: "100%",
     backgroundImage: "none",
-
-    // shadow on hover
-    "&:hover": {
-      boxShadow: theme.shadows[4],
-    },
+    display: "flex",
+    flexDirection: "row",
+    width: theme.spacing(10),
   },
 }));
 
@@ -83,48 +70,184 @@ const Drawer = styled(MuiDrawer)(({ theme }) => ({
 const NavigationRail = (props: Props) => {
   const { links } = props;
 
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [subNavigationLinks, setSubNavigationLinks] = React.useState<
+    SubNavigationLink[]
+  >([]);
+  const [expandSubSubNavigation, setExpandSubSubNavigation] = React.useState<
+    number | null
+  >(null);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
+  const handleClose = () => {
+    setSubNavigationLinks([]);
   };
 
   const location = useLocation();
+  const open = subNavigationLinks.length > 0;
 
   return (
-    <Drawer variant="permanent">
-      <Stack direction="column" alignItems="center">
-        {props.links.map((LinkItem) => {
-          return (
-            <>
-              <M3Button
-                key={LinkItem.name}
-                variant={
-                  LinkItem.link === location.pathname ? "contained" : "text"
-                }
-                sx={{
-                  m: 2,
-                  mb: 0,
-                }}
-                component={Link}
-                to={LinkItem.link}
-              >
-                {LinkItem.icon}
-              </M3Button>
-              <Typography variant="body2">{LinkItem.name}</Typography>
-            </>
-          );
-        })}
-      </Stack>
-      <Stack direction="column" alignItems="center">
-        <ThemePicker />
-      </Stack>
-    </Drawer>
+    <>
+      <Drawer
+        variant="permanent"
+        PaperProps={{
+          sx: {
+            // borderRight: open ? 0 : 0.01,
+            zIndex: 100,
+          },
+        }}
+      >
+        <Stack
+          direction="column"
+          justifyContent="space-between"
+          alignItems="center"
+          width="100%"
+          mt={2}
+          mb={2}
+        >
+          <Stack direction="column" alignItems="center" spacing={2}>
+            {links.map((LinkItem) => {
+              return (
+                <Stack
+                  key={LinkItem.name}
+                  direction="column"
+                  alignItems="center"
+                  spacing={0.5}
+                >
+                  <M3Button
+                    key={LinkItem.name}
+                    variant={
+                      LinkItem.link === location.pathname ? "contained" : "text"
+                    }
+                    component={Link}
+                    to={LinkItem.link}
+                    onMouseOver={() =>
+                      setSubNavigationLinks(
+                        LinkItem.subNavigationLinks
+                          ? LinkItem.subNavigationLinks
+                          : []
+                      )
+                    }
+                  >
+                    {LinkItem.icon}
+                  </M3Button>
+                  <Typography variant="caption">{LinkItem.name}</Typography>
+                </Stack>
+              );
+            })}
+          </Stack>
+          <Stack direction="column" alignItems="center">
+            <ThemePicker />
+          </Stack>
+        </Stack>
+      </Drawer>
+      <Drawer
+        open={subNavigationLinks.length > 0}
+        hideBackdrop
+        PaperProps={{
+          sx: {
+            marginLeft: "80px",
+          },
+        }}
+        sx={{
+          width: "240px",
+          zIndex: 99,
+          "& .MuiDrawer-paper": {
+            width: "240px",
+            boxShadow: "none",
+            // right border radius 20px
+            borderRadius: "0px 20px 20px 0px",
+            zIndex: 99,
+          },
+        }}
+        onMouseLeave={handleClose}
+      >
+        <Stack
+          direction="column"
+          alignItems="center"
+          width="100%"
+          m={2}
+          spacing={2}
+        >
+          {subNavigationLinks.map((LinkItem, index) => {
+            return (
+              <Box key={LinkItem.name} width="100%">
+                <M3Button
+                  key={LinkItem.name}
+                  variant={
+                    LinkItem.link === location.pathname &&
+                    !LinkItem.subSubNavigationLinks
+                      ? "contained"
+                      : index === expandSubSubNavigation &&
+                        open === true &&
+                        LinkItem.subSubNavigationLinks
+                      ? "outlined"
+                      : "text"
+                  }
+                  component={LinkItem.subSubNavigationLinks ? "button" : Link}
+                  to={LinkItem.link}
+                  onClick={() =>
+                    setExpandSubSubNavigation(
+                      expandSubSubNavigation === index ? null : index
+                    )
+                  }
+                  fullWidth
+                  sx={{
+                    justifyContent: "space-between",
+                    pl: 2,
+                    pr: 2,
+                  }}
+                  endIcon={
+                    LinkItem.subSubNavigationLinks ? <ArrowDropDown /> : ""
+                  }
+                >
+                  {LinkItem.name}
+                </M3Button>
+
+                <Collapse
+                  in={
+                    LinkItem.subSubNavigationLinks &&
+                    expandSubSubNavigation === index
+                  }
+                >
+                  <Stack
+                    direction="column"
+                    alignItems="center"
+                    // width="100%"
+                    ml={2}
+                    mr={2}
+                    mt={1}
+                    // m={2}
+                    // spacing={2}
+                  >
+                    {LinkItem.subSubNavigationLinks?.map((LinkItem) => {
+                      return (
+                        <M3Button
+                          key={LinkItem.name}
+                          variant={
+                            LinkItem.link === location.pathname
+                              ? "contained"
+                              : "text"
+                          }
+                          component={Link}
+                          to={LinkItem.link}
+                          fullWidth
+                          sx={{
+                            justifyContent: "space-between",
+                            pl: 2,
+                            pr: 2,
+                          }}
+                        >
+                          {LinkItem.name}
+                        </M3Button>
+                      );
+                    })}
+                  </Stack>
+                </Collapse>
+              </Box>
+            );
+          })}
+        </Stack>
+      </Drawer>
+    </>
   );
 };
 

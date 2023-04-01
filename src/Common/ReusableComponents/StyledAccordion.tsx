@@ -21,7 +21,7 @@ const StyledAccordion = (props: Props) => {
         backgroundColor: "surfaceVariant.main",
         color: "surfaceVariant.contrastText",
         ":hover": {
-          boxShadow: 20,
+          boxShadow: 4,
         },
       }}
       defaultExpanded={props.defaultExpanded}

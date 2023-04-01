@@ -7,6 +7,7 @@ import {
   redThemeLight,
   greenThemeLight,
   greenThemeDark,
+  simpleDarkTheme,
 } from "../Styling/themeSpecs";
 
 export interface ThemeColorsType {
@@ -43,14 +44,14 @@ export interface ThemeColorsType {
 
 export interface ThemeType {
   colors: ThemeColorsType;
-  theme: "blue" | "green" | "red" | "purple" | "orange";
+  theme: "blue" | "green" | "red" | "purple" | "orange" | "simple";
   mode: "light" | "dark";
 }
 
 export interface ThemeStoreType extends ThemeType {
   setTheme: (theme: ThemeType) => void;
   setThemeByName: (
-    themeName: "blue" | "green" | "red" | "purple" | "orange"
+    themeName: "blue" | "green" | "red" | "purple" | "orange" | "simple"
   ) => void;
   setMode: (mode: "light" | "dark") => void;
 }
@@ -69,7 +70,7 @@ const useThemeStore = create<ThemeStoreType>()(
         set(theme);
       },
       setThemeByName: (
-        themeName: "blue" | "green" | "red" | "purple" | "orange"
+        themeName: "blue" | "green" | "red" | "purple" | "orange" | "simple"
       ) => {
         const { mode } = get();
         switch (mode) {
@@ -91,6 +92,12 @@ const useThemeStore = create<ThemeStoreType>()(
                 set({
                   colors: greenThemeDark,
                   theme: "green",
+                });
+                break;
+              case "simple":
+                set({
+                  colors: simpleDarkTheme,
+                  theme: "simple",
                 });
             }
             break;
@@ -114,6 +121,11 @@ const useThemeStore = create<ThemeStoreType>()(
                   theme: "red",
                 });
                 break;
+              case "simple":
+                set({
+                  colors: simpleDarkTheme,
+                  theme: "simple",
+                });
             }
         }
       },
