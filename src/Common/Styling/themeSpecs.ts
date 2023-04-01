@@ -191,7 +191,7 @@ export const simpleDarkTheme: ThemeColorsType = {
   primary: "#9B9B8C",
   onPrimary: "#5e1605",
   primaryContainer: "#D7D7CE",
-  onPrimaryContainer: "#5e1605",
+  onPrimaryContainer: "#202020",
 
   secondary: "#e7bdb3",
   onSecondary: "#442a23",
@@ -214,7 +214,7 @@ export const simpleDarkTheme: ThemeColorsType = {
   outline: "#a08c88",
 
   surface: "#202020",
-  onSurface: "#848484",
+  onSurface: "#D7D7CE",
 
   surfaceVariant: "#2C2C2C",
   onSurfaceVariant: "#D7D7CE",
