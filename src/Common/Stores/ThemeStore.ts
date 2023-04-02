@@ -54,6 +54,7 @@ export interface ThemeStoreType extends ThemeType {
     themeName: "blue" | "green" | "red" | "purple" | "orange" | "simple"
   ) => void;
   setMode: (mode: "light" | "dark") => void;
+  setColors: (colors: ThemeColorsType) => void;
 }
 
 const useThemeStore = create<ThemeStoreType>()(
@@ -176,6 +177,11 @@ const useThemeStore = create<ThemeStoreType>()(
                 break;
             }
         }
+      },
+      setColors: (colors: ThemeColorsType) => {
+        set({
+          colors,
+        });
       },
     }),
 

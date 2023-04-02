@@ -19,7 +19,7 @@ import StatsMain from "./Stats2/StatsMain";
 import ProjectPage from "./Tasks/ProjectPage";
 import TasksMain from "./Tasks/TasksMain";
 import { userType } from "./Common/Types/Types";
-import HomeMain from "./Home/HomeOld";
+import HomeMain from "./Home/Home3";
 
 export const MainNavigationLinks = (projectNames: string[]) => [
   {
