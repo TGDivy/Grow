@@ -115,11 +115,13 @@ const CondensedTaskList = (props: props) => {
       >
         <CardHeader
           title={
-            <Button onClick={() => setTaskSelected(null)} fullWidth>
-              <ArrowBack /> Back
+            <Button
+              onClick={() => setTaskSelected(null)}
+              startIcon={<ArrowBack />}
+            >
+              Back
             </Button>
           }
-          align="center"
           sx={{
             mb: 1,
           }}

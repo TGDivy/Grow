@@ -103,7 +103,7 @@ const Buttons = () => {
   );
 };
 
-const TodaysBrief = () => {
+export const TodaysBrief = () => {
   const tabs = [
     <>
       <CondensedTaskList />

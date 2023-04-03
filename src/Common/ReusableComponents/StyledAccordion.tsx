@@ -15,16 +15,23 @@ type Props = {
 };
 
 const StyledAccordion = (props: Props) => {
+  const [expanded, setExpanded] = React.useState(props.defaultExpanded);
+  const handleClick = () => {
+    setExpanded(!expanded);
+    props.onClick && props.onClick();
+  };
   return (
     <Accordion
       sx={{
-        backgroundColor: "surfaceVariant.main",
-        color: "surfaceVariant.contrastText",
+        backgroundColor: "surface.main",
+        color: "surface.contrastText",
         ":hover": {
           boxShadow: 4,
         },
+        // opacity: expanded ? 1 : 0.6,
       }}
-      defaultExpanded={props.defaultExpanded}
+      defaultExpanded={expanded}
+      expanded={expanded}
     >
       <AccordionSummary
         expandIcon={<ExpandMore />}
@@ -38,19 +45,11 @@ const StyledAccordion = (props: Props) => {
             flexGrow: 0,
           },
         }}
-        onClick={props.onClick}
+        onClick={handleClick}
       >
         <Typography variant="h6">{props.title}</Typography>
       </AccordionSummary>
-      <AccordionDetails
-        sx={
-          {
-            // bgcolor: "rgba(255, 255, 255, 0.05)",
-          }
-        }
-      >
-        {props.children}
-      </AccordionDetails>
+      <AccordionDetails>{props.children}</AccordionDetails>
     </Accordion>
   );
 };

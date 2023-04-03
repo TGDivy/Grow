@@ -135,8 +135,8 @@ const getTheme = (props: ThemeColorsType, mode: "dark" | "light") => {
       surface: {
         main:
           mode === "dark" && props.surface === props.background
-            ? lighten(props.surface, 0.05)
-            : darken(props.surface, 0.03),
+            ? lighten(props.surface, 0.0)
+            : darken(props.surface, 0.0),
         contrastText: props.onSurface,
       },
       surfaceVariant: {

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import addUser from "../Firestore/addUser";
 import useTaskStore from "../Stores/TaskStore";
-import useWorkoutStore from "../Stores/WorkoutStore";
+// import useWorkoutStore from "../Stores/WorkoutStore";
 import useActivityStore from "../Stores/ActivityStore";
 import useJournalStore from "../Stores/JournalStore";
 import useTimerRecordsStore from "../Stores/TimerRecordsStore";
@@ -23,7 +23,7 @@ export const CurrentUserProvider = ({ children }: any) => {
   const [once, setOnce] = useState(false);
   const auth = getAuth();
   const setUserID = useTaskStore((state) => state.setUserID);
-  const setWorkoutUserID = useWorkoutStore((state) => state.setUserId);
+  // const setWorkoutUserID = useWorkoutStore((state) => state.setUserId);
   const setActivityUserID = useActivityStore((state) => state.setUserId);
   const setJournalUserID = useJournalStore((state) => state.setUserId);
   const setTimerRecordsUserID = useTimerRecordsStore(
@@ -38,7 +38,7 @@ export const CurrentUserProvider = ({ children }: any) => {
       addUser(user).then((userData) => {
         setUser(userData as userType);
         setUserID(userData.uid);
-        setWorkoutUserID(userData.uid);
+        // setWorkoutUserID(userData.uid);
         setActivityUserID(userData.uid);
         setJournalUserID(userData.uid);
         setTimerRecordsUserID(userData.uid);
@@ -49,7 +49,7 @@ export const CurrentUserProvider = ({ children }: any) => {
     } else if (!user && !once) {
       setUser(null);
       setUserID("");
-      setWorkoutUserID("");
+      // setWorkoutUserID("");
       setActivityUserID("");
       setJournalUserID("");
       setTimerRecordsUserID("");

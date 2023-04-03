@@ -1,4 +1,4 @@
-import { Button, styled } from "@mui/material";
+import { Button, darken, lighten, styled } from "@mui/material";
 
 type buttonM3Variants =
   | "text"
@@ -8,7 +8,9 @@ type buttonM3Variants =
   | "filled";
 // styled Button
 
-const M3Button = styled(Button)<{
+const M3Button = styled(Button, {
+  shouldForwardProp: (prop) => prop !== "variantStyle",
+})<{
   component?: React.ElementType;
   to?: string;
   variantStyle?: buttonM3Variants;
@@ -58,15 +60,31 @@ const M3Button = styled(Button)<{
         fontSize: theme.typography.body2.fontSize,
       };
       break;
+    case "filled":
+      overwrideStyles = {
+        color: theme.palette.primary.onContainer,
+        backgroundColor: theme.palette.primary.container,
+        fontWeight: 400,
+        fontSize: theme.typography.body2.fontSize,
+        // textTransform: "none",
+        "&:hover": {
+          backgroundColor: darken(theme.palette.primary.container || "", 0.0),
+        },
+      };
+      break;
     case "filledTonal":
       overwrideStyles = {
-        color: theme.palette.secondary.container,
-        backgroundColor: theme.palette.secondary.onContainer,
+        color: theme.palette.secondary.onContainer,
+        backgroundColor: theme.palette.secondary.container,
         fontWeight: 400,
         fontSize: theme.typography.body2.fontSize,
         textTransform: "none",
+        "&:hover": {
+          backgroundColor: darken(theme.palette.secondary.container || "", 0.0),
+        },
       };
       break;
+
     case "outlined":
       overwrideStyles = {
         color: theme.palette.primary.main,

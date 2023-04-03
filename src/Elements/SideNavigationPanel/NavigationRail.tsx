@@ -159,6 +159,7 @@ const NavigationRail = (props: Props) => {
           },
         }}
         onMouseLeave={handleClose}
+        // onTouchEnd={handleClose}
       >
         <Stack
           direction="column"

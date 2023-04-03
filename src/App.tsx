@@ -6,7 +6,7 @@ import useActivityStore from "./Common/Stores/ActivityStore";
 import useJournalStore from "./Common/Stores/JournalStore";
 import useTaskStore from "./Common/Stores/TaskStore";
 import useTimerRecordsStore from "./Common/Stores/TimerRecordsStore";
-import useWorkoutStore from "./Common/Stores/WorkoutStore";
+// import useWorkoutStore from "./Common/Stores/WorkoutStore";
 
 import { Box } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -25,7 +25,7 @@ const App = () => {
   const [initialPath, setInitialPath] = React.useState("/");
   const location = useLocation();
 
-  const fetchWorkouts = useWorkoutStore((state) => state.fetchWorkouts);
+  // const fetchWorkouts = useWorkoutStore((state) => state.fetchWorkouts);
   const fetchTimerRecords = useTimerRecordsStore(
     (state) => state.addLatestTimerRecord
   );
@@ -41,7 +41,7 @@ const App = () => {
       setInitialPath(location.pathname);
     }
     fetchActivities();
-    fetchWorkouts();
+    // fetchWorkouts();
     fetchTimerRecords();
     fetchJournalEntries();
     fetchTasks();
@@ -51,7 +51,7 @@ const App = () => {
   React.useEffect(() => {
     if (user?.uid) {
       fetchActivities();
-      fetchWorkouts();
+      // fetchWorkouts();
       fetchTimerRecords();
       fetchJournalEntries();
       fetchTimer(user?.uid);
@@ -83,11 +83,6 @@ const App = () => {
         pauseOnHover
         theme="dark"
       />
-      {/* <div style={{ marginBottom: 80 }}>
-        
-      </div> */}
-      {/* <LayoutExampleResponsive /> */}
-      {/* <MiniDrawerExample /> */}
       <Box
         sx={{
           display: "flex",
