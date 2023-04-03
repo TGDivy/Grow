@@ -146,7 +146,7 @@ const RTE: FC<props> = ({
         <div
           className="editor-inner"
           style={{
-            backgroundColor: "transparent",
+            backgroundColor: colors.surface,
             padding: 0,
           }}
         >

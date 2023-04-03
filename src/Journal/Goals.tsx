@@ -118,7 +118,8 @@ const Goals: FC<Props> = ({ readonly, document }) => {
             position: "relative",
             width: "100%",
             "& .editor-inner": {
-              minHeight: readonly ? "max-content" : "150px",
+              backgroundColor: "red",
+              // minHeight: readonly ? "max-content" : "150px",
             },
           }}
         >

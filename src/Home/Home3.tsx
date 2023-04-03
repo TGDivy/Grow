@@ -22,6 +22,8 @@ import { TodaysBrief } from "./HomeOld";
 import CondensedTaskList from "../Tasks/CondensedTaskList";
 import Events from "./Events";
 import { ArrowForwardIos } from "@mui/icons-material";
+import Goals from "../Journal/Goals";
+import StyledAccordion from "../Common/ReusableComponents/StyledAccordion";
 
 const palleteToThemeColors = (
   palette: Theme,
@@ -187,10 +189,15 @@ const Home3 = () => {
             justifyContent="center"
           >
             <Grid item xs={12} md={4} sx={{ pb: 0, mb: 0 }}>
-              <CondensedTaskList />
+              <StyledAccordion title="Notes">
+                <Goals readonly />
+              </StyledAccordion>
             </Grid>
-            <Grid item xs={12} md={9} sx={{ pb: 0, mb: 0 }}>
+            <Grid item xs={12} md={4} sx={{ pb: 0, mb: 0 }}>
               <Events />
+            </Grid>
+            <Grid item xs={12} md={5} sx={{ pb: 0, mb: 0 }}>
+              <CondensedTaskList />
             </Grid>
           </Grid>
         </Stack>
